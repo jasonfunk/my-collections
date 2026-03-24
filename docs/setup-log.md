@@ -356,20 +356,26 @@ Replaced stale status ("npm install hasn't been run") with current state:
 
 ---
 
-### 4. Jira epics and stories — deferred (OAuth required)
+### 4. Jira epics and stories created
 
-The Atlassian MCP server requires a one-time OAuth2 browser authentication before its tools are accessible. This cannot be triggered from within an active Claude Code session.
+**Tool:** Atlassian Rovo MCP (`mcp__atlassian__createJiraIssue`) — authenticated via OAuth2 browser flow at session start.
 
-**To authenticate at the start of the next session:**
-The OAuth flow triggers automatically the first time a Jira-related prompt is used. Start a new Claude Code session and ask something like "show me the COL Jira project" — a browser window will open for Atlassian login.
+**Project:** COL on houseoffunk-net.atlassian.net
 
-**Epics to create once authenticated (project key: COL):**
-1. Infrastructure & CI/CD
-2. Local Dev Environment
-3. OAuth2 Authentication
-4. Collections API
-5. Web App
-6. Mobile App
-7. Shared Data Model
+**Epics created:**
 
-Full story breakdown is documented in `docs/dev-sequence.md`.
+| Key | Epic |
+|---|---|
+| COL-7 | Infrastructure & CI/CD |
+| COL-8 | Local Dev Environment |
+| COL-9 | OAuth2 Authentication |
+| COL-10 | Collections API |
+| COL-11 | Web App |
+| COL-12 | Mobile App |
+| COL-13 | Shared Data Model |
+
+**Tasks created:** COL-14 through COL-56 (43 tasks total), each linked to its parent epic via the `parentKey` parameter.
+
+Full story breakdown matches the phase structure in `docs/dev-sequence.md`.
+
+**Note on Atlassian MCP authentication:** The MCP server uses OAuth 2.1. The tools (`mcp__atlassian__*`) only become available after the browser OAuth flow completes. If tools are missing at the start of a session, use `/reload-plugins` after authenticating in the browser — this re-registers the MCP tools without restarting Claude Code.
