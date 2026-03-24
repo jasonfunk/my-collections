@@ -268,3 +268,48 @@ This is a behavior change in npm v11 around optional platform-specific packages 
 ```
 
 **Install order recommendation:** `github` and `postgres` first — both will be immediately useful in the next session when we wire up the database and push the initial commit.
+
+---
+
+### 5. .gitignore expanded and initial commit pushed to GitHub
+
+**Files updated:** `.gitignore` — added coverage outputs, build caches, cert/key formats, Expo EAS artifacts, editor recovery files, and macOS metadata files. See [project-structure.md](./project-structure.md) for the full breakdown.
+
+**Commands:**
+```bash
+git remote add origin git@github.com:jasonfunk/my-collections.git
+git add .
+git commit -m "Initial monorepo scaffold"
+git push -u origin main
+```
+
+**What `-u origin main` does:** The `-u` flag sets the upstream tracking branch. After the first push with `-u`, future pushes from `main` only need `git push` — git already knows where to send it.
+
+**Repository:** https://github.com/jasonfunk/my-collections
+
+---
+
+## Session 3 — 2026-03-24
+
+### 1. Atlassian MCP server installed
+
+**Command:**
+```bash
+claude mcp add --transport http atlassian https://mcp.atlassian.com/v1/mcp --scope project
+```
+
+**What was installed:** Official Atlassian Rovo MCP server. Covers Jira, Confluence, and Compass via natural language from within Claude Code.
+
+**File created:** `.mcp.json` in the repo root — stores the project-scoped MCP server config. Safe to commit (no credentials; uses OAuth2).
+
+**Authentication:** OAuth 2.1 — on first use, a browser window will open to log in with your Atlassian account. The token is stored locally, not in the project files.
+
+**Why HTTP transport over SSE:** The SSE endpoint (`/v1/sse`) is deprecated as of June 30, 2026. HTTP transport (`/v1/mcp`) is the current standard.
+
+**Capabilities unlocked:**
+- Search and summarize Jira issues and Confluence pages
+- Create and update Jira issues from Claude Code
+- Read and write Confluence documentation
+- Link work across Atlassian products
+
+**To authenticate on first use:** Start a new Claude Code session and try a prompt like "show me my open Jira issues" — it will trigger the OAuth browser flow automatically.
