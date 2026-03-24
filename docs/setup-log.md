@@ -313,3 +313,63 @@ claude mcp add --transport http atlassian https://mcp.atlassian.com/v1/mcp --sco
 - Link work across Atlassian products
 
 **To authenticate on first use:** Start a new Claude Code session and try a prompt like "show me my open Jira issues" — it will trigger the OAuth browser flow automatically.
+
+---
+
+## Session 4 — 2026-03-24
+
+### 1. Git global identity configured
+
+**Commands:**
+```bash
+git config --global user.name "Jason Funk"
+git config --global user.email "jfunk@jasonfunk.com"
+```
+
+**Why `--global`:** Applies to all git repos on this machine, not just this project. Without this, git falls back to the system hostname (e.g., `jfunk@Jasons-MacBook-Air.local`), which appears in every commit and is not a valid email for GitHub attribution.
+
+---
+
+### 2. docs/dev-sequence.md created
+
+Documents the recommended 6-phase development sequence with rationale for each phase's ordering:
+
+1. **Infrastructure & CI/CD** — quality gates before any feature code
+2. **Local Dev Environment** — PostgreSQL + Docker Compose + TypeORM migrations
+3. **Authentication (OAuth2)** — from scratch, before any protected endpoints
+4. **Collections API** — NestJS feature modules (Star Wars → Transformers → He-Man)
+5. **Web App** — React SPA once the API is stable
+6. **Mobile App** — Expo with camera + barcode scanning
+
+Also documents cross-cutting concerns (shared types, documentation, testing, Jira tracking) that run throughout all phases.
+
+---
+
+### 3. CLAUDE.md project status updated
+
+Replaced stale status ("npm install hasn't been run") with current state:
+- Dependencies installed
+- Atlassian MCP configured
+- Active branch: `develop`
+- Next phase: Infrastructure & CI/CD
+- Jira project key: COL
+
+---
+
+### 4. Jira epics and stories — deferred (OAuth required)
+
+The Atlassian MCP server requires a one-time OAuth2 browser authentication before its tools are accessible. This cannot be triggered from within an active Claude Code session.
+
+**To authenticate at the start of the next session:**
+The OAuth flow triggers automatically the first time a Jira-related prompt is used. Start a new Claude Code session and ask something like "show me the COL Jira project" — a browser window will open for Atlassian login.
+
+**Epics to create once authenticated (project key: COL):**
+1. Infrastructure & CI/CD
+2. Local Dev Environment
+3. OAuth2 Authentication
+4. Collections API
+5. Web App
+6. Mobile App
+7. Shared Data Model
+
+Full story breakdown is documented in `docs/dev-sequence.md`.
