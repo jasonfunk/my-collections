@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "My Collections",
+    "slug": "my-collections",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "mycollections",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mycollections.app"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mycollections.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-camera",
+      "expo-barcode-scanner",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ]
+  }
+}
