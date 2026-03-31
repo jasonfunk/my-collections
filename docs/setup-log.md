@@ -382,6 +382,193 @@ Full story breakdown matches the phase structure in `docs/dev-sequence.md`.
 
 ---
 
+## Session 6 — 2026-03-30
+
+### Context
+Phase 2: Local Dev Environment. Goal: a running PostgreSQL database accessible to the NestJS API, with TypeORM migrations infrastructure proven end-to-end.
+
+---
+
+### 1. Docker Desktop installed
+
+**Command:**
+```bash
+brew install --cask docker
+```
+
+Launched from Applications. Docker Desktop provides a visual dashboard for managing containers and a menu bar icon showing engine status. Required for `docker compose` commands.
+
+**Why Docker Desktop over alternatives (e.g., Colima):** More familiar UI, most documentation assumes it, free for personal use.
+
+---
+
+### 2. `docker-compose.yml` created
+
+**File:** `docker-compose.yml` (repo root)
+
+```yaml
+services:
+  postgres:
+    image: postgres:16
+    container_name: my-collections-db
+    environment:
+      POSTGRES_USER: my_collections
+      POSTGRES_PASSWORD: my_collections_dev
+      POSTGRES_DB: my_collections
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U my_collections"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+```
+
+**Key decisions:**
+- `postgres:16` — current LTS, widely documented
+- Named volume `postgres_data` — persists data across `docker compose down`; only wiped by `docker compose down -v`
+- `healthcheck` — allows CI jobs and integration tests to wait for the DB to be ready
+
+**Day-to-day usage:**
+```bash
+docker compose up -d        # start in background
+docker compose down         # stop, keep data
+docker compose down -v      # stop and wipe all data (full reset)
+docker compose logs -f      # stream container logs
+```
+
+---
+
+### 3. `packages/api/.env` created
+
+Copied from `.env.example` with working local credentials matching `docker-compose.yml`. This file is gitignored — it exists only on local machines, never in version control.
+
+```
+PORT=3000
+DATABASE_URL=postgresql://my_collections:my_collections_dev@localhost:5432/my_collections
+JWT_SECRET=dev-jwt-secret-change-in-production
+```
+
+---
+
+### 4. TypeORM configured in NestJS
+
+**Two separate configs were created — this is an important pattern:**
+
+#### `packages/api/src/data-source.ts` — for the TypeORM CLI
+The TypeORM CLI (`typeorm-ts-node-commonjs`) runs outside of NestJS. It doesn't know about the DI container or `ConfigService`. It needs a plain `DataSource` export that reads env vars directly via `dotenv`.
+
+```typescript
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+export default new DataSource({
+  type: 'postgres',
+  url: process.env.DATABASE_URL,
+  entities: ['src/**/*.entity.ts'],
+  migrations: ['src/migrations/*.ts'],
+});
+```
+
+#### `packages/api/src/app.module.ts` — for the NestJS runtime
+`TypeOrmModule.forRootAsync()` integrates with the DI container. The `useFactory` function receives `ConfigService` (injected) and returns the TypeORM options. This is the correct NestJS pattern.
+
+```typescript
+TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  inject: [ConfigService],
+  useFactory: (config: ConfigService) => ({
+    type: 'postgres',
+    url: config.get<string>('DATABASE_URL'),
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    migrations: [__dirname + '/migrations/*{.ts,.js}'],
+    synchronize: false,   // NEVER true — would auto-modify the schema on startup
+    migrationsRun: true,  // runs pending migrations when the app boots
+    logging: process.env.NODE_ENV !== 'production',
+  }),
+}),
+```
+
+**`forRoot` vs `forRootAsync`:** `forRoot` accepts a plain config object. `forRootAsync` accepts a factory function that the DI container calls after injecting dependencies — so `ConfigService` (which requires the DI container to be ready) is available. Always use `forRootAsync` when the config depends on other services.
+
+**`ts-node` installed** as a devDependency in the API package — required by `typeorm-ts-node-commonjs` to execute TypeScript migration files without pre-compiling.
+
+---
+
+### 5. Migration scripts added to `packages/api/package.json`
+
+```json
+"migration:create":   "typeorm migration:create",
+"migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts",
+"migration:run":      "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
+"migration:revert":   "typeorm-ts-node-commonjs migration:revert -d src/data-source.ts",
+"migration:show":     "typeorm-ts-node-commonjs migration:show -d src/data-source.ts"
+```
+
+**`migration:create` vs `migration:generate`:**
+- `create` — writes a blank migration with empty `up()` and `down()` stubs. Used when writing schema changes manually.
+- `generate` — diffs the current database schema against your TypeORM entity definitions and writes the SQL automatically. Used when you add/change entities and want TypeORM to figure out what SQL is needed.
+
+---
+
+### 6. Initial migration created and applied
+
+**Command:**
+```bash
+cd packages/api && npm run migration:create -- src/migrations/InitialSchema
+```
+
+Generated: `src/migrations/1774922941854-InitialSchema.ts` — empty stubs (no schema yet; just proves the infrastructure works).
+
+**ESLint fix:** TypeORM's generated stubs have `queryRunner: QueryRunner` parameters that are never used. Our ESLint rule (`no-unused-vars`) requires unused parameters to be prefixed with `_`. Renamed to `_queryRunner`. **This applies to all future empty migrations.**
+
+**Run:**
+```bash
+npm run migration:run
+```
+
+Output showed TypeORM:
+1. Connected to PostgreSQL
+2. Created the `migrations` tracking table
+3. Found 1 pending migration (`InitialSchema`)
+4. Applied it successfully
+
+---
+
+### 7. End-to-end verification
+
+**NestJS API started:** `npm run dev --workspace=packages/api`
+
+Startup log confirmed:
+- `TypeOrmModule dependencies initialized` — DI container wired database connection
+- SQL queries ran: version check, schema introspection, migrations table check
+- `Nest application successfully started` — no errors
+- `0 pending migrations` — `InitialSchema` already applied
+
+**Lint and tests:** All passing after renaming `queryRunner` → `_queryRunner`.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Docker approach | Docker Desktop | Colima | More familiar UI, most documentation assumes it |
+| PostgreSQL version | 16 | 14, 15, 17 | Current LTS; stable and widely documented |
+| TypeORM config | Two DataSources (NestJS + CLI) | Single config | CLI cannot access NestJS DI — requires separate standalone DataSource |
+| `synchronize` | `false` from day one | `true` during dev | Prevents accidental schema destruction; teaches correct migration habits |
+| `migrationsRun` | `true` | Manual run | Auto-applies migrations on deploy; safe because TypeORM tracks applied migrations |
+
+---
+
 ## Session 5 — 2026-03-30
 
 ### Context

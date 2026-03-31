@@ -40,7 +40,8 @@ Phase 1 (Infrastructure & CI/CD) complete and merged to `main`. Active developme
 - Atlassian MCP configured (`.mcp.json`) — Jira + Confluence accessible from Claude Code
 - Jira project: **COL** — epics and stories defined, see [docs/dev-sequence.md](docs/dev-sequence.md)
 - CI/CD: GitHub Actions running (lint, test, build, security audit); `main` branch protected
-- **Next phase: Local Dev Environment** — PostgreSQL + Docker Compose + TypeORM (COL-8)
+- Local DB: PostgreSQL 16 via Docker Compose (`docker compose up -d`); TypeORM migrations configured
+- **Next phase: Authentication (OAuth2)** — implemented from scratch (COL-9)
 
 **Known vulnerability debt:** High-severity issues exist in NestJS 10 (`multer` via `@nestjs/platform-express`) and Expo 51 (`tar`/`send` via `@expo/cli`). No critical-severity issues. Accepted as scaffold risk; address when upgrading to NestJS 11 / Expo 55 before production.
 
