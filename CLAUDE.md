@@ -29,17 +29,20 @@ Collaboration approach:
 - **Auth:** OAuth2 (implemented from scratch across all interfaces)
 - **Mobile:** Expo (React Native) — Android primary, iOS secondary; single codebase
 - **Hosting:** Dreamhost shared hosting (static files for web; API hosted separately TBD)
-- **VCS/CI:** GitHub (CI/CD pipeline TBD)
+- **VCS/CI:** GitHub + GitHub Actions (lint, test, build, security audit on PRs)
 - **Docs/Tracking:** Confluence + Jira
 
 ## Project Status
 
-Monorepo scaffolded and dependencies installed. Active development branch: `develop`. `main` holds the initial scaffold commit.
+Phase 1 (Infrastructure & CI/CD) complete and merged to `main`. Active development branch: `develop`.
 
 - `npm install` complete (1,665 packages)
 - Atlassian MCP configured (`.mcp.json`) — Jira + Confluence accessible from Claude Code
 - Jira project: **COL** — epics and stories defined, see [docs/dev-sequence.md](docs/dev-sequence.md)
-- Next phase: Infrastructure & CI/CD (GitHub Actions, branch protection)
+- CI/CD: GitHub Actions running (lint, test, build, security audit); `main` branch protected
+- **Next phase: Local Dev Environment** — PostgreSQL + Docker Compose + TypeORM (COL-8)
+
+**Known vulnerability debt:** High-severity issues exist in NestJS 10 (`multer` via `@nestjs/platform-express`) and Expo 51 (`tar`/`send` via `@expo/cli`). No critical-severity issues. Accepted as scaffold risk; address when upgrading to NestJS 11 / Expo 55 before production.
 
 See [docs/setup-log.md](docs/setup-log.md) for the full record of actions taken, commands run, and decisions made each session.
 

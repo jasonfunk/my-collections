@@ -8,16 +8,28 @@ Reference guide to every directory and file in the repository. For a chronologic
 
 ```
 my-collections/
+├── .github/
+│   └── workflows/
 ├── packages/
 ├── docs/
 ├── .git/
 ├── .gitignore
+├── .mcp.json
 ├── .nvmrc
 ├── CLAUDE.md
 ├── package.json
 ├── tsconfig.base.json
 └── turbo.json
 ```
+
+### `.github/workflows/`
+GitHub Actions CI/CD workflow definitions. Three files:
+
+| File | Trigger | Purpose |
+|---|---|---|
+| `ci.yml` | PR to `main` or `develop` | Runs lint and tests in parallel. Both must pass before a PR can merge. |
+| `build.yml` | Push to `main` (i.e., after a merge) | Verifies the full monorepo builds successfully after every merge. |
+| `audit.yml` | PR + weekly Monday schedule | Runs `npm audit --audit-level=critical --omit=dev`. Fails only on critical-severity vulnerabilities in non-dev dependencies. |
 
 ### `.git/`
 Created by `git init`. Contains the entire version history of the project. Never edit this manually.
