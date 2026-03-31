@@ -1,0 +1,24 @@
+name: Security Audit
+
+on:
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 9 * * 1'
+
+jobs:
+  audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # --audit-level=critical: high-severity issues exist in NestJS 10 (multer via
+      # @nestjs/platform-express) and Expo 51 (tar/send via @expo/cli) that require
+      # breaking major-version upgrades to fix. Accepted as known risks on this scaffold;
+      # revisit when upgrading to NestJS 11 / Expo 55. Weekly schedule catches new criticals.
+      - run: npm audit --audit-level=critical --omit=dev

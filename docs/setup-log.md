@@ -268,3 +268,305 @@ This is a behavior change in npm v11 around optional platform-specific packages 
 ```
 
 **Install order recommendation:** `github` and `postgres` first — both will be immediately useful in the next session when we wire up the database and push the initial commit.
+
+---
+
+### 5. .gitignore expanded and initial commit pushed to GitHub
+
+**Files updated:** `.gitignore` — added coverage outputs, build caches, cert/key formats, Expo EAS artifacts, editor recovery files, and macOS metadata files. See [project-structure.md](./project-structure.md) for the full breakdown.
+
+**Commands:**
+```bash
+git remote add origin git@github.com:jasonfunk/my-collections.git
+git add .
+git commit -m "Initial monorepo scaffold"
+git push -u origin main
+```
+
+**What `-u origin main` does:** The `-u` flag sets the upstream tracking branch. After the first push with `-u`, future pushes from `main` only need `git push` — git already knows where to send it.
+
+**Repository:** https://github.com/jasonfunk/my-collections
+
+---
+
+## Session 3 — 2026-03-24
+
+### 1. Atlassian MCP server installed
+
+**Command:**
+```bash
+claude mcp add --transport http atlassian https://mcp.atlassian.com/v1/mcp --scope project
+```
+
+**What was installed:** Official Atlassian Rovo MCP server. Covers Jira, Confluence, and Compass via natural language from within Claude Code.
+
+**File created:** `.mcp.json` in the repo root — stores the project-scoped MCP server config. Safe to commit (no credentials; uses OAuth2).
+
+**Authentication:** OAuth 2.1 — on first use, a browser window will open to log in with your Atlassian account. The token is stored locally, not in the project files.
+
+**Why HTTP transport over SSE:** The SSE endpoint (`/v1/sse`) is deprecated as of June 30, 2026. HTTP transport (`/v1/mcp`) is the current standard.
+
+**Capabilities unlocked:**
+- Search and summarize Jira issues and Confluence pages
+- Create and update Jira issues from Claude Code
+- Read and write Confluence documentation
+- Link work across Atlassian products
+
+**To authenticate on first use:** Start a new Claude Code session and try a prompt like "show me my open Jira issues" — it will trigger the OAuth browser flow automatically.
+
+---
+
+## Session 4 — 2026-03-24
+
+### 1. Git global identity configured
+
+**Commands:**
+```bash
+git config --global user.name "Jason Funk"
+git config --global user.email "jfunk@jasonfunk.com"
+```
+
+**Why `--global`:** Applies to all git repos on this machine, not just this project. Without this, git falls back to the system hostname (e.g., `jfunk@Jasons-MacBook-Air.local`), which appears in every commit and is not a valid email for GitHub attribution.
+
+---
+
+### 2. docs/dev-sequence.md created
+
+Documents the recommended 6-phase development sequence with rationale for each phase's ordering:
+
+1. **Infrastructure & CI/CD** — quality gates before any feature code
+2. **Local Dev Environment** — PostgreSQL + Docker Compose + TypeORM migrations
+3. **Authentication (OAuth2)** — from scratch, before any protected endpoints
+4. **Collections API** — NestJS feature modules (Star Wars → Transformers → He-Man)
+5. **Web App** — React SPA once the API is stable
+6. **Mobile App** — Expo with camera + barcode scanning
+
+Also documents cross-cutting concerns (shared types, documentation, testing, Jira tracking) that run throughout all phases.
+
+---
+
+### 3. CLAUDE.md project status updated
+
+Replaced stale status ("npm install hasn't been run") with current state:
+- Dependencies installed
+- Atlassian MCP configured
+- Active branch: `develop`
+- Next phase: Infrastructure & CI/CD
+- Jira project key: COL
+
+---
+
+### 4. Jira epics and stories created
+
+**Tool:** Atlassian Rovo MCP (`mcp__atlassian__createJiraIssue`) — authenticated via OAuth2 browser flow at session start.
+
+**Project:** COL on houseoffunk-net.atlassian.net
+
+**Epics created:**
+
+| Key | Epic |
+|---|---|
+| COL-7 | Infrastructure & CI/CD |
+| COL-8 | Local Dev Environment |
+| COL-9 | OAuth2 Authentication |
+| COL-10 | Collections API |
+| COL-11 | Web App |
+| COL-12 | Mobile App |
+| COL-13 | Shared Data Model |
+
+**Tasks created:** COL-14 through COL-56 (43 tasks total), each linked to its parent epic via the `parentKey` parameter.
+
+Full story breakdown matches the phase structure in `docs/dev-sequence.md`.
+
+**Note on Atlassian MCP authentication:** The MCP server uses OAuth 2.1. The tools (`mcp__atlassian__*`) only become available after the browser OAuth flow completes. If tools are missing at the start of a session, use `/reload-plugins` after authenticating in the browser — this re-registers the MCP tools without restarting Claude Code.
+
+---
+
+## Session 5 — 2026-03-30
+
+### Context
+Phase 1 Infrastructure & CI/CD. Goal: quality gates in place before any feature code — lint, tests, and build verification run automatically on every PR, and `main` is protected from direct pushes.
+
+---
+
+### 1. `packageManager` field added to root `package.json`
+
+**File modified:** `package.json`
+
+**What was added:**
+```json
+"packageManager": "npm@11.9.0"
+```
+
+**Why:** Turborepo 2.x requires the `packageManager` field to resolve workspace configuration. Without it, `turbo run lint` exits immediately with `Could not resolve workspaces`. This field tells Turborepo (and npm) which package manager and version to expect — it's a lockstep declaration alongside `.nvmrc` for Node version.
+
+---
+
+### 2. ESLint installed and configured
+
+**Why now:** The API and web packages had ESLint declared in their `lint` scripts but no configuration files. Running `npm run lint` would fail in CI without them. ESLint is set up before writing feature code so every commit is automatically validated from day one.
+
+**ESLint version:** v9 (flat config format — `eslint.config.mjs`). ESLint v9 removed the legacy `.eslintrc.*` format and the `--ext` flag. All new configs use the flat config array format.
+
+#### `packages/api` — installed packages
+```bash
+npm install --save-dev eslint@^9 @typescript-eslint/eslint-plugin@^8 @typescript-eslint/parser@^8 --workspace=packages/api
+```
+
+| Package | Purpose |
+|---|---|
+| `eslint` | Core linter engine |
+| `@typescript-eslint/parser` | Parses TypeScript into an AST that ESLint can analyze |
+| `@typescript-eslint/eslint-plugin` | TypeScript-specific lint rules (unused vars, no-explicit-any, etc.) |
+
+**File created:** `packages/api/eslint.config.mjs`
+- Lints `src/**/*.ts` and `test/**/*.ts`
+- Enables `@typescript-eslint/recommended` rules
+- `no-explicit-any`: warn (common in NestJS early development)
+- `no-unused-vars`: error (underscore prefix allowed for intentionally unused params)
+
+#### `packages/web` — installed packages
+```bash
+npm install --save-dev eslint@^9 @typescript-eslint/eslint-plugin@^8 @typescript-eslint/parser@^8 eslint-plugin-react@^7 eslint-plugin-react-hooks@^5 --workspace=packages/web
+```
+
+Additional packages beyond the API set:
+
+| Package | Purpose |
+|---|---|
+| `eslint-plugin-react` | React-specific rules (prop-types, JSX usage, etc.) |
+| `eslint-plugin-react-hooks` | Enforces Rules of Hooks (must call hooks at top level, not in conditionals) |
+
+**File created:** `packages/web/eslint.config.mjs`
+- `react/react-in-jsx-scope: off` — React 17+ JSX transform doesn't require `import React` in every file
+- `react-hooks` recommended rules — catches common hook misuse patterns at lint time
+
+**Web lint script updated** (ESLint v9 removed `--ext` flag):
+```
+Before: "lint": "eslint src --ext ts,tsx"
+After:  "lint": "eslint \"src/**/*.{ts,tsx}\""
+```
+
+**Verification:** `npm run lint` — all 4 packages pass (0 errors, 0 warnings).
+
+---
+
+### 3. Test scripts updated — `--passWithNoTests`
+
+**Files modified:** `packages/api/package.json`, `packages/web/package.json`, `packages/mobile/package.json`
+
+**Problem:** Jest and Vitest both exit with code 1 when no test files are found. This would cause CI to fail on every PR until the first test is written.
+
+**Fix:** Added `--passWithNoTests` flag to each test script:
+- `jest --passWithNoTests` (API, mobile)
+- `vitest --passWithNoTests` (web)
+
+**Why this is correct:** The flag means "no tests found" is treated as success (exit 0), not failure. As soon as the first test file is added to any package, the flag has no effect — tests are found and run normally. This is the standard approach for scaffolded monorepos.
+
+**Verification:** `npm run test` — all 3 packages with test scripts exit cleanly with code 0.
+
+---
+
+### 4. GitHub Actions workflows created
+
+**Directory created:** `.github/workflows/`
+
+Three workflow files, each serving a distinct purpose in the CI pipeline:
+
+#### `.github/workflows/ci.yml` — Lint and Tests on PRs
+
+**Trigger:** Any PR targeting `main` or `develop`
+
+**Jobs (run in parallel):**
+- `Lint` — runs `npm run lint` across all packages via Turborepo
+- `Test` — runs `npm run test` across all packages via Turborepo
+
+**Key implementation details:**
+- `actions/setup-node@v4` with `node-version-file: .nvmrc` — pins Node to version 24 (from `.nvmrc`) without hardcoding it in the workflow
+- `cache: npm` — caches the npm cache directory between runs; significantly reduces install time on repeat runs
+- `npm ci` — installs from `package-lock.json` exactly (no version resolution). Faster than `npm install` and ensures reproducible builds. Never use `npm install` in CI.
+
+These two job names (`Lint` and `Test`) must match the `contexts` array in the branch protection rule.
+
+#### `.github/workflows/build.yml` — Build Verification on `main`
+
+**Trigger:** Push to `main` (fires when a PR is merged)
+
+**Job:** `Build` — runs `npm run build`
+
+**Why a separate workflow:** CI runs on the PR. If the PR merges and somehow the build is broken (e.g., a merge conflict resolution introduced a type error), this catches it. Also serves as a record of every successful build in the Actions history.
+
+**Build order:** Turborepo's `"dependsOn": ["^build"]` in `turbo.json` ensures `shared` builds before `api`, `web`, and `mobile` — the `^` means "my dependencies must build first."
+
+#### `.github/workflows/audit.yml` — Security Audit
+
+**Triggers:**
+- Any PR targeting `main` or `develop`
+- Weekly schedule: Mondays at 9am UTC (`cron: '0 9 * * 1'`)
+
+**Command:** `npm audit --audit-level=high --production`
+
+**`--production` flag:** Limits the audit to production dependencies only (packages in `dependencies`, not `devDependencies`). The 44 vulnerabilities identified in Session 2 are all in dev tooling (webpack SSRF in `@nestjs/cli`, esbuild dev server in `vite`, fast-xml-parser in React Native CLI) — none have production exposure. `--production` ensures these known dev-tooling issues don't block every PR.
+
+**`--audit-level=high`:** Only fails on high or critical severity vulnerabilities in production deps. Moderate issues are reported but don't fail the build.
+
+**Weekly schedule:** Catches newly disclosed vulnerabilities in packages that haven't been updated. A new CVE published after your last `npm install` won't show up in CI otherwise.
+
+---
+
+### 5. Branch protection — `main`
+
+**Status:** Pending — requires `gh` CLI (not installed) or GitHub web UI.
+
+**`gh` CLI approach (once installed):**
+```bash
+gh api repos/jasonfunk/my-collections/branches/main/protection \
+  --method PUT \
+  -H "Accept: application/vnd.github+json" \
+  --input - <<'EOF'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["Lint", "Test", "npm audit"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 0,
+    "dismiss_stale_reviews": true
+  },
+  "restrictions": null
+}
+EOF
+```
+
+**GitHub web UI approach:**
+1. Go to `https://github.com/jasonfunk/my-collections/settings/branches`
+2. Click **Add branch protection rule**
+3. Branch name pattern: `main`
+4. Check **Require a pull request before merging** (leave approvals at 0)
+5. Check **Require status checks to pass before merging**
+6. Search for and add: `Lint`, `Test`, `npm audit`
+7. Check **Require branches to be up to date before merging**
+8. Check **Do not allow bypassing the above settings**
+9. Save
+
+**Settings explained:**
+- `strict: true` / "Require branches to be up to date" — the PR branch must be rebased/merged with the latest `main` before merging. Prevents a PR that passed CI on a stale base from introducing regressions.
+- `required_approving_review_count: 0` — PRs are required (enforces CI) but no peer approval needed (appropriate for solo development).
+- `enforce_admins` / "Do not allow bypassing" — rules apply to the repo owner too. Without this, you can push directly to `main` from your own account.
+- `restrictions: null` — no allowlist for who can push (the PR requirement is the gate).
+
+**`develop` branch:** Left unprotected intentionally. Workflows run on push to `develop` (visible in Actions tab) but don't block commits — direct pushes to `develop` are allowed for solo development speed.
+
+**Note on status check names:** The `contexts` array values (`"Lint"`, `"Test"`, `"npm audit"`) must exactly match the `name:` field of each job in the workflow YAML. A mismatch means GitHub won't recognize the check as satisfying the requirement — the PR will appear to be waiting for a check that never arrives.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| ESLint version | v9 (flat config) | v8 (.eslintrc) | v9 is the current standard; flat config is simpler and more explicit |
+| `develop` protection | Direct pushes allowed | Require PRs | Solo project — PR ceremony on every dev commit adds friction without benefit |
+| npm audit scope | `--production` only | All deps | 44 known dev-tooling vulns would block every PR; production deps are what actually run |
+| No-test behavior | `--passWithNoTests` | Write placeholder tests | Cleaner than fake tests; CI stays green until real tests are added |

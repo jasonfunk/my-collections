@@ -34,7 +34,12 @@ Collaboration approach:
 
 ## Project Status
 
-Monorepo scaffolded. No packages have been `npm install`'d yet — run `npm install` from the repo root to install all workspaces.
+Monorepo scaffolded and dependencies installed. Active development branch: `develop`. `main` holds the initial scaffold commit.
+
+- `npm install` complete (1,665 packages)
+- Atlassian MCP configured (`.mcp.json`) — Jira + Confluence accessible from Claude Code
+- Jira project: **COL** — epics and stories defined, see [docs/dev-sequence.md](docs/dev-sequence.md)
+- Next phase: Infrastructure & CI/CD (GitHub Actions, branch protection)
 
 See [docs/setup-log.md](docs/setup-log.md) for the full record of actions taken, commands run, and decisions made each session.
 
