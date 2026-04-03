@@ -34,14 +34,20 @@ Collaboration approach:
 
 ## Project Status
 
-Phase 1 (Infrastructure & CI/CD) complete and merged to `main`. Active development branch: `develop`.
+Phases 1–3 complete and merged to `main`. Active development branch: `develop`.
 
 - `npm install` complete (1,665 packages)
 - Atlassian MCP configured (`.mcp.json`) — Jira + Confluence accessible from Claude Code
 - Jira project: **COL** — epics and stories defined, see [docs/dev-sequence.md](docs/dev-sequence.md)
 - CI/CD: GitHub Actions running (lint, test, build, security audit); `main` branch protected
 - Local DB: PostgreSQL 16 via Docker Compose (`docker compose up -d`); TypeORM migrations configured
-- **Next phase: Authentication (OAuth2)** — implemented from scratch (COL-9)
+- Auth: OAuth2 Authorization Code Flow with PKCE — fully implemented (COL-9)
+  - Endpoints: `POST /auth/register`, `GET /auth/authorize`, `POST /auth/login`, `POST /auth/token`, `POST /auth/revoke`
+  - Protected endpoint: `GET /users/me` (Bearer JWT required)
+  - DB tables: `users`, `oauth_clients`, `authorization_codes`, `refresh_tokens`
+  - OAuth clients seeded: `web-app`, `mobile-app`
+- Postman collections in `postman/` (committed to git) — one file per API module
+- **Next phase: Collections API** — CRUD for Star Wars, Transformers, He-Man items (COL-10)
 
 **Known vulnerability debt:** High-severity issues exist in NestJS 10 (`multer` via `@nestjs/platform-express`) and Expo 51 (`tar`/`send` via `@expo/cli`). No critical-severity issues. Accepted as scaffold risk; address when upgrading to NestJS 11 / Expo 55 before production.
 
@@ -56,6 +62,7 @@ my-collections/
 │   ├── api/       # @my-collections/api — NestJS REST API + PostgreSQL
 │   ├── web/       # @my-collections/web — React SPA (Vite)
 │   └── mobile/    # @my-collections/mobile — Expo (React Native)
+├── postman/       # Postman collections (one per API module) + dev environment
 ├── docs/          # Project documentation (see docs/project-structure.md for file reference)
 ├── turbo.json     # Turborepo build pipeline
 ├── tsconfig.base.json  # Base TypeScript config extended by all packages
@@ -105,5 +112,7 @@ See [docs/project-structure.md](docs/project-structure.md) for full details. Sum
 
 - **Shared types** in `packages/shared` are the single source of truth — imported by API, web, and mobile. Always update types here first.
 - **NestJS** uses decorators for routing and DI (similar to Spring Boot / ASP.NET Core). Feature modules go under `packages/api/src/modules/`.
+- **Auth** uses OAuth2 Authorization Code Flow with PKCE. `JwtAuthGuard` protects routes; `@CurrentUser()` extracts the decoded JWT payload. See `src/modules/auth/` for all auth logic.
+- **Postman collections** are committed to `postman/` — add a new collection file for each new API module.
 - **Vite dev proxy** forwards `/api/*` to `localhost:3000` — no CORS issues during development.
 - **Expo** plugins for camera, barcode scanner, and push notifications are pre-declared in `packages/mobile/app.json`.

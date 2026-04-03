@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "My Collections — Auth",
+    "_postman_id": "mc-auth-v1",
+    "description": "OAuth2 Authorization Code Flow with PKCE.\n\nFlow:\n1. POST /auth/register — create an account\n2. GET /auth/authorize — initiate flow, validate client\n3. POST /auth/login — submit credentials, receive redirect URL with ?code=\n4. POST /auth/token (authorization_code) — exchange code for tokens\n5. Copy accessToken → Postman environment variable\n6. POST /auth/token (refresh_token) — rotate tokens\n7. POST /auth/revoke — logout",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "register"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"collector@example.com\",\n  \"password\": \"correct-horse-battery\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Create a new user account. Requires REGISTRATION_ENABLED=true in .env."
+      }
+    },
+    {
+      "name": "Authorize (initiate flow)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/authorize?client_id={{clientId}}&redirect_uri=http://localhost:5173/auth/callback&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=S256&scope=collections:read collections:write profile&state=xyz-csrf-token",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "authorize"],
+          "query": [
+            { "key": "client_id", "value": "{{clientId}}" },
+            { "key": "redirect_uri", "value": "http://localhost:5173/auth/callback" },
+            { "key": "code_challenge", "value": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM", "description": "SHA256(code_verifier) base64url encoded. Example verifier: dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk" },
+            { "key": "code_challenge_method", "value": "S256" },
+            { "key": "scope", "value": "collections:read collections:write profile" },
+            { "key": "state", "value": "xyz-csrf-token", "description": "Random value to prevent CSRF — verify it matches on callback" }
+          ]
+        },
+        "description": "Validates the OAuth2 client and parameters. Returns session data for the login step.\n\nFor real PKCE: generate a random code_verifier, then compute code_challenge = base64url(SHA256(code_verifier))."
+      }
+    },
+    {
+      "name": "Login (submit credentials)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"collector@example.com\",\n  \"password\": \"correct-horse-battery\",\n  \"clientId\": \"{{clientId}}\",\n  \"redirectUri\": \"http://localhost:5173/auth/callback\",\n  \"codeChallenge\": \"E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM\",\n  \"codeChallengeMethod\": \"S256\",\n  \"scopes\": [\"collections:read\", \"collections:write\", \"profile\"],\n  \"state\": \"xyz-csrf-token\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Submits credentials. Returns a redirectUrl containing ?code=<auth_code>&state=<state>.\nExtract the code from the URL and use it in the token exchange step."
+      }
+    },
+    {
+      "name": "Token — Authorization Code Exchange",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/token",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "token"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"grantType\": \"authorization_code\",\n  \"clientId\": \"{{clientId}}\",\n  \"code\": \"<paste-code-from-redirectUrl-here>\",\n  \"codeVerifier\": \"dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk\",\n  \"redirectUri\": \"http://localhost:5173/auth/callback\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Exchange authorization code + code_verifier (PKCE proof) for access and refresh tokens.\n\nResponse: { accessToken, refreshToken, expiresIn }\n\nCopy accessToken → Postman environment variable 'accessToken'\nCopy refreshToken → Postman environment variable 'refreshToken'"
+      }
+    },
+    {
+      "name": "Token — Refresh Grant",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/token",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "token"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"grantType\": \"refresh_token\",\n  \"clientId\": \"{{clientId}}\",\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Rotate a refresh token — old token is revoked, new access + refresh tokens issued.\n\nThe refreshToken environment variable is consumed and replaced with each call."
+      }
+    },
+    {
+      "name": "Revoke (logout)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/revoke",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "revoke"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"token\": \"{{refreshToken}}\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Revokes the refresh token. Any subsequent refresh attempt with this token will fail."
+      }
+    }
+  ]
+}

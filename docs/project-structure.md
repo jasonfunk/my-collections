@@ -11,6 +11,7 @@ my-collections/
 ├── .github/
 │   └── workflows/
 ├── packages/
+├── postman/               ← Postman collections and environment (one file per API module)
 ├── docs/
 ├── .git/
 ├── .gitignore
@@ -60,6 +61,23 @@ Turborepo pipeline configuration. Defines how tasks (`build`, `dev`, `lint`, `te
 
 ---
 
+## `postman/`
+
+```
+postman/
+├── environment.json       ← dev environment variables (baseUrl, accessToken, refreshToken, clientId)
+├── auth.collection.json   ← all auth endpoints (register, authorize, login, token, revoke)
+└── users.collection.json  ← user profile endpoints (GET /users/me)
+```
+
+Postman Collection v2.1 schema. Import into Postman alongside the environment file to test the API interactively without needing Swagger.
+
+**Convention:** One collection file per API module. Each collection uses `{{baseUrl}}` and `{{accessToken}}` environment variable references. New API modules should add a corresponding collection file here.
+
+**PKCE testing note:** When testing the full authorization code flow, generate a random `code_verifier`, compute `code_challenge = base64url(SHA256(code_verifier))`, use the challenge in `GET /auth/authorize` and `POST /auth/login`, then provide the verifier in `POST /auth/token`. The collection includes example values.
+
+---
+
 ## `docs/`
 
 ```
@@ -90,7 +108,8 @@ packages/shared/
 │       ├── common.ts
 │       ├── star-wars.ts
 │       ├── transformers.ts
-│       └── he-man.ts
+│       ├── he-man.ts
+│       └── auth.ts
 ├── package.json
 └── tsconfig.json
 ```
@@ -128,6 +147,12 @@ Types specific to Masters of the Universe figures (1981–1988):
 - `MastersLine` — original line, Princess of Power, mini figures
 - `MastersCharacterType` — heroic warrior, evil warrior, etc.
 
+### `src/types/auth.ts`
+Auth-related types shared between the API (producer) and web/mobile apps (consumers):
+- `AccessTokenPayload` — shape of the JWT payload (`sub`, `email`, `iat`, `exp`)
+- `TokenResponse` — response shape from `POST /auth/token` (`accessToken`, `refreshToken`, `expiresIn`)
+- `UserProfile` — response shape from `GET /users/me` (`id`, `email`, `isApproved`, `createdAt`)
+
 ---
 
 ## `packages/api/` — @my-collections/api
@@ -137,16 +162,40 @@ packages/api/
 ├── src/
 │   ├── main.ts
 │   ├── app.module.ts
-│   ├── data-source.ts      ← TypeORM CLI data source
-│   ├── migrations/         ← database migration files
-│   ├── modules/            ← feature modules go here
-│   ├── common/             ← shared guards, interceptors, pipes
-│   └── config/             ← configuration logic
-├── .env                    ← local env vars (gitignored, never committed)
+│   ├── data-source.ts          ← TypeORM CLI data source
+│   ├── migrations/             ← database migration files
+│   ├── modules/
+│   │   ├── auth/               ← OAuth2 auth module
+│   │   │   ├── auth.module.ts
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── entities/
+│   │   │   │   ├── user.entity.ts
+│   │   │   │   ├── oauth-client.entity.ts
+│   │   │   │   ├── authorization-code.entity.ts
+│   │   │   │   └── refresh-token.entity.ts
+│   │   │   ├── services/
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── token.service.ts
+│   │   │   │   └── password.service.ts
+│   │   │   ├── guards/
+│   │   │   │   └── jwt-auth.guard.ts
+│   │   │   └── decorators/
+│   │   │       └── current-user.decorator.ts
+│   │   └── users/              ← user profile module
+│   │       ├── users.module.ts
+│   │       ├── users.controller.ts
+│   │       └── users.service.ts
+│   ├── database/
+│   │   └── seeds/
+│   │       └── oauth-clients.seed.ts
+│   ├── common/                 ← shared guards, interceptors, pipes
+│   └── config/                 ← configuration logic
+├── .env                        ← local env vars (gitignored, never committed)
 ├── .env.example
 ├── nest-cli.json
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── tsconfig.eslint.json        ← extends tsconfig.json to include spec files for ESLint
 ```
 
 **Purpose:** The NestJS REST API. Handles business logic, database access (PostgreSQL via TypeORM), authentication (OAuth2), and serves data to both the web app and mobile app.
@@ -178,11 +227,34 @@ npm run migration:show   # list all migrations and status
 
 **Convention:** When a generated migration has empty `up()`/`down()` bodies, rename the `queryRunner` parameter to `_queryRunner` to satisfy the ESLint no-unused-vars rule.
 
-### `src/modules/`
-Empty — feature modules will be added here as the app is built. Each feature gets its own subdirectory, e.g.:
-- `src/modules/collections/` — CRUD for collection items
-- `src/modules/auth/` — OAuth2 authentication
-- `src/modules/users/` — user management
+### `src/modules/auth/`
+OAuth2 Authorization Code Flow with PKCE. Owns identity: registration, login, token issuance, token rotation, logout.
+
+**Entities** map to DB tables: `users`, `oauth_clients`, `authorization_codes`, `refresh_tokens`.
+
+**Services:**
+- `password.service.ts` — argon2 hash and verify
+- `token.service.ts` — JWT sign/verify + refresh token lifecycle (issue, rotate, revoke)
+- `auth.service.ts` — orchestrates the full OAuth2 flow
+
+**Guards:** `jwt-auth.guard.ts` — validates Bearer token on protected routes; attaches decoded payload to `request.user`
+
+**Decorators:** `current-user.decorator.ts` — extracts the payload JwtAuthGuard attached to the request. Usage: `@CurrentUser() user: AccessTokenPayload`
+
+**Controller:** `auth.controller.ts` — 5 endpoints: register, authorize, login, token, revoke
+
+### `src/modules/users/`
+User profile data. Imports AuthModule to get the User repository (via TypeOrmModule re-export) and TokenService (for JwtAuthGuard). Keeps profile concerns separate from auth concerns.
+
+**Controller:** `users.controller.ts` — `GET /users/me` (protected; proof the OAuth2 system works end-to-end)
+
+### `src/database/seeds/`
+Standalone ts-node scripts that run outside NestJS DI. Each creates seed data in the database.
+
+`oauth-clients.seed.ts` — inserts the `web-app` and `mobile-app` OAuth client records. Run once after the AuthSchema migration:
+```bash
+npx ts-node src/database/seeds/oauth-clients.seed.ts
+```
 
 ### `src/common/`
 Shared cross-cutting code: guards (authorization checks), interceptors (request/response transforms), pipes (input validation). Not yet populated.
@@ -194,11 +266,16 @@ Configuration loading and validation logic. Not yet populated.
 Template showing which environment variables the API needs. Copy this to `.env` (which is git-ignored) and fill in real values:
 ```
 PORT=3000
-DATABASE_URL=postgresql://user:password@localhost:5432/my_collections
-JWT_SECRET=...
-OAUTH_CLIENT_ID=...
-OAUTH_CLIENT_SECRET=...
+DATABASE_URL=postgresql://my_collections:my_collections_dev@localhost:5432/my_collections
+JWT_ACCESS_SECRET=change-me-in-production
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=change-me-in-production-too
+JWT_REFRESH_EXPIRES_IN=30d
+REGISTRATION_ENABLED=true
 ```
+
+### `tsconfig.eslint.json`
+Extends `tsconfig.json` but removes the `**/*.spec.ts` exclusion. ESLint's `parserOptions.project` points at this file so spec files get type-checked without affecting the production build. Standard pattern for TypeScript + ESLint + Jest repos.
 
 ### `nest-cli.json`
 Configuration for the NestJS CLI tool (`@nestjs/cli`). Tells the CLI where source files live and how to compile. The CLI provides code generation commands (e.g., `nest generate module collections`).
