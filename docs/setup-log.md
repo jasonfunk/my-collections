@@ -794,3 +794,233 @@ EOF
 | `develop` protection | Direct pushes allowed | Require PRs | Solo project — PR ceremony on every dev commit adds friction without benefit |
 | npm audit level | `--audit-level=critical` | `--audit-level=high` | High-severity issues in NestJS 10/Expo 51 require breaking upgrades; no critical issues exist |
 | No-test behavior | `--passWithNoTests` | Write placeholder tests | Cleaner than fake tests; CI stays green until real tests are added |
+
+---
+
+## Session 7 — 2026-04-02
+
+### Context
+Phase 3: OAuth2 Authentication. Goal: implement the full OAuth2 Authorization Code Flow with PKCE from scratch inside NestJS — no Passport.js, no Auth0. Learn the protocol by building it. The web and mobile login flows come in later phases; this phase proves the API works correctly via Swagger and curl.
+
+---
+
+### 1. Conceptual foundation established
+
+Before writing code, we mapped out the four OAuth2 roles in the context of this project:
+
+| Role | Who it is |
+|---|---|
+| Resource Owner | The user (you, or another collector) |
+| Client | The web app or mobile app |
+| Authorization Server | NestJS `/auth/*` endpoints — authenticates users and issues tokens |
+| Resource Server | NestJS all other endpoints — validates tokens and serves data |
+
+The Authorization Server and Resource Server are the same NestJS process — normal for first-party apps.
+
+**PKCE** (Proof Key for Code Exchange) replaces client secrets for public clients (web SPA, mobile app). The client generates a random `code_verifier`, hashes it to a `code_challenge`, sends the challenge upfront, then proves it started the flow by revealing the `code_verifier` during token exchange. An attacker who intercepts the authorization code can't use it without the verifier.
+
+**JWT access tokens** (15 min) are self-contained — the resource server validates them by checking the signature, no DB lookup on every request.
+
+**Refresh token rotation** (30 day tokens stored as SHA-256 hashes in DB): using a refresh token revokes it and issues a new one. Token reuse (e.g., attacker uses a stolen token) triggers revocation of all tokens for that user/client.
+
+---
+
+### 2. Packages installed
+
+```bash
+npm install jsonwebtoken argon2 --workspace=packages/api
+npm install --save-dev @types/jsonwebtoken --workspace=packages/api
+```
+
+- **jsonwebtoken** — JWT sign/verify
+- **argon2** — password hashing (won Password Hashing Competition 2015; argon2id variant resists GPU and side-channel attacks; intentionally slow to make brute-force expensive)
+
+---
+
+### 3. Directory structure created
+
+```
+packages/api/src/modules/auth/entities/
+packages/api/src/modules/auth/services/
+packages/api/src/modules/auth/guards/
+packages/api/src/modules/auth/decorators/
+packages/api/src/modules/users/
+packages/api/src/database/seeds/
+postman/
+```
+
+---
+
+### 4. Entities created
+
+Four TypeORM entities, each mapping to a PostgreSQL table:
+
+- `user.entity.ts` → `users` table (id, email, passwordHash, isApproved, createdAt, updatedAt)
+- `oauth-client.entity.ts` → `oauth_clients` table (id, clientId, clientSecretHash, name, redirectUris[], allowedScopes[])
+- `authorization-code.entity.ts` → `authorization_codes` table (id, codeHash, userId FK, clientId FK, redirectUri, scopes[], codeChallenge, codeChallengeMethod, expiresAt, usedAt, createdAt)
+- `refresh-token.entity.ts` → `refresh_tokens` table (id, tokenHash, userId FK, clientId FK, scopes[], expiresAt, revokedAt, createdAt)
+
+**Key design decisions:**
+- `codeHash`/`tokenHash`: raw codes/tokens are never stored — only their SHA-256 hashes. If the DB is compromised, hashes are useless without the raw values.
+- `clientSecretHash = null` marks public clients (web SPA, mobile app). Public clients use PKCE instead of client secrets.
+- `usedAt`/`revokedAt` as nullable timestamps allow single-use enforcement and revocation tracking.
+
+**TypeScript strict mode gotcha:** All entity properties need the definite assignment assertion (`!`) suffix — TypeScript strict mode requires initialization guarantees, but TypeORM populates properties at runtime via reflection, not constructors. Pattern: `id!: string` instead of `id: string`.
+
+---
+
+### 5. Migration generated and run
+
+```bash
+npm run migration:generate --workspace=packages/api -- src/migrations/AuthSchema
+npm run migration:run --workspace=packages/api
+```
+
+Generated: `src/migrations/1775177096491-AuthSchema.ts`
+
+Added `CREATE EXTENSION IF NOT EXISTS "uuid-ossp"` to the `up()` method — required for `uuid_generate_v4()` which TypeORM uses for UUID primary keys. Without this extension, the migration would fail on a fresh PostgreSQL instance.
+
+Result: `users`, `oauth_clients`, `authorization_codes`, `refresh_tokens` tables created with proper foreign key constraints.
+
+---
+
+### 6. Services created
+
+**`password.service.ts`** — pure functions, no DB dependency:
+- `hash(plaintext)` → argon2 hash
+- `verify(hash, plaintext)` → boolean
+
+**`token.service.ts`** — JWT and refresh token lifecycle:
+- `signAccessToken(user)` → JWT (signed with JWT_ACCESS_SECRET, 15m default)
+- `verifyAccessToken(token)` → decoded payload or throws UnauthorizedException
+- `issueTokenPair(user, client, scopes)` → creates RefreshToken DB record, returns { accessToken, refreshToken, expiresIn }
+- `rotateRefreshToken(rawToken, client)` → revokes old, issues new pair; detects token reuse (possible theft) and revokes all tokens for that user/client
+- `revokeRefreshToken(rawToken)` → logout
+
+**`auth.service.ts`** — OAuth2 flow orchestration:
+- `register(email, password)` — gated by `REGISTRATION_ENABLED` env var
+- `authorize(...)` — validates client and PKCE params, returns session for login form
+- `login(email, password, session)` — verifies credentials, stores auth code hash, returns redirect URL with code
+- `exchangeCode(code, codeVerifier, clientId, redirectUri)` — PKCE verification, issues token pair
+- `refresh(refreshToken, clientId)` → delegates to token.service.rotateRefreshToken
+- `revoke(refreshToken)` → delegates to token.service.revokeRefreshToken
+
+---
+
+### 7. Guard and decorator created
+
+**`jwt-auth.guard.ts`** — NestJS Guard (implements CanActivate). Extracts Bearer token from Authorization header, calls `tokenService.verifyAccessToken()`. Attaches decoded payload to `request.user`. Analogous to a servlet filter in Java or middleware in ASP.NET Core.
+
+**`current-user.decorator.ts`** — NestJS `createParamDecorator`. Extracts the user payload from `request.user` (set by JwtAuthGuard). Enables clean controller signatures: `getMe(@CurrentUser() user: AccessTokenPayload)`.
+
+---
+
+### 8. Controllers created
+
+**`auth.controller.ts`** — 5 endpoints:
+- `POST /auth/register` — create account
+- `GET /auth/authorize` — initiate OAuth2 flow
+- `POST /auth/login` — submit credentials, get redirect URL with auth code
+- `POST /auth/token` — code exchange (authorization_code grant) or rotation (refresh_token grant)
+- `POST /auth/revoke` — logout
+
+**`users.controller.ts`** — 1 endpoint:
+- `GET /users/me` — protected by JwtAuthGuard; proof the whole system works
+
+---
+
+### 9. Modules created and wired
+
+- `auth.module.ts` — imports TypeOrmModule.forFeature([User, OAuthClient, AuthorizationCode, RefreshToken]); exports TokenService, PasswordService, TypeOrmModule
+- `users.module.ts` — imports AuthModule (gets TokenService + User repo via re-exports)
+- `app.module.ts` — imports AuthModule, UsersModule
+
+**Why AuthModule exports TypeOrmModule:** UsersModule needs the User repository. Rather than registering User in both modules, AuthModule re-exports `TypeOrmModule` so any module that imports AuthModule automatically gets the User (and other auth entity) repositories.
+
+---
+
+### 10. Seed script created and run
+
+`src/database/seeds/oauth-clients.seed.ts` — standalone ts-node script (runs outside NestJS DI container, uses DataSource directly):
+
+```bash
+npx ts-node src/database/seeds/oauth-clients.seed.ts
+```
+
+Inserted two OAuth clients:
+- `web-app` — redirect URIs: localhost:5173/auth/callback + production URL
+- `mobile-app` — redirect URIs: mycollections:// deep link + Expo dev URL
+
+Both are public clients (`clientSecretHash = null`).
+
+---
+
+### 11. Environment variables updated
+
+`.env` and `.env.example` updated with:
+```
+JWT_ACCESS_SECRET=...
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=...
+JWT_REFRESH_EXPIRES_IN=30d
+REGISTRATION_ENABLED=true
+```
+
+Two separate JWT secrets: a compromised access token secret can't forge refresh tokens.
+
+---
+
+### 12. ESLint fix: tsconfig.eslint.json
+
+ESLint's `parserOptions.project` pointed at `tsconfig.json`, which excludes `**/*.spec.ts` (correct — spec files don't compile to dist). ESLint type-checking failed on spec files.
+
+**Fix:** Created `tsconfig.eslint.json` that extends `tsconfig.json` but includes spec files. Updated `eslint.config.mjs` to use `tsconfig.eslint.json`.
+
+This pattern is the standard fix for TypeScript + ESLint + Jest repos.
+
+---
+
+### 13. Shared types added
+
+`packages/shared/src/types/auth.ts` — shared interfaces:
+- `AccessTokenPayload` — shape of JWT payload (sub, email, iat, exp)
+- `TokenResponse` — shape of POST /auth/token response
+- `UserProfile` — shape of GET /users/me response
+
+---
+
+### 14. Postman collections created
+
+Three files committed to `postman/`:
+- `environment.json` — dev environment (baseUrl, accessToken, refreshToken, clientId)
+- `auth.collection.json` — all 6 auth endpoints with example bodies and PKCE explanation
+- `users.collection.json` — GET /users/me with Bearer token header
+
+---
+
+### 15. Verification
+
+API boots successfully:
+- All 6 auth routes mapped
+- Both modules (AuthModule, UsersModule) initialized
+- Migrations confirmed up-to-date
+
+Unit tests: 9/9 passing (PasswordService: 4 tests, TokenService: 5 tests)
+
+Build: clean (`nest build`)
+
+Lint: clean (after tsconfig.eslint.json fix)
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Auth approach | OAuth2 PKCE from scratch | Passport.js / Auth0 | Learning goal: understand the protocol, not just use it |
+| Password hashing | argon2id | bcrypt | argon2id won PHC 2015; resists GPU and side-channel attacks |
+| Token storage | Raw tokens never persisted; only SHA-256 hashes | Store raw tokens | Compromised DB can't be used to forge tokens |
+| Refresh token strategy | Rotation with reuse detection | Simple expiry | Industry standard; detects token theft |
+| Registration gate | REGISTRATION_ENABLED env var | Hardcoded | Can lock down registration without code changes |
+| Module separation | auth vs users | Single module | SRP: auth owns identity, users owns profile — different concerns, different deps |
+| tsconfig.eslint.json | Separate file for ESLint | Modify tsconfig.json | tsconfig.json correctly excludes spec files; ESLint needs to include them |

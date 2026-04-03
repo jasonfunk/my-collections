@@ -1,0 +1,29 @@
+{
+  "info": {
+    "name": "My Collections — Users",
+    "_postman_id": "mc-users-v1",
+    "description": "User profile endpoints. All require a valid Bearer token in the Authorization header.\n\nSet the 'accessToken' environment variable first (obtain via auth.collection.json).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Current User",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "description": "JWT access token obtained from POST /auth/token"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["users", "me"]
+        },
+        "description": "Returns the profile of the currently authenticated user.\n\nThis is the end-to-end proof the OAuth2 system works: the request will be rejected with 401 if the Bearer token is missing, expired, or tampered."
+      }
+    }
+  ]
+}
