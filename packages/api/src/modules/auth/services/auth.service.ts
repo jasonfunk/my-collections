@@ -161,7 +161,7 @@ export class AuthService {
     const codeHash = crypto.createHash('sha256').update(rawCode).digest('hex');
     const authCode = await this.authCodeRepo.findOne({
       where: { codeHash },
-      relations: ['user', 'client'],
+      relations: { user: true, client: true },
     });
 
     if (!authCode) throw new UnauthorizedException('Invalid authorization code');

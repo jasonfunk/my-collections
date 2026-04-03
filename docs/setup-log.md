@@ -1024,3 +1024,71 @@ Lint: clean (after tsconfig.eslint.json fix)
 | Registration gate | REGISTRATION_ENABLED env var | Hardcoded | Can lock down registration without code changes |
 | Module separation | auth vs users | Single module | SRP: auth owns identity, users owns profile — different concerns, different deps |
 | tsconfig.eslint.json | Separate file for ESLint | Modify tsconfig.json | tsconfig.json correctly excludes spec files; ESLint needs to include them |
+
+---
+
+## Session 8 — 2026-04-02
+
+### Context
+Context7 audit of Phase 3 code. Phase 3 was written from training-data knowledge; this session used Context7 MCP to verify correctness against live NestJS 10, TypeORM 0.3.x, and jsonwebtoken 9.x docs. Four issues found and corrected.
+
+---
+
+### 1. Context7 audit findings
+
+Queried Context7 for: TypeORM 0.3.x (find/where operators), jsonwebtoken 9.x (verify options), argon2, NestJS Swagger.
+
+**Issues found:**
+
+| # | Severity | File | Issue |
+|---|---|---|---|
+| 1 | Bug | `token.service.ts` | `revokedAt: undefined` in TypeORM `where` clause — 0.3.x silently ignores `undefined`, so the filter never applied |
+| 2 | Security | `token.service.ts` | `jwt.verify()` missing `algorithms: ['HS256']` — Context7 flags this as an algorithm confusion anti-pattern |
+| 3 | Best practice | `token.service.ts`, `auth.service.ts` | `relations: ['user', 'client']` string array — 0.2.x style; 0.3.x prefers object notation |
+| 4 | Swagger UX | `auth.controller.ts` | DTOs lacked `@ApiProperty()` — Swagger rendered request bodies as empty `{}` schema |
+
+**Confirmed correct (no changes needed):**
+- argon2 defaults (argon2id, 64MB, 3 iterations)
+- ValidationPipe configuration
+- Guard and param decorator implementation
+- NestJS module structure
+
+---
+
+### 2. Fixes applied
+
+**`packages/api/src/modules/auth/services/token.service.ts`**
+- `revokedAt: undefined` → `revokedAt: IsNull()` (imported from `typeorm`) in `revokeAllForUserAndClient()`
+- `jwt.verify(token, secret)` → `jwt.verify(token, secret, { algorithms: ['HS256'] })`
+- `relations: ['user', 'client']` → `relations: { user: true, client: true }` (two callsites)
+
+**`packages/api/src/modules/auth/services/auth.service.ts`**
+- `relations: ['user', 'client']` → `relations: { user: true, client: true }` in `exchangeCode()`
+
+**`packages/api/src/modules/auth/auth.controller.ts`**
+- Added `@ApiProperty()` with description and example to every field in `RegisterDto`, `LoginDto`, `TokenDto`, `RevokeDto`
+
+---
+
+### 3. Verification
+
+Tests: 9/9 passing (no regressions)
+Lint: clean
+Build: clean
+
+---
+
+### 4. Documentation and memory updated
+
+- `CLAUDE.md` — added Context7 guidance to Architecture Notes
+- `memory/feedback_context7.md` — new memory: always consult Context7 before writing library code
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| `IsNull()` not `null` in TypeORM where | `IsNull()` | TypeORM 0.3.x drops `undefined`; `null` equality works but `IsNull()` is the explicit, documented operator for nullable column filtering |
+| Explicit `algorithms` in jwt.verify | `{ algorithms: ['HS256'] }` | Defense-in-depth against algorithm confusion attacks; Context7 flags omission as anti-pattern |
+| Context7 as standard | Consult before writing library code | Phase 3 had stale-knowledge bugs; live docs prevent this going forward |
