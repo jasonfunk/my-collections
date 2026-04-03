@@ -227,6 +227,14 @@ npm run migration:show   # list all migrations and status
 
 **Convention:** When a generated migration has empty `up()`/`down()` bodies, rename the `queryRunner` parameter to `_queryRunner` to satisfy the ESLint no-unused-vars rule.
 
+**uuid-ossp extension:** TypeORM generates `uuid_generate_v4()` for UUID primary keys but does not emit the PostgreSQL extension that provides it. Any migration creating tables with UUID PKs must include this at the top of `up()`:
+```typescript
+await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+```
+Without it, the migration will fail on a fresh PostgreSQL instance with `function uuid_generate_v4() does not exist`.
+
+**`migrationsRun: true` auto-applies on startup:** The NestJS app module is configured with `migrationsRun: true`, meaning TypeORM runs all pending migrations automatically when the app starts. This means `npm run migration:run` via the CLI may report "No migrations are pending" if the app was started first — the migrations already ran. Use `migration:show` to confirm the actual applied status.
+
 ### `src/modules/auth/`
 OAuth2 Authorization Code Flow with PKCE. Owns identity: registration, login, token issuance, token rotation, logout.
 
