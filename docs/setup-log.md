@@ -557,6 +557,14 @@ Startup log confirmed:
 
 ---
 
+### 8. TablePlus installed
+
+**Command:** `brew install --cask tableplus`
+
+GUI client for browsing the PostgreSQL database, running ad-hoc queries, and inspecting the schema during development. Connect with: host `127.0.0.1`, port `5432`, user `my_collections`, password `my_collections_dev`, database `my_collections`.
+
+---
+
 ### Key decisions made this session
 
 | Decision | Chosen | Alternative | Reason |
@@ -566,6 +574,7 @@ Startup log confirmed:
 | TypeORM config | Two DataSources (NestJS + CLI) | Single config | CLI cannot access NestJS DI — requires separate standalone DataSource |
 | `synchronize` | `false` from day one | `true` during dev | Prevents accidental schema destruction; teaches correct migration habits |
 | `migrationsRun` | `true` | Manual run | Auto-applies migrations on deploy; safe because TypeORM tracks applied migrations |
+| DB GUI client | TablePlus | DBeaver, pgAdmin, Postico | Native macOS app, clean UI, free tier sufficient for personal project |
 
 ---
 
