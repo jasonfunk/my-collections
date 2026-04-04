@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { OAuthClient } from '../entities/oauth-client.entity';
 import { RefreshToken } from '../entities/refresh-token.entity';
 import { User } from '../entities/user.entity';
@@ -64,7 +64,7 @@ export class TokenService {
   verifyAccessToken(token: string): AccessTokenPayload {
     const secret = this.config.getOrThrow<string>('JWT_ACCESS_SECRET');
     try {
-      return jwt.verify(token, secret) as AccessTokenPayload;
+      return jwt.verify(token, secret, { algorithms: ['HS256'] }) as AccessTokenPayload;
     } catch {
       throw new UnauthorizedException('Invalid or expired access token');
     }
@@ -113,7 +113,7 @@ export class TokenService {
     const tokenHash = this.hashToken(rawToken);
     const existing = await this.refreshTokenRepo.findOne({
       where: { tokenHash },
-      relations: ['user', 'client'],
+      relations: { user: true, client: true },
     });
 
     if (!existing) {
@@ -153,8 +153,8 @@ export class TokenService {
 
   private async revokeAllForUserAndClient(userId: string, clientId: string): Promise<void> {
     const tokens = await this.refreshTokenRepo.find({
-      where: { user: { id: userId }, client: { id: clientId }, revokedAt: undefined },
-      relations: ['user', 'client'],
+      where: { user: { id: userId }, client: { id: clientId }, revokedAt: IsNull() },
+      relations: { user: true, client: true },
     });
     for (const token of tokens) {
       if (!token.revokedAt) {

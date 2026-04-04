@@ -71,6 +71,10 @@ my-collections/
 
 See [docs/project-structure.md](docs/project-structure.md) for a detailed explanation of every directory and file.
 
+## Known Environment Quirks
+
+- **`gh` CLI path:** `gh` is not on Claude Code's default PATH. Always invoke as `/opt/homebrew/bin/gh` in Bash tool calls.
+
 ## Development Commands
 
 ```bash
@@ -116,3 +120,7 @@ See [docs/project-structure.md](docs/project-structure.md) for full details. Sum
 - **Postman collections** are committed to `postman/` — add a new collection file for each new API module.
 - **Vite dev proxy** forwards `/api/*` to `localhost:3000` — no CORS issues during development.
 - **Expo** plugins for camera, barcode scanner, and push notifications are pre-declared in `packages/mobile/app.json`.
+- **TypeORM entities:** All properties need the `!` definite assignment assertion (`id!: string`, not `id: string`). TypeScript strict mode requires initialization guarantees; TypeORM populates properties via reflection at runtime, not constructors. Missing `!` causes `migration:generate` to fail with TS2564 errors.
+- **ESLint + Jest per package:** Any package that gains tests needs a `tsconfig.eslint.json` extending its build `tsconfig.json` but without the `**/*.spec.ts` exclusion. Point `eslint.config.mjs` `parserOptions.project` at `tsconfig.eslint.json` instead of `tsconfig.json`. Already done for `packages/api/`; repeat for `web` and `mobile` when they get tests.
+- **uuid-ossp extension in migrations:** TypeORM generates `uuid_generate_v4()` for UUID PKs but doesn't emit the extension. Any migration that creates tables with UUID PKs must include `await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')` at the top of `up()`, or the migration will fail on a fresh PostgreSQL instance.
+- **Library documentation:** Use the Context7 MCP server (`mcp__plugin_context7_context7__resolve-library-id` + `mcp__plugin_context7_context7__query-docs`) to look up live documentation before writing code for any third-party library. Do not rely on training-data knowledge for library APIs — it may be stale or wrong for the specific version in use. This applies especially to NestJS, TypeORM, jsonwebtoken, argon2, and any new library added to the project.
