@@ -80,3 +80,8 @@ android/
 *.abb
 *.hbc
 web-build/
+
+# Tool-generated artifacts
+.playwright-mcp/
+.postman/
+smoke-*.png
