@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "Collections API",
+    "_postman_id": "collections-api-v1",
+    "description": "CRUD endpoints for Star Wars figures, G1 Transformers, and Masters of the Universe figures. All endpoints require a Bearer token — obtain one via the Auth collection first.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "GET /collections/stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "stats"]
+            },
+            "description": "Returns owned/wishlist counts and estimated total values across all collection types."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Star Wars",
+      "item": [
+        {
+          "name": "List figures",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars"],
+              "query": [
+                { "key": "owned", "value": "true", "disabled": true },
+                { "key": "condition", "value": "C9", "disabled": true },
+                { "key": "line", "value": "STAR_WARS", "disabled": true }
+              ]
+            },
+            "description": "List all Star Wars figures. Optional filters: owned (true/false), condition, line."
+          }
+        },
+        {
+          "name": "List wishlist (owned=false)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars?owned=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars"],
+              "query": [
+                { "key": "owned", "value": "false" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create figure",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Luke Skywalker (X-Wing Pilot)\",\n  \"condition\": \"C9\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": true,\n  \"isComplete\": false,\n  \"acquisitionSource\": \"EBAY\",\n  \"acquisitionDate\": \"2024-03-15\",\n  \"acquisitionPrice\": 45.00,\n  \"estimatedValue\": 60.00,\n  \"notes\": \"Slight discoloration on helmet\",\n  \"line\": \"EMPIRE_STRIKES_BACK\",\n  \"figureSize\": \"3.75\",\n  \"isVariant\": false,\n  \"isCarded\": false,\n  \"accessories\": [\"Lightsaber\", \"Belt\"],\n  \"ownedAccessories\": [\"Lightsaber\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars"]
+            }
+          }
+        },
+        {
+          "name": "Create wishlist item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Boba Fett\",\n  \"condition\": \"C10\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": false,\n  \"isComplete\": true,\n  \"line\": \"EMPIRE_STRIKES_BACK\",\n  \"figureSize\": \"3.75\",\n  \"isVariant\": false,\n  \"isCarded\": false,\n  \"accessories\": [\"Jet Pack\", \"Blaster\", \"Cape\"],\n  \"ownedAccessories\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars"]
+            }
+          }
+        },
+        {
+          "name": "Get figure by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update figure",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"condition\": \"C8\",\n  \"estimatedValue\": 55.00,\n  \"ownedAccessories\": [\"Lightsaber\", \"Belt\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete figure",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transformers",
+      "item": [
+        {
+          "name": "List transformers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "transformers"],
+              "query": [
+                { "key": "owned", "value": "true", "disabled": true },
+                { "key": "faction", "value": "AUTOBOT", "disabled": true },
+                { "key": "line", "value": "G1_S1", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create transformer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Optimus Prime\",\n  \"condition\": \"C8\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": true,\n  \"isComplete\": false,\n  \"acquisitionSource\": \"ORIGINAL\",\n  \"estimatedValue\": 350.00,\n  \"faction\": \"AUTOBOT\",\n  \"line\": \"G1_S1\",\n  \"size\": \"LARGE\",\n  \"altMode\": \"Semi truck\",\n  \"accessories\": [\"Blaster\", \"Rocket Pod\", \"Fists\", \"Smokestacks\", \"Gas Nozzle\", \"Roller\"],\n  \"ownedAccessories\": [\"Blaster\"],\n  \"isBoxed\": false,\n  \"hasInstructions\": false,\n  \"hasTechSpec\": false,\n  \"isCombiner\": false,\n  \"rubSign\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "transformers"]
+            }
+          }
+        },
+        {
+          "name": "Get transformer by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "transformers", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update transformer",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"condition\": \"C7\",\n  \"ownedAccessories\": [\"Blaster\", \"Fists\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "transformers", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete transformer",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "transformers", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "He-Man / Masters of the Universe",
+      "item": [
+        {
+          "name": "List figures",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "he-man"],
+              "query": [
+                { "key": "owned", "value": "true", "disabled": true },
+                { "key": "line", "value": "ORIGINAL", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create figure",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"He-Man\",\n  \"condition\": \"C8\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": true,\n  \"isComplete\": false,\n  \"acquisitionSource\": \"ORIGINAL\",\n  \"estimatedValue\": 25.00,\n  \"line\": \"ORIGINAL\",\n  \"characterType\": \"HEROIC\",\n  \"releaseYear\": 1982,\n  \"isVariant\": false,\n  \"accessories\": [\"Power Sword\", \"Shield\", \"Battle Axe\"],\n  \"ownedAccessories\": [\"Power Sword\"],\n  \"isCarded\": false,\n  \"hasBackCard\": false,\n  \"hasArmorOrFeature\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "he-man"]
+            }
+          }
+        },
+        {
+          "name": "Get figure by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "he-man", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update figure",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"condition\": \"C7\",\n  \"ownedAccessories\": [\"Power Sword\", \"Shield\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "he-man", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete figure",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "he-man", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

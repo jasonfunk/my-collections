@@ -1092,3 +1092,173 @@ Build: clean
 | `IsNull()` not `null` in TypeORM where | `IsNull()` | TypeORM 0.3.x drops `undefined`; `null` equality works but `IsNull()` is the explicit, documented operator for nullable column filtering |
 | Explicit `algorithms` in jwt.verify | `{ algorithms: ['HS256'] }` | Defense-in-depth against algorithm confusion attacks; Context7 flags omission as anti-pattern |
 | Context7 as standard | Consult before writing library code | Phase 3 had stale-knowledge bugs; live docs prevent this going forward |
+
+---
+
+## Session 9 — 2026-04-04
+
+### Context
+Phase 4: Collections API (COL-10). Implements full CRUD for all three collection types. Context7 was consulted before writing code to verify TypeORM abstract entity inheritance, column transformer, createQueryBuilder aggregation, @nestjs/swagger PartialType, and class-validator array patterns.
+
+---
+
+### 1. Context7 pre-flight
+
+Queried Context7 for:
+- TypeORM 0.3.x: abstract entity pattern (concrete table inheritance), ValueTransformer, createQueryBuilder with COUNT/SUM/groupBy/getRawMany
+- @nestjs/swagger: PartialType (inherits @ApiProperty decorators), @ApiPropertyOptional, @ApiBearerAuth, @ApiQuery with enumName
+- class-validator: @IsArray + @IsString({ each: true }) for array items, @IsOptional ordering
+
+Key findings confirmed:
+- `abstract class Content` with no `@Entity()` + `@Entity()` on subclass = separate tables per subclass (concrete table inheritance) — exactly the pattern needed
+- `ValueTransformer { to, from }` for column transformation — used for numeric→number conversion
+- `createQueryBuilder('item').addSelect('COUNT(*)','count').groupBy('item.isOwned').getRawMany()` — confirmed aggregation pattern
+- `PartialType` from `@nestjs/swagger` automatically inherits all `@ApiProperty` metadata — use this, not `@nestjs/mapped-types`
+- `@IsOptional()` must appear before type validators — class-validator short-circuits on missing optional fields only if `@IsOptional` runs first
+
+---
+
+### 2. Shared types added
+
+`packages/shared/src/types/stats.ts` — new file:
+- `CollectionTypeStats { owned, wishlist, estimatedTotalValue }`
+- `CollectionStats { starWars, transformers, heman, totals }`
+
+`packages/shared/src/index.ts` — added `export * from './types/stats.js'`
+
+---
+
+### 3. Collections module created
+
+**Entities (`packages/api/src/modules/collections/entities/`):**
+- `base-item.entity.ts` — abstract class with all common @Column decorators. Key points:
+  - `moneyTransformer` converts PostgreSQL numeric strings to JS numbers on read
+  - `@ManyToOne(() => User, { nullable: false })` — FK to users, never eagerly loaded
+  - `type: 'date'` for acquisitionDate — pg driver returns this as a string (matching the shared interface)
+  - `type: 'numeric', precision: 10, scale: 2` for money fields
+- `star-wars-figure.entity.ts` — extends base, adds 10 SW-specific columns
+- `g1-transformer.entity.ts` — extends base, adds 15 TF-specific columns
+- `masters-figure.entity.ts` — extends base, adds 13 MOTU-specific columns
+
+**DTOs (`packages/api/src/modules/collections/dto/`):**
+- `base-item.dto.ts` — `CreateBaseItemDto` with all shared fields; collectionType intentionally omitted (set by service)
+- Per-type files use `class CreateXxxDto extends CreateBaseItemDto` + `class UpdateXxxDto extends PartialType(CreateXxxDto)`
+
+**Services (`packages/api/src/modules/collections/services/`):**
+- One service per collection type (5 methods each: findAll, findOne, create, update, remove)
+- `collections-stats.service.ts` — runs createQueryBuilder aggregations across all three tables in parallel via Promise.all
+- All service methods scope queries to `user: { id: userId }` — cross-user access returns NotFoundException
+
+**Controllers (`packages/api/src/modules/collections/controllers/`):**
+- One controller per type + one `CollectionsController` for stats
+- `@UseGuards(JwtAuthGuard)` + `@ApiBearerAuth()` at class level on all controllers
+- `?owned` query param: arrives as string — converted with `owned === 'true'`
+
+**`collections.module.ts`** — imports `TypeOrmModule.forFeature([...3 entities])` + `AuthModule` (provides JwtAuthGuard)
+
+**`app.module.ts`** — added `CollectionsModule` import
+
+---
+
+### 4. Shared package CJS fix
+
+The `migration:generate` CLI uses `typeorm-ts-node-commonjs` which requires CJS resolution. The shared package was compiled with `module: ESNext` and the `exports` field only had `"import"` — Node.js's CJS loader threw `ERR_PACKAGE_PATH_NOT_EXPORTED`.
+
+**Fix:**
+- `packages/shared/tsconfig.json` — added `module: CommonJS`, `moduleResolution: node`
+- `packages/shared/package.json` exports — added `"require": "./dist/index.js"` alongside `"import"`
+- Rebuilt shared to CJS
+
+**Impact:** Auth API, web, and mobile are unaffected — Vite and Metro bundle the shared types at build time regardless of module format.
+
+---
+
+### 5. Migration
+
+Generated: `src/migrations/1775345737762-CollectionsSchema.ts`
+
+Creates:
+- `star_wars_figures` table (base + SW-specific columns, FK to users)
+- `g1_transformers` table (base + TF-specific columns, FK to users)
+- `masters_figures` table (base + MOTU-specific columns, FK to users)
+
+Each table gets separate PostgreSQL enum types (e.g., `star_wars_figures_condition_enum`) — expected behavior, harmless.
+
+Added `uuid-ossp` extension call at top of `up()` per project convention.
+
+Applied automatically via `migrationsRun: true`.
+
+---
+
+### 6. Postman collection
+
+`postman/collections.collection.json` — Postman Collection v2.1 with:
+- Stats folder: `GET /collections/stats`
+- Star Wars folder: List, List Wishlist, Create, Create Wishlist Item, Get, Update, Delete
+- Transformers folder: List, Create, Get, Update, Delete
+- He-Man folder: List, Create, Get, Update, Delete
+
+All requests use `{{accessToken}}` and `{{baseUrl}}` variables.
+
+---
+
+### 7. Verification
+
+Tests: 9/9 passing (no regressions)
+Lint: clean
+Build: clean
+Migration: applied, three tables confirmed in DB
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Table strategy | Separate tables via abstract base class | Single-table inheritance / JSONB | Transparent, independently queryable; no nullable columns for every type-specific field |
+| Module structure | One CollectionsModule | Three separate modules | Simpler DI; same logical separation achieved via three services/controllers |
+| Wishlist | `isOwned: false` filter | Separate table | Wishlist IS the collection, just unowned — no second data model needed |
+| User scoping | `where: { id, user: { id: userId } }` | Fetch then check in code | Prevents existence leakage; TOCTOU safe |
+| Money columns | `numeric(10,2)` + ValueTransformer | float | float has rounding errors for currency; transformer converts pg string → JS number |
+| Stats queries | Inline createQueryBuilder x3 | Shared generic helper | TypeScript union type `Repository<A \| B \| C>` causes variance errors; inlining is cleaner |
+| shared CJS | Changed shared to compile CJS | Keep ESM | migration:generate uses typeorm-ts-node-commonjs which needs CJS resolution |
+
+---
+
+## Session 10 — 2026-04-04
+
+### Context
+Post-implementation cosmetic fix discovered while reviewing the Swagger UI (`/api/docs`): the POST endpoints for Transformers and He-Man were both showing "Luke Skywalker (X-Wing Pilot)" as the example value for the `name` field.
+
+---
+
+### 1. Root cause
+
+`CreateBaseItemDto` declared `name` with `@ApiProperty({ example: 'Luke Skywalker (X-Wing Pilot)' })`. Both `CreateG1TransformerDto` and `CreateMastersFigureDto` extend it via `PartialType(CreateBaseItemDto)`.
+
+`PartialType` from `@nestjs/swagger` not only makes all fields optional — it also inherits every `@ApiProperty` decorator from the parent class. Since neither subclass redeclared `name`, Swagger rendered the base class example on all three POST endpoints.
+
+---
+
+### 2. Fix
+
+Redeclared the `name` field at the top of each concrete Create DTO with a collection-appropriate example:
+
+| DTO | Example value |
+|---|---|
+| `CreateStarWarsFigureDto` | `Luke Skywalker (X-Wing Pilot)` |
+| `CreateG1TransformerDto` | `Optimus Prime` |
+| `CreateMastersFigureDto` | `He-Man` |
+
+Also updated `CreateBaseItemDto` to use the generic example `'Item name'` — the base DTO is now self-documenting without leaking a Star Wars bias.
+
+**Why re-declaration works:** When a subclass declares the same field with its own `@ApiProperty`, NestJS/Swagger uses the subclass decorator. The parent decorator is effectively shadowed for that field.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Override location | Concrete Create DTOs | Remove example from base | Base DTO stays self-documenting; subclass override takes precedence in Swagger — no framework hacks needed |
+
