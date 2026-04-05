@@ -1,16 +1,29 @@
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { ProtectedRoute } from './router/ProtectedRoute.js';
+import { LoginPage } from './pages/LoginPage.js';
+import { CallbackPage } from './pages/CallbackPage.js';
+import { DashboardPage } from './pages/DashboardPage.js';
+import { CollectionListPage } from './pages/collections/CollectionListPage.js';
+import { CollectionDetailPage } from './pages/collections/CollectionDetailPage.js';
 
-/**
- * App is the root component and routing entry point.
- * Pages will be added here as they are built.
- *
- * React Router v6 note: <Routes> replaces the old <Switch> from v5.
- * Each <Route> renders its element when the path matches.
- */
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<div>My Collections — coming soon</div>} />
+      {/* Public routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/auth/callback" element={<CallbackPage />} />
+
+      {/* Protected routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardPage />} />
+
+        {/* Collection list + detail — single generic component handles all three */}
+        <Route path="/collections/:collection" element={<CollectionListPage />} />
+        <Route path="/collections/:collection/:id" element={<CollectionDetailPage />} />
+      </Route>
+
+      {/* Default: redirect to dashboard (ProtectedRoute handles unauthenticated) */}
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }
