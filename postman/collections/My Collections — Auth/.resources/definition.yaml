@@ -1,0 +1,12 @@
+$kind: collection
+description: |-
+  OAuth2 Authorization Code Flow with PKCE.
+
+  Flow:
+  1. POST /auth/register — create an account
+  2. GET /auth/authorize — initiate flow, validate client
+  3. POST /auth/login — submit credentials, receive redirect URL with ?code=
+  4. POST /auth/token (authorization_code) — exchange code for tokens
+  5. Copy accessToken → Postman environment variable
+  6. POST /auth/token (refresh_token) — rotate tokens
+  7. POST /auth/revoke — logout

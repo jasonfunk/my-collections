@@ -1,0 +1,30 @@
+$kind: http-request
+description: >-
+  Validates the OAuth2 client and parameters. Returns session data for the login
+  step.
+
+
+  For real PKCE: generate a random code_verifier, then compute code_challenge =
+  base64url(SHA256(code_verifier)).
+url: "{{baseUrl}}/auth/authorize?client_id={{clientId}}&redirect_uri=http://loc\
+  alhost:5173/auth/callback&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJ\
+  Sstw-cM&code_challenge_method=S256&scope=collections:read collections:write
+  profile&state=xyz-csrf-token"
+method: GET
+queryParams:
+  - key: client_id
+    value: "{{clientId}}"
+  - key: redirect_uri
+    value: http://localhost:5173/auth/callback
+  - key: code_challenge
+    value: E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+    description: "SHA256(code_verifier) base64url encoded. Example verifier:
+      dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+  - key: code_challenge_method
+    value: S256
+  - key: scope
+    value: collections:read collections:write profile
+  - key: state
+    value: xyz-csrf-token
+    description: Random value to prevent CSRF — verify it matches on callback
+order: 2000

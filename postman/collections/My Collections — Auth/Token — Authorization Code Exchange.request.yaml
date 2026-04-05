@@ -1,0 +1,27 @@
+$kind: http-request
+description: >-
+  Exchange authorization code + code_verifier (PKCE proof) for access and
+  refresh tokens.
+
+
+  Response: { accessToken, refreshToken, expiresIn }
+
+
+  Copy accessToken → Postman environment variable 'accessToken'
+
+  Copy refreshToken → Postman environment variable 'refreshToken'
+url: "{{baseUrl}}/auth/token"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "grantType": "authorization_code",
+      "clientId": "{{clientId}}",
+      "code": "<paste-code-from-redirectUrl-here>",
+      "codeVerifier": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk",
+      "redirectUri": "http://localhost:5173/auth/callback"
+    }
+order: 4000

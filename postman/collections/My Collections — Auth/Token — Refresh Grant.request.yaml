@@ -1,0 +1,20 @@
+$kind: http-request
+description: >-
+  Rotate a refresh token — old token is revoked, new access + refresh tokens
+  issued.
+
+
+  The refreshToken environment variable is consumed and replaced with each call.
+url: "{{baseUrl}}/auth/token"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "grantType": "refresh_token",
+      "clientId": "{{clientId}}",
+      "refreshToken": "{{refreshToken}}"
+    }
+order: 5000

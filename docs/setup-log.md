@@ -1262,3 +1262,245 @@ Also updated `CreateBaseItemDto` to use the generic example `'Item name'` — th
 |---|---|---|---|
 | Override location | Concrete Create DTOs | Remove example from base | Base DTO stays self-documenting; subclass override takes precedence in Swagger — no framework hacks needed |
 
+
+---
+
+## Session N — 2026-04-05
+
+### Context
+COL-9 (auth API) and COL-10 (collections API) merged to main. Started COL-11 (Web App). This session implements Phase 1: auth/login flow and collection dashboard in the React SPA.
+
+---
+
+### 1. Created Jira sub-tasks under COL-11
+
+Created four task-level children under epic COL-11:
+- **COL-57** — Auth flow (PKCE, tokens, login page)
+- **COL-58** — Collection dashboard (stats page)
+- **COL-59** — Collection list views (Phase 2)
+- **COL-60** — Item detail + add/edit forms (Phase 3)
+
+COL-11 and COL-57 transitioned to In Progress; COL-57 and COL-58 marked Done at session end.
+
+---
+
+### 2. Installed and configured Tailwind CSS v4 + shadcn/ui + TanStack Query
+
+**Commands run:**
+```bash
+npm install --workspace=@my-collections/web tailwindcss @tailwindcss/vite @tanstack/react-query
+npm install --workspace=@my-collections/web tw-animate-css clsx tailwind-merge lucide-react
+npm install --workspace=@my-collections/web class-variance-authority
+cd packages/web && npx shadcn@latest add button card badge skeleton input label --yes
+```
+
+**Tailwind v4 key change:** No `tailwind.config.ts` needed. The `@tailwindcss/vite` plugin handles everything. `@import "tailwindcss"` in CSS replaces the old `@tailwind base/components/utilities` directives.
+
+**shadcn/ui v4 key changes:**
+- Uses `oklch()` color space (not HSL) for CSS variables
+- Theme tokens registered via `@theme inline { ... }` in CSS (not in a JS config)
+- `components.json` has `"tailwind.config": ""` (empty — no config file for v4)
+- Components copy-pasted into `src/components/ui/` — you own the code
+
+**New files created:**
+- `packages/web/src/index.css` — Tailwind import + shadcn CSS variables + `@theme inline` block
+- `packages/web/src/lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
+- `packages/web/components.json` — shadcn CLI configuration
+- `packages/web/src/components/ui/` — button, card, badge, skeleton, input, label
+
+**Modified files:**
+- `packages/web/vite.config.ts` — added `@tailwindcss/vite` plugin + `@` path alias
+- `packages/web/tsconfig.json` — added `baseUrl` + `paths` for `@/*` alias
+- `packages/web/src/main.tsx` — added CSS import + `QueryClientProvider` + `AuthProvider`
+
+---
+
+### 3. Implemented PKCE OAuth2 auth flow
+
+**New files:**
+- `src/auth/pkce.ts` — `generateCodeVerifier()` (128 random bytes, base64url), `generateCodeChallenge()` (SHA-256 via Web Crypto API). Verifier stored in `sessionStorage` during flow.
+- `src/auth/tokenStorage.ts` — Access token in-memory (module variable); refresh token in `localStorage` key `mc_rt`.
+- `src/api/client.ts` — Typed fetch wrapper: injects Bearer token, handles 401 → silent refresh → retry → logout. Uses callback registration pattern to avoid circular import with AuthContext.
+- `src/auth/AuthContext.tsx` — React context with `login()`, `logout()`, `refreshTokens()`. On mount: silently restores session from stored refresh token. `login()` runs the full PKCE flow in-memory (no real page navigation).
+- `src/hooks/useAuth.ts` — `useAuth()` hook with null-guard.
+- `src/router/ProtectedRoute.tsx` — Shows spinner while session restores; redirects to `/login` if unauthenticated; renders `<Outlet />` otherwise.
+
+**Key design decision — in-memory PKCE:** The API returns `{ redirectUrl }` containing the auth code as a query param. The SPA parses the code from the URL string without navigating, keeping the full PKCE flow in-memory. No separate `/callback` page needed for the happy path.
+
+**Key design decision — circular import avoidance:** `api/client.ts` cannot import `AuthContext` (AuthContext imports client). Solved with `registerAuthCallbacks(refresh, logout)` called by AuthProvider on mount. Stable refs (`useRef`) prevent stale closures.
+
+---
+
+### 4. Built login page and dashboard
+
+**New files:**
+- `src/pages/LoginPage.tsx` — shadcn Card + Input + Button form. Calls `auth.login()`, navigates to `/dashboard` on success, shows inline error on failure.
+- `src/pages/CallbackPage.tsx` — Safety net for `/callback` route. Redirects to dashboard if authenticated, login otherwise.
+- `src/pages/DashboardPage.tsx` — TanStack Query calls to `GET /collections/stats` and `GET /users/me`. Three `CollectionCard` components (Star Wars ⭐, Transformers 🤖, He-Man ⚔️) with owned count, wishlist, estimated value. Totals row. Skeleton loading states. Top nav with user email + Sign out.
+
+**Modified files:**
+- `src/App.tsx` — Full routing tree: `/login` (public), `/callback` (public safety net), `ProtectedRoute` wrapper containing `/dashboard` + three placeholder collection routes. Default `*` redirects to `/dashboard`.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Styling | Tailwind CSS v4 + shadcn/ui | CSS Modules or Tailwind-only | Accessible components out-of-the-box (Radix); Tailwind skills transfer to NativeWind on mobile |
+| Server state | TanStack Query v5 | useEffect + fetch | Auto-caching, background refetch, loading/error states; industry standard |
+| Access token storage | In-memory variable | localStorage | XSS protection; token lost on refresh but restored via refresh token flow |
+| Refresh token storage | localStorage (`mc_rt`) | httpOnly cookie | Personal app trade-off; httpOnly cookie is more secure but requires server-side cookie support |
+| PKCE code exchange | In-memory (no navigation) | Real redirect to /callback | SPA doesn't need a round-trip; parsing redirectUrl string avoids page reload |
+| Circular import | Callback registration pattern | Context import in client | AuthContext → client → AuthContext creates a circular ESM dependency; callbacks break the cycle |
+
+---
+
+## Session N+1 — 2026-04-05 (continued)
+
+### Context
+Built COL-59: collection list views (grid + table) and item detail pages. All three "coming soon" sub-pages are now functional.
+
+Also fixed a proxy bug discovered when testing: Vite's `/api` proxy was forwarding requests to `http://localhost:3000/api/...` (keeping the prefix) but NestJS has no global prefix. Added `rewrite: (path) => path.replace(/^\/api/, '')` to `vite.config.ts`. Also corrected the PKCE redirect URI from `/callback` to `/auth/callback` to match the seeded OAuth client.
+
+---
+
+### 1. Added shadcn components
+
+```bash
+npx shadcn@latest add select table toggle-group separator --yes
+```
+
+Installed into `src/components/ui/`: select, table, toggle-group, toggle, separator.
+
+---
+
+### 2. Created collection config system
+
+**New file:** `src/lib/collectionConfig.ts`
+
+Maps each collection URL key (`star-wars`, `transformers`, `he-man`) to:
+- API path, label, emoji
+- Filter options with human-readable labels for every enum value
+- Collection-specific filter dimensions (line, faction)
+
+Used by all three pages — eliminates `if (collection === 'star-wars')` scattered throughout components.
+
+---
+
+### 3. Built shared collection components
+
+**New files in `src/components/collections/`:**
+- `ConditionBadge.tsx` — color-coded grade pill (C10=green → INC=gray)
+- `AccessoriesList.tsx` — ✓/✗ pill per accessory based on owned vs. full list
+- `FilterBar.tsx` — grid/table ToggleGroup + All/Owned/Wishlist ToggleGroup + condition Select + line Select + optional faction Select; all state in URL search params
+- `ItemCard.tsx` — grid card: photo placeholder (colored initials), name, condition badge, line label, wishlist indicator, estimated value
+- `ItemTable.tsx` — shadcn Table with collection-specific extra column (Carded / Faction / Type)
+
+---
+
+### 4. Built generic list + detail pages
+
+**New files in `src/pages/collections/`:**
+- `CollectionListPage.tsx` — reads `:collection` URL param, looks up config, builds API query from search params, renders FilterBar + grid or table based on `?view=` param. Skeleton loading + empty state.
+- `CollectionDetailPage.tsx` — reads `:collection/:id`, fetches single item, renders base fields + collection-specific section (StarWarsDetails / TransformersDetails / MastersDetails), AccessoriesList, acquisition info, notes.
+
+**Updated:** `App.tsx` — replaced three placeholder routes with generic `:collection` and `:collection/:id` routes.
+
+---
+
+### 5. Bug fixes
+
+- **Vite proxy path rewrite:** Added `rewrite: (path) => path.replace(/^\/api/, '')` — without this, `/api/auth/authorize` was proxied as `http://localhost:3000/api/auth/authorize` (404) instead of `http://localhost:3000/auth/authorize`.
+- **PKCE redirect URI:** Changed `REDIRECT_URI` from `${origin}/callback` to `${origin}/auth/callback` to match the seeded `web-app` OAuth client (`http://localhost:5173/auth/callback`).
+- **React hooks rule:** `useQuery` was called after an early return — moved early return after all hooks, using `enabled: !!config` to suppress the query when config is null.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Page architecture | Single generic page per view | Separate page per collection | 90% shared structure; config object handles differences cleanly |
+| Filter state | URL search params | React state | Bookmarkable, survives back/forward, shareable |
+| Collection config | Single typed map | switch/if in each component | Centralizes all collection-specific knowledge in one place |
+| View toggle persistence | URL `?view=grid/table` | localStorage | Consistent with other filter state; survives back navigation |
+
+---
+
+## Session 5 — 2026-04-05
+
+### Context
+Continued COL-11 (Web App — Phase 4). Three goals: (1) debug blank screen at localhost:5173, (2) install and run Playwright MCP smoke tests to verify all latest changes end-to-end, (3) record lessons learned and establish Playwright as a standard session-close step.
+
+---
+
+### 1. Blank screen diagnosis and fix
+
+**Problem:** localhost:5173 showed a blank screen. Two causes:
+
+1. Dev server was not running (connection refused) — simply restarted `npm run dev --workspace=packages/web`.
+2. After restarting, a runtime error: `CardbackStyle` named export not found from `@my-collections/shared`.
+
+**Root cause of export error:** `packages/shared` compiles to CommonJS (needed for NestJS). Previous web code only used `import type` from shared (erased at runtime, no issue). The new `collectionConfig.ts` imports enum *values* (e.g. `StarWarsLine.STAR_WARS`, `CardbackStyle.TWELVE_BACK`). Vite couldn't resolve named exports from the CJS `__exportStar` pattern at runtime.
+
+**Fix:** Added `optimizeDeps` to `packages/web/vite.config.ts`:
+```typescript
+optimizeDeps: {
+  include: ['@my-collections/shared'],
+}
+```
+This tells Vite's esbuild pre-bundler to convert the CJS package to ESM at dev-server startup. Named exports resolve correctly after that.
+
+**Commands:**
+```bash
+cd packages/shared && npm run build   # rebuild shared after confirming types
+npm run dev --workspace=packages/web  # restart Vite (picks up optimizeDeps)
+```
+
+---
+
+### 2. Playwright MCP smoke test
+
+**Setup:** Playwright MCP server was pre-installed by user and configured in `.mcp.json`. No additional install needed.
+
+**Test run:** All 12 steps passed with 0 console errors:
+
+| Step | URL | Result |
+|---|---|---|
+| Navigate to root | / → /login | Redirect confirmed |
+| Login | POST /auth/token | Redirected to /dashboard |
+| Dashboard | /dashboard | 3 cards, totals (3 owned, $360) |
+| Star Wars list (grid) | /collections/star-wars | FilterBar, 1 item card |
+| Table toggle | ?view=table | Table with Carded column |
+| Star Wars detail | /collections/star-wars/:id | All sections: Details, Accessories, Acquisition, Notes |
+| Back button | → /collections/star-wars?view=table | Preserved view param |
+| Transformers list | /collections/transformers | Series + Faction filters |
+| Transformers detail | /collections/transformers/:id | TF-specific fields: alt mode, rub sign, tech spec |
+| He-Man list | /collections/he-man | Line filter |
+| He-Man detail | /collections/he-man/:id | Masters fields: character type, mini-comic |
+| Sign out | → /login | Redirect confirmed |
+
+---
+
+### 3. Lessons learned — added to CLAUDE.md
+
+Documented the following patterns in CLAUDE.md under Architecture Notes:
+- CJS workspace packages in Vite (optimizeDeps fix)
+- Vite proxy rewrite requirement
+- OAuth redirect URI must match seed data exactly
+- React hooks must precede early returns (use `enabled` flag)
+- shadcn/ui v4 peer deps that aren't auto-installed
+- MCP tool schemas — always ToolSearch before first call
+
+Also added a **Session Close Checklist** section to CLAUDE.md.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| Shared package compilation | Keep CJS, add `optimizeDeps` in Vite | Least disruptive; NestJS requires CJS |
+| Playwright as session closer | Yes — every feature session | Catches regressions before they're committed |
+| Filter state preservation on back | URL params (`?view=table`) survive back navigation | Confirmed working via Playwright |
