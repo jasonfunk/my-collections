@@ -1,0 +1,14 @@
+name: My Collections — Dev
+values:
+  - key: baseUrl
+    value: 'http://localhost:3000'
+    enabled: true
+  - key: accessToken
+    value: ''
+    enabled: true
+  - key: refreshToken
+    value: ''
+    enabled: true
+  - key: clientId
+    value: web-app
+    enabled: true

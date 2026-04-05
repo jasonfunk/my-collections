@@ -1,0 +1,14 @@
+$kind: http-request
+description: Revokes the refresh token. Any subsequent refresh attempt with this
+  token will fail.
+url: "{{baseUrl}}/auth/revoke"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "token": "{{refreshToken}}"
+    }
+order: 6000

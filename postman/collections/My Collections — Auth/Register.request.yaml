@@ -1,0 +1,14 @@
+$kind: http-request
+description: Create a new user account. Requires REGISTRATION_ENABLED=true in .env.
+url: "{{baseUrl}}/auth/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "collector@example.com",
+      "password": "correct-horse-battery"
+    }
+order: 1000
