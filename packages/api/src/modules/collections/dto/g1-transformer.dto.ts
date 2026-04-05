@@ -5,6 +5,10 @@ import { TransformerSize, TransformersFaction, TransformersLine } from '@my-coll
 import { CreateBaseItemDto } from './base-item.dto';
 
 export class CreateG1TransformerDto extends CreateBaseItemDto {
+  @ApiProperty({ description: 'Item name', example: 'Optimus Prime' })
+  @IsString()
+  name!: string;
+
   @ApiProperty({ description: 'Autobot or Decepticon', enum: TransformersFaction, enumName: 'TransformersFaction' })
   @IsEnum(TransformersFaction)
   faction!: TransformersFaction;

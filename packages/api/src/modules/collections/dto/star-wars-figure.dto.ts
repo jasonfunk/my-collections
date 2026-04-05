@@ -5,6 +5,10 @@ import { CardbackStyle, FigureSize, StarWarsLine } from '@my-collections/shared'
 import { CreateBaseItemDto } from './base-item.dto';
 
 export class CreateStarWarsFigureDto extends CreateBaseItemDto {
+  @ApiProperty({ description: 'Item name', example: 'Luke Skywalker (X-Wing Pilot)' })
+  @IsString()
+  name!: string;
+
   @ApiProperty({ description: 'Kenner product line', enum: StarWarsLine, enumName: 'StarWarsLine' })
   @IsEnum(StarWarsLine)
   line!: StarWarsLine;

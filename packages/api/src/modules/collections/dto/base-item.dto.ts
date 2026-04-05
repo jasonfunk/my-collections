@@ -23,7 +23,7 @@ import {
  * based on which endpoint was called. Clients cannot override it.
  */
 export class CreateBaseItemDto {
-  @ApiProperty({ description: 'Item name', example: 'Luke Skywalker (X-Wing Pilot)' })
+  @ApiProperty({ description: 'Item name', example: 'Item name' })
   @IsString()
   name!: string;
 

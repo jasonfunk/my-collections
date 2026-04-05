@@ -5,6 +5,10 @@ import { MastersCharacterType, MastersLine } from '@my-collections/shared';
 import { CreateBaseItemDto } from './base-item.dto';
 
 export class CreateMastersFigureDto extends CreateBaseItemDto {
+  @ApiProperty({ description: 'Item name', example: 'He-Man' })
+  @IsString()
+  name!: string;
+
   @ApiProperty({ description: 'Masters of the Universe line', enum: MastersLine, enumName: 'MastersLine' })
   @IsEnum(MastersLine)
   line!: MastersLine;

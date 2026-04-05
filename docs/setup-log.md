@@ -1222,3 +1222,43 @@ Migration: applied, three tables confirmed in DB
 | Money columns | `numeric(10,2)` + ValueTransformer | float | float has rounding errors for currency; transformer converts pg string → JS number |
 | Stats queries | Inline createQueryBuilder x3 | Shared generic helper | TypeScript union type `Repository<A \| B \| C>` causes variance errors; inlining is cleaner |
 | shared CJS | Changed shared to compile CJS | Keep ESM | migration:generate uses typeorm-ts-node-commonjs which needs CJS resolution |
+
+---
+
+## Session 10 — 2026-04-04
+
+### Context
+Post-implementation cosmetic fix discovered while reviewing the Swagger UI (`/api/docs`): the POST endpoints for Transformers and He-Man were both showing "Luke Skywalker (X-Wing Pilot)" as the example value for the `name` field.
+
+---
+
+### 1. Root cause
+
+`CreateBaseItemDto` declared `name` with `@ApiProperty({ example: 'Luke Skywalker (X-Wing Pilot)' })`. Both `CreateG1TransformerDto` and `CreateMastersFigureDto` extend it via `PartialType(CreateBaseItemDto)`.
+
+`PartialType` from `@nestjs/swagger` not only makes all fields optional — it also inherits every `@ApiProperty` decorator from the parent class. Since neither subclass redeclared `name`, Swagger rendered the base class example on all three POST endpoints.
+
+---
+
+### 2. Fix
+
+Redeclared the `name` field at the top of each concrete Create DTO with a collection-appropriate example:
+
+| DTO | Example value |
+|---|---|
+| `CreateStarWarsFigureDto` | `Luke Skywalker (X-Wing Pilot)` |
+| `CreateG1TransformerDto` | `Optimus Prime` |
+| `CreateMastersFigureDto` | `He-Man` |
+
+Also updated `CreateBaseItemDto` to use the generic example `'Item name'` — the base DTO is now self-documenting without leaking a Star Wars bias.
+
+**Why re-declaration works:** When a subclass declares the same field with its own `@ApiProperty`, NestJS/Swagger uses the subclass decorator. The parent decorator is effectively shadowed for that field.
+
+---
+
+### Key decisions made this session
+
+| Decision | Chosen | Alternative | Reason |
+|---|---|---|---|
+| Override location | Concrete Create DTOs | Remove example from base | Base DTO stays self-documenting; subclass override takes precedence in Swagger — no framework hacks needed |
+
