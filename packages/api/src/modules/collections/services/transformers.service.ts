@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { CollectionType, ConditionGrade, TransformersFaction, TransformersLine } from '@my-collections/shared';
+import { Repository } from 'typeorm';
+import { AcquisitionSource, CollectionType, ConditionGrade, PaginatedResponse, TransformersFaction, TransformersLine } from '@my-collections/shared';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { User } from '../../auth/entities/user.entity';
 import { CreateG1TransformerDto, UpdateG1TransformerDto } from '../dto/g1-transformer.dto';
 import { G1TransformerEntity } from '../entities/g1-transformer.entity';
@@ -11,6 +12,9 @@ export interface TransformersFilters {
   condition?: ConditionGrade;
   faction?: TransformersFaction;
   line?: TransformersLine;
+  acquisitionSource?: AcquisitionSource;
+  isComplete?: boolean;
+  search?: string;
 }
 
 @Injectable()
@@ -20,13 +24,31 @@ export class TransformersService {
     private readonly repo: Repository<G1TransformerEntity>,
   ) {}
 
-  async findAll(userId: string, filters: TransformersFilters): Promise<G1TransformerEntity[]> {
-    const where: FindOptionsWhere<G1TransformerEntity> = { user: { id: userId } };
-    if (filters.owned !== undefined) where.isOwned = filters.owned;
-    if (filters.condition) where.condition = filters.condition;
-    if (filters.faction) where.faction = filters.faction;
-    if (filters.line) where.line = filters.line;
-    return this.repo.find({ where, order: { name: 'ASC' } });
+  async findAll(
+    userId: string,
+    filters: TransformersFilters,
+    pagination: PaginationQueryDto,
+  ): Promise<PaginatedResponse<G1TransformerEntity>> {
+    const { page = 1, limit = 20 } = pagination;
+    const qb = this.repo
+      .createQueryBuilder('item')
+      .where('item.userId = :userId', { userId })
+      .orderBy('item.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit);
+    if (filters.owned !== undefined) qb.andWhere('item.isOwned = :owned', { owned: filters.owned });
+    if (filters.condition) qb.andWhere('item.condition = :condition', { condition: filters.condition });
+    if (filters.faction) qb.andWhere('item.faction = :faction', { faction: filters.faction });
+    if (filters.line) qb.andWhere('item.line = :line', { line: filters.line });
+    if (filters.acquisitionSource) qb.andWhere('item.acquisitionSource = :src', { src: filters.acquisitionSource });
+    if (filters.isComplete !== undefined) qb.andWhere('item.isComplete = :ic', { ic: filters.isComplete });
+    if (filters.search) {
+      qb.andWhere('(LOWER(item.name) LIKE :search OR LOWER(item.notes) LIKE :search)', {
+        search: `%${filters.search.toLowerCase()}%`,
+      });
+    }
+    const [data, total] = await qb.getManyAndCount();
+    return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
   }
 
   async findOne(userId: string, id: string): Promise<G1TransformerEntity> {

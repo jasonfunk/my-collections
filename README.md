@@ -28,9 +28,9 @@ Personal full-stack app to track vintage toy collections (Star Wars, G1 Transfor
 
 ## Project Status
 
-- Phases 1–4 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API + React SPA
+- Phases 1–5 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API, React SPA with full CRUD (browse, detail, add, edit)
 - Active development on `develop` branch; `main` is production-ready
-- Next: Phase 5 — Expo mobile app
+- Next: Phase 6 — Expo mobile app
 
 ---
 
@@ -162,9 +162,14 @@ my-collections/
 │   │       └── main.ts
 │   ├── web/              # @my-collections/web — React SPA (Vite)
 │   │   └── src/
+│   │       ├── api/         # fetch wrapper + uploadFile()
 │   │       ├── auth/        # OAuth2 flow, PKCE, token storage
-│   │       ├── components/  # UI + domain components
+│   │       ├── components/
+│   │       │   └── collections/
+│   │       │       └── forms/  # BaseFormFields + per-collection form fields
 │   │       └── pages/       # Route-level components
+│   ├── api/
+│   │   └── uploads/         # Uploaded item photos (gitignored; served at /uploads/*)
 │   └── mobile/           # @my-collections/mobile — Expo (React Native)
 ├── postman/              # Postman collections (auth, users, collections) + dev environment
 ├── docker-compose.yml    # PostgreSQL 16 for local development
@@ -187,10 +192,13 @@ See [`docs/project-structure.md`](docs/project-structure.md) for a detailed brea
 |---|---|---|
 | Auth | POST /auth/register, GET /auth/authorize, POST /auth/login, POST /auth/token, POST /auth/revoke | No |
 | Users | GET /users/me | Yes (Bearer JWT) |
-| Collections | GET /collections/stats | Yes |
+| Collections | GET /collections/stats, GET /collections/search | Yes |
 | Star Wars | GET/POST /collections/star-wars, GET/PATCH/DELETE /collections/star-wars/:id | Yes |
 | Transformers | GET/POST /collections/transformers, GET/PATCH/DELETE /collections/transformers/:id | Yes |
 | He-Man | GET/POST /collections/he-man, GET/PATCH/DELETE /collections/he-man/:id | Yes |
+| Photos | POST /collections/photos/upload | Yes (Bearer JWT) |
+
+All three collection list endpoints support query params: `search` (name/notes, case-insensitive), `acquisitionSource`, `isComplete`, `owned`, `condition`, plus collection-specific `line`/`faction`. The global `GET /collections/search` endpoint adds `q`, `collectionType`, `isOwned`, `isComplete`, and `condition` filters across all three tables simultaneously.
 
 Postman collections are in `postman/` — import `postman/environment.json` and the relevant collection file.
 

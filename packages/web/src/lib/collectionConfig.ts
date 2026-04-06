@@ -1,4 +1,5 @@
 import {
+  AcquisitionSource,
   ConditionGrade,
   StarWarsLine,
   FigureSize,
@@ -107,7 +108,21 @@ function enumToOptions(labels: Record<string, string>): FilterOption[] {
   return Object.entries(labels).map(([value, label]) => ({ value, label }));
 }
 
+export const ACQUISITION_SOURCE_LABELS: Record<string, string> = {
+  [AcquisitionSource.ORIGINAL]: 'Original Owner',
+  [AcquisitionSource.EBAY]: 'eBay',
+  [AcquisitionSource.ETSY]: 'Etsy',
+  [AcquisitionSource.FLEA_MARKET]: 'Flea Market',
+  [AcquisitionSource.ANTIQUE_STORE]: 'Antique Store',
+  [AcquisitionSource.CONVENTION]: 'Convention',
+  [AcquisitionSource.PRIVATE_SALE]: 'Private Sale',
+  [AcquisitionSource.TRADE]: 'Trade',
+  [AcquisitionSource.GIFT]: 'Gift',
+  [AcquisitionSource.OTHER]: 'Other',
+};
+
 export const CONDITION_OPTIONS: FilterOption[] = enumToOptions(CONDITION_LABELS);
+export const ACQUISITION_SOURCE_OPTIONS: FilterOption[] = enumToOptions(ACQUISITION_SOURCE_LABELS);
 
 export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
   'star-wars': {

@@ -134,7 +134,11 @@ export function CollectionDetailPage() {
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             {config.label}
           </Button>
-          <Button variant="outline" size="sm" disabled title="Coming in COL-60">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(`/collections/${collection}/${id}/edit`)}
+          >
             Edit
           </Button>
         </div>

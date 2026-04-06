@@ -58,6 +58,7 @@ export interface CollectionItem {
   acquisitionDate?: string;  // ISO 8601 date string
   acquisitionPrice?: number; // in USD
   estimatedValue?: number;   // current market estimate in USD
+  isVariant?: boolean;        // item is a known production variant
   notes?: string;
   photoUrls: string[];
   createdAt: string;         // ISO 8601

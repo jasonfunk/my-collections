@@ -12,7 +12,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ConditionGrade, TransformersFaction, TransformersLine } from '@my-collections/shared';
+import { AcquisitionSource, ConditionGrade, TransformersFaction, TransformersLine } from '@my-collections/shared';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { AccessTokenPayload } from '../../auth/services/token.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
@@ -32,19 +33,33 @@ export class TransformersController {
   @ApiQuery({ name: 'condition', enum: ConditionGrade, enumName: 'ConditionGrade', required: false })
   @ApiQuery({ name: 'faction', enum: TransformersFaction, enumName: 'TransformersFaction', required: false })
   @ApiQuery({ name: 'line', enum: TransformersLine, enumName: 'TransformersLine', required: false })
+  @ApiQuery({ name: 'acquisitionSource', enum: AcquisitionSource, enumName: 'AcquisitionSource', required: false })
+  @ApiQuery({ name: 'isComplete', type: Boolean, required: false })
+  @ApiQuery({ name: 'search', type: String, required: false, description: 'Search name and notes (case-insensitive)' })
   findAll(
     @CurrentUser() user: AccessTokenPayload,
+    @Query() pagination: PaginationQueryDto,
     @Query('owned') owned?: string,
     @Query('condition') condition?: ConditionGrade,
     @Query('faction') faction?: TransformersFaction,
     @Query('line') line?: TransformersLine,
+    @Query('acquisitionSource') acquisitionSource?: AcquisitionSource,
+    @Query('isComplete') isComplete?: string,
+    @Query('search') search?: string,
   ) {
-    return this.service.findAll(user.sub, {
-      owned: owned !== undefined ? owned === 'true' : undefined,
-      condition,
-      faction,
-      line,
-    });
+    return this.service.findAll(
+      user.sub,
+      {
+        owned: owned !== undefined ? owned === 'true' : undefined,
+        condition,
+        faction,
+        line,
+        acquisitionSource,
+        isComplete: isComplete !== undefined ? isComplete === 'true' : undefined,
+        search: search || undefined,
+      },
+      pagination,
+    );
   }
 
   @Post()

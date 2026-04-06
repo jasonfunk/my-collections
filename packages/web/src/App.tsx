@@ -5,6 +5,8 @@ import { CallbackPage } from './pages/CallbackPage.js';
 import { DashboardPage } from './pages/DashboardPage.js';
 import { CollectionListPage } from './pages/collections/CollectionListPage.js';
 import { CollectionDetailPage } from './pages/collections/CollectionDetailPage.js';
+import { CollectionFormPage } from './pages/collections/CollectionFormPage.js';
+import { SearchPage } from './pages/collections/SearchPage.js';
 
 function App() {
   return (
@@ -17,7 +19,10 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardPage />} />
 
-        {/* Collection list + detail — single generic component handles all three */}
+        {/* /new and /:id/edit must come before /:id to avoid "new" matching as an item ID */}
+        <Route path="/collections/:collection/new" element={<CollectionFormPage />} />
+        <Route path="/collections/:collection/:id/edit" element={<CollectionFormPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/collections/:collection" element={<CollectionListPage />} />
         <Route path="/collections/:collection/:id" element={<CollectionDetailPage />} />
       </Route>
