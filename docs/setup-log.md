@@ -1503,4 +1503,45 @@ Also added a **Session Close Checklist** section to CLAUDE.md.
 |---|---|---|
 | Shared package compilation | Keep CJS, add `optimizeDeps` in Vite | Least disruptive; NestJS requires CJS |
 | Playwright as session closer | Yes — every feature session | Catches regressions before they're committed |
+
+---
+
+## Session 6 — 2026-04-05 — Documentation
+
+### What was done
+
+Created initial project documentation across two surfaces in one session using parallel Claude Code agents.
+
+**Confluence (8 pages, SD space, My Collections — Technical Documentation hierarchy):**
+
+| Page | ID |
+|---|---|
+| My Collections — Technical Documentation (root) | 3604481 |
+| My Collections — Documentation Style Guide | 3637249 |
+| My Collections — Project Architecture | 3670018 |
+| My Collections — API Reference (parent) | 3702785 |
+| My Collections — Authentication API | 3571714 |
+| My Collections — Collections API | 3833858 |
+| My Collections — Users API | 3866625 |
+| My Collections — Web Application Architecture | 3899393 |
+
+All pages authored in **ADF (Atlassian Document Format)** — not Markdown. Confluence's native format; required for structured tables, panels, and code blocks to render correctly.
+
+**GitHub (merged to `main` via PR #7):**
+- `README.md` — root developer README (8,280 chars; well under 40k limit)
+- `docs/confluence-style-guide.md` — local Markdown mirror of the Confluence style guide for use in future Claude Code sessions without an API call
+
+**Claude Code memory (outside git):**
+- `memory/confluence_pages.md` — registry of all 8 pages with IDs, URLs, last-updated dates, and staleness triggers (maps code changes to which Confluence pages need updating)
+- `MEMORY.md` — updated with pointers to both new memory entries and the style guide
+
+### Key decisions made this session
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| Confluence content format | ADF JSON | Native Confluence format; Markdown renders as plain text |
+| Style guide created first | Yes, before other pages | Establishes formatting conventions for all subsequent pages; single source of truth |
+| Style guide storage | Both Confluence page + `docs/confluence-style-guide.md` | Confluence for team reference; local Markdown for Claude sessions without API calls |
+| README split | No split | 8,280 chars — well under 40k limit |
+| Confluence page registry | Memory file (outside git) | Claude-session artifact; not useful to collaborators in git |
 | Filter state preservation on back | URL params (`?view=table`) survive back navigation | Confirmed working via Playwright |
