@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { CollectionType, ConditionGrade, PaginatedResponse, StarWarsLine } from '@my-collections/shared';
+import { Repository } from 'typeorm';
+import { AcquisitionSource, CollectionType, ConditionGrade, PaginatedResponse, StarWarsLine } from '@my-collections/shared';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { User } from '../../auth/entities/user.entity';
 import { CreateStarWarsFigureDto, UpdateStarWarsFigureDto } from '../dto/star-wars-figure.dto';
@@ -11,6 +11,9 @@ export interface StarWarsFilters {
   owned?: boolean;
   condition?: ConditionGrade;
   line?: StarWarsLine;
+  acquisitionSource?: AcquisitionSource;
+  isComplete?: boolean;
+  search?: string;
 }
 
 @Injectable()
@@ -26,16 +29,23 @@ export class StarWarsService {
     pagination: PaginationQueryDto,
   ): Promise<PaginatedResponse<StarWarsFigureEntity>> {
     const { page = 1, limit = 20 } = pagination;
-    const where: FindOptionsWhere<StarWarsFigureEntity> = { user: { id: userId } };
-    if (filters.owned !== undefined) where.isOwned = filters.owned;
-    if (filters.condition) where.condition = filters.condition;
-    if (filters.line) where.line = filters.line;
-    const [data, total] = await this.repo.findAndCount({
-      where,
-      order: { name: 'ASC' },
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    const qb = this.repo
+      .createQueryBuilder('item')
+      .where('item.userId = :userId', { userId })
+      .orderBy('item.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit);
+    if (filters.owned !== undefined) qb.andWhere('item.isOwned = :owned', { owned: filters.owned });
+    if (filters.condition) qb.andWhere('item.condition = :condition', { condition: filters.condition });
+    if (filters.line) qb.andWhere('item.line = :line', { line: filters.line });
+    if (filters.acquisitionSource) qb.andWhere('item.acquisitionSource = :src', { src: filters.acquisitionSource });
+    if (filters.isComplete !== undefined) qb.andWhere('item.isComplete = :ic', { ic: filters.isComplete });
+    if (filters.search) {
+      qb.andWhere('(LOWER(item.name) LIKE :search OR LOWER(item.notes) LIKE :search)', {
+        search: `%${filters.search.toLowerCase()}%`,
+      });
+    }
+    const [data, total] = await qb.getManyAndCount();
     return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
   }
 

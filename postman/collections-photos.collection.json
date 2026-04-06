@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "Collections — Photos",
+    "_postman_id": "collections-photos-v1",
+    "description": "Photo upload endpoint. Accepts multipart/form-data with a 'file' field (image/jpeg, image/png, image/webp, or image/gif, max 10 MB). Returns a URL that can be included in the photoUrls array when creating or updating a collection item.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /collections/photos/upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "description": "Image file (JPEG, PNG, WebP, or GIF — max 10 MB)"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/collections/photos/upload",
+          "host": ["{{baseUrl}}"],
+          "path": ["collections", "photos", "upload"]
+        },
+        "description": "Upload a single image file. Returns { url: \"/uploads/<filename>\" }. Use the returned URL in the photoUrls array when creating or patching a collection item."
+      },
+      "response": [
+        {
+          "name": "201 Created — upload success",
+          "status": "Created",
+          "code": 201,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{ \"url\": \"/uploads/1712345678901-123456789.jpg\" }"
+        },
+        {
+          "name": "400 Bad Request — wrong file type",
+          "status": "Bad Request",
+          "code": 400,
+          "body": "{ \"statusCode\": 400, \"message\": \"Only image files are allowed\" }"
+        }
+      ]
+    },
+    {
+      "name": "GET /uploads/:filename (static)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/uploads/REPLACE_WITH_FILENAME",
+          "host": ["{{baseUrl}}"],
+          "path": ["uploads", "REPLACE_WITH_FILENAME"]
+        },
+        "description": "Serve a previously uploaded image. Replace REPLACE_WITH_FILENAME with the filename returned from the upload endpoint. No auth required — served as static files by ServeStaticModule."
+      }
+    }
+  ]
+}

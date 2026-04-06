@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { SearchIcon } from 'lucide-react';
 import type { CollectionStats, UserProfile } from '@my-collections/shared';
 import { apiClient } from '../api/client.js';
 import { useAuth } from '../hooks/useAuth.js';
@@ -59,6 +60,7 @@ function CollectionCardSkeleton() {
 }
 
 export function DashboardPage() {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   const statsQuery = useQuery({
@@ -83,6 +85,10 @@ export function DashboardPage() {
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <h1 className="text-xl font-semibold tracking-tight">My Collections</h1>
           <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/search')}>
+              <SearchIcon className="mr-1 h-4 w-4" />
+              Search
+            </Button>
             <span className="text-sm text-muted-foreground">{displayName}</span>
             <Button variant="outline" size="sm" onClick={logout}>
               Sign out

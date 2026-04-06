@@ -65,9 +65,11 @@ Turborepo pipeline configuration. Defines how tasks (`build`, `dev`, `lint`, `te
 
 ```
 postman/
-├── environment.json       ← dev environment variables (baseUrl, accessToken, refreshToken, clientId)
-├── auth.collection.json   ← all auth endpoints (register, authorize, login, token, revoke)
-└── users.collection.json  ← user profile endpoints (GET /users/me)
+├── environment.json                    ← dev environment variables (baseUrl, accessToken, refreshToken, clientId)
+├── auth.collection.json                ← all auth endpoints (register, authorize, login, token, revoke)
+├── users.collection.json               ← user profile endpoints (GET /users/me)
+├── collections.collection.json         ← CRUD endpoints for all three collection types + stats
+└── collections-photos.collection.json  ← photo upload (POST /collections/photos/upload) + static file serve
 ```
 
 Postman Collection v2.1 schema. Import into Postman alongside the environment file to test the API interactively without needing Swagger.
@@ -190,6 +192,7 @@ packages/api/
 │   │       └── oauth-clients.seed.ts
 │   ├── common/                 ← shared guards, interceptors, pipes
 │   └── config/                 ← configuration logic
+├── uploads/                    ← uploaded item photos (gitignored except .gitkeep; served at /uploads/*)
 ├── .env                        ← local env vars (gitignored, never committed)
 ├── .env.example
 ├── nest-cli.json
@@ -300,12 +303,40 @@ packages/web/
 ├── src/
 │   ├── main.tsx
 │   ├── App.tsx
-│   ├── components/     ← reusable UI components
-│   ├── pages/          ← page-level route components
-│   ├── hooks/          ← custom React hooks
-│   ├── services/       ← API call functions
-│   ├── store/          ← global state
-│   └── assets/         ← images, fonts, etc.
+│   ├── api/
+│   │   └── client.ts               ← typed fetch wrapper (auth injection, 401 refresh, multipart upload)
+│   ├── auth/
+│   │   ├── AuthContext.tsx          ← OAuth2 PKCE login/logout/session restore
+│   │   ├── pkce.ts                  ← code verifier + challenge generation
+│   │   └── tokenStorage.ts          ← access token (in-memory), refresh token (localStorage)
+│   ├── components/
+│   │   ├── collections/
+│   │   │   ├── forms/
+│   │   │   │   ├── BaseFormFields.tsx       ← common fields for all collection types
+│   │   │   │   ├── StarWarsFormFields.tsx   ← Star Wars-specific form fields
+│   │   │   │   ├── TransformersFormFields.tsx
+│   │   │   │   └── MastersFormFields.tsx
+│   │   │   ├── AccessoriesList.tsx  ← accessory display with owned/missing state
+│   │   │   ├── ConditionBadge.tsx
+│   │   │   ├── FilterBar.tsx        ← grid/list toggle + owned/condition/line filters
+│   │   │   ├── ItemCard.tsx         ← grid card component
+│   │   │   └── ItemTable.tsx        ← table view component
+│   │   └── ui/                      ← shadcn/ui primitives (button, card, input, select, etc.)
+│   ├── hooks/
+│   │   └── useAuth.ts
+│   ├── lib/
+│   │   ├── collectionConfig.ts      ← collection metadata, apiPath, enum label maps
+│   │   └── utils.ts                 ← cn() Tailwind utility
+│   ├── pages/
+│   │   ├── LoginPage.tsx
+│   │   ├── CallbackPage.tsx
+│   │   ├── DashboardPage.tsx
+│   │   └── collections/
+│   │       ├── CollectionListPage.tsx    ← paginated list/grid with filters
+│   │       ├── CollectionDetailPage.tsx  ← full item detail view
+│   │       └── CollectionFormPage.tsx    ← add/edit form (create = /new, edit = /:id/edit)
+│   └── router/
+│       └── ProtectedRoute.tsx
 ├── index.html
 ├── package.json
 ├── tsconfig.json
@@ -316,34 +347,26 @@ packages/web/
 
 **Runs on:** `http://localhost:5173` (dev server).
 
-### `index.html`
-The one and only HTML file for the entire app. The browser loads this file; React then takes over and renders everything else dynamically. The `<div id="root">` is where React mounts.
+### `src/api/client.ts`
+Typed `fetch` wrapper. Prepends `/api` (proxied to localhost:3000 in dev). Injects `Authorization: Bearer <token>` on every request. On 401, attempts one silent token refresh then retries; if refresh fails, calls logout. Also exports `uploadFile()` for multipart/form-data POSTs (photo upload).
 
-### `src/main.tsx`
-JavaScript entry point (`.tsx` = TypeScript + JSX). Mounts the React app into the DOM, wrapped in:
-- `StrictMode` — enables extra React warnings in development to catch potential issues early
-- `BrowserRouter` — enables client-side routing (URL changes without full page reloads)
+### `src/auth/`
+OAuth2 Authorization Code Flow with PKCE. `AuthContext` provides `login()`, `logout()`, `refreshTokens()`, and session restoration on page load. Access token stored in-memory (cleared on hard refresh); refresh token stored in `localStorage` and used to restore session on mount.
 
 ### `src/App.tsx`
-Root React component. Defines the top-level route structure using React Router v6. New pages are added as `<Route>` elements here.
+Root React component. Defines the top-level route structure using React Router v6. Route order matters: `/new` and `/:id/edit` must appear before `/:id` to prevent the literal string "new" from matching as an item UUID.
 
-### `src/components/`
-Reusable UI components that appear on multiple pages — buttons, cards, modals, form fields, etc. Each component in its own file.
+### `src/components/collections/forms/`
+Form field components split by collection type. `BaseFormFields` handles all shared fields (name, condition, acquisition, notes, photo upload widget). Each collection-specific file handles its own fields and the `AccessoryEditor` for managing the accessories/ownedAccessories arrays.
 
-### `src/pages/`
-Page-level components — one per route/screen. These are the "views" that `App.tsx` routes to. They compose smaller components from `src/components/`.
+### `src/pages/collections/CollectionFormPage.tsx`
+Unified create/edit page. Determines mode from whether `id` param is present. In edit mode, fetches the existing item and populates form state. Uses `useMutation` (TanStack Query) to POST (create) or PATCH (update). On success, invalidates the collection list query and navigates away.
 
-### `src/hooks/`
-Custom React hooks — reusable stateful logic extracted from components. Example: `useCollectionItems()` that fetches and caches collection data.
-
-### `src/services/`
-Functions that call the API. Keeps HTTP request logic out of components and hooks. Example: `collectionsService.ts` with `getItems()`, `createItem()`, etc.
-
-### `src/store/`
-Global application state. Will hold auth state, collection data cache, UI state, etc. Technology TBD (React Context, Zustand, or Redux).
+### `src/lib/collectionConfig.ts`
+Central config map from collection URL key (`star-wars`, `transformers`, `he-man`) to API path, display label, emoji, and available filter options. All pages use `getConfig(key)` so adding a new collection type only requires one change here.
 
 ### `vite.config.ts`
-Vite build and dev server configuration. Key setting: the `/api` proxy forwards requests to `http://localhost:3000` during development so the web app can call the API without CORS issues.
+Vite build and dev server configuration. Key setting: the `/api` proxy rewrites and forwards requests to `http://localhost:3000` during development so the web app can call the API without CORS issues.
 
 ### `tsconfig.json`
 Extends `../../tsconfig.base.json`. Adds `"lib": ["DOM", "DOM.Iterable"]` (browser APIs) and `"jsx": "react-jsx"` (React JSX transform). Sets `"noEmit": true` because Vite handles compilation — TypeScript is only used for type checking.

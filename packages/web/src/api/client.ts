@@ -75,6 +75,25 @@ async function request<T>(
   return response.json() as Promise<T>;
 }
 
+export async function uploadFile(path: string, file: File): Promise<{ url: string }> {
+  const token = getAccessToken();
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`/api${path}`, {
+    method: 'POST',
+    // No Content-Type header — browser sets it automatically with multipart boundary
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => response.statusText);
+    throw new ApiError(response.status, text);
+  }
+  return response.json() as Promise<{ url: string }>;
+}
+
 export const apiClient = {
   get<T>(path: string): Promise<T> {
     return request<T>('GET', path);

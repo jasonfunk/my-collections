@@ -1676,3 +1676,243 @@ npm run test                                # 9/9 tests pass
 | @Type(() => Number) in PaginationQueryDto | Required | Query params are strings; class-validator's @IsInt() fails without this coercion |
 | Shared package build | Dual CJS + ESM | CJS for NestJS require(); ESM for Vite/Rollup production builds via exports.import condition |
 | Filter state preservation on back | URL params (`?view=table`) survive back navigation | Confirmed working via Playwright |
+
+---
+
+## Session 8 — 2026-04-06: Photo Upload API + Add/Edit Item Forms (COL-34, COL-42, COL-60)
+
+### What was done
+
+Implemented the full add/edit item workflow across the API and web app, completing the Web App epic (COL-11) through item CRUD.
+
+### Packages installed
+
+```bash
+# API
+npm install --save-dev @types/multer --workspace=packages/api
+npm install @nestjs/serve-static --workspace=packages/api --legacy-peer-deps
+
+# Web (shadcn/ui components)
+npx shadcn@latest add textarea checkbox --cwd packages/web
+```
+
+Note: `--legacy-peer-deps` was required for `@nestjs/serve-static` due to NestJS 10 peer dependency conflicts.
+
+### API changes (COL-34)
+
+**`packages/api/src/modules/collections/controllers/photos.controller.ts`** — new file
+
+- `POST /collections/photos/upload` — accepts `multipart/form-data` with a `file` field
+- multer `diskStorage` saves files to `packages/api/uploads/` with `{timestamp}-{random}{ext}` filenames
+- 10 MB size limit; JPEG/PNG/WebP/GIF only (enforced in `fileFilter`)
+- Returns `{ url: "/uploads/<filename>" }`
+
+**`packages/api/src/app.module.ts`**
+
+- Added `ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'uploads'), serveRoot: '/uploads' })` so uploaded files are served as static assets
+
+**`packages/api/uploads/`** — created with `.gitkeep`; uploaded images are gitignored
+
+**`packages/api/src/modules/collections/collections.module.ts`** — registered `PhotosController`
+
+### Web changes (COL-42 / COL-60)
+
+**`packages/web/src/api/client.ts`**
+
+- Added `uploadFile(path, file)` — multipart POST that injects `Authorization` header but omits `Content-Type` (browser sets multipart boundary automatically)
+
+**New form component files:**
+
+| File | Purpose |
+|---|---|
+| `src/components/collections/forms/BaseFormFields.tsx` | Common fields: name, condition, packaging, isOwned, isComplete, acquisition, notes, photo upload widget |
+| `src/components/collections/forms/StarWarsFormFields.tsx` | Star Wars-specific: line, size, carded, cardback, coin, kenner#, accessories |
+| `src/components/collections/forms/TransformersFormFields.tsx` | Transformers-specific: faction, series, size, altMode, flags, accessories |
+| `src/components/collections/forms/MastersFormFields.tsx` | He-Man-specific: line, character type, release year, flags, mini-comic, accessories |
+| `src/pages/collections/CollectionFormPage.tsx` | Page for create (`/new`) and edit (`/:id/edit`); controlled useState; useMutation for POST/PATCH |
+
+**Form architecture decisions:**
+
+- Controlled `useState` (no react-hook-form) — simpler, no new deps, server-side class-validator handles validation
+- Accessories managed as two string arrays (`accessories` = full list, `ownedAccessories` = subset owned); checkbox per item toggles owned state
+- Photo upload widget: hidden `<input type="file">` triggered by styled button; `isUploading` local state shows spinner; thumbnails with `×` remove buttons
+- `buildBaseDto / buildStarWarsDto / buildTransformersDto / buildMastersDto` helpers serialise form strings → API DTO values (parse optional numbers, strip empty strings)
+
+**`packages/web/src/App.tsx`**
+
+- Added `/collections/:collection/new` and `/collections/:collection/:id/edit` routes **before** `/:id` to prevent "new" matching as an item ID
+
+**`packages/web/src/pages/collections/CollectionListPage.tsx`**
+
+- Added `+ Add Item` button in header
+- **Bug fix (pre-existing):** API returns `PaginatedResponse<T>` but page was typed as `CollectionItem[]`. Fixed to use `PaginatedResponse<CollectionItem>` and extract `.data` for the item array; `totalCount` now uses `page.meta.total`
+
+**`packages/web/src/pages/collections/CollectionDetailPage.tsx`**
+
+- Enabled the Edit button (was `disabled` with `title="Coming in COL-60"`); now navigates to `/:id/edit`
+
+### Postman
+
+- `postman/collections-photos.collection.json` — `POST /collections/photos/upload` (multipart) and `GET /uploads/:filename` (static serve)
+
+### Smoke test results
+
+- Login → Dashboard ✅
+- Collection list loads (pagination bug fixed) ✅
+- Item detail page loads ✅
+- Edit button → pre-populated form → PATCH saves → returns to detail with updated value ✅
+- Add Item → form → POST creates item → list shows new item ✅
+- Protected route redirects unauthenticated navigations to login ✅
+- Zero console errors from new code ✅
+
+### Jira tickets closed
+
+| Ticket | Description | Status |
+|---|---|---|
+| COL-34 | Implement photo upload and storage endpoints | Done |
+| COL-42 | Build add/edit item form with photo upload | Done |
+| COL-60 | COL-11d: Item detail page and add/edit forms | Done |
+
+### Key decisions
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| Form state approach | Controlled useState | No new deps; server-side class-validator handles validation; simpler to teach |
+| Photo storage | Local disk (`uploads/`) | Simplest for dev; `ServeStaticModule` serves them; storage backend can be swapped later |
+| Route order for /new | `/new` before `/:id` in App.tsx | Prevents React Router matching literal "new" as an item UUID |
+| `PaginatedResponse` fix | Extract `.data` from response | API was always returning paginated shape; web was incorrectly typed as plain array |
+
+---
+
+## Session 8 — 2026-04-06
+
+### Context
+
+COL-35 (search and filtering endpoints) and COL-44 (search UI with filter panel).
+
+---
+
+### 1. Extended per-collection services to use QueryBuilder
+
+Switched all three `findAll()` methods (`star-wars.service.ts`, `transformers.service.ts`, `masters.service.ts`) from `findAndCount + FindOptionsWhere` to TypeORM `createQueryBuilder`. Reason: `FindOptionsWhere` arrays (OR conditions) would require duplicating all other filter conditions in each branch; QueryBuilder composes `andWhere` cleanly.
+
+Added three new filters to each service's filter interface:
+- `search?: string` — ILIKE on `name OR notes` (case-insensitive, `%...%`)
+- `acquisitionSource?: AcquisitionSource`
+- `isComplete?: boolean`
+
+Pattern used (consistent with `collections-stats.service.ts`):
+```typescript
+.where('item.userId = :userId', { userId })
+```
+
+Context7 MCP queried for TypeORM QueryBuilder docs before implementation to confirm `andWhere`, `getManyAndCount`, `skip`, `take` API.
+
+**Files modified:**
+- `packages/api/src/modules/collections/services/star-wars.service.ts`
+- `packages/api/src/modules/collections/services/transformers.service.ts`
+- `packages/api/src/modules/collections/services/masters.service.ts`
+
+---
+
+### 2. Extended per-collection controllers with new query params
+
+Added `@Query('search')`, `@Query('acquisitionSource')`, `@Query('isComplete')` to each list endpoint. Boolean coercion: `isComplete !== undefined ? isComplete === 'true' : undefined`.
+
+**Files modified:**
+- `packages/api/src/modules/collections/controllers/star-wars.controller.ts`
+- `packages/api/src/modules/collections/controllers/transformers.controller.ts`
+- `packages/api/src/modules/collections/controllers/masters.controller.ts`
+
+---
+
+### 3. Global search — DTO, service, endpoint
+
+**New DTO** (`collection-search-query.dto.ts`): extends `PaginationQueryDto`, adds `q`, `collectionType`, `condition`, `isOwned`, `isComplete` with `@Transform` boolean coercion.
+
+**New service** (`collections-search.service.ts`): injects all three repos, runs parallel QueryBuilder queries via `Promise.all`, skips tables when `collectionType` filter doesn't match, merges results, sorts by name, slices for pagination. `<T extends ObjectLiteral>` constraint required on the generic helper function.
+
+**New endpoint** on `CollectionsController`: `GET /collections/search`, accepts `CollectionSearchQueryDto`, calls `CollectionsSearchService.search()`. Added `CollectionsSearchService` to `collections.module.ts` providers.
+
+**Files modified/created:**
+- `packages/api/src/modules/collections/dto/collection-search-query.dto.ts` (new)
+- `packages/api/src/modules/collections/services/collections-search.service.ts` (new)
+- `packages/api/src/modules/collections/controllers/collections.controller.ts`
+- `packages/api/src/modules/collections/collections.module.ts`
+
+---
+
+### 4. Frontend — FilterBar extended
+
+Added to `FilterBar.tsx`:
+- Search text input with debounced URL write (300ms `useEffect` + `setTimeout`)
+- `isComplete` ToggleGroup (Any / Complete / Incomplete)
+- `acquisitionSource` Select (uses new `ACQUISITION_SOURCE_OPTIONS` from `collectionConfig.ts`)
+
+`CollectionListPage.tsx` updated to read and pass the three new params (`search`, `acquisitionSource`, `isComplete`) to the API query string.
+
+**Files modified:**
+- `packages/web/src/lib/collectionConfig.ts` (added `ACQUISITION_SOURCE_LABELS` + `ACQUISITION_SOURCE_OPTIONS`)
+- `packages/web/src/components/collections/FilterBar.tsx`
+- `packages/web/src/pages/collections/CollectionListPage.tsx`
+
+---
+
+### 5. Frontend — SearchPage and nav
+
+New `/search` route — `SearchPage.tsx`:
+- Prominent debounced search input (writes to URL `?q=`)
+- Filter panel: collection type, owned/wishlist, complete/incomplete, condition
+- `useQuery` on `GET /collections/search?...` (disabled when `q` is empty)
+- Empty state, loading skeletons, empty results, and results grid (reuses `ItemCard`)
+- Result count shown in filter bar
+
+`DashboardPage.tsx`: added Search button in header nav (needed `const navigate = useNavigate()` at `DashboardPage` level — `useNavigate` was only called inside the `CollectionCard` sub-component).
+
+`App.tsx`: added `<Route path="/search" element={<SearchPage />} />`.
+
+**Files modified/created:**
+- `packages/web/src/pages/collections/SearchPage.tsx` (new)
+- `packages/web/src/pages/DashboardPage.tsx`
+- `packages/web/src/App.tsx`
+
+---
+
+### 6. Documentation
+
+- `README.md`: updated API table to include `GET /collections/search`; noted new filter params on all collection list endpoints
+- Confluence pages updated (ADF): Collections API (`3833858`), Star Wars Figures (`3637269`), G1 Transformers (`4325377`), Masters of the Universe (`4358146`), Web Application Architecture (`3899393`)
+
+---
+
+### Lint fix
+
+`react/no-unescaped-entities` in `SearchPage.tsx` line 215 — replaced literal `"` around `{q}` with `&ldquo;` / `&rdquo;`.
+
+---
+
+### Smoke test results
+
+- Login → Dashboard ✅
+- Search button visible in header nav ✅
+- Star Wars list page: FilterBar shows search input + Complete/Incomplete + Source ✅
+- Item detail page loads ✅
+- `/search` empty state renders ✅
+- Typing "luke" → 1 result (Luke Skywalker X-Wing Pilot), URL updates to `?q=luke` ✅
+- Sign out → `/login` ✅
+- Zero console errors (only pre-existing favicon.ico 404 and React Router v7 future flag warnings) ✅
+
+### Jira tickets closed
+
+| Ticket | Description | Status |
+|---|---|---|
+| COL-35 | Implement search and filtering endpoints | Done |
+| COL-44 | Build search UI with filter panel | Done |
+
+### Key decisions
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| QueryBuilder over FindOptionsWhere | QueryBuilder | OR across two columns (name/notes) requires it; also enables clean `andWhere` composition |
+| Global search merge strategy | In-memory merge + sort + paginate | Appropriate for personal collection scale; avoids complex UNION SQL |
+| Debounce approach | `useState` + `useEffect` 300ms | Prevents React Query refetch on every keystroke; URL stays bookmarkable |

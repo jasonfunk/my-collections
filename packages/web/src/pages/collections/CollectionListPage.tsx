@@ -1,6 +1,6 @@
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import type { CollectionItem } from '@my-collections/shared';
+import type { CollectionItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import { getConfig } from '@/lib/collectionConfig.js';
 import { FilterBar } from '@/components/collections/FilterBar.js';
@@ -28,16 +28,24 @@ export function CollectionListPage() {
   if (line) apiParams.set('line', line);
   const faction = searchParams.get('faction');
   if (faction) apiParams.set('faction', faction);
+  const acquisitionSource = searchParams.get('acquisitionSource');
+  if (acquisitionSource) apiParams.set('acquisitionSource', acquisitionSource);
+  const isComplete = searchParams.get('isComplete');
+  if (isComplete !== null) apiParams.set('isComplete', isComplete);
+  const search = searchParams.get('search');
+  if (search) apiParams.set('search', search);
 
   const queryString = apiParams.toString();
   const url = config ? `${config.apiPath}${queryString ? `?${queryString}` : ''}` : '';
 
   // All hooks must be called before any early return
-  const { data: items, isPending, isError } = useQuery({
+  // API returns PaginatedResponse<CollectionItem> — extract .data for the item array
+  const { data: page, isPending, isError } = useQuery({
     queryKey: ['collection', config?.key ?? '', queryString],
-    queryFn: () => apiClient.get<CollectionItem[]>(url),
+    queryFn: () => apiClient.get<PaginatedResponse<CollectionItem>>(url),
     enabled: !!config,
   });
+  const items = page?.data;
 
   if (!config) {
     return (
@@ -56,14 +64,17 @@ export function CollectionListPage() {
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             Dashboard
           </Button>
-          <h1 className="text-xl font-semibold">
+          <h1 className="text-xl font-semibold flex-1">
             {config.emoji} {config.label}
           </h1>
+          <Button size="sm" onClick={() => navigate(`/collections/${collection}/new`)}>
+            + Add Item
+          </Button>
         </div>
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-6 space-y-4">
-        <FilterBar config={config} totalCount={items?.length} />
+        <FilterBar config={config} totalCount={page?.meta.total} />
 
         {isPending ? (
           view === 'grid' ? (
