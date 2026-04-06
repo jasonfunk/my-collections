@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module.js';
 
@@ -10,6 +10,10 @@ async function bootstrap() {
   // Global validation — automatically validates incoming request bodies
   // against DTO class definitions (similar to Java Bean Validation / C# DataAnnotations)
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+
+  // Global serialization — enables @Exclude() / @Expose() from class-transformer on entities.
+  // Any entity property decorated with @Exclude() will be stripped from all responses.
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   // CORS — allow the web app and mobile app to call the API
   app.enableCors();

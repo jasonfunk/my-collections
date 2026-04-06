@@ -1544,4 +1544,135 @@ All pages authored in **ADF (Atlassian Document Format)** — not Markdown. Conf
 | Style guide storage | Both Confluence page + `docs/confluence-style-guide.md` | Confluence for team reference; local Markdown for Claude sessions without API calls |
 | README split | No split | 8,280 chars — well under 40k limit |
 | Confluence page registry | Memory file (outside git) | Claude-session artifact; not useful to collaborators in git |
+
+---
+
+## Session 7 — 2026-04-05
+
+### Context
+COL-13 Shared Data Model sprint. Three stories completed: COL-54 (validator organization), COL-55 (response DTOs + pagination), COL-56 (shared type gaps). Context7 MCP was used to validate all patterns against live library docs before writing code.
+
+---
+
+### 1. Pagination types added to shared package
+
+**Files created:**
+- `packages/shared/src/types/pagination.ts` — `PaginationMeta` and `PaginatedResponse<T>` interfaces
+
+**Exported from** `packages/shared/src/index.ts`.
+
+**Why:** Pagination types belong in shared so the web and mobile apps can use the same `PaginatedResponse<T>` shape when consuming list endpoints — no duplicated interfaces.
+
+---
+
+### 2. CollectionItem base type patched (COL-56)
+
+**File modified:** `packages/shared/src/types/common.ts`
+
+Added `isVariant?: boolean` to the `CollectionItem` base interface. This field was already on `StarWarsFigure` and `MastersOfTheUniverseFigure` but missing from the base — it's a natural cross-collection concept. Optional so `G1Transformer` isn't forced to use it (though it could).
+
+---
+
+### 3. ClassSerializerInterceptor applied globally (COL-55)
+
+**Files modified:**
+- `packages/api/src/main.ts` — added `app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))`
+- `packages/api/src/modules/auth/entities/user.entity.ts` — added `@Exclude()` to `passwordHash`
+
+**Why:** NestJS's idiomatic response serialization pattern. Rather than creating manual response DTO classes for each collection module, `ClassSerializerInterceptor` automatically strips any property decorated with `@Exclude()` from all serialized responses. Entities are returned directly from controllers; the interceptor handles the cleanup. The only sensitive field in the project is `passwordHash` on `User` — it's now impossible to accidentally leak it in any response.
+
+**Dependency note:** `Reflector` must be imported from `@nestjs/core`, not `@nestjs/common`.
+
+---
+
+### 4. Auth DTOs moved out of controller (COL-54)
+
+**Files created:**
+- `packages/api/src/modules/auth/dto/register.dto.ts`
+- `packages/api/src/modules/auth/dto/login.dto.ts`
+- `packages/api/src/modules/auth/dto/token.dto.ts`
+- `packages/api/src/modules/auth/dto/revoke.dto.ts`
+- `packages/api/src/modules/auth/dto/index.ts`
+
+**File modified:** `packages/api/src/modules/auth/auth.controller.ts` — replaced inline class definitions with `import { LoginDto, RegisterDto, RevokeDto, TokenDto } from './dto/index.js'`
+
+**Why:** The four DTO classes were defined inline at the top of `auth.controller.ts` (95 lines of DTOs before the controller class began). NestJS convention is one DTO per file in a `dto/` subdirectory. This makes each DTO independently importable, testable, and easier to find.
+
+---
+
+### 5. PaginationQueryDto created in API common (COL-55)
+
+**File created:** `packages/api/src/common/dto/pagination-query.dto.ts`
+
+```typescript
+// Key pattern: @Type(() => Number) from class-transformer is required.
+// Query params arrive as strings; without @Type(), @IsInt() fails because
+// the string "1" is not an integer. The @Type() coerces string → number
+// before validation runs.
+```
+
+Fields: `page` (default 1, min 1) and `limit` (default 20, min 1, max 100).
+
+---
+
+### 6. Pagination wired into all three collection modules (COL-55)
+
+**Files modified** (services and controllers for star-wars, transformers, he-man):
+
+Services: `findAll()` now accepts `PaginationQueryDto` as a third parameter. Uses `repo.findAndCount({ skip: (page-1)*limit, take: limit })` which returns `[items, total]`. Returns `PaginatedResponse<Entity>` with a `meta` block containing `page`, `limit`, `total`, `totalPages`.
+
+Controllers: `findAll()` adds `@Query() pagination: PaginationQueryDto` as a second parameter (alongside the existing filter query params). The `PaginationQueryDto` is bound to the full query object via `@Query()` with no named key — NestJS maps `?page=2&limit=10` to the DTO properties automatically.
+
+**TypeORM note:** Use `findAndCount` with `skip`/`take`, not `limit`/`offset`. The `skip`/`take` pair is TypeORM's safe pagination API that handles joins correctly; `limit`/`offset` can produce wrong results with complex JOIN queries.
+
+---
+
+### 7. UserProfileResponseDto created (COL-55)
+
+**File created:** `packages/api/src/modules/users/dto/user-profile.response.dto.ts`
+
+**File modified:** `packages/api/src/modules/users/users.controller.ts` — `getMe()` now returns `Promise<UserProfileResponseDto>` with `type:` annotation on the `@ApiResponse` decorator so Swagger shows the correct schema.
+
+---
+
+### 8. Shared package dual CJS/ESM build (pre-existing bug fixed)
+
+**Files modified:**
+- `packages/shared/tsconfig.esm.json` (NEW) — `module: "ESNext"`, outputs to `dist/esm/`
+- `packages/shared/package.json` — `build` script now runs `tsc && tsc -p tsconfig.esm.json`; `exports["."].import` updated to `./dist/esm/index.js`
+
+**What was broken:** `npm run build` for the web package (`vite build`) was already failing before this session. The `optimizeDeps.include` fix in `vite.config.ts` only applies to the dev server (esbuild pre-bundler) — it doesn't fix Rollup's production build. Rollup couldn't resolve named enum exports from the CJS `__exportStar` pattern emitted by `tsc`.
+
+**Fix:** Added a second TypeScript compilation target (ESM) for the shared package. The `package.json` `exports` field already had separate `require` and `import` conditions — they just both pointed to the same CJS file. Now `import` points to `dist/esm/index.js` (native ESM). Rollup (Vite prod) follows the `import` condition and gets real ESM; NestJS follows the `require` condition and gets CJS. Both work correctly.
+
+**Verification:** `npm run build` now succeeds for shared, api, and web. Mobile build continues to fail with a `react-native-screens` codegen error that is pre-existing and unrelated to this session.
+
+---
+
+### Commands run this session
+
+```bash
+npm run build --workspace=packages/shared   # validate shared after each change
+npm run build                               # full build verification
+npm run lint                                # all 4 packages clean
+npm run test                                # 9/9 tests pass
+```
+
+### Jira tickets closed
+
+| Ticket | Summary | Status |
+|---|---|---|
+| COL-54 | Add class-validator schemas to shared types for API validation | Done |
+| COL-55 | Add API response DTOs and pagination types to shared package | Done |
+| COL-56 | Extend collection types as feature development reveals gaps | Done |
+
+### Key decisions made this session
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| class-validator in shared vs API only | API only | shared is consumed by web/mobile; adding class-validator as a runtime dep would bloat builds that never use it |
+| Response DTO pattern | ClassSerializerInterceptor + @Exclude() | NestJS-idiomatic; avoids per-collection response DTO classes and manual entity→DTO mapping |
+| Pagination API | findAndCount with skip/take | TypeORM's safe pagination; limit/offset can produce wrong row counts with JOINs |
+| @Type(() => Number) in PaginationQueryDto | Required | Query params are strings; class-validator's @IsInt() fails without this coercion |
+| Shared package build | Dual CJS + ESM | CJS for NestJS require(); ESM for Vite/Rollup production builds via exports.import condition |
 | Filter state preservation on back | URL params (`?view=table`) survive back navigation | Confirmed working via Playwright |

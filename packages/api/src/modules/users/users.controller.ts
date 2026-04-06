@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AccessTokenPayload } from '../auth/services/token.service';
+import { UserProfileResponseDto } from './dto/user-profile.response.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
@@ -19,15 +20,10 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current user profile' })
-  @ApiResponse({ status: 200, description: 'Current user profile' })
+  @ApiResponse({ status: 200, description: 'Current user profile', type: UserProfileResponseDto })
   @ApiResponse({ status: 401, description: 'Missing or invalid Bearer token' })
-  async getMe(@CurrentUser() tokenPayload: AccessTokenPayload) {
+  async getMe(@CurrentUser() tokenPayload: AccessTokenPayload): Promise<UserProfileResponseDto> {
     const user = await this.usersService.findById(tokenPayload.sub);
-    return {
-      id: user.id,
-      email: user.email,
-      isApproved: user.isApproved,
-      createdAt: user.createdAt,
-    };
+    return { id: user.id, email: user.email, isApproved: user.isApproved, createdAt: user.createdAt };
   }
 }

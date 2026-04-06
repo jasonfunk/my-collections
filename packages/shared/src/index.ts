@@ -5,3 +5,4 @@ export * from './types/transformers.js';
 export * from './types/he-man.js';
 export * from './types/auth.js';
 export * from './types/stats.js';
+export * from './types/pagination.js';

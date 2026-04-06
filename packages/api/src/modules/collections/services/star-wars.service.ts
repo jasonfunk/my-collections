@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { CollectionType, ConditionGrade, StarWarsLine } from '@my-collections/shared';
+import { CollectionType, ConditionGrade, PaginatedResponse, StarWarsLine } from '@my-collections/shared';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { User } from '../../auth/entities/user.entity';
 import { CreateStarWarsFigureDto, UpdateStarWarsFigureDto } from '../dto/star-wars-figure.dto';
 import { StarWarsFigureEntity } from '../entities/star-wars-figure.entity';
@@ -19,12 +20,23 @@ export class StarWarsService {
     private readonly repo: Repository<StarWarsFigureEntity>,
   ) {}
 
-  async findAll(userId: string, filters: StarWarsFilters): Promise<StarWarsFigureEntity[]> {
+  async findAll(
+    userId: string,
+    filters: StarWarsFilters,
+    pagination: PaginationQueryDto,
+  ): Promise<PaginatedResponse<StarWarsFigureEntity>> {
+    const { page = 1, limit = 20 } = pagination;
     const where: FindOptionsWhere<StarWarsFigureEntity> = { user: { id: userId } };
     if (filters.owned !== undefined) where.isOwned = filters.owned;
     if (filters.condition) where.condition = filters.condition;
     if (filters.line) where.line = filters.line;
-    return this.repo.find({ where, order: { name: 'ASC' } });
+    const [data, total] = await this.repo.findAndCount({
+      where,
+      order: { name: 'ASC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
   }
 
   async findOne(userId: string, id: string): Promise<StarWarsFigureEntity> {
