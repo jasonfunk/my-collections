@@ -29,8 +29,9 @@ Personal full-stack app to track vintage toy collections (Star Wars, G1 Transfor
 ## Project Status
 
 - Phases 1–5 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API, React SPA with full CRUD (browse, detail, add, edit)
+- COL-61 in progress: catalog/user-items refactor + Star Wars pre-population (scraper done, seed runner + web views pending)
 - Active development on `develop` branch; `main` is production-ready
-- Next: Phase 6 — Expo mobile app
+- Next: COL-66 seed runner, COL-67 web views, then Phase 6 — Expo mobile app
 
 ---
 
@@ -104,6 +105,11 @@ npm run build    # Build all packages (shared → api/web/mobile)
 npm run test     # Run tests across all packages
 npm run lint     # Lint all packages
 npm run clean    # Remove all build artifacts and node_modules
+
+# Data scripts (one-time, run from repo root)
+npm run scrape:star-wars  # Scrape transformerland.com → seeds/data/star-wars-catalog.json
+                          # Requires: npx playwright install chromium (one-time, ~92 MB)
+                          # Opens a browser window during the ~3-minute run (Cloudflare bypass)
 ```
 
 **Per-package:**
@@ -158,7 +164,7 @@ my-collections/
 │   │       │   └── collections/  # Star Wars, Transformers, He-Man CRUD
 │   │       ├── database/
 │   │       │   ├── migrations/   # TypeORM migrations
-│   │       │   └── seeds/        # OAuth client seed data
+│   │       │   └── seeds/        # OAuth client seed + star-wars-catalog.json (199 items)
 │   │       └── main.ts
 │   ├── web/              # @my-collections/web — React SPA (Vite)
 │   │   └── src/
@@ -172,9 +178,11 @@ my-collections/
 │   │   └── uploads/         # Uploaded item photos (gitignored; served at /uploads/*)
 │   └── mobile/           # @my-collections/mobile — Expo (React Native)
 ├── postman/              # Postman collections (auth, users, collections) + dev environment
+├── scripts/              # One-off utility scripts (Star Wars scraper, data patches)
 ├── docker-compose.yml    # PostgreSQL 16 for local development
 ├── turbo.json            # Turborepo pipeline config
 ├── tsconfig.base.json    # Base TypeScript config extended by all packages
+├── tsconfig.scripts.json # CJS override for ts-node scripts
 └── package.json          # npm workspaces root
 ```
 
@@ -193,7 +201,8 @@ See [`docs/project-structure.md`](docs/project-structure.md) for a detailed brea
 | Auth | POST /auth/register, GET /auth/authorize, POST /auth/login, POST /auth/token, POST /auth/revoke | No |
 | Users | GET /users/me | Yes (Bearer JWT) |
 | Collections | GET /collections/stats, GET /collections/search | Yes |
-| Star Wars | GET/POST /collections/star-wars, GET/PATCH/DELETE /collections/star-wars/:id | Yes |
+| Star Wars Catalog | GET /collections/star-wars/catalog, GET /collections/star-wars/catalog/:id | Yes |
+| Star Wars Items | GET/POST /collections/star-wars/items, PATCH/DELETE /collections/star-wars/items/:id | Yes |
 | Transformers | GET/POST /collections/transformers, GET/PATCH/DELETE /collections/transformers/:id | Yes |
 | He-Man | GET/POST /collections/he-man, GET/PATCH/DELETE /collections/he-man/:id | Yes |
 | Photos | POST /collections/photos/upload | Yes (Bearer JWT) |

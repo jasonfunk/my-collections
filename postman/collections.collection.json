@@ -30,97 +30,102 @@
       "name": "Star Wars",
       "item": [
         {
-          "name": "List figures",
+          "name": "Browse catalog",
           "request": {
             "method": "GET",
             "header": [
               { "key": "Authorization", "value": "Bearer {{accessToken}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/collections/star-wars",
+              "raw": "{{baseUrl}}/collections/star-wars/catalog",
               "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars"],
+              "path": ["collections", "star-wars", "catalog"],
               "query": [
-                { "key": "owned", "value": "true", "disabled": true },
-                { "key": "condition", "value": "C9", "disabled": true },
-                { "key": "line", "value": "STAR_WARS", "disabled": true }
+                { "key": "category", "value": "BASIC_FIGURE", "disabled": true },
+                { "key": "line", "value": "STAR_WARS", "disabled": true },
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "limit", "value": "20", "disabled": true }
               ]
             },
-            "description": "List all Star Wars figures. Optional filters: owned (true/false), condition, line."
+            "description": "Paginated catalog of what Kenner made. Filter by category (BASIC_FIGURE, VEHICLE, PLAYSET, etc.) and/or line."
           }
         },
         {
-          "name": "List wishlist (owned=false)",
+          "name": "Get catalog item by ID",
           "request": {
             "method": "GET",
             "header": [
               { "key": "Authorization", "value": "Bearer {{accessToken}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/collections/star-wars?owned=false",
+              "raw": "{{baseUrl}}/collections/star-wars/catalog/:id",
               "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars"],
-              "query": [
-                { "key": "owned", "value": "false" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create figure",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Luke Skywalker (X-Wing Pilot)\",\n  \"condition\": \"C9\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": true,\n  \"isComplete\": false,\n  \"acquisitionSource\": \"EBAY\",\n  \"acquisitionDate\": \"2024-03-15\",\n  \"acquisitionPrice\": 45.00,\n  \"estimatedValue\": 60.00,\n  \"notes\": \"Slight discoloration on helmet\",\n  \"line\": \"EMPIRE_STRIKES_BACK\",\n  \"figureSize\": \"3.75\",\n  \"isVariant\": false,\n  \"isCarded\": false,\n  \"accessories\": [\"Lightsaber\", \"Belt\"],\n  \"ownedAccessories\": [\"Lightsaber\"]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/collections/star-wars",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars"]
-            }
-          }
-        },
-        {
-          "name": "Create wishlist item",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Boba Fett\",\n  \"condition\": \"C10\",\n  \"packagingCondition\": \"NONE\",\n  \"isOwned\": false,\n  \"isComplete\": true,\n  \"line\": \"EMPIRE_STRIKES_BACK\",\n  \"figureSize\": \"3.75\",\n  \"isVariant\": false,\n  \"isCarded\": false,\n  \"accessories\": [\"Jet Pack\", \"Blaster\", \"Cape\"],\n  \"ownedAccessories\": []\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/collections/star-wars",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars"]
-            }
-          }
-        },
-        {
-          "name": "Get figure by ID",
-          "request": {
-            "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/collections/star-wars/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", ":id"],
+              "path": ["collections", "star-wars", "catalog", ":id"],
               "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Single catalog item with full detail (accessories, image URL, variant info, etc.)"
+          }
+        },
+        {
+          "name": "List my items",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", "items"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "limit", "value": "20", "disabled": true }
+              ]
+            },
+            "description": "The authenticated user's personal records — both owned items and wishlist. Each record includes the embedded catalog item."
+          }
+        },
+        {
+          "name": "Claim catalog item (owned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"catalogId\": \"<uuid-from-catalog>\",\n  \"isOwned\": true,\n  \"condition\": \"C9\",\n  \"packagingCondition\": \"NONE\",\n  \"isComplete\": false,\n  \"ownedAccessories\": [\"Lightsaber\"],\n  \"isCarded\": false,\n  \"acquisitionSource\": \"EBAY\",\n  \"acquisitionDate\": \"2024-03-15\",\n  \"acquisitionPrice\": 45.00,\n  \"estimatedValue\": 60.00,\n  \"notes\": \"Slight discoloration on helmet\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", "items"]
+            },
+            "description": "Create a personal record for a catalog item. 409 if a record already exists for this catalogId."
+          }
+        },
+        {
+          "name": "Add to wishlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"catalogId\": \"<uuid-from-catalog>\",\n  \"isOwned\": false,\n  \"wishlistPriority\": \"HIGH\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["collections", "star-wars", "items"]
             }
           }
         },
         {
-          "name": "Update figure",
+          "name": "Update my item",
           "request": {
             "method": "PATCH",
             "header": [
@@ -132,26 +137,28 @@
               "raw": "{\n  \"condition\": \"C8\",\n  \"estimatedValue\": 55.00,\n  \"ownedAccessories\": [\"Lightsaber\", \"Belt\"]\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/collections/star-wars/:id",
+              "raw": "{{baseUrl}}/collections/star-wars/items/:id",
               "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", ":id"],
+              "path": ["collections", "star-wars", "items", ":id"],
               "variable": [{ "key": "id", "value": "" }]
-            }
+            },
+            "description": "Update personal record fields. catalogId cannot be changed."
           }
         },
         {
-          "name": "Delete figure",
+          "name": "Delete my item",
           "request": {
             "method": "DELETE",
             "header": [
               { "key": "Authorization", "value": "Bearer {{accessToken}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/collections/star-wars/:id",
+              "raw": "{{baseUrl}}/collections/star-wars/items/:id",
               "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", ":id"],
+              "path": ["collections", "star-wars", "items", ":id"],
               "variable": [{ "key": "id", "value": "" }]
-            }
+            },
+            "description": "Remove personal record. The catalog item is not affected."
           }
         }
       ]

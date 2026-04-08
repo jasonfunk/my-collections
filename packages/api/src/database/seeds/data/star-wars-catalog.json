@@ -1,0 +1,3121 @@
+[
+  {
+    "externalId": "165332",
+    "name": "Boba Fett",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/165334.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-12-inch-action-figures-boba-fett/165332/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "165336",
+    "name": "Darth Vader",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/165338.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-12-inch-action-figures-darth-vader/165336/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "165348",
+    "name": "IG-88 (Bounty Hunter)",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Bandolier"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/165350.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-12-inch-action-figures-ig-88-bounty-hunter/165348/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "165324",
+    "name": "See-Threepio (C-3PO)",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/165326.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-12-inch-action-figures-see-threepio-c-3po/165324/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "150159",
+    "name": "Action Figures Survival Kit",
+    "category": "ACCESSORY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Jedi Training Harness"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/150161.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-accessories-action-figures-survival-kit/150159/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47788",
+    "name": "Ewok Assault Catapult",
+    "category": "ACCESSORY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Boulder"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47790.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-accessories-ewok-assault-catapult/47788/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47440",
+    "name": "Radar Laser Cannon",
+    "category": "ACCESSORY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Radar Dish"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47442.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-accessories-radar-laser-cannon/47440/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47447",
+    "name": "Tri-Pod Laser Cannon",
+    "category": "ACCESSORY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Power Hose"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47449.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-accessories-tri-pod-laser-cannon/47447/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47454",
+    "name": "Vehicle Maintenance Energizer",
+    "category": "ACCESSORY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Hydrospanner Tool 4"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47456.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-accessories-vehicle-maintenance-energizer/47454/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47227",
+    "name": "2-1B / Two-Onebee",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "medical staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47229.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-2-1b-two-onebee/47227/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47325",
+    "name": "4-LOM",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Findsman Body Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47327.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-4-lom/47325/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47566",
+    "name": "8D8",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47568.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-8d8/47566/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47739",
+    "name": "A-Wing Pilot",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "X-30 Lancer Precision Blast Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47741.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-a-wing-pilot/47739/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47398",
+    "name": "Admiral Ackbar",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Admiral Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47400.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-admiral-ackbar/47398/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "136235",
+    "name": "Amanaman",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Headhunter Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/136237.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-amanaman/136235/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47837",
+    "name": "Anakin Skywalker",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47839.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-anakin-skywalker/47837/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "46931",
+    "name": "Arfive-Defour (R5-D4)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46933.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-arfive-defour-r5-d4/46931/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46805",
+    "name": "Artoo-Detoo (R2-D2)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46807.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-artoo-detoo-r2-d2/46805/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47248",
+    "name": "Artoo-Detoo (R2-D2) (With Sensorscope / Periscope)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47250.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-artoo-detoo-r2-d2-with-sensorscope-periscope/47248/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47732",
+    "name": "Artoo-Detoo (R2-D2) With Pop Up Lightsaber",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Lightsaber"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47734.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-artoo-detoo-r2-d2-with-pop-up-lightsaber/47732/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47234",
+    "name": "AT-AT Commander / General Veers",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DH-17 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47236.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-at-at-commander-general-veers/47234/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47199",
+    "name": "AT-AT Driver",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "SE-14r Light Repeating Blaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47201.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-at-at-driver/47199/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47662",
+    "name": "AT-ST Driver",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "X-30 Lancer Precision Blast Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47664.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-at-st-driver/47662/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47683",
+    "name": "B-Wing Pilot",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "X-30 Lancer Precision Blast Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47685.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-b-wing-pilot/47683/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47844",
+    "name": "Barada",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47846.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-barada/47844/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "46833",
+    "name": "Ben (Obi-Wan) Kenobi",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46835.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ben-obi-wan-kenobi/46833/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47311",
+    "name": "Bespin Security Guard (Black)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DH-17 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47313.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-bespin-security-guard-black/47311/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47094",
+    "name": "Bespin Security Guard (White)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DH-17 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47096.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-bespin-security-guard-white/47094/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47468",
+    "name": "Bib Fortuna",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47470.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-bib-fortuna/47468/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47475",
+    "name": "Biker Scout",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "EC-17 Hold-Out Blaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47477.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-biker-scout/47475/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47087",
+    "name": "Bossk (Bounty Hunter)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Relby-v10 Mortar Gun"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47089.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-bossk-bounty-hunter/47087/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "46812",
+    "name": "Chewbacca",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Bowcaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46814.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-chewbacca/46812/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47482",
+    "name": "Chief Chirpa",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47484.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-chief-chirpa/47482/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "46840",
+    "name": "Darth Vader",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46842.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-darth-vader/46840/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "46798",
+    "name": "Death Squad / Star Destroyer Commander",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46800.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-death-squad-star-destroyer-commander/46798/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "46938",
+    "name": "Death Star Droid",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46940.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-death-star-droid/46938/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47164",
+    "name": "Dengar",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DLT-19 Heavy Blaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47166.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-dengar/47164/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47489",
+    "name": "Emperor's Royal Guard",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Force Pike"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47491.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-emperoraposs-royal-guard/47489/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47851",
+    "name": "EV-9D9",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47853.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ev-9d9/47851/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47101",
+    "name": "FX-7 (Medical Droid)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47103.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-fx-7-medical-droid/47101/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47496",
+    "name": "Gamorrean Guard",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Vibro Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47498.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-gamorrean-guard/47496/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47503",
+    "name": "General Madine",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Rebel Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47505.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-general-madine/47503/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "46896",
+    "name": "Greedo",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46898.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-greedo/46896/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46903",
+    "name": "Hammerhead",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46905.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-hammerhead/46903/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46847",
+    "name": "Han Solo",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46849.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-han-solo/46847/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47171",
+    "name": "Han Solo (Bespin / Cloud City Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DH-17 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47173.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-han-solo-bespin-cloud-city-outfit/47171/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47108",
+    "name": "Han Solo (Hoth Outfit / Battle Gear)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47110.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-han-solo-hoth-outfit-battle-gear/47108/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47746",
+    "name": "Han Solo (In Carbonite Chamber)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Carbonite Chamber"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47748.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-han-solo-in-carbonite-chamber/47746/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47690",
+    "name": "Han Solo (In Trench Coat)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Trench Coat"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47692.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-han-solo-in-trench-coat/47690/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47115",
+    "name": "IG-88 (Bounty Hunter)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47117.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ig-88-bounty-hunter/47115/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47213",
+    "name": "Imperial Commander",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47215.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-commander/47213/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47669",
+    "name": "Imperial Dignitary",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47671.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-dignitary/47669/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47676",
+    "name": "Imperial Gunner",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "X-30 Lancer Precision Blast Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47678.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-gunner/47676/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "46861",
+    "name": "Imperial Stormtrooper",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46863.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-stormtrooper/46861/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47122",
+    "name": "Imperial Stormtrooper (Hoth Battle Gear)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47124.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-stormtrooper-hoth-battle-gear/47122/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47384",
+    "name": "Imperial TIE Fighter Pilot",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47386.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-imperial-tie-fighter-pilot/47384/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "46875",
+    "name": "Jawa (Cloth Cape)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape (vinyl)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46877.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-jawa-cloth-cape/46875/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "46868",
+    "name": "Jawa (Vinyl Cape)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape (cloth)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46870.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-jawa-vinyl-cape/46868/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47510",
+    "name": "Klaatu",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "BD-1 Vibro-Ax"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47512.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-klaatu/47510/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47573",
+    "name": "Klaatu (In Skiff Guard Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47575.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-klaatu-in-skiff-guard-outfit/47573/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47129",
+    "name": "Lando Calrissian",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47131.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-lando-calrissian/47129/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47865",
+    "name": "Lando Calrissian (General Pilot)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47867.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-lando-calrissian-general-pilot/47865/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47405",
+    "name": "Lando Calrissian (Skiff Guard Disguise)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "BD-1 Vibro-Ax"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47407.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-lando-calrissian-skiff-guard-disguise/47405/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47178",
+    "name": "Lobot (Lando's Aid)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47180.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-lobot-landoaposs-aid/47178/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47517",
+    "name": "Logray (Ewok Medicine Man)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Shaman Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47519.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-logray-ewok-medicine-man/47517/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "46819",
+    "name": "Luke Skywalker",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Lightsaber"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46821.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker/46819/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47136",
+    "name": "Luke Skywalker (Bespin Fatigues)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Lightsaber"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47138.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-bespin-fatigues/47136/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47241",
+    "name": "Luke Skywalker (Hoth Battle Gear / Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "A295 Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47243.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-hoth-battle-gear-outfit/47241/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47753",
+    "name": "Luke Skywalker (Imperial Stormtrooper Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Stormtrooper Helmet"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47755.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-imperial-stormtrooper-outfit/47753/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47872",
+    "name": "Luke Skywalker (In Battle Poncho)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Poncho"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47874.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-in-battle-poncho/47872/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47524",
+    "name": "Luke Skywalker (Jedi Knight Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47526.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-jedi-knight-outfit/47524/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "46945",
+    "name": "Luke Skywalker (X-Wing Fighter Pilot)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46947.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-luke-skywalker-x-wing-fighter-pilot/46945/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47718",
+    "name": "Lumat",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Quiver"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47720.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-lumat/47718/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47461",
+    "name": "Nien Nunb",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47463.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-nien-nunb/47461/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47580",
+    "name": "Nikto",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47582.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-nikto/47580/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47725",
+    "name": "Paploo",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47727.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-paploo/47725/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "46952",
+    "name": "Power Droid",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46954.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-power-droid/46952/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46826",
+    "name": "Princess Leia Organa",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46828.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-princess-leia-organa/46826/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47143",
+    "name": "Princess Leia Organa (Bespin Gown)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47145.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-princess-leia-organa-bespin-gown/47143/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47531",
+    "name": "Princess Leia Organa (Boushh Disguise)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Helmet"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47533.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-princess-leia-organa-boushh-disguise/47531/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47206",
+    "name": "Princess Leia Organa (Hoth Outfit)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Defender Sporting Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47208.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-princess-leia-organa-hoth-outfit/47206/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47697",
+    "name": "Princess Leia Organa (In Combat Poncho)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Poncho"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47699.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-princess-leia-organa-in-combat-poncho/47697/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47760",
+    "name": "Pruneface",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47762.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-pruneface/47760/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47767",
+    "name": "Rancor Keeper",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Vibroblade"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47769.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-rancor-keeper/47767/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47220",
+    "name": "Rebel Commander",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "A295 Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47222.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-rebel-commander/47220/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47538",
+    "name": "Rebel Commando",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "A280 Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47540.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-rebel-commando/47538/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47150",
+    "name": "Rebel Soldier (Hoth Battle Gear)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DH-17 Blaster Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47152.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-rebel-soldier-hoth-battle-gear/47150/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47545",
+    "name": "Ree-Yees",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47547.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ree-yees/47545/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47879",
+    "name": "Romba",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Spear"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47881.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-romba/47879/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "46854",
+    "name": "See-Threepio (C-3PO)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46856.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-see-threepio-c-3po/46854/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47377",
+    "name": "See-Threepio (C-3PO) With Removable Limbs",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Back Pack"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47379.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-see-threepio-c-3po-with-removable-limbs/47377/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "46917",
+    "name": "Snaggletooth (blue)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46919.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-snaggletooth-blue/46917/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46910",
+    "name": "Snaggletooth (red)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "DL-44 Blaster Pistol (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46912.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-snaggletooth-red/46910/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47552",
+    "name": "Squid Head",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Belt"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47554.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-squid-head/47552/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47587",
+    "name": "Sy Snootles and the Rebo Band",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Red Ball Jett Organ"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47589.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-sy-snootles-and-the-rebo-band/47587/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47704",
+    "name": "Teebo",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47706.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-teebo/47704/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47655",
+    "name": "The Emperor",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cane"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47657.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-the-emperor/47655/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "46882",
+    "name": "Tusken Raider (Sand People)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Cloak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46884.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-tusken-raider-sand-people/46882/",
+    "kennerItemNumber": null,
+    "year": 1977
+  },
+  {
+    "externalId": "47318",
+    "name": "Twin Pod Cloud Car Pilot",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Communicator"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47320.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-twin-pod-cloud-car-pilot/47318/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47192",
+    "name": "Ugnaught (blue smock)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Smock"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47194.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ugnaught-blue-smock/47192/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47185",
+    "name": "Ugnaught (purple smock)",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Smock"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47187.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-ugnaught-purple-smock/47185/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "46924",
+    "name": "Walrus Man",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46926.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-walrus-man/46924/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47886",
+    "name": "Warok",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Quiver"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47888.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-warok/47886/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47559",
+    "name": "Weequay",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "BD-1 Vibro Ax"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47561.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-weequay/47559/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47711",
+    "name": "Wicket W. Warrick",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Spear"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47713.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-wicket-w-warrick/47711/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47858",
+    "name": "Yak Face",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Battle Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47860.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-yak-face/47858/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47157",
+    "name": "Yoda the Jedi Master",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Snake (version 2)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47159.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-yoda-the-jedi-master/47157/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47391",
+    "name": "Zuckuss",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "Blaster Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47393.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-zuckuss/47391/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47942",
+    "name": "C-3PO Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47944.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-c-3po-case/47942/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47949",
+    "name": "Chewbacca Bandolier Strap",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-chewbacca-bandolier-strap/47949/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47921",
+    "name": "Darth Vader Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47923.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-darth-vader-case/47921/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47935",
+    "name": "Empire Strikes Back Vinyl Figure Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47937.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-empire-strikes-back-vinyl-figure-case/47935/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "169778",
+    "name": "Empire Strikes Back Vinyl Figure Case (red)",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-empire-strikes-back-vinyl-figure-case-red/169778/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47963",
+    "name": "Laser Rifle Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47965.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-laser-rifle-case/47963/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47956",
+    "name": "Return of the Jedi Vinyl Figure Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Tray/Display Base"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47958.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-return-of-the-jedi-vinyl-figure-case/47956/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47928",
+    "name": "Star Wars Vinyl Figure Case",
+    "category": "COLLECTOR_CASE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47930.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-collectors-cases-star-wars-vinyl-figure-case/47928/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47412",
+    "name": "Hoth Wampa",
+    "category": "CREATURE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47414.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-creatures-hoth-wampa/47412/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47015",
+    "name": "Patrol Dewback",
+    "category": "CREATURE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Reins"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47017.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-creatures-patrol-dewback/47015/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47774",
+    "name": "Rancor",
+    "category": "CREATURE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47776.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-creatures-rancor/47774/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47255",
+    "name": "Tauntaun",
+    "category": "CREATURE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Reins"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47257.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-creatures-tauntaun/47255/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47262",
+    "name": "Tauntaun with Open Belly Rescue Feature",
+    "category": "CREATURE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Reins"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47264.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-creatures-tauntaun-with-open-belly-rescue-feature/47262/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47984",
+    "name": "AST-5 (Armored Sentry Transport)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47986.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-ast-5-armored-sentry-transport/47984/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47991",
+    "name": "CAP-2 (Captivator)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47993.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-cap-2-captivator/47991/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "95627",
+    "name": "Desert Sail Skiff",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/95629.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-desert-sail-skiff/95627/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "150152",
+    "name": "Endor Forest Ranger",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/150154.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-endor-forest-ranger/150152/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47998",
+    "name": "INT-4 (Interceptor)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "cannon (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/48000.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-int-4-interceptor/47998/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "48005",
+    "name": "ISP-6 (Imperial Shuttle Pod)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/48007.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-isp-6-imperial-shuttle-pod/48005/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "48012",
+    "name": "MLC-3 (Mobile Laser Cannon)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/48014.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-mlc-3-mobile-laser-cannon/48012/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47970",
+    "name": "MTV-7 (Multi-Terrain Vehicle)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47972.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-mtv-7-multi-terrain-vehicle/47970/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47977",
+    "name": "PDT-8 (Personal Deployment Transport)",
+    "category": "MINI_RIG",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47979.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-mini-rigs-pdt-8-personal-deployment-transport/47977/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "142396",
+    "name": "Action Display Stand",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Backdrop"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/142398.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-mail-away-exclusive-action-display-stand/142396/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "46987",
+    "name": "Cantina Adventure Set",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Cantina backdrop"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-sears-exclusive-cantina-adventure-set/46987/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47290",
+    "name": "Cloud City Playset",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Smock"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47292.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-sears-exclusive-cloud-city-playset/47290/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47057",
+    "name": "Creature Cantina",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Backdrop (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47059.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-creature-cantina/47057/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47353",
+    "name": "Dagobah Playset",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "R2-D2 Adapter"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47355.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-dagobah-playset/47353/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47001",
+    "name": "Death Star Space Station",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Trash Monster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47003.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-death-star-space-station/47001/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "163410",
+    "name": "Display Arena",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Display Arena Piece"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/163412.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-mail-away-exclusive-display-arena/163410/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47064",
+    "name": "Droid Factory",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Radar Unit"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47071.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-droid-factory/47064/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47615",
+    "name": "Ewok Village",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Spit Pole"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47617.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-ewok-village/47615/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47297",
+    "name": "Hoth Ice Planet Playset",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Action Peg (part of Backdrop)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47299.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-hoth-ice-planet-playset/47297/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47304",
+    "name": "Imperial Attack Base",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Command Post"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47306.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-imperial-attack-base/47304/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47622",
+    "name": "Jabba the Hutt",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Bowl"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47627.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-jabba-the-hutt/47622/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47823",
+    "name": "Jabba the Hutt Dungeon (Brown)",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Hook"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47829.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-sears-exclusive-jabba-the-hutt-dungeon-brown/47823/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47634",
+    "name": "Jabba the Hutt Dungeon (Gray)",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "BD-1 Vibro Axe (Klaatu)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47640.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-sears-exclusive-jabba-the-hutt-dungeon-gray/47634/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47080",
+    "name": "Land of the Jawas",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Left Tread Support (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47082.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-land-of-the-jawas/47080/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47360",
+    "name": "Rebel Command Center",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Tab"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47362.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-sears-exclusive-rebel-command-center/47360/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47367",
+    "name": "Turret and Probot",
+    "category": "PLAYSET",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Ice Planet Base"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47371.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-playsets-turret-and-probot/47367/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "142389",
+    "name": "3-Position Laser Rifle",
+    "category": "ROLEPLAY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/142391.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-roleplay-3-position-laser-rifle/142389/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "187921",
+    "name": "Biker Scout Laser Pistol",
+    "category": "ROLEPLAY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/187923.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-roleplay-biker-scout-laser-pistol/187921/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "139231",
+    "name": "Laser Pistol (Han Solo Blaster)",
+    "category": "ROLEPLAY",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/139233.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-roleplay-laser-pistol-han-solo-blaster/139231/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "86006",
+    "name": "Darth Vader TIE Fighter",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/86008.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-darth-vader-tie-fighter/86006/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "112628",
+    "name": "Imperial TIE Fighter",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112630.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-imperial-tie-fighter/112628/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112614",
+    "name": "Landspeeder",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112616.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-landspeeder/112614/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "86013",
+    "name": "Millennium Falcon",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/86015.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-millennium-falcon/86013/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "112649",
+    "name": "Slave I",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112651.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-slave-i/112649/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112607",
+    "name": "Snowspeeder",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112609.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-snowspeeder/112607/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112635",
+    "name": "Star Destroyer",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Tantive IV (Blockade Runner)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112637.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-star-destroyer/112635/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112642",
+    "name": "TIE Bomber",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112644.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-tie-bomber/112642/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112621",
+    "name": "Twin Pod Cloud Car",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112623.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-twin-pod-cloud-car/112621/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "112600",
+    "name": "Y-Wing Fighter",
+    "category": "DIE_CAST",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "bomb"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/112602.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-small-scale-die-cast-y-wing-fighter/112600/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47332",
+    "name": "AT-AT (All Terrain Armored Transport)",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Battery Cover"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47334.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-at-at-all-terrain-armored-transport/47332/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47781",
+    "name": "B-Wing Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47783.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-b-wing-fighter/47781/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47594",
+    "name": "Battle Damaged Imperial TIE Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47596.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-battle-damaged-imperial-tie-fighter/47594/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47419",
+    "name": "Battle Damaged X-Wing Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "KX9 Laser Cannon"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47421.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-battle-damaged-x-wing-fighter/47419/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47022",
+    "name": "Darth Vader TIE Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Right Wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47024.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-darth-vader-tie-fighter/47022/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47269",
+    "name": "Darth Vader's Star Destroyer",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Base (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47271.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-darth-vaderaposs-star-destroyer/47269/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47893",
+    "name": "Ewok Battle Wagon",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Log-Formed Sides"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47895.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-ewok-battle-wagon/47893/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47795",
+    "name": "Ewok Combat Glider",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Harness"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47797.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-ewok-combat-glider/47795/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47339",
+    "name": "Imperial Cruiser",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Prisoner Immobilization Unit"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47341.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-sears-exclusive-imperial-cruiser/47339/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47802",
+    "name": "Imperial Shuttle",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Side Hatch Door"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47804.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-imperial-shuttle/47802/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47900",
+    "name": "Imperial Sniper",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-imperial-sniper/47900/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "46966",
+    "name": "Imperial TIE Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46968.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-imperial-tie-fighter/46966/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47029",
+    "name": "Imperial Troop Transporter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Prisoner Immobilization Unit"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47031.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-imperial-troop-transporter/47029/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "46973",
+    "name": "Landspeeder",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46975.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-landspeeder/46973/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47036",
+    "name": "Millennium Falcon",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Radar (assembled)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47038.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-millennium-falcon/47036/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47907",
+    "name": "One-Man Sand Skimmer",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47909.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-one-man-sand-skimmer/47907/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47043",
+    "name": "Radio Controlled Jawa Sandcrawler",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-radio-controlled-jawa-sandcrawler/47043/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47276",
+    "name": "Rebel Armored Snowspeeder",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Thrust Nozzle (includes 2) (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47278.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-rebel-armored-snowspeeder/47276/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "47426",
+    "name": "Rebel Transport",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Backpack"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47428.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-rebel-transport/47426/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47433",
+    "name": "Scout Walker",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Breast Plate (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47435.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-scout-walker/47433/",
+    "kennerItemNumber": null,
+    "year": 1982
+  },
+  {
+    "externalId": "47914",
+    "name": "Security Scout",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47916.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-security-scout/47914/",
+    "kennerItemNumber": null,
+    "year": 1985
+  },
+  {
+    "externalId": "47346",
+    "name": "Slave I",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "boarding ramp (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47348.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-slave-i/47346/",
+    "kennerItemNumber": null,
+    "year": 1981
+  },
+  {
+    "externalId": "47050",
+    "name": "Sonic Controlled Land Speeder",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-sonic-controlled-land-speeder/47050/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": "47601",
+    "name": "Speeder Bike",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Front Extension"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47603.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-speeder-bike/47601/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47816",
+    "name": "Tatooine Skiff",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47818.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-tatooine-skiff/47816/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47809",
+    "name": "TIE Interceptor",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Right Wing"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47811.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-tie-interceptor/47809/",
+    "kennerItemNumber": null,
+    "year": 1984
+  },
+  {
+    "externalId": "47283",
+    "name": "Twin-Pod Cloud Car",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47285.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-twin-pod-cloud-car/47283/",
+    "kennerItemNumber": null,
+    "year": 1980
+  },
+  {
+    "externalId": "46980",
+    "name": "X-Wing Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "KX9 Laser Cannon"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/46982.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-x-wing-fighter/46980/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": "47608",
+    "name": "Y-Wing Fighter",
+    "category": "VEHICLE",
+    "line": null,
+    "figureSize": null,
+    "accessories": [
+      "Exhaust Nacelle (includes 2) (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47610.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-vehicles-y-wing-fighter/47608/",
+    "kennerItemNumber": null,
+    "year": 1983
+  },
+  {
+    "externalId": "47008",
+    "name": "Boba Fett",
+    "category": "BASIC_FIGURE",
+    "line": null,
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47010.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-boba-fett/47008/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": null,
+    "name": "Artoo-Detoo (R2-D2)",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Death Star Plans",
+      "Death Star Plans",
+      "Death Star Plans"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": null,
+    "name": "Chewbacca",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Wookie Bowcaster",
+      "Bandolier"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": null,
+    "name": "Luke Skywalker",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cloth Shirt",
+      "Pants",
+      "Boots",
+      "Utility Belt",
+      "Blue Lightsaber",
+      "Grappling Hook"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": null,
+    "name": "Princess Leia Organa",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cloth Dress",
+      "Belt",
+      "Socks",
+      "Shoes",
+      "Brush",
+      "Comb"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1978
+  },
+  {
+    "externalId": null,
+    "name": "Ben (Obi-Wan) Kenobi",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cloth Tunic",
+      "Pants",
+      "Jedi Robe",
+      "Boots",
+      "Yellow Lightsaber"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": null,
+    "name": "Han Solo",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cloth Shirt",
+      "Vest",
+      "Pants",
+      "Boots",
+      "Gun Belt",
+      "Blaster",
+      "Medal of Yavin"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": null,
+    "name": "Jawa",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Cloth Brown Cloak",
+      "Ammo Bandolier",
+      "Laser Rifle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": null,
+    "name": "Stormtrooper",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Stormtrooper Blaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1979
+  },
+  {
+    "externalId": null,
+    "name": "Boba Fett (Empire Strikes Back)",
+    "category": "TWELVE_INCH",
+    "line": null,
+    "figureSize": "12",
+    "accessories": [
+      "Utility Belt",
+      "Cape",
+      "Laser Blaster",
+      "Wookie Scalps",
+      "Rocket Pack w/ Missile"
+    ],
+    "isVariant": true,
+    "variantDescription": "Empire Strikes Back packaging",
+    "catalogImageUrl": null,
+    "sourceUrl": "https://thetoycollectorsguide.com/star-wars-12-inch/",
+    "kennerItemNumber": null,
+    "year": 1980
+  }
+]

@@ -70,3 +70,12 @@ export enum CollectionType {
   TRANSFORMERS = 'TRANSFORMERS',
   HE_MAN = 'HE_MAN',
 }
+
+/**
+ * Wishlist priority for unowned items across all collections.
+ */
+export enum WishlistPriority {
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW',
+}

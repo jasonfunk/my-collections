@@ -11,83 +11,87 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AcquisitionSource, ConditionGrade, StarWarsLine } from '@my-collections/shared';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { AccessTokenPayload } from '../../auth/services/token.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { CreateStarWarsFigureDto, UpdateStarWarsFigureDto } from '../dto/star-wars-figure.dto';
-import { StarWarsService } from '../services/star-wars.service';
+import {
+  CatalogBrowseQueryDto,
+  CreateUserStarWarsItemDto,
+  UpdateUserStarWarsItemDto,
+} from '../dto/star-wars-catalog.dto';
+import { StarWarsCatalogService } from '../services/star-wars-catalog.service';
+import { UserStarWarsItemsService } from '../services/user-star-wars-items.service';
 
 @ApiTags('collections')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('collections/star-wars')
 export class StarWarsController {
-  constructor(private readonly service: StarWarsService) {}
+  constructor(
+    private readonly catalogService: StarWarsCatalogService,
+    private readonly itemsService: UserStarWarsItemsService,
+  ) {}
 
-  @Get()
-  @ApiOperation({ summary: 'List Star Wars figures' })
-  @ApiQuery({ name: 'owned', type: Boolean, required: false, description: 'true = owned, false = wishlist' })
-  @ApiQuery({ name: 'condition', enum: ConditionGrade, enumName: 'ConditionGrade', required: false })
-  @ApiQuery({ name: 'line', enum: StarWarsLine, enumName: 'StarWarsLine', required: false })
-  @ApiQuery({ name: 'acquisitionSource', enum: AcquisitionSource, enumName: 'AcquisitionSource', required: false })
-  @ApiQuery({ name: 'isComplete', type: Boolean, required: false })
-  @ApiQuery({ name: 'search', type: String, required: false, description: 'Search name and notes (case-insensitive)' })
-  findAll(
+  // ── Catalog (shared, no userId) ───────────────────────────────────────────
+
+  @Get('catalog')
+  @ApiOperation({ summary: 'Browse the Star Wars catalog' })
+  @ApiResponse({ status: 200, description: 'Paginated catalog items; filter by category and/or line' })
+  browseCatalog(@Query() query: CatalogBrowseQueryDto) {
+    return this.catalogService.findAll(query);
+  }
+
+  @Get('catalog/:id')
+  @ApiOperation({ summary: 'Get a single Star Wars catalog item' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  getCatalogItem(@Param('id') id: string) {
+    return this.catalogService.findOne(id);
+  }
+
+  // ── User items (personal records) ────────────────────────────────────────
+
+  @Get('items')
+  @ApiOperation({ summary: "List the user's Star Wars records (owned + wishlist)" })
+  listItems(
     @CurrentUser() user: AccessTokenPayload,
     @Query() pagination: PaginationQueryDto,
-    @Query('owned') owned?: string,
-    @Query('condition') condition?: ConditionGrade,
-    @Query('line') line?: StarWarsLine,
-    @Query('acquisitionSource') acquisitionSource?: AcquisitionSource,
-    @Query('isComplete') isComplete?: string,
-    @Query('search') search?: string,
   ) {
-    return this.service.findAll(
-      user.sub,
-      {
-        owned: owned !== undefined ? owned === 'true' : undefined,
-        condition,
-        line,
-        acquisitionSource,
-        isComplete: isComplete !== undefined ? isComplete === 'true' : undefined,
-        search: search || undefined,
-      },
-      pagination,
-    );
+    return this.itemsService.findAll(user.sub, pagination);
   }
 
-  @Post()
-  @ApiOperation({ summary: 'Add a Star Wars figure' })
-  @ApiResponse({ status: 201, description: 'Figure created' })
-  create(@CurrentUser() user: AccessTokenPayload, @Body() dto: CreateStarWarsFigureDto) {
-    return this.service.create(user.sub, dto);
+  @Post('items')
+  @ApiOperation({ summary: 'Claim a catalog item (mark as owned or add to wishlist)' })
+  @ApiResponse({ status: 201, description: 'Record created' })
+  @ApiResponse({ status: 404, description: 'Catalog item not found' })
+  @ApiResponse({ status: 409, description: 'Record already exists for this catalog item' })
+  claimItem(
+    @CurrentUser() user: AccessTokenPayload,
+    @Body() dto: CreateUserStarWarsItemDto,
+  ) {
+    return this.itemsService.create(user.sub, dto);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a Star Wars figure by ID' })
+  @Patch('items/:id')
+  @ApiOperation({ summary: 'Update a personal Star Wars record' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  findOne(@CurrentUser() user: AccessTokenPayload, @Param('id') id: string) {
-    return this.service.findOne(user.sub, id);
-  }
-
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update a Star Wars figure' })
-  update(
+  updateItem(
     @CurrentUser() user: AccessTokenPayload,
     @Param('id') id: string,
-    @Body() dto: UpdateStarWarsFigureDto,
+    @Body() dto: UpdateUserStarWarsItemDto,
   ) {
-    return this.service.update(user.sub, id, dto);
+    return this.itemsService.update(user.sub, id, dto);
   }
 
-  @Delete(':id')
+  @Delete('items/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Delete a Star Wars figure' })
+  @ApiOperation({ summary: 'Remove a personal Star Wars record' })
   @ApiResponse({ status: 204, description: 'Deleted' })
-  remove(@CurrentUser() user: AccessTokenPayload, @Param('id') id: string) {
-    return this.service.remove(user.sub, id);
+  removeItem(
+    @CurrentUser() user: AccessTokenPayload,
+    @Param('id') id: string,
+  ) {
+    return this.itemsService.remove(user.sub, id);
   }
 }
