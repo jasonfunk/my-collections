@@ -1916,3 +1916,145 @@ New `/search` route — `SearchPage.tsx`:
 | QueryBuilder over FindOptionsWhere | QueryBuilder | OR across two columns (name/notes) requires it; also enables clean `andWhere` composition |
 | Global search merge strategy | In-memory merge + sort + paginate | Appropriate for personal collection scale; avoids complex UNION SQL |
 | Debounce approach | `useState` + `useEffect` 300ms | Prevents React Query refetch on every keystroke; URL stays bookmarkable |
+
+---
+
+# Session 9 — COL-65: Star Wars Catalog Scraper
+
+## Overview
+
+Built the one-time Star Wars catalog scraper (`scripts/scrape-star-wars-catalog.ts`) that fetches all 190 Original Kenner Series items from transformerland.com, then cross-validated the output and manually patched 9 missing twelve-inch figures from a second source. Final seed dataset: **199 items** committed to `packages/api/src/database/seeds/data/star-wars-catalog.json`.
+
+Also introduced `tsconfig.scripts.json` and the `scripts/` directory pattern for one-off utility scripts.
+
+---
+
+## 1. Infrastructure: `scripts/` directory + tsconfig
+
+Created `scripts/` at the repo root for one-off utility scripts that run outside the normal build pipeline.
+
+`tsconfig.base.json` uses `"module": "ESNext"` / `"moduleResolution": "bundler"` — incompatible with `ts-node`'s default CJS mode. Added `tsconfig.scripts.json` at the repo root:
+
+```json
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": { "module": "commonjs", "moduleResolution": "node" },
+  "include": ["scripts/**/*.ts"]
+}
+```
+
+Added npm script to root `package.json`:
+```
+"scrape:star-wars": "ts-node --project tsconfig.scripts.json scripts/scrape-star-wars-catalog.ts"
+```
+
+Installed `cheerio` and `playwright` as root devDependencies.
+
+---
+
+## 2. Scraper: `scripts/scrape-star-wars-catalog.ts`
+
+**Source:** `https://www.transformerland.com/wiki/star-wars/original-kenner-series/`
+
+**Key design decisions:**
+
+**Cloudflare managed challenge** — plain `fetch`, `curl`, and headless Playwright (`headless: true`) all fail with Cloudflare's bot detection (TLS fingerprinting + JS challenge). Only `chromium.launch({ headless: false })` passes. A browser window opens during the ~3-minute run; this is expected and noted in the script's header comment.
+
+After `page.goto()` with `waitUntil: 'domcontentloaded'`, wait for the CF challenge to resolve:
+```typescript
+await page.waitForFunction(
+  () => !document.title.includes('Just a moment'),
+  { timeout: 15_000 },
+);
+```
+
+**Category extraction** — embedded in the URL slug: `/wiki/toy-info/star-wars-original-kenner-series-{category-slug}-{item-slug}/{id}/`. Matched against 10 known slugs → `StarWarsCategory` enum value.
+
+**figureSize** — site's size field is unreliable (shows 0cm for figures). Hardcoded from category: `BASIC_FIGURE → "3.75"`, `TWELVE_INCH → "12"`, everything else null.
+
+**Year** — extracted from the "Year:" row in the info table. All 199 items have a year (1977–1985).
+
+**Accessories** — from "Set Accessories" section. Strip trailing `(xN)` quantity suffix; keep color/variant descriptors (e.g., `"DL-44 Blaster Pistol (bluish black)"`).
+
+**Error handling** — log and continue. One transient network error (Boba Fett basic figure) was re-scraped and manually appended.
+
+**Rate limiting** — 1100ms sleep between requests.
+
+**Output fields per item:**
+```
+externalId, name, category, line (null), figureSize, accessories[],
+isVariant, variantDescription, catalogImageUrl, sourceUrl, kennerItemNumber, year
+```
+
+**Result:** 190 items scraped from transformerland.com, all 10 categories populated.
+
+---
+
+## 3. Cross-validation + patch: `scripts/patch-star-wars-12inch.ts`
+
+Cross-checked TWELVE_INCH count (4) against `https://thetoycollectorsguide.com/star-wars-12-inch/` — should be **13 figures** (3 waves, 1978–1980). Root cause: transformerland.com simply hasn't added the other 9 to their wiki (the 4 present have IDs in the 165xxx range = recent stubs).
+
+**Missing figures added manually (Wave 1–3):**
+
+| Name | Year | Wave |
+|------|------|------|
+| Artoo-Detoo (R2-D2) | 1978 | 1 |
+| Chewbacca | 1978 | 1 |
+| Luke Skywalker | 1978 | 1 |
+| Princess Leia Organa | 1978 | 1 |
+| Ben (Obi-Wan) Kenobi | 1979 | 2 |
+| Han Solo | 1979 | 2 |
+| Jawa | 1979 | 2 |
+| Stormtrooper | 1979 | 2 |
+| Boba Fett (Empire Strikes Back) | 1980 | 3 — `isVariant: true` |
+
+Manual items use `externalId: null` (no transformerland.com page) and `sourceUrl` pointing to the reference site. PostgreSQL's unique constraint on `externalId` treats nulls as non-matching, so these rows always insert — acceptable for the stable hand-curated set.
+
+**Final dataset: 199 items, TWELVE_INCH count: 13.**
+
+---
+
+## Smoke test
+
+```bash
+python3 -c "
+import json
+with open('packages/api/src/database/seeds/data/star-wars-catalog.json') as f:
+    data = json.load(f)
+cats = {}
+for item in data:
+    cats[item['category']] = cats.get(item['category'], 0) + 1
+print('Total:', len(data))
+print(dict(sorted(cats.items())))
+no_year = [d['name'] for d in data if d['year'] is None]
+print('Missing year:', no_year)
+"
+```
+
+Output:
+```
+Total: 199
+{'ACCESSORY': 5, 'BASIC_FIGURE': 100, 'COLLECTOR_CASE': 8, 'CREATURE': 5,
+ 'DIE_CAST': 10, 'MINI_RIG': 9, 'PLAYSET': 17, 'ROLEPLAY': 3, 'TWELVE_INCH': 13, 'VEHICLE': 29}
+Missing year: []
+```
+
+All items have a year and catalog image URL. ✅
+
+---
+
+### Jira tickets closed
+
+| Ticket | Description | Status |
+|---|---|---|
+| COL-65 | Build Star Wars catalog scraper (transformerland.com) | Done |
+| COL-68 | Documentation: setup-log, project-structure, Confluence, README | Done |
+
+### Key decisions
+
+| Decision | Chosen | Reason |
+|---|---|---|
+| HTTP layer for scraper | Playwright `headless: false` | transformerland.com uses Cloudflare managed challenge; headless Chromium fails bot detection |
+| externalId for manual items | `null` | No transformerland.com page exists; null is semantically correct |
+| 12" gap resolution | Manual curation from thetoycollectorsguide.com | Only 9 items missing; manual entry faster and more reliable than a second scraper |
+| Accessory format | Strip `(xN)` only, keep descriptors | Preserves variant detail (e.g., vinyl vs. cloth) useful for completeness checking |

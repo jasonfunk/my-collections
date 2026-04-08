@@ -12,6 +12,7 @@ my-collections/
 │   └── workflows/
 ├── packages/
 ├── postman/               ← Postman collections and environment (one file per API module)
+├── scripts/               ← one-off utility scripts (scraper, data patches)
 ├── docs/
 ├── .git/
 ├── .gitignore
@@ -21,6 +22,7 @@ my-collections/
 ├── docker-compose.yml
 ├── package.json
 ├── tsconfig.base.json
+├── tsconfig.scripts.json  ← CJS module override for ts-node scripts
 └── turbo.json
 ```
 
@@ -56,6 +58,9 @@ The monorepo root package file. Declares npm workspaces (`packages/*`) so a sing
 ### `tsconfig.base.json`
 Base TypeScript configuration extended by every package. Ensures consistent compiler settings (strict mode, ES2020 target, source maps, etc.) across the whole project without repeating them in each package.
 
+### `tsconfig.scripts.json`
+TypeScript configuration override for scripts in the `scripts/` directory. `tsconfig.base.json` uses `"module": "ESNext"` / `"moduleResolution": "bundler"` for compatibility with Vite and NestJS's build pipelines, but `ts-node` requires CommonJS. This file extends `tsconfig.base.json` and overrides just those two settings. Usage: `ts-node --project tsconfig.scripts.json scripts/my-script.ts`.
+
 ### `turbo.json`
 Turborepo pipeline configuration. Defines how tasks (`build`, `dev`, `lint`, `test`) relate to each other across packages. The critical rule: `build` depends on `^build`, meaning Turborepo always builds a package's dependencies before it — so `shared` is compiled before `api`, `web`, and `mobile`.
 
@@ -80,13 +85,34 @@ Postman Collection v2.1 schema. Import into Postman alongside the environment fi
 
 ---
 
+## `scripts/`
+
+```
+scripts/
+├── scrape-star-wars-catalog.ts  ← one-time Playwright + cheerio scraper
+└── patch-star-wars-12inch.ts    ← manual patch adding 9 missing 12" figures
+```
+
+**Purpose:** One-off utility scripts for data collection and curation. These are not part of the Turborepo build pipeline and are never imported by other packages. Run individually via `ts-node --project tsconfig.scripts.json`.
+
+**Run via:** `npm run scrape:star-wars` (defined in root `package.json`).
+
+**Pre-requisite:** `npx playwright install chromium` — downloads the Chromium browser binary used by the scraper (~92 MB, one-time). The scraper uses `headless: false` because transformerland.com's Cloudflare protection blocks headless Chromium. A browser window will briefly open during the ~3-minute run.
+
+**`scrape-star-wars-catalog.ts`** — fetches the transformerland.com Original Kenner Series index (190 items), visits each detail page, and writes `packages/api/src/database/seeds/data/star-wars-catalog.json`. Rate-limited to ~1 req/sec.
+
+**`patch-star-wars-12inch.ts`** — idempotent one-shot script that appends 9 manually-curated twelve-inch figures missing from transformerland.com's wiki. Safe to re-run (checks existing names before inserting).
+
+---
+
 ## `docs/`
 
 ```
 docs/
 ├── overview.md
-├── setup-log.md        ← this session
-└── project-structure.md  ← this file
+├── setup-log.md            ← this session
+├── plan-catalog-refactor.md ← design decisions for COL-61 catalog/user-items split
+└── project-structure.md    ← this file
 ```
 
 ### `docs/overview.md`
@@ -132,11 +158,14 @@ Base types shared across all collections:
 - `CollectionType` — enum identifying which collection an item belongs to (STAR_WARS, TRANSFORMERS, HE_MAN)
 
 ### `src/types/star-wars.ts`
-Types specific to original Kenner Star Wars figures (1977–1985):
-- `StarWarsFigure` — extends `CollectionItem`; adds `line` (which product line), `figureSize`, `isCarded`, `cardbackStyle`, variant tracking, accessories list vs owned accessories list
+Types specific to original Kenner Star Wars figures (1977–1985). Split into catalog (what Kenner made) and user-items (personal records) after COL-62:
+- `StarWarsCatalogItem` — shape of the `star_wars_catalog` table: `name`, `category`, `line`, `accessories[]`, `catalogImageUrl`, `externalId`, variant fields, figure/vehicle-specific nullable fields
+- `UserStarWarsItem` — personal record: `catalogId`, `isOwned`, `wishlistPriority`, `condition`, `ownedAccessories[]`, `photoUrls[]`, acquisition info
+- `StarWarsCategory` — enum of product categories: `BASIC_FIGURE | VEHICLE | PLAYSET | CREATURE | MINI_RIG | ACCESSORY | TWELVE_INCH | COLLECTOR_CASE | ROLEPLAY | DIE_CAST`
 - `StarWarsLine` — enum of product lines (Star Wars, ESB, ROTJ, POTF)
 - `CardbackStyle` — enum of cardback variations (12-back through POTF) important for variant collectors
 - `FigureSize` — 3¾ inch, 12-inch, or mini
+- `StarWarsFigure` — **deprecated** legacy interface kept for backward compatibility
 
 ### `src/types/transformers.ts`
 Types specific to Generation 1 Transformers (1984–1990):
@@ -262,10 +291,19 @@ User profile data. Imports AuthModule to get the User repository (via TypeOrmMod
 ### `src/database/seeds/`
 Standalone ts-node scripts that run outside NestJS DI. Each creates seed data in the database.
 
+```
+seeds/
+├── oauth-clients.seed.ts
+└── data/
+    └── star-wars-catalog.json  ← 199-item scraped dataset (committed to git)
+```
+
 `oauth-clients.seed.ts` — inserts the `web-app` and `mobile-app` OAuth client records. Run once after the AuthSchema migration:
 ```bash
 npx ts-node src/database/seeds/oauth-clients.seed.ts
 ```
+
+`data/star-wars-catalog.json` — canonical Star Wars Original Kenner Series dataset (190 items scraped from transformerland.com + 9 manually curated twelve-inch figures). Used by the upcoming seed runner (COL-66) to populate `star_wars_catalog`. Committed to git as the authoritative source of record.
 
 ### `src/common/`
 Shared cross-cutting code: guards (authorization checks), interceptors (request/response transforms), pipes (input validation). Not yet populated.
