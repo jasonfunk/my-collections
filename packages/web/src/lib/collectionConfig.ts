@@ -147,6 +147,8 @@ export const CONDITION_OPTIONS: FilterOption[] = enumToOptions(CONDITION_LABELS)
 export const ACQUISITION_SOURCE_OPTIONS: FilterOption[] = enumToOptions(ACQUISITION_SOURCE_LABELS);
 export const STAR_WARS_CATEGORY_OPTIONS: FilterOption[] = enumToOptions(STAR_WARS_CATEGORY_LABELS);
 export const WISHLIST_PRIORITY_OPTIONS: FilterOption[] = enumToOptions(WISHLIST_PRIORITY_LABELS);
+export const MASTERS_LINE_OPTIONS: FilterOption[] = enumToOptions(MASTERS_LINE_LABELS);
+export const MASTERS_CHARACTER_OPTIONS: FilterOption[] = enumToOptions(MASTERS_CHARACTER_LABELS);
 
 export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
   'star-wars': {

@@ -11,7 +11,9 @@
     "test": "turbo run test",
     "clean": "turbo run clean && rm -rf node_modules",
     "scrape:star-wars": "ts-node --project tsconfig.scripts.json scripts/scrape-star-wars-catalog.ts",
-    "seed:star-wars": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-star-wars-seed.ts"
+    "seed:star-wars": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-star-wars-seed.ts",
+    "scrape:he-man": "ts-node --project tsconfig.scripts.json scripts/scrape-he-man-catalog.ts",
+    "seed:he-man": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-he-man-seed.ts"
   },
   "devDependencies": {
     "cheerio": "^1.2.0",

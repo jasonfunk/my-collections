@@ -2162,4 +2162,86 @@ Updated the Star Wars web pages to work with the new catalog/user_items split in
 
 **Verification:** `tsc --noEmit` — 0 errors. `npm run lint` — 0 errors. Playwright: global search "amanaman" → 1 result with name + Wishlist badge; Star Wars catalog "luke" → 199 items filter to 8.
 
+---
+
+## Session — 2026-04-09 — He-Man (MOTU) catalog pipeline (COL-69)
+
+### Context
+
+Implemented the full Masters of the Universe catalog pipeline following the same pattern as the Star Wars catalog. The DB tables (`masters_catalog`, `user_masters_items`) and shared types already existed from the catalog refactor migration; the entity stubs, service, and controller were all no-ops.
+
+### What Was Done
+
+**Phase 1 — Scraper (`scripts/scrape-he-man-catalog.ts`)**
+- Source: `https://www.transformerland.com/wiki/masters-of-the-universe-motu/the-original-series/`
+- Same Playwright + Cheerio pattern as the Star Wars scraper; `headless: false` required for Cloudflare
+- Key difference from Star Wars: the site does NOT sub-categorize by faction in URL slugs — everything under figures uses `basic-figures-{item-name}` rather than `heroic-warriors-{name}` / `evil-warriors-{name}`. So `characterType` cannot be derived from the URL.
+- Extracted: name, releaseYear, accessories, catalogImageUrl, sourceUrl, externalId, miniComic, hasArmorOrFeature, featureDescription
+- 127 items found and scraped
+
+**npm script:** `npm run scrape:he-man` (added to root `package.json`)
+
+**Phase 2 — Character type patch (`scripts/patch-he-man-charactertype.ts`)**
+- Since the URL doesn't encode faction, a post-process script assigns `characterType` from a hardcoded MOTU lore map
+- Covers all 95 characters with known allegiances (HEROIC, EVIL, HEROIC_ALLY, EVIL_ALLY, NEUTRAL)
+- Remaining 32 items (vehicles, playsets, accessories, cases) correctly stay `null`
+- Notable: Meteorbs split into heroic (Astro Lion, Comet Cat, Cometroid, Tuskor, Ty-Grrr) and evil (Crocobite, Dinosorb, Gore-Illa, Orbear, Rhinorb)
+
+**Phase 3 — Entities expanded**
+- `masters-catalog.entity.ts`: expanded from 3-field stub to full field set (line, characterType, releaseYear, accessories, catalogImageUrl, sourceUrl, externalId, isVariant, variantDescription, miniComic, hasArmorOrFeature, featureDescription)
+- `user-masters-item.entity.ts`: expanded to full field set with `RelationId`, `moneyTransformer` on price/value, and He-Man-specific `hasBackCard` (vs Star Wars `isBoxed`)
+- No new migration needed — the existing `1775521867803-CatalogRefactorSchema.ts` already created both tables with the full schema
+
+**Phase 4 — Seed**
+
+**Commands run:**
+```bash
+npm run scrape:he-man    # browser window opened; scraped 127 items
+npx ts-node --project tsconfig.scripts.json scripts/patch-he-man-charactertype.ts  # patched 95 characterType values
+npm run seed:he-man      # Inserted 127 records (0 already exist)
+```
+
+**npm script:** `npm run seed:he-man` (added to root `package.json`)
+
+**Phase 5 — API layer**
+
+- `services/masters-catalog.service.ts` — `findAll` (paginated, filter by line/characterType/search) + `findOne`
+- `services/user-masters-items.service.ts` — full CRUD: findAll, findWishlist (priority-sorted), create (validates catalog exists + no duplicate), update, markAcquired, remove
+- `dto/masters-catalog.dto.ts` — `MastersCatalogBrowseQueryDto`, `CreateUserMastersItemDto`, `UpdateUserMastersItemDto`, `MarkMastersAcquiredDto`
+- `controllers/masters.controller.ts` — rewritten; endpoints: `GET/he-man/catalog`, `GET/he-man/catalog/:id`, `GET/he-man/wishlist`, `GET/he-man/items`, `POST/he-man/items`, `PATCH/he-man/items/:id/acquired`, `PATCH/he-man/items/:id`, `DELETE/he-man/items/:id`
+- `collections.module.ts` — swapped `MastersService` for `MastersCatalogService` + `UserMastersItemsService`
+- Deleted: `services/masters.service.ts` (stub), `dto/masters-figure.dto.ts` (stub)
+
+**Phase 6 — Web frontend**
+
+- `lib/collectionConfig.ts` — added `MASTERS_LINE_OPTIONS` and `MASTERS_CHARACTER_OPTIONS` exports
+- `components/collections/MastersCatalogCard.tsx` — card component; amber background placeholder (vs Star Wars yellow)
+- `components/collections/MastersClaimDialog.tsx` — claim/edit dialog; uses `hasBackCard` checkbox instead of Star Wars `isBoxed`
+- `pages/collections/MastersCatalogPage.tsx` — catalog browse page; filters by line + characterType; pagination
+- `pages/collections/MastersCatalogDetailPage.tsx` — detail page; shows miniComic, hasArmorOrFeature, release year
+- `App.tsx` — added routes `/collections/he-man` and `/collections/he-man/:id` (before generic `:collection` catch-all)
+
+### Decisions Made
+
+| Decision | Rationale |
+|---|---|
+| No new migration | Both `masters_catalog` and `user_masters_items` were fully defined in the existing catalog refactor migration. Only the TypeORM entity stubs needed expanding. |
+| characterType via patch script | The site groups all figures under `basic-figures-{slug}`, not by faction. A post-process map is more accurate than scraping since MOTU allegiances are well-established canon. |
+| `hasBackCard` instead of `isBoxed` | He-Man figures came on cards with a mini-comic on the back; collectors distinguish card-intact vs back-card-intact. Vehicles use neither — no `isBoxed` needed since He-Man vehicles were sold in boxes but this isn't a commonly tracked attribute for the line. |
+| Deleted old stubs | `MastersService` and `masters-figure.dto.ts` were no-ops (returned empty arrays/NotImplemented). Keeping them alongside real services would cause confusion. Removed cleanly. |
+
+### Verification
+
+- `npm run build` — clean (both `packages/api` and `packages/web`)
+- `npm run lint` — 4/4 packages pass, 0 errors
+- Playwright smoke test:
+  - `/collections/he-man` → 127 items, images loading, pagination (page 1 of 3), filters present
+  - He-Man detail page → "Heroic Warrior · Original (1981–88)", release year 1982, Battle Ax accessory, claim buttons
+  - Claim dialog → opens with full form including accessories, condition, `hasBackCard` checkbox
+  - Star Wars catalog → still loads correctly (no regression)
+  - Sign out → returns to `/login`
+  - Zero new console errors throughout
+
+**Jira:** COL-69 created and transitioned to Done.
+
 **Jira:** COL-66 (seed runner) was already Done — bug fix commits referenced it but no new ticket was created for the search bugs.
