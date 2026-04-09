@@ -9,6 +9,7 @@ import { CollectionFormPage } from './pages/collections/CollectionFormPage.js';
 import { StarWarsCatalogPage } from './pages/collections/StarWarsCatalogPage.js';
 import { StarWarsCatalogDetailPage } from './pages/collections/StarWarsCatalogDetailPage.js';
 import { SearchPage } from './pages/collections/SearchPage.js';
+import { WishlistPage } from './pages/WishlistPage.js';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/collections/:collection/new" element={<CollectionFormPage />} />
         <Route path="/collections/:collection/:id/edit" element={<CollectionFormPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/collections/:collection" element={<CollectionListPage />} />
         <Route path="/collections/:collection/:id" element={<CollectionDetailPage />} />
       </Route>

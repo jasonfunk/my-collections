@@ -13,7 +13,7 @@ export class StarWarsCatalogService {
   ) {}
 
   async findAll(query: CatalogBrowseQueryDto): Promise<PaginatedResponse<StarWarsCatalogEntity>> {
-    const { page = 1, limit = 20, category, line } = query;
+    const { page = 1, limit = 20, category, line, search } = query;
     const qb = this.repo
       .createQueryBuilder('item')
       .orderBy('item.name', 'ASC')
@@ -21,6 +21,7 @@ export class StarWarsCatalogService {
       .take(limit);
     if (category) qb.andWhere('item.category = :category', { category });
     if (line) qb.andWhere('item.line = :line', { line });
+    if (search) qb.andWhere('LOWER(item.name) LIKE :search', { search: `%${search.toLowerCase()}%` });
     const [data, total] = await qb.getManyAndCount();
     return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
   }

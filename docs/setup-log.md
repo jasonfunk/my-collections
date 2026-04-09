@@ -2095,3 +2095,39 @@ Updated the Star Wars web pages to work with the new catalog/user_items split in
 **Verification:** `npm run lint` — 0 errors. `npm run build` — clean TypeScript compilation, 0 errors.
 
 **Jira:** COL-67 → Done
+
+---
+
+## Session — 2026-04-09: COL-36 + COL-43 — Wishlist API + Web Wishlist Page
+
+### Work Done
+
+**API (COL-36):**
+- Added `MarkAcquiredDto` to `star-wars-catalog.dto.ts` with optional condition, acquisitionSource, acquisitionDate, acquisitionPrice, estimatedValue, notes fields
+- Added `findWishlist` and `markAcquired` methods to `UserStarWarsItemsService`
+- Added `GET /collections/star-wars/wishlist` and `PATCH /collections/star-wars/items/:id/acquired` routes to `StarWarsController`
+- Added empty stub `GET /wishlist` to `TransformersController` and `MastersController`
+
+**Web (COL-43):**
+- New `WishlistPage` (`/wishlist`) with three sections grouped by collection, priority badges (HIGH/MEDIUM/LOW), and "Mark as Acquired" button per item
+- New `MarkAcquiredDialog` component with condition, acquisition source, date, price, estimated value, and notes fields
+- Wishlist nav button added to Dashboard, CollectionListPage, and SearchPage headers
+- Registered `/wishlist` route in `App.tsx`
+
+**Fixes discovered during smoke testing:**
+- **TypeORM CASE alias parsing bug:** Using `orderBy('CASE item.wishlistPriority ...')` caused `"CASE item" alias was not found` because TypeORM splits on `.`. Fix: use `addSelect(CASE..., 'priority_order')` then `orderBy('priority_order')`.
+- **Column name mismatch:** Raw SQL used `"item"."wishlist_priority"` but the DB column is `"wishlistPriority"` (camelCase, no naming strategy applied). Fixed to match the actual column name.
+- **Route ordering bug:** `GET /:id` before `GET /wishlist` caused the wishlist request to match as `:id='wishlist'`, calling `findOne('wishlist')` and throwing `Not implemented`. Fixed by moving `/wishlist` before `/:id` in both Transformers and Masters controllers.
+- **shadcn/ui dialog `forwardRef` warning:** `DialogOverlay` was a plain function component; Radix UI tried to forward a ref to it. Fixed by wrapping with `React.forwardRef` and setting `displayName`.
+
+### Key Decisions
+
+| Decision | Choice | Reason |
+|---|---|---|
+| Pagination strategy for wishlist page | `limit=500` per collection | Personal app, collections are small; avoids complexity of per-section pagination |
+| Priority sort in SQL | `addSelect` alias + `orderBy` on alias | TypeORM's `orderBy` parses string on `.` — inline CASE fails; named alias works reliably |
+| Stub return value | Empty `PaginatedResponse` | Consistent shape with Star Wars; frontend handles it without branching |
+
+**Verification:** `npm run lint` — 0 errors. Playwright smoke test: wishlist loads, Amanaman appears with High priority, Mark as Acquired dialog submits, item moves to owned (dashboard shows 2 owned, 0 on wishlist).
+
+**Jira:** COL-36 → Done, COL-43 → Done

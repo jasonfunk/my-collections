@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {
   CatalogBrowseQueryDto,
   CreateUserStarWarsItemDto,
+  MarkAcquiredDto,
   UpdateUserStarWarsItemDto,
 } from '../dto/star-wars-catalog.dto';
 import { StarWarsCatalogService } from '../services/star-wars-catalog.service';
@@ -52,6 +53,15 @@ export class StarWarsController {
 
   // ── User items (personal records) ────────────────────────────────────────
 
+  @Get('wishlist')
+  @ApiOperation({ summary: "List the user's Star Wars wishlist (isOwned=false), sorted by priority" })
+  listWishlist(
+    @CurrentUser() user: AccessTokenPayload,
+    @Query() pagination: PaginationQueryDto,
+  ) {
+    return this.itemsService.findWishlist(user.sub, pagination);
+  }
+
   @Get('items')
   @ApiOperation({ summary: "List the user's Star Wars records (owned + wishlist)" })
   listItems(
@@ -71,6 +81,18 @@ export class StarWarsController {
     @Body() dto: CreateUserStarWarsItemDto,
   ) {
     return this.itemsService.create(user.sub, dto);
+  }
+
+  @Patch('items/:id/acquired')
+  @ApiOperation({ summary: 'Mark a Star Wars wishlist item as acquired (sets isOwned=true)' })
+  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 404 })
+  markAcquired(
+    @CurrentUser() user: AccessTokenPayload,
+    @Param('id') id: string,
+    @Body() dto: MarkAcquiredDto,
+  ) {
+    return this.itemsService.markAcquired(user.sub, id, dto);
   }
 
   @Patch('items/:id')

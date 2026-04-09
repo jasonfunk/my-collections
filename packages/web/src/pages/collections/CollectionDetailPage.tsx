@@ -169,7 +169,7 @@ function DetailContent({ item, collection }: { item: CollectionItem; collection:
           {!item.isOwned && <Badge variant="outline">Wishlist</Badge>}
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-          <ConditionBadge grade={item.condition} />
+          {item.condition && <ConditionBadge grade={item.condition} />}
           {item.estimatedValue != null && (
             <span>est. {formatCurrency(item.estimatedValue)}</span>
           )}

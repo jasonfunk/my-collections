@@ -6,7 +6,7 @@ import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { User } from '../../auth/entities/user.entity';
 import { StarWarsCatalogEntity } from '../entities/star-wars-catalog.entity';
 import { UserStarWarsItemEntity } from '../entities/user-star-wars-item.entity';
-import { CreateUserStarWarsItemDto, UpdateUserStarWarsItemDto } from '../dto/star-wars-catalog.dto';
+import { CreateUserStarWarsItemDto, MarkAcquiredDto, UpdateUserStarWarsItemDto } from '../dto/star-wars-catalog.dto';
 
 @Injectable()
 export class UserStarWarsItemsService {
@@ -28,6 +28,31 @@ export class UserStarWarsItemsService {
       .take(limit)
       .getManyAndCount();
     return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
+  }
+
+  async findWishlist(userId: string, pagination: PaginationQueryDto): Promise<PaginatedResponse<UserStarWarsItemEntity>> {
+    const { page = 1, limit = 20 } = pagination;
+    const [data, total] = await this.repo
+      .createQueryBuilder('item')
+      .leftJoinAndSelect('item.catalog', 'catalog')
+      .addSelect(
+        `CASE "item"."wishlistPriority" WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 WHEN 'LOW' THEN 3 ELSE 4 END`,
+        'priority_order',
+      )
+      .where('item.userId = :userId', { userId })
+      .andWhere('item.isOwned = false')
+      .orderBy('priority_order', 'ASC')
+      .addOrderBy('catalog.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+    return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
+  }
+
+  async markAcquired(userId: string, id: string, dto: MarkAcquiredDto): Promise<UserStarWarsItemEntity> {
+    const item = await this.findOne(userId, id);
+    Object.assign(item, dto, { isOwned: true, wishlistPriority: null });
+    return this.repo.save(item);
   }
 
   async findOne(userId: string, id: string): Promise<UserStarWarsItemEntity> {

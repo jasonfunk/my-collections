@@ -105,6 +105,9 @@ export function SearchPage() {
             Dashboard
           </Button>
           <h1 className="text-xl font-semibold flex-1">Search Collections</h1>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/wishlist')}>
+            Wishlist
+          </Button>
         </div>
       </header>
 

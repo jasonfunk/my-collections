@@ -69,7 +69,7 @@ export function ItemCard({ item, collectionKey }: ItemCardProps) {
         <p className="truncate font-medium leading-snug" title={item.name}>{item.name}</p>
 
         <div className="mt-1 flex flex-wrap items-center gap-1">
-          <ConditionBadge grade={item.condition} />
+          {item.condition && <ConditionBadge grade={item.condition} />}
           {!item.isOwned && (
             <Badge variant="outline" className="text-xs">Wishlist</Badge>
           )}

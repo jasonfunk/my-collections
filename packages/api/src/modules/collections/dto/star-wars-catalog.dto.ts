@@ -30,6 +30,11 @@ export class CatalogBrowseQueryDto extends PaginationQueryDto {
   @IsOptional()
   @IsEnum(StarWarsLine)
   line?: StarWarsLine;
+
+  @ApiPropertyOptional({ description: 'Search by name (case-insensitive substring)' })
+  @IsOptional()
+  @IsString()
+  search?: string;
 }
 
 export class CreateUserStarWarsItemDto {
@@ -115,3 +120,37 @@ export class CreateUserStarWarsItemDto {
 export class UpdateUserStarWarsItemDto extends PartialType(
   OmitType(CreateUserStarWarsItemDto, ['catalogId'] as const),
 ) {}
+
+export class MarkAcquiredDto {
+  @ApiPropertyOptional({ enum: ConditionGrade, enumName: 'ConditionGrade' })
+  @IsOptional()
+  @IsEnum(ConditionGrade)
+  condition?: ConditionGrade;
+
+  @ApiPropertyOptional({ enum: AcquisitionSource, enumName: 'AcquisitionSource' })
+  @IsOptional()
+  @IsEnum(AcquisitionSource)
+  acquisitionSource?: AcquisitionSource;
+
+  @ApiPropertyOptional({ example: '2025-04-08' })
+  @IsOptional()
+  @IsDateString()
+  acquisitionDate?: string;
+
+  @ApiPropertyOptional({ minimum: 0 })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  acquisitionPrice?: number;
+
+  @ApiPropertyOptional({ minimum: 0 })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  estimatedValue?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  notes?: string;
+}

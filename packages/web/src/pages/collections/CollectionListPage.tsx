@@ -67,6 +67,9 @@ export function CollectionListPage() {
           <h1 className="text-xl font-semibold flex-1">
             {config.emoji} {config.label}
           </h1>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/wishlist')}>
+            Wishlist
+          </Button>
           <Button size="sm" onClick={() => navigate(`/collections/${collection}/new`)}>
             + Add Item
           </Button>

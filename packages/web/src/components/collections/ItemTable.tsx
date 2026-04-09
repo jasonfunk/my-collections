@@ -90,7 +90,7 @@ export function ItemTable({ items, collectionKey }: ItemTableProps) {
                 )}
               </TableCell>
               <TableCell>
-                <ConditionBadge grade={item.condition} />
+                {item.condition && <ConditionBadge grade={item.condition} />}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground">
                 {getLineLabel(item as CollectionItem & Record<string, unknown>, collectionKey)}
