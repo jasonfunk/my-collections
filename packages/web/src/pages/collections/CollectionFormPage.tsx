@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { CollectionItem } from '@my-collections/shared';
-import { AcquisitionSource } from '@my-collections/shared';
+import { AcquisitionSource, ConditionGrade, PackagingCondition } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import { getConfig } from '@/lib/collectionConfig.js';
 import {
@@ -122,8 +122,8 @@ function buildMastersDto(base: BaseFormData, motu: MastersFormData) {
 function itemToBase(item: CollectionItem & Record<string, unknown>): BaseFormData {
   return {
     name: item.name,
-    condition: item.condition,
-    packagingCondition: item.packagingCondition,
+    condition: item.condition ?? ConditionGrade.VERY_FINE,
+    packagingCondition: item.packagingCondition ?? PackagingCondition.NONE,
     isOwned: item.isOwned,
     isComplete: item.isComplete,
     acquisitionSource: (item.acquisitionSource as AcquisitionSource | undefined) ?? '',
