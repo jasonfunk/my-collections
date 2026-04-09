@@ -1,0 +1,2123 @@
+[
+  {
+    "externalId": "44125",
+    "name": "Ram Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1983,
+    "accessories": [
+      "Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44127.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-ram-man/44125/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44153",
+    "name": "Kobra Khan",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Laser Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44155.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-kobra-khan/44153/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44048",
+    "name": "He-Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Battle Ax"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44050.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-he-man/44048/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44608",
+    "name": "Battle Cat",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1982,
+    "accessories": [
+      "Saddle Strap"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44610.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-battle-cat/44608/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44629",
+    "name": "Zoar",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1983,
+    "accessories": [
+      "Perch Base"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44631.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-zoar/44629/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45014",
+    "name": "Eternia",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Laser Blaster Base"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45016.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-eternia/45014/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44160",
+    "name": "Roton",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Laser (includes 2) (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44162.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-roton/44160/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45077",
+    "name": "Spydor",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [
+      "Weapon"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45079.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-spydor/45077/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44013",
+    "name": "Megator",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Flail"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-12-inch-action-figures-europe-exclusive-megator/44013/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44020",
+    "name": "Tytus",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1987,
+    "accessories": [
+      "Body Snatcher"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-12-inch-action-figures-europe-exclusive-tytus/44020/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44587",
+    "name": "Beam-Blaster & Artilleray",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1987,
+    "accessories": [
+      "Beam Blaster Battle Pak"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44589.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-beam-blaster-artilleray/44587/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44594",
+    "name": "Cliff Climber",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1987,
+    "accessories": [
+      "Drill"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44596.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-cliff-climber/44594/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44552",
+    "name": "Jet Sled",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Backpack (back)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44554.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-jet-sled/44552/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44559",
+    "name": "Megalaser",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Megalaser Backpack"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44561.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-megalaser/44559/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44580",
+    "name": "Scubattack",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1987,
+    "accessories": [
+      "Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44582.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-scubattack/44580/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44573",
+    "name": "Slime Vat",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "lid"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44575.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-slime-vat/44573/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44566",
+    "name": "Stilt Stalkers",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Backpack (Back half)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44568.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-stilt-stalkers/44566/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44545",
+    "name": "Thunder Punch Ammo",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [
+      "Thunder Punch Ammo"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-thunder-punch-ammo/44545/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44601",
+    "name": "Tower Tools",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1987,
+    "accessories": [
+      "Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44603.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-tower-tools/44601/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44538",
+    "name": "Weapons Pak",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44540.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-accessories-weapons-pak/44538/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44181",
+    "name": "Battle Armor He-Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Power Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44183.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-battle-armor-he-man/44181/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44132",
+    "name": "Battle Armor Skeletor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Havoc Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44134.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-battle-armor-skeletor/44132/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44027",
+    "name": "Beast Man",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1982,
+    "accessories": [
+      "Whip"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44029.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-beast-man/44027/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44419",
+    "name": "Blast-Attak",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Tech Ax"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44421.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-blast-attak/44419/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44188",
+    "name": "Buzz-Off",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44190.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-buzz-off/44188/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44489",
+    "name": "Buzz-Saw Hordak",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44491.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-buzz-saw-hordak/44489/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44447",
+    "name": "Clamp Champ",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1987,
+    "accessories": [
+      "Power Pincher"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44449.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-clamp-champ/44447/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44139",
+    "name": "Clawful",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44141.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-clawful/44139/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44223",
+    "name": "Dragon Blaster Skeletor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Power Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44225.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-dragon-blaster-skeletor/44223/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44391",
+    "name": "Dragstor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Ripcord"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44393.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-dragstor/44391/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44090",
+    "name": "Evil-Lyn",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1983,
+    "accessories": [
+      "Wand"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44092.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-evil-lyn/44090/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44328",
+    "name": "Extendar",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44330.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-extendar/44328/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44097",
+    "name": "Faker",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1983,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44099.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-faker/44097/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44195",
+    "name": "Fisto",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44197.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-fisto/44195/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44335",
+    "name": "Flying Fists He-Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Spinning Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44337.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-flying-fists-he-man/44335/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44286",
+    "name": "Grizzlor (darker brown)",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Chest Armor"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44288.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-grizzlor-darker-brown/44286/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44279",
+    "name": "Grizzlor (lighter brown)",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Chest Armor"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44281.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-grizzlor-lighter-brown/44279/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44678",
+    "name": "He-Man (Wonder Bread)",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44680.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mail-away-exclusive-he-man-wonder-bread/44678/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44293",
+    "name": "Hordak",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Cape"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44295.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-hordak/44293/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44398",
+    "name": "Horde Trooper",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Tech Spear"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44400.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-horde-trooper/44398/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44405",
+    "name": "Hurricane Hordak",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Thunderball Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44407.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-hurricane-hordak/44405/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44146",
+    "name": "Jitsu",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Samurai Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44148.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-jitsu/44146/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44370",
+    "name": "King Hiss",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Serpent Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44372.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-king-hiss/44370/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44454",
+    "name": "King Randor",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1987,
+    "accessories": [
+      "Royal Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44456.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-king-randor/44454/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44510",
+    "name": "Laser Power He-Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1988,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-europe-exclusive-laser-power-he-man/44510/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44503",
+    "name": "Laser-Light Skeletor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1988,
+    "accessories": [
+      "Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-europe-exclusive-laser-light-skeletor/44503/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44300",
+    "name": "Leech",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Crossbow"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44302.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-leech/44300/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44055",
+    "name": "Man-At-Arms",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44057.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-man-at-arms/44055/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44118",
+    "name": "Man-E-Faces",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1983,
+    "accessories": [
+      "mace (with Bonus Weapons version)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44120.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-man-e-faces/44118/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44307",
+    "name": "Mantenna",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Crossbow"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44309.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mantenna/44307/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44202",
+    "name": "Mekaneck",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Club"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44204.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mekaneck/44202/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44034",
+    "name": "Mer-Man",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1982,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44036.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mer-man/44034/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44314",
+    "name": "Modulok",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Torso"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44316.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-modulok/44314/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44496",
+    "name": "Mosquitor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Roto-Laser Blaster"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44498.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mosquitor/44496/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44251",
+    "name": "Moss Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1985,
+    "accessories": [
+      "Mace"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44253.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-moss-man/44251/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44412",
+    "name": "Multi-Bot",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Torso 1"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44414.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-multi-bot/44412/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44426",
+    "name": "Ninjor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44428.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-ninjor/44426/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44209",
+    "name": "Orko",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Ripcord"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44211.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-orko/44209/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44216",
+    "name": "Prince Adam",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1984,
+    "accessories": [
+      "Power Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44218.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-prince-adam/44216/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44377",
+    "name": "Rattlor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Serpent Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44379.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rattlor/44377/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44342",
+    "name": "Rio Blast",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Blasterpak (combined)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44344.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rio-blast/44342/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44258",
+    "name": "Roboto",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1985,
+    "accessories": [
+      "Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44260.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-roboto/44258/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44349",
+    "name": "Rokkon",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Light Blazer Gun"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44351.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rokkon/44349/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44461",
+    "name": "Rotar",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1987,
+    "accessories": [
+      "Pedestal"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44463.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rotar/44461/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44433",
+    "name": "Scare Glow",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Scythe Of Doom"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44435.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-scare-glow/44433/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44041",
+    "name": "Skeletor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1982,
+    "accessories": [
+      "Power Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44043.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-skeletor/44041/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44475",
+    "name": "Snake Face",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Serpent Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44477.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-snake-face/44475/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44356",
+    "name": "Snout Spout",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Battle-Axe"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44358.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-snout-spout/44356/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44468",
+    "name": "Sorceress",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1987,
+    "accessories": [
+      "Staff of Zoar"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44470.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-sorceress/44468/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44230",
+    "name": "Spikor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Battle Club"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44232.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-spikor/44230/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44482",
+    "name": "Sssqueeze",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "\"Pet Snake\""
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44484.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-sssqueeze/44482/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44237",
+    "name": "Stinkor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Battle Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44239.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stinkor/44237/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44363",
+    "name": "Stonedar",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1986,
+    "accessories": [
+      "Light Blazer Gun"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44365.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stonedar/44363/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44062",
+    "name": "Stratos (blue)",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Wing (Left)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44064.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stratos-blue/44062/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44069",
+    "name": "Stratos (red)",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Wing (Left)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44071.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stratos-red/44069/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44265",
+    "name": "Sy-Klone",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1985,
+    "accessories": [
+      "Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44267.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-sy-klone/44265/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44076",
+    "name": "Teela",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1982,
+    "accessories": [
+      "Magical Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44078.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-teela/44076/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44321",
+    "name": "Terror Claws Skeletor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Dragon Skull"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44323.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-terror-claws-skeletor-/44321/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44272",
+    "name": "Thunder Punch He-Man",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC",
+    "releaseYear": 1985,
+    "accessories": [
+      "Power Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44274.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-thunder-punch-he-man/44272/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44104",
+    "name": "Trap Jaw",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1983,
+    "accessories": [
+      "Pinchers"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44106.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-trap-jaw/44104/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44111",
+    "name": "Tri-Klops",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1983,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44113.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-tri-klops/44111/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44384",
+    "name": "Tung Lashor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1986,
+    "accessories": [
+      "Serpent Staff"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44386.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-tung-lashor/44384/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44440",
+    "name": "Twistoid",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Hatchet Whipper"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44442.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-twistoid/44440/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44244",
+    "name": "Two Bad",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1985,
+    "accessories": [
+      "Shield"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44246.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-two-bad/44244/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44167",
+    "name": "Webstor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Backpack w/ Grapple Hook (Back)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44169.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-webstor/44167/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44174",
+    "name": "Whiplash",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1984,
+    "accessories": [
+      "Spear"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44176.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-whiplash/44174/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44083",
+    "name": "Zodac",
+    "line": "ORIGINAL",
+    "characterType": "NEUTRAL",
+    "releaseYear": 1982,
+    "accessories": [
+      "Chest Armor"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44085.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-zodac/44083/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "83237",
+    "name": "Collectors Case",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Figure Tray"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/0.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-collectors-cases-collectors-case/83237/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "85755",
+    "name": "Jumbo Collectors Case",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/85940.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-collectors-cases-jumbo-collectors-case/85755/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44636",
+    "name": "Battle Bones",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1985,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44638.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-battle-bones/44636/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44657",
+    "name": "Bionatops",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [
+      "Horn Laser"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44659.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-bionatops/44657/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44643",
+    "name": "Mantisaur",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1986,
+    "accessories": [
+      "Saddle"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44645.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-mantisaur/44643/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44650",
+    "name": "Monstroid",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1986,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44652.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-monstroid/44650/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44615",
+    "name": "Panthor",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1983,
+    "accessories": [
+      "Saddle Strap"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44617.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-panthor/44615/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44622",
+    "name": "Screeech",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1983,
+    "accessories": [
+      "Perch Base"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44624.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-screeech/44622/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44664",
+    "name": "Turbodactyl",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44666.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-turbodactyl/44664/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44671",
+    "name": "Tyrantisaurus Rex",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [
+      "Laser"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44673.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-tyrantisaurus-rex/44671/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44720",
+    "name": "Astro Lion",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44722.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-astro-lion/44720/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44727",
+    "name": "Comet Cat",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44729.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-comet-cat/44727/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44734",
+    "name": "Cometroid",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44736.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-cometroid/44734/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44685",
+    "name": "Crocobite",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44687.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-crocobite/44685/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44692",
+    "name": "Dinosorb",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44694.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-dinosorb/44692/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44699",
+    "name": "Gore-Illa",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44701.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-gore-illa/44699/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44706",
+    "name": "Orbear",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44708.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-orbear/44706/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44713",
+    "name": "Rhinorb",
+    "line": "ORIGINAL",
+    "characterType": "EVIL_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44715.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-rhinorb/44713/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44741",
+    "name": "Tuskor",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44743.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-tuskor/44741/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44748",
+    "name": "Ty-Grrr",
+    "line": "ORIGINAL",
+    "characterType": "HEROIC_ALLY",
+    "releaseYear": 1987,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44750.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-meteorbs-ty-grrr/44748/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44517",
+    "name": "Blade",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Sword"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44519.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-movie-figures-blade/44517/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44531",
+    "name": "Gwildor",
+    "line": "ORIGINAL",
+    "characterType": "NEUTRAL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Cosmic Key"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44533.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-movie-figures-gwildor/44531/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44524",
+    "name": "Saurod",
+    "line": "ORIGINAL",
+    "characterType": "EVIL",
+    "releaseYear": 1987,
+    "accessories": [
+      "Pistol"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44526.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-movie-figures-saurod/44524/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44986",
+    "name": "Castle Grayskull",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1982,
+    "accessories": [
+      "Weapons Rack"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44988.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-castle-grayskull/44986/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45000",
+    "name": "Fright Zone",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [
+      "Floor (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45002.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-fright-zone/45000/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44993",
+    "name": "Point Dread & Talon Fighter",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1983,
+    "accessories": [
+      "Cardboard Insert (2, combined) (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44995.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-point-dread-talon-fighter/44993/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45007",
+    "name": "Slime Pit",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "skull top"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45009.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-slime-pit/45007/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "44979",
+    "name": "Snake Mountain",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Short bridge section (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44981.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-playsets-snake-mountain/44979/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45035",
+    "name": "Attak Trak",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1983,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45037.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-attak-trak-/45035/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45084",
+    "name": "Bashasaurus",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45086.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-bashasaurus/45084/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45021",
+    "name": "Battle Ram",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1982,
+    "accessories": [
+      "Missile"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45023.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-battle-ram/45021/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45098",
+    "name": "Blasterhawk",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Disk"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45100.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-blasterhawk/45098/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45042",
+    "name": "Dragon Walker",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45044.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-dragon-walker/45042/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45091",
+    "name": "Fright Fighter",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Radar Dish"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45093.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-fright-fighter/45091/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45063",
+    "name": "Land Shark",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45065.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-land-shark/45063/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45105",
+    "name": "Laser Bolt",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1986,
+    "accessories": [
+      "Left Gun"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45107.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-laser-bolt/45105/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45070",
+    "name": "Night Stalker",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1985,
+    "accessories": [],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45072.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-night-stalker/45070/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45049",
+    "name": "Road Ripper",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Ripcord"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45051.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-road-ripper/45049/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45056",
+    "name": "Stridor",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1984,
+    "accessories": [
+      "Helmet"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45058.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-stridor/45056/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  },
+  {
+    "externalId": "45028",
+    "name": "Wind Raider",
+    "line": "ORIGINAL",
+    "characterType": null,
+    "releaseYear": 1982,
+    "accessories": [
+      "Right Wing (Part of Figure)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/45030.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-vehicles-wind-raider/45028/",
+    "miniComic": null,
+    "hasArmorOrFeature": false,
+    "featureDescription": null
+  }
+]

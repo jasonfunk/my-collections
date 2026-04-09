@@ -8,6 +8,8 @@ import { CollectionDetailPage } from './pages/collections/CollectionDetailPage.j
 import { CollectionFormPage } from './pages/collections/CollectionFormPage.js';
 import { StarWarsCatalogPage } from './pages/collections/StarWarsCatalogPage.js';
 import { StarWarsCatalogDetailPage } from './pages/collections/StarWarsCatalogDetailPage.js';
+import { MastersCatalogPage } from './pages/collections/MastersCatalogPage.js';
+import { MastersCatalogDetailPage } from './pages/collections/MastersCatalogDetailPage.js';
 import { SearchPage } from './pages/collections/SearchPage.js';
 import { WishlistPage } from './pages/WishlistPage.js';
 
@@ -25,6 +27,10 @@ function App() {
         {/* Star Wars catalog model — static segments take priority over :collection */}
         <Route path="/collections/star-wars" element={<StarWarsCatalogPage />} />
         <Route path="/collections/star-wars/:id" element={<StarWarsCatalogDetailPage />} />
+
+        {/* He-Man catalog model */}
+        <Route path="/collections/he-man" element={<MastersCatalogPage />} />
+        <Route path="/collections/he-man/:id" element={<MastersCatalogDetailPage />} />
 
         {/* /new and /:id/edit must come before /:id to avoid "new" matching as an item ID */}
         <Route path="/collections/:collection/new" element={<CollectionFormPage />} />
