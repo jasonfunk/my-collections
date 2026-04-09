@@ -30,6 +30,11 @@ export class CatalogBrowseQueryDto extends PaginationQueryDto {
   @IsOptional()
   @IsEnum(StarWarsLine)
   line?: StarWarsLine;
+
+  @ApiPropertyOptional({ description: 'Search by name (case-insensitive substring)' })
+  @IsOptional()
+  @IsString()
+  search?: string;
 }
 
 export class CreateUserStarWarsItemDto {

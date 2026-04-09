@@ -51,8 +51,8 @@ export interface CollectionItem {
   id: string;
   name: string;
   collectionType: CollectionType;
-  condition: ConditionGrade;
-  packagingCondition: PackagingCondition;
+  condition?: ConditionGrade;
+  packagingCondition?: PackagingCondition;
   isOwned: boolean;          // false = on wishlist
   isComplete: boolean;       // all accessories/parts present
   acquisitionSource?: AcquisitionSource;
