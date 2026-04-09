@@ -2245,3 +2245,31 @@ npm run seed:he-man      # Inserted 127 records (0 already exist)
 **Jira:** COL-69 created and transitioned to Done.
 
 **Jira:** COL-66 (seed runner) was already Done — bug fix commits referenced it but no new ticket was created for the search bugs.
+
+---
+
+## 2026-04-09 — Session 2: Fix He-Man missing from global search
+
+**Branch:** develop → PR #14 → merged to main
+
+### Problem
+
+`/search` returned zero results for He-Man items even though items were claimed. Root cause: `CollectionsSearchService` had a `// TODO: add Transformers + He-Man queries once scrapers land` stub — it only injected `UserStarWarsItemEntity` and only called `queryStarWars()`.
+
+### Fix
+
+**File:** `packages/api/src/modules/collections/services/collections-search.service.ts`
+
+- Added `@InjectRepository(UserMastersItemEntity)` to constructor (entity already registered in `CollectionsModule.forFeature`)
+- Added `queryMasters()` private method — identical query builder pattern to `queryStarWars()`, returns `CollectionItem[]` with `collectionType: CollectionType.HE_MAN`
+- Updated `search()` to run both queries in parallel via `Promise.all`, combining results before sort + pagination
+- Collection type filter now correctly skips SW when `collectionType=HE_MAN` and vice versa
+
+### Verification (Playwright)
+
+- `/search` + "Skeletor" → 1 result ("Battle Armor Skeletor") with He-Man label ✓
+- Collection filter "⚔️ He-Man" → still 1 result ✓
+- Star Wars result unaffected ✓
+- `npm run lint` — clean ✓
+
+**Committed:** `7c80054` | **PR:** #14 | **Merged to main**
