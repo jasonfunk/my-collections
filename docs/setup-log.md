@@ -2058,3 +2058,40 @@ All items have a year and catalog image URL. ✅
 | externalId for manual items | `null` | No transformerland.com page exists; null is semantically correct |
 | 12" gap resolution | Manual curation from thetoycollectorsguide.com | Only 9 items missing; manual entry faster and more reliable than a second scraper |
 | Accessory format | Strip `(xN)` only, keep descriptors | Preserves variant detail (e.g., vinyl vs. cloth) useful for completeness checking |
+
+---
+
+## Session — 2026-04-08
+
+### COL-67: Web — Star Wars views for catalog/user_items model
+
+**What was done:**
+
+Updated the Star Wars web pages to work with the new catalog/user_items split introduced in COL-61. Transformers and He-Man pages are untouched.
+
+**New files created:**
+
+- `packages/web/src/pages/collections/StarWarsCatalogPage.tsx` — catalog browse page with two-query merge (catalog + user items), "X of Y owned" header, line/category/search filters, and owned/wishlist toggle with priority filter in wishlist mode
+- `packages/web/src/pages/collections/StarWarsCatalogDetailPage.tsx` — catalog item detail page with two sections: "Catalog Info" (read-only, what Kenner made) and "Your Record" (claim status, condition, accessories, acquisition). Delete (with confirmation) and Edit via claim dialog.
+- `packages/web/src/components/collections/StarWarsCatalogCard.tsx` — card component with catalog image or initials fallback; green "Owned" / yellow "Wishlist" / grey "Unclaimed" status badges; condition + estimated value for owned items
+- `packages/web/src/components/collections/StarWarsClaimDialog.tsx` — modal dialog for claiming a catalog item (owned or wishlist). Toggle between owned/wishlist mode; wishlist gets priority selector; owned gets condition, accessories checklist (from `catalog.accessories`), carded/boxed flags, acquisition fields. Creates via `POST /collections/star-wars/items`, edits via `PATCH /collections/star-wars/items/:id`.
+
+**Modified files:**
+
+- `packages/web/src/App.tsx` — added two Star Wars-specific routes (`/collections/star-wars` and `/collections/star-wars/:id`) before the generic `:collection` routes. React Router v6 auto-ranks static segments over dynamic, so ordering is for readability only.
+- `packages/web/src/lib/collectionConfig.ts` — added `STAR_WARS_CATEGORY_LABELS`, `WISHLIST_PRIORITY_LABELS`, `STAR_WARS_CATEGORY_OPTIONS`, `WISHLIST_PRIORITY_OPTIONS` exports
+- `packages/web/src/components/ui/dialog.tsx` — added via `npx shadcn@latest add dialog` (required by claim dialog)
+
+**Architecture decisions:**
+
+| Decision | Choice | Reason |
+|---|---|---|
+| Separate Star Wars routes vs. generic branching | Separate routes | Cleaner — no conditionals polluting generic TF/He-Man pages |
+| Claim status overlay | Fetch user items (`limit=1000`) + merge client-side | Catalog API returns no user context; user's collection is small |
+| Routing ID in URL | Catalog item ID (not user item ID) | Catalog IDs are stable; user item may not exist yet |
+| Edit/add flow | Dialog on detail page (no separate /edit route) | Better UX — context stays visible while editing |
+| Wishlist priority filter | Client-side filter on merged data | Avoids needing a new API endpoint |
+
+**Verification:** `npm run lint` — 0 errors. `npm run build` — clean TypeScript compilation, 0 errors.
+
+**Jira:** COL-67 → Done

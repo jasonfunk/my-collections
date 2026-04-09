@@ -38,6 +38,7 @@ export enum AcquisitionSource {
   PRIVATE_SALE = 'PRIVATE_SALE',
   TRADE = 'TRADE',
   GIFT = 'GIFT',
+  TOY_STORE = 'TOY_STORE',
   OTHER = 'OTHER',
 }
 

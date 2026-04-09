@@ -2,6 +2,7 @@ import {
   AcquisitionSource,
   ConditionGrade,
   StarWarsLine,
+  StarWarsCategory,
   FigureSize,
   CardbackStyle,
   TransformersFaction,
@@ -9,6 +10,7 @@ import {
   TransformerSize,
   MastersLine,
   MastersCharacterType,
+  WishlistPriority,
 } from '@my-collections/shared';
 
 export type CollectionKey = 'star-wars' | 'transformers' | 'he-man';
@@ -39,6 +41,25 @@ export const CONDITION_LABELS: Record<string, string> = {
   [ConditionGrade.GOOD]: 'C5 — Good',
   [ConditionGrade.POOR]: 'C4 — Poor',
   [ConditionGrade.INCOMPLETE]: 'INC — Incomplete',
+};
+
+export const STAR_WARS_CATEGORY_LABELS: Record<string, string> = {
+  [StarWarsCategory.BASIC_FIGURE]: 'Basic Figure',
+  [StarWarsCategory.VEHICLE]: 'Vehicle',
+  [StarWarsCategory.PLAYSET]: 'Playset',
+  [StarWarsCategory.CREATURE]: 'Creature',
+  [StarWarsCategory.MINI_RIG]: 'Mini-Rig',
+  [StarWarsCategory.ACCESSORY]: 'Accessory',
+  [StarWarsCategory.TWELVE_INCH]: '12" Figure',
+  [StarWarsCategory.COLLECTOR_CASE]: 'Collector Case',
+  [StarWarsCategory.ROLEPLAY]: 'Role Play',
+  [StarWarsCategory.DIE_CAST]: 'Die Cast',
+};
+
+export const WISHLIST_PRIORITY_LABELS: Record<string, string> = {
+  [WishlistPriority.HIGH]: 'High',
+  [WishlistPriority.MEDIUM]: 'Medium',
+  [WishlistPriority.LOW]: 'Low',
 };
 
 export const STAR_WARS_LINE_LABELS: Record<string, string> = {
@@ -118,11 +139,14 @@ export const ACQUISITION_SOURCE_LABELS: Record<string, string> = {
   [AcquisitionSource.PRIVATE_SALE]: 'Private Sale',
   [AcquisitionSource.TRADE]: 'Trade',
   [AcquisitionSource.GIFT]: 'Gift',
+  [AcquisitionSource.TOY_STORE]: 'Toy Store',
   [AcquisitionSource.OTHER]: 'Other',
 };
 
 export const CONDITION_OPTIONS: FilterOption[] = enumToOptions(CONDITION_LABELS);
 export const ACQUISITION_SOURCE_OPTIONS: FilterOption[] = enumToOptions(ACQUISITION_SOURCE_LABELS);
+export const STAR_WARS_CATEGORY_OPTIONS: FilterOption[] = enumToOptions(STAR_WARS_CATEGORY_LABELS);
+export const WISHLIST_PRIORITY_OPTIONS: FilterOption[] = enumToOptions(WISHLIST_PRIORITY_LABELS);
 
 export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
   'star-wars': {

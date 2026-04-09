@@ -69,6 +69,7 @@ const ACQUISITION_LABELS: Record<AcquisitionSource, string> = {
   [AcquisitionSource.PRIVATE_SALE]: 'Private sale',
   [AcquisitionSource.TRADE]: 'Trade',
   [AcquisitionSource.GIFT]: 'Gift',
+  [AcquisitionSource.TOY_STORE]: 'Toy Store',
   [AcquisitionSource.OTHER]: 'Other',
 };
 

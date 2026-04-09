@@ -4,6 +4,7 @@ import {
   ManyToOne,
   Entity,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import {
@@ -24,8 +25,14 @@ export class UserStarWarsItemEntity {
   @ManyToOne(() => StarWarsCatalogEntity, (catalog) => catalog.userItems, { nullable: false })
   catalog!: StarWarsCatalogEntity;
 
+  @RelationId((item: UserStarWarsItemEntity) => item.catalog)
+  catalogId!: string;
+
   @ManyToOne(() => User, { nullable: false })
   user!: User;
+
+  @RelationId((item: UserStarWarsItemEntity) => item.user)
+  userId!: string;
 
   @Column({ default: false })
   isOwned!: boolean;
