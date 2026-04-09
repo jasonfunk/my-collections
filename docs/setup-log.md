@@ -2131,3 +2131,35 @@ Updated the Star Wars web pages to work with the new catalog/user_items split in
 **Verification:** `npm run lint` — 0 errors. Playwright smoke test: wishlist loads, Amanaman appears with High priority, Mark as Acquired dialog submits, item moves to owned (dashboard shows 2 owned, 0 on wishlist).
 
 **Jira:** COL-36 → Done, COL-43 → Done
+
+---
+
+## Session — 2026-04-09 — Fix global search crash + Star Wars catalog search (COL-66 bug)
+
+### What Was Done
+
+**Root cause investigation:**
+- Global search (`GET /collections/search`) was crashing the frontend (blank screen) because:
+  1. `CollectionItem.condition` and `packagingCondition` were typed as required non-null in `packages/shared`, but `UserStarWarsItemEntity` has both as `ConditionGrade | null` (wishlist items have no condition until acquired). The mismatch caused TS compile errors in `collections-search.service.ts`, preventing the API from starting at all.
+  2. Commit `9e8ed05` had already added the `toCollectionItem` mapper (correct logic) but left the null mismatch unresolved — CI didn't catch it because the API's `npm run lint` is ESLint only; `tsc --noEmit` only runs via `npm run build` on push to `main`.
+- Star Wars catalog page search was silently returning all results — `CatalogBrowseQueryDto` had no `search` field, and `StarWarsCatalogService.findAll()` never applied it.
+
+**Fixes:**
+- `packages/shared/src/types/common.ts`: Made `condition` and `packagingCondition` optional (`condition?: ConditionGrade`). Nullable DB columns should flow through as optional in shared types.
+- `collections-search.service.ts`: Changed `condition: item.condition` → `condition: item.condition ?? undefined` (and same for `packagingCondition`) to satisfy the now-optional type.
+- `star-wars-catalog.dto.ts`: Added `search?: string` to `CatalogBrowseQueryDto`.
+- `star-wars-catalog.service.ts`: Added `LOWER(item.name) LIKE :search` where clause in `findAll()`.
+- `ItemCard.tsx`, `ItemTable.tsx`, `CollectionDetailPage.tsx`: Wrapped `<ConditionBadge>` with `{item.condition && ...}` guard since condition is now optional.
+
+### Lessons Learned
+
+| Lesson | Detail |
+|---|---|
+| Shared type strictness vs entity nullability | When an entity column is `nullable: true`, the shared type field must be optional (`?`). Required non-null in the type causes TS compile errors when mapping. |
+| CI gap: API type errors not caught on PRs | `packages/api` lint is ESLint only. `tsc --noEmit` only runs in `build.yml` on push to `main`. TS compile errors in API code can slip past CI on PR. Fix: add `tsc --noEmit` to API lint or add a type-check CI job. |
+| Frontend/backend contract gap | The Star Wars search input sent `?search=value` for months without the API handling it — results were silently unfiltered. Every query param the frontend sends should be in the corresponding DTO. |
+| Playwright: `page.goto()` after server restart | Hard navigation reloads the SPA and re-initializes auth context. If the stored refresh token is stale (server restarted), this redirects to login. Workaround: sign in, then navigate by clicking through the UI (SPA nav preserves auth context). |
+
+**Verification:** `tsc --noEmit` — 0 errors. `npm run lint` — 0 errors. Playwright: global search "amanaman" → 1 result with name + Wishlist badge; Star Wars catalog "luke" → 199 items filter to 8.
+
+**Jira:** COL-66 (seed runner) was already Done — bug fix commits referenced it but no new ticket was created for the search bugs.
