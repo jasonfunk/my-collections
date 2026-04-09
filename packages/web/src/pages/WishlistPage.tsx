@@ -143,7 +143,7 @@ export function WishlistPage() {
                   <div className="min-w-0 flex-1">
                     <button
                       className="text-left text-sm font-medium hover:underline truncate block"
-                      onClick={() => navigate(`/collections/star-wars/${item.id}`)}
+                      onClick={() => navigate(`/collections/star-wars/${item.catalogId}`)}
                     >
                       {item.catalog?.name ?? 'Unknown item'}
                     </button>
