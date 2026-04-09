@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotImplementedException,
   Param,
   Patch,
   Post,
@@ -69,11 +70,28 @@ export class TransformersController {
     return this.service.create(user.sub, dto);
   }
 
+  @Get('wishlist')
+  @ApiOperation({ summary: 'G1 Transformers wishlist (stub — catalog not yet populated)' })
+  listWishlist(@CurrentUser() _user: AccessTokenPayload, @Query() pagination: PaginationQueryDto) {
+    const { page = 1, limit = 20 } = pagination;
+    return Promise.resolve({ data: [], meta: { page, limit, total: 0, totalPages: 0 } });
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get a G1 Transformer by ID' })
   @ApiResponse({ status: 404, description: 'Not found' })
   findOne(@CurrentUser() user: AccessTokenPayload, @Param('id') id: string) {
     return this.service.findOne(user.sub, id);
+  }
+
+  @Patch(':id/acquired')
+  @ApiOperation({ summary: 'Mark G1 Transformer as acquired (stub)' })
+  markAcquired(
+    @CurrentUser() _user: AccessTokenPayload,
+    @Param('id') _id: string,
+    @Body() _dto: unknown,
+  ) {
+    throw new NotImplementedException();
   }
 
   @Patch(':id')

@@ -2,7 +2,7 @@
   "info": {
     "name": "Collections API",
     "_postman_id": "collections-api-v1",
-    "description": "CRUD endpoints for Star Wars figures, G1 Transformers, and Masters of the Universe figures. All endpoints require a Bearer token — obtain one via the Auth collection first.",
+    "description": "CRUD endpoints for Star Wars figures, G1 Transformers, and Masters of the Universe figures. All endpoints require a Bearer token \u2014 obtain one via the Auth collection first.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -14,12 +14,20 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/stats",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "stats"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "stats"
+              ]
             },
             "description": "Returns owned/wishlist counts and estimated total values across all collection types."
           }
@@ -34,17 +42,42 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/catalog",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "catalog"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "catalog"
+              ],
               "query": [
-                { "key": "category", "value": "BASIC_FIGURE", "disabled": true },
-                { "key": "line", "value": "STAR_WARS", "disabled": true },
-                { "key": "page", "value": "1", "disabled": true },
-                { "key": "limit", "value": "20", "disabled": true }
+                {
+                  "key": "category",
+                  "value": "BASIC_FIGURE",
+                  "disabled": true
+                },
+                {
+                  "key": "line",
+                  "value": "STAR_WARS",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                }
               ]
             },
             "description": "Paginated catalog of what Kenner made. Filter by category (BASIC_FIGURE, VEHICLE, PLAYSET, etc.) and/or line."
@@ -55,13 +88,28 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/catalog/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "catalog", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "catalog",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             },
             "description": "Single catalog item with full detail (accessories, image URL, variant info, etc.)"
           }
@@ -71,18 +119,35 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/items",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "items"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items"
+              ],
               "query": [
-                { "key": "page", "value": "1", "disabled": true },
-                { "key": "limit", "value": "20", "disabled": true }
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                }
               ]
             },
-            "description": "The authenticated user's personal records — both owned items and wishlist. Each record includes the embedded catalog item."
+            "description": "The authenticated user's personal records \u2014 both owned items and wishlist. Each record includes the embedded catalog item."
           }
         },
         {
@@ -90,8 +155,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -99,8 +170,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/items",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "items"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items"
+              ]
             },
             "description": "Create a personal record for a catalog item. 409 if a record already exists for this catalogId."
           }
@@ -110,8 +187,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -119,8 +202,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/items",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "items"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items"
+              ]
             }
           }
         },
@@ -129,8 +218,14 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -138,9 +233,21 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/items/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "items", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             },
             "description": "Update personal record fields. catalogId cannot be changed."
           }
@@ -150,15 +257,106 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/star-wars/items/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "star-wars", "items", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             },
             "description": "Remove personal record. The catalog item is not affected."
+          }
+        },
+        {
+          "name": "Get wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "wishlist"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Paginated wishlist items (isOwned=false), sorted HIGH priority first then catalog name."
+          }
+        },
+        {
+          "name": "Mark as acquired",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"condition\": \"C8\",\n  \"acquisitionSource\": \"EBAY\",\n  \"acquisitionDate\": \"2025-04-08\",\n  \"acquisitionPrice\": 45.0,\n  \"estimatedValue\": 60.0,\n  \"notes\": \"Picked up at a great price\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/star-wars/items/:id/acquired",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "star-wars",
+                "items",
+                ":id",
+                "acquired"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Sets isOwned=true, nulls wishlistPriority. All body fields are optional."
           }
         }
       ]
@@ -171,16 +369,36 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/transformers",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "transformers"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers"
+              ],
               "query": [
-                { "key": "owned", "value": "true", "disabled": true },
-                { "key": "faction", "value": "AUTOBOT", "disabled": true },
-                { "key": "line", "value": "G1_S1", "disabled": true }
+                {
+                  "key": "owned",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "faction",
+                  "value": "AUTOBOT",
+                  "disabled": true
+                },
+                {
+                  "key": "line",
+                  "value": "G1_S1",
+                  "disabled": true
+                }
               ]
             }
           }
@@ -190,8 +408,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -199,8 +423,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/transformers",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "transformers"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers"
+              ]
             }
           }
         },
@@ -209,13 +438,27 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/transformers/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "transformers", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -224,8 +467,14 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -233,9 +482,20 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/transformers/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "transformers", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -244,14 +504,52 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/transformers/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "transformers", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
+          }
+        },
+        {
+          "name": "Get wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/transformers/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "transformers",
+                "wishlist"
+              ]
+            },
+            "description": "Stub \u2014 returns empty array until G1 catalog is populated."
           }
         }
       ]
@@ -264,15 +562,31 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/he-man",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "he-man"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man"
+              ],
               "query": [
-                { "key": "owned", "value": "true", "disabled": true },
-                { "key": "line", "value": "ORIGINAL", "disabled": true }
+                {
+                  "key": "owned",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "line",
+                  "value": "ORIGINAL",
+                  "disabled": true
+                }
               ]
             }
           }
@@ -282,8 +596,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -291,8 +611,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/he-man",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "he-man"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man"
+              ]
             }
           }
         },
@@ -301,13 +626,27 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/he-man/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "he-man", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -316,8 +655,14 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -325,9 +670,20 @@
             },
             "url": {
               "raw": "{{baseUrl}}/collections/he-man/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "he-man", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -336,14 +692,52 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/collections/he-man/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["collections", "he-man", ":id"],
-              "variable": [{ "key": "id", "value": "" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
+          }
+        },
+        {
+          "name": "Get wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/collections/he-man/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "he-man",
+                "wishlist"
+              ]
+            },
+            "description": "Stub \u2014 returns empty array until Masters catalog is populated."
           }
         }
       ]

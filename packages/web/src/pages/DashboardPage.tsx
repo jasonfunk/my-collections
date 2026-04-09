@@ -89,6 +89,9 @@ export function DashboardPage() {
               <SearchIcon className="mr-1 h-4 w-4" />
               Search
             </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/wishlist')}>
+              Wishlist
+            </Button>
             <span className="text-sm text-muted-foreground">{displayName}</span>
             <Button variant="outline" size="sm" onClick={logout}>
               Sign out
