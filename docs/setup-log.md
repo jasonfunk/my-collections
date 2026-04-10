@@ -2412,3 +2412,65 @@ DB verification: `SELECT COUNT(*) FROM g1_transformers_catalog` → 443 ✓
 - `npm run build` — clean ✓
 
 **Jira:** COL-70 → Done
+
+---
+
+## Session: 2026-04-09 (Bug Fix — COL-70 follow-up)
+
+Three regressions discovered after COL-70 merge and fixed in this session.
+
+---
+
+### Bug 1: Transformers catalog page — "failed to load items"
+
+**Root cause:** `CollectionListPage` (the generic `:collection` route) calls `config.apiPath` verbatim as the fetch URL. For Transformers, that would be `/collections/transformers/catalog` — but `CollectionListPage` appends no `/items` suffix, making it incompatible with the catalog/user-items split architecture. Since no dedicated route was registered for `/collections/transformers`, the generic wildcard matched it.
+
+**Fix:** Created `TransformersCatalogPage`, `TransformersCatalogDetailPage`, `TransformersCatalogCard`, and `TransformersClaimDialog` — identical in structure to the He-Man equivalents. Registered static routes in `App.tsx` before the generic `:collection` wildcard so they take priority.
+
+New files:
+- `packages/web/src/pages/collections/TransformersCatalogPage.tsx`
+- `packages/web/src/pages/collections/TransformersCatalogDetailPage.tsx`
+- `packages/web/src/components/collections/TransformersCatalogCard.tsx`
+- `packages/web/src/components/collections/TransformersClaimDialog.tsx`
+
+Modified: `packages/web/src/App.tsx` — added two routes.
+
+---
+
+### Bug 2: He-Man dashboard counts showed 0
+
+**Root cause:** `CollectionsStatsService.getStats()` had hardcoded `EMPTY_STATS` placeholders for both Transformers and He-Man — a TODO stub left from before those entity repos existed.
+
+**Fix:** Injected `UserG1TransformersItemEntity` and `UserMastersItemEntity` repos into `CollectionsStatsService`. Replaced stubs with real `Promise.all` queries identical in structure to the Star Wars query.
+
+Modified: `packages/api/src/modules/collections/services/collections-stats.service.ts`
+
+---
+
+### Bug 3: Transformers items absent from /search results
+
+**Root cause:** `CollectionsSearchService` was missing `queryTransformers()`. The `Promise.all` only covered Star Wars and He-Man — Transformers items were never included regardless of query or collection filter.
+
+**Fix:** Added `queryTransformers()` private method (identical structure to `queryMasters()`), injected `UserG1TransformersItemEntity` repo, and included `tfItems` in the merged + sorted result array.
+
+Modified: `packages/api/src/modules/collections/services/collections-search.service.ts`
+
+---
+
+### Process note — killing NestJS watch mode
+
+`pkill -f "nest start"` did not match the actual process. Use `lsof -ti :3000 | xargs kill -9` to reliably free the port when the API needs a hard restart.
+
+---
+
+### Verification (Playwright)
+
+- Transformers catalog page loads and displays cards ✓
+- Transformers detail page shows catalog info + claim dialog ✓
+- Dashboard: He-Man owned count reflects claimed items ✓
+- `/search?q=Afterburner` → 1 Transformers result ✓
+- `/search?q=Afterburner&collectionType=TRANSFORMERS` → 1 result ✓
+- `/search?q=Afterburner&collectionType=HE_MAN` → 0 results ✓
+- `/search?q=Skeletor` → 1 He-Man result (existing functionality intact) ✓
+
+**Commits:** stats fix + Transformers UI (prior session) + search fix (this session)
