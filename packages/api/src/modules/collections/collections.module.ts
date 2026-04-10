@@ -14,9 +14,10 @@ import { UserMastersItemEntity } from './entities/user-masters-item.entity';
 import { UserStarWarsItemEntity } from './entities/user-star-wars-item.entity';
 import { CollectionsSearchService } from './services/collections-search.service';
 import { CollectionsStatsService } from './services/collections-stats.service';
+import { G1TransformersCatalogService } from './services/g1-transformers-catalog.service';
 import { MastersCatalogService } from './services/masters-catalog.service';
 import { StarWarsCatalogService } from './services/star-wars-catalog.service';
-import { TransformersService } from './services/transformers.service';
+import { UserG1TransformersItemsService } from './services/user-g1-transformers-items.service';
 import { UserMastersItemsService } from './services/user-masters-items.service';
 import { UserStarWarsItemsService } from './services/user-star-wars-items.service';
 
@@ -42,7 +43,8 @@ import { UserStarWarsItemsService } from './services/user-star-wars-items.servic
   providers: [
     StarWarsCatalogService,
     UserStarWarsItemsService,
-    TransformersService,
+    G1TransformersCatalogService,
+    UserG1TransformersItemsService,
     MastersCatalogService,
     UserMastersItemsService,
     CollectionsStatsService,

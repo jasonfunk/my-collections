@@ -2273,3 +2273,142 @@ npm run seed:he-man      # Inserted 127 records (0 already exist)
 - `npm run lint` — clean ✓
 
 **Committed:** `7c80054` | **PR:** #14 | **Merged to main**
+
+---
+
+## Session — 2026-04-09 (Session 2)
+
+### COL-70 — G1 Transformers catalog: scraper, seed, and API pipeline
+
+Complete G1 Transformers catalog import pipeline, following the He-Man (COL-69) pattern end-to-end.
+
+---
+
+### 1. Playwright site exploration (transformerland.com)
+
+Before writing the scraper, used Playwright MCP (`browser_navigate`, `browser_snapshot`) to browse the live site:
+
+- **Index page:** `https://www.transformerland.com/wiki/transformers/g1/`
+- **Link selector confirmed:** `a[href*="/wiki/toy-info/transformers-g1-"]`
+- **Detail page H1 format:** Two text nodes — `"G1"` + `" {Subgroup}: {Name}"` concatenated without space by Cheerio → produces `"G1Aerialbots..."` without a careful regex
+- **Faction:** `Alliance:` row in info table (not derivable reliably from URL slug — factions like "action-masters", "bases", "other" have mixed membership)
+- **Combiner detection:** `Subgroup:` info table row = `"Combiners"` (reliable)
+- **Alt mode:** Not available as structured data on this site — only in prose descriptions; left as `null` for all items
+- **Image:** First `a[href*="/image/reference_images/"]` in sidebar
+
+---
+
+### 2. Scraper (`scripts/scrape-transformers-catalog.ts`)
+
+New file modeled on `scripts/scrape-he-man-catalog.ts`.
+
+Key design decisions:
+- `headless: false` required — Cloudflare managed challenge blocks headless Playwright
+- H1 parsing: `h1.replace(/^G1\s*/, '')` (zero-or-more whitespace) then `lastIndexOf(':')` to split subgroup/name
+- Faction: reads `Alliance:` info table row → `"Autobot"` → `AUTOBOT`, `"Decepticon"` → `DECEPTICON`
+- Year → line mapping: `1984→G1_S1`, `1985→G1_S2`, `1986→G1_S3`, `1987→G1_S4`, `1988→G1_S5`, `1989+→G1_S6`
+- `isCombiner`: `subgroupRow === 'Combiners'`
+- `combinerTeam`: H1 subgroup value when `isCombiner` (e.g. `"Aerialbots (Superion, G1)"`)
+- `isMailaway`: `url.includes('mail-away')`
+- Rate limit: 1100ms between requests
+
+**Bug found and fixed:** H1 text nodes concatenated as `"G1Aerialbots..."` (no space). The original regex `/^G1\s+/` required whitespace and silently failed. Fixed to `/^G1\s*/`. The already-generated JSON was patched with a Python one-liner to strip the leading `"G1"` from all 63 `combinerTeam` values.
+
+**Output:** `packages/api/src/database/seeds/data/g1-transformers-catalog.json` — 443 items (247 Autobots, 196 Decepticons, 63 combiners, 9 mail-away exclusives)
+
+**Command:**
+```
+npm run scrape:transformers
+```
+
+---
+
+### 3. Entities (expanded from stubs)
+
+**`packages/api/src/modules/collections/entities/g1-transformers-catalog.entity.ts`**
+- Full field set matching `1775521867803-CatalogRefactorSchema.ts` migration
+- Imports: `TransformersFaction`, `TransformersLine`, `TransformerSize` from `@my-collections/shared`
+- Nullable enums, `text[]` arrays with `default: '{}'`, `!` definite assignment on all properties
+- `@OneToMany` → `UserG1TransformersItemEntity`
+
+**`packages/api/src/modules/collections/entities/user-g1-transformers-item.entity.ts`**
+- Full field set: condition/packagingCondition enums, isComplete, ownedAccessories, isBoxed, hasInstructions, hasTechSpec, `rubSign` (nullable boolean), all acquisition fields (source, date, price, estimatedValue), notes, photoUrls
+- `@ManyToOne` + `@RelationId` for both catalog and user relations
+
+---
+
+### 4. Services
+
+**`packages/api/src/modules/collections/services/g1-transformers-catalog.service.ts`** (new)
+- `findAll(query)` — filters: `faction`, `line`, `search` (ILIKE name); returns `PaginatedResponse`
+- `findOne(id)` — throws `NotFoundException` if missing
+
+**`packages/api/src/modules/collections/services/user-g1-transformers-items.service.ts`** (new)
+- `findAll`, `findWishlist` (isOwned=false, ordered by wishlistPriority), `findOne`, `create` (validates catalogId exists + no duplicate), `update`, `markAcquired` (sets isOwned=true, clears wishlistPriority), `remove`
+
+---
+
+### 5. DTOs (`dto/g1-transformer.dto.ts` rewritten)
+
+- `G1TransformersCatalogBrowseQueryDto extends PaginationQueryDto` — faction?, line?, search?
+- `CreateUserG1TransformersItemDto` — all user_items columns except id/userId/timestamps
+- `UpdateUserG1TransformersItemDto extends PartialType(OmitType(Create..., ['catalogId']))`
+- `MarkG1TransformerAcquiredDto` — condition, packagingCondition, acquisition fields, notes
+
+---
+
+### 6. Controller (rewritten)
+
+**`packages/api/src/modules/collections/controllers/transformers.controller.ts`**
+
+Route base: `/collections/transformers`
+
+| Method | Path | Handler |
+|---|---|---|
+| GET | `/catalog` | `catalogService.findAll` |
+| GET | `/catalog/:id` | `catalogService.findOne` |
+| GET | `/items` | `itemsService.findAll` |
+| GET | `/wishlist` | `itemsService.findWishlist` |
+| POST | `/items` | `itemsService.create` |
+| PATCH | `/items/:id/acquired` | `itemsService.markAcquired` |
+| PATCH | `/items/:id` | `itemsService.update` |
+| DELETE | `/items/:id` | `itemsService.remove` |
+
+---
+
+### 7. Seed runner
+
+**`packages/api/src/database/seeds/run-transformers-seed.ts`** (new)
+- Reads `data/g1-transformers-catalog.json`
+- Dedup: primary by `externalId`, fallback by `name`
+- Idempotent insert via `repo.insert()`
+
+**Command:**
+```
+npm run seed:transformers
+```
+
+DB verification: `SELECT COUNT(*) FROM g1_transformers_catalog` → 443 ✓
+
+---
+
+### 8. Module cleanup
+
+**`packages/api/src/modules/collections/collections.module.ts`**
+- Removed `TransformersService` (old placeholder)
+- Added `G1TransformersCatalogService` + `UserG1TransformersItemsService` to providers
+
+**`packages/api/src/modules/collections/services/transformers.service.ts`** — deleted
+
+---
+
+### Verification
+
+- `GET /collections/transformers/catalog` → 443 items ✓
+- `GET /collections/transformers/catalog?faction=AUTOBOT` → filtered results ✓
+- `GET /collections/transformers/catalog?search=Optimus` → 2 results ✓
+- `GET /collections/transformers/items` → empty array (no claimed items) ✓
+- `npm run lint` — clean ✓
+- `npm run build` — clean ✓
+
+**Jira:** COL-70 → Done
