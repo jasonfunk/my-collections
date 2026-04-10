@@ -2245,3 +2245,232 @@ npm run seed:he-man      # Inserted 127 records (0 already exist)
 **Jira:** COL-69 created and transitioned to Done.
 
 **Jira:** COL-66 (seed runner) was already Done — bug fix commits referenced it but no new ticket was created for the search bugs.
+
+---
+
+## 2026-04-09 — Session 2: Fix He-Man missing from global search
+
+**Branch:** develop → PR #14 → merged to main
+
+### Problem
+
+`/search` returned zero results for He-Man items even though items were claimed. Root cause: `CollectionsSearchService` had a `// TODO: add Transformers + He-Man queries once scrapers land` stub — it only injected `UserStarWarsItemEntity` and only called `queryStarWars()`.
+
+### Fix
+
+**File:** `packages/api/src/modules/collections/services/collections-search.service.ts`
+
+- Added `@InjectRepository(UserMastersItemEntity)` to constructor (entity already registered in `CollectionsModule.forFeature`)
+- Added `queryMasters()` private method — identical query builder pattern to `queryStarWars()`, returns `CollectionItem[]` with `collectionType: CollectionType.HE_MAN`
+- Updated `search()` to run both queries in parallel via `Promise.all`, combining results before sort + pagination
+- Collection type filter now correctly skips SW when `collectionType=HE_MAN` and vice versa
+
+### Verification (Playwright)
+
+- `/search` + "Skeletor" → 1 result ("Battle Armor Skeletor") with He-Man label ✓
+- Collection filter "⚔️ He-Man" → still 1 result ✓
+- Star Wars result unaffected ✓
+- `npm run lint` — clean ✓
+
+**Committed:** `7c80054` | **PR:** #14 | **Merged to main**
+
+---
+
+## Session — 2026-04-09 (Session 2)
+
+### COL-70 — G1 Transformers catalog: scraper, seed, and API pipeline
+
+Complete G1 Transformers catalog import pipeline, following the He-Man (COL-69) pattern end-to-end.
+
+---
+
+### 1. Playwright site exploration (transformerland.com)
+
+Before writing the scraper, used Playwright MCP (`browser_navigate`, `browser_snapshot`) to browse the live site:
+
+- **Index page:** `https://www.transformerland.com/wiki/transformers/g1/`
+- **Link selector confirmed:** `a[href*="/wiki/toy-info/transformers-g1-"]`
+- **Detail page H1 format:** Two text nodes — `"G1"` + `" {Subgroup}: {Name}"` concatenated without space by Cheerio → produces `"G1Aerialbots..."` without a careful regex
+- **Faction:** `Alliance:` row in info table (not derivable reliably from URL slug — factions like "action-masters", "bases", "other" have mixed membership)
+- **Combiner detection:** `Subgroup:` info table row = `"Combiners"` (reliable)
+- **Alt mode:** Not available as structured data on this site — only in prose descriptions; left as `null` for all items
+- **Image:** First `a[href*="/image/reference_images/"]` in sidebar
+
+---
+
+### 2. Scraper (`scripts/scrape-transformers-catalog.ts`)
+
+New file modeled on `scripts/scrape-he-man-catalog.ts`.
+
+Key design decisions:
+- `headless: false` required — Cloudflare managed challenge blocks headless Playwright
+- H1 parsing: `h1.replace(/^G1\s*/, '')` (zero-or-more whitespace) then `lastIndexOf(':')` to split subgroup/name
+- Faction: reads `Alliance:` info table row → `"Autobot"` → `AUTOBOT`, `"Decepticon"` → `DECEPTICON`
+- Year → line mapping: `1984→G1_S1`, `1985→G1_S2`, `1986→G1_S3`, `1987→G1_S4`, `1988→G1_S5`, `1989+→G1_S6`
+- `isCombiner`: `subgroupRow === 'Combiners'`
+- `combinerTeam`: H1 subgroup value when `isCombiner` (e.g. `"Aerialbots (Superion, G1)"`)
+- `isMailaway`: `url.includes('mail-away')`
+- Rate limit: 1100ms between requests
+
+**Bug found and fixed:** H1 text nodes concatenated as `"G1Aerialbots..."` (no space). The original regex `/^G1\s+/` required whitespace and silently failed. Fixed to `/^G1\s*/`. The already-generated JSON was patched with a Python one-liner to strip the leading `"G1"` from all 63 `combinerTeam` values.
+
+**Output:** `packages/api/src/database/seeds/data/g1-transformers-catalog.json` — 443 items (247 Autobots, 196 Decepticons, 63 combiners, 9 mail-away exclusives)
+
+**Command:**
+```
+npm run scrape:transformers
+```
+
+---
+
+### 3. Entities (expanded from stubs)
+
+**`packages/api/src/modules/collections/entities/g1-transformers-catalog.entity.ts`**
+- Full field set matching `1775521867803-CatalogRefactorSchema.ts` migration
+- Imports: `TransformersFaction`, `TransformersLine`, `TransformerSize` from `@my-collections/shared`
+- Nullable enums, `text[]` arrays with `default: '{}'`, `!` definite assignment on all properties
+- `@OneToMany` → `UserG1TransformersItemEntity`
+
+**`packages/api/src/modules/collections/entities/user-g1-transformers-item.entity.ts`**
+- Full field set: condition/packagingCondition enums, isComplete, ownedAccessories, isBoxed, hasInstructions, hasTechSpec, `rubSign` (nullable boolean), all acquisition fields (source, date, price, estimatedValue), notes, photoUrls
+- `@ManyToOne` + `@RelationId` for both catalog and user relations
+
+---
+
+### 4. Services
+
+**`packages/api/src/modules/collections/services/g1-transformers-catalog.service.ts`** (new)
+- `findAll(query)` — filters: `faction`, `line`, `search` (ILIKE name); returns `PaginatedResponse`
+- `findOne(id)` — throws `NotFoundException` if missing
+
+**`packages/api/src/modules/collections/services/user-g1-transformers-items.service.ts`** (new)
+- `findAll`, `findWishlist` (isOwned=false, ordered by wishlistPriority), `findOne`, `create` (validates catalogId exists + no duplicate), `update`, `markAcquired` (sets isOwned=true, clears wishlistPriority), `remove`
+
+---
+
+### 5. DTOs (`dto/g1-transformer.dto.ts` rewritten)
+
+- `G1TransformersCatalogBrowseQueryDto extends PaginationQueryDto` — faction?, line?, search?
+- `CreateUserG1TransformersItemDto` — all user_items columns except id/userId/timestamps
+- `UpdateUserG1TransformersItemDto extends PartialType(OmitType(Create..., ['catalogId']))`
+- `MarkG1TransformerAcquiredDto` — condition, packagingCondition, acquisition fields, notes
+
+---
+
+### 6. Controller (rewritten)
+
+**`packages/api/src/modules/collections/controllers/transformers.controller.ts`**
+
+Route base: `/collections/transformers`
+
+| Method | Path | Handler |
+|---|---|---|
+| GET | `/catalog` | `catalogService.findAll` |
+| GET | `/catalog/:id` | `catalogService.findOne` |
+| GET | `/items` | `itemsService.findAll` |
+| GET | `/wishlist` | `itemsService.findWishlist` |
+| POST | `/items` | `itemsService.create` |
+| PATCH | `/items/:id/acquired` | `itemsService.markAcquired` |
+| PATCH | `/items/:id` | `itemsService.update` |
+| DELETE | `/items/:id` | `itemsService.remove` |
+
+---
+
+### 7. Seed runner
+
+**`packages/api/src/database/seeds/run-transformers-seed.ts`** (new)
+- Reads `data/g1-transformers-catalog.json`
+- Dedup: primary by `externalId`, fallback by `name`
+- Idempotent insert via `repo.insert()`
+
+**Command:**
+```
+npm run seed:transformers
+```
+
+DB verification: `SELECT COUNT(*) FROM g1_transformers_catalog` → 443 ✓
+
+---
+
+### 8. Module cleanup
+
+**`packages/api/src/modules/collections/collections.module.ts`**
+- Removed `TransformersService` (old placeholder)
+- Added `G1TransformersCatalogService` + `UserG1TransformersItemsService` to providers
+
+**`packages/api/src/modules/collections/services/transformers.service.ts`** — deleted
+
+---
+
+### Verification
+
+- `GET /collections/transformers/catalog` → 443 items ✓
+- `GET /collections/transformers/catalog?faction=AUTOBOT` → filtered results ✓
+- `GET /collections/transformers/catalog?search=Optimus` → 2 results ✓
+- `GET /collections/transformers/items` → empty array (no claimed items) ✓
+- `npm run lint` — clean ✓
+- `npm run build` — clean ✓
+
+**Jira:** COL-70 → Done
+
+---
+
+## Session: 2026-04-09 (Bug Fix — COL-70 follow-up)
+
+Three regressions discovered after COL-70 merge and fixed in this session.
+
+---
+
+### Bug 1: Transformers catalog page — "failed to load items"
+
+**Root cause:** `CollectionListPage` (the generic `:collection` route) calls `config.apiPath` verbatim as the fetch URL. For Transformers, that would be `/collections/transformers/catalog` — but `CollectionListPage` appends no `/items` suffix, making it incompatible with the catalog/user-items split architecture. Since no dedicated route was registered for `/collections/transformers`, the generic wildcard matched it.
+
+**Fix:** Created `TransformersCatalogPage`, `TransformersCatalogDetailPage`, `TransformersCatalogCard`, and `TransformersClaimDialog` — identical in structure to the He-Man equivalents. Registered static routes in `App.tsx` before the generic `:collection` wildcard so they take priority.
+
+New files:
+- `packages/web/src/pages/collections/TransformersCatalogPage.tsx`
+- `packages/web/src/pages/collections/TransformersCatalogDetailPage.tsx`
+- `packages/web/src/components/collections/TransformersCatalogCard.tsx`
+- `packages/web/src/components/collections/TransformersClaimDialog.tsx`
+
+Modified: `packages/web/src/App.tsx` — added two routes.
+
+---
+
+### Bug 2: He-Man dashboard counts showed 0
+
+**Root cause:** `CollectionsStatsService.getStats()` had hardcoded `EMPTY_STATS` placeholders for both Transformers and He-Man — a TODO stub left from before those entity repos existed.
+
+**Fix:** Injected `UserG1TransformersItemEntity` and `UserMastersItemEntity` repos into `CollectionsStatsService`. Replaced stubs with real `Promise.all` queries identical in structure to the Star Wars query.
+
+Modified: `packages/api/src/modules/collections/services/collections-stats.service.ts`
+
+---
+
+### Bug 3: Transformers items absent from /search results
+
+**Root cause:** `CollectionsSearchService` was missing `queryTransformers()`. The `Promise.all` only covered Star Wars and He-Man — Transformers items were never included regardless of query or collection filter.
+
+**Fix:** Added `queryTransformers()` private method (identical structure to `queryMasters()`), injected `UserG1TransformersItemEntity` repo, and included `tfItems` in the merged + sorted result array.
+
+Modified: `packages/api/src/modules/collections/services/collections-search.service.ts`
+
+---
+
+### Process note — killing NestJS watch mode
+
+`pkill -f "nest start"` did not match the actual process. Use `lsof -ti :3000 | xargs kill -9` to reliably free the port when the API needs a hard restart.
+
+---
+
+### Verification (Playwright)
+
+- Transformers catalog page loads and displays cards ✓
+- Transformers detail page shows catalog info + claim dialog ✓
+- Dashboard: He-Man owned count reflects claimed items ✓
+- `/search?q=Afterburner` → 1 Transformers result ✓
+- `/search?q=Afterburner&collectionType=TRANSFORMERS` → 1 result ✓
+- `/search?q=Afterburner&collectionType=HE_MAN` → 0 results ✓
+- `/search?q=Skeletor` → 1 He-Man result (existing functionality intact) ✓
+
+**Commits:** stats fix + Transformers UI (prior session) + search fix (this session)

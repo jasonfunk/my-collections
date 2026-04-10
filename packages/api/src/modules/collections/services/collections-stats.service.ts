@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CollectionStats, CollectionTypeStats } from '@my-collections/shared';
 import { UserStarWarsItemEntity } from '../entities/user-star-wars-item.entity';
+import { UserG1TransformersItemEntity } from '../entities/user-g1-transformers-item.entity';
+import { UserMastersItemEntity } from '../entities/user-masters-item.entity';
 
 type StatsRow = { isOwned: boolean; count: string; totalValue: string | null };
 
@@ -30,29 +32,48 @@ function parseStatsRows(rows: StatsRow[]): CollectionTypeStats {
   };
 }
 
-const EMPTY_STATS: CollectionTypeStats = { owned: 0, wishlist: 0, estimatedTotalValue: null };
-
 @Injectable()
 export class CollectionsStatsService {
   constructor(
     @InjectRepository(UserStarWarsItemEntity)
     private readonly swRepo: Repository<UserStarWarsItemEntity>,
+    @InjectRepository(UserG1TransformersItemEntity)
+    private readonly tfRepo: Repository<UserG1TransformersItemEntity>,
+    @InjectRepository(UserMastersItemEntity)
+    private readonly hmRepo: Repository<UserMastersItemEntity>,
   ) {}
 
   async getStats(userId: string): Promise<CollectionStats> {
-    const swRows = await this.swRepo
-      .createQueryBuilder('item')
-      .select('item.isOwned', 'isOwned')
-      .addSelect('COUNT(*)', 'count')
-      .addSelect('SUM(item.estimatedValue)', 'totalValue')
-      .where('item.userId = :userId', { userId })
-      .groupBy('item.isOwned')
-      .getRawMany<StatsRow>();
+    const [swRows, tfRows, hmRows] = await Promise.all([
+      this.swRepo
+        .createQueryBuilder('item')
+        .select('item.isOwned', 'isOwned')
+        .addSelect('COUNT(*)', 'count')
+        .addSelect('SUM(item.estimatedValue)', 'totalValue')
+        .where('item.userId = :userId', { userId })
+        .groupBy('item.isOwned')
+        .getRawMany<StatsRow>(),
+      this.tfRepo
+        .createQueryBuilder('item')
+        .select('item.isOwned', 'isOwned')
+        .addSelect('COUNT(*)', 'count')
+        .addSelect('SUM(item.estimatedValue)', 'totalValue')
+        .where('item.userId = :userId', { userId })
+        .groupBy('item.isOwned')
+        .getRawMany<StatsRow>(),
+      this.hmRepo
+        .createQueryBuilder('item')
+        .select('item.isOwned', 'isOwned')
+        .addSelect('COUNT(*)', 'count')
+        .addSelect('SUM(item.estimatedValue)', 'totalValue')
+        .where('item.userId = :userId', { userId })
+        .groupBy('item.isOwned')
+        .getRawMany<StatsRow>(),
+    ]);
 
     const starWars = parseStatsRows(swRows);
-    // TODO: query real G1/Masters user_items once their scrapers land
-    const transformers = EMPTY_STATS;
-    const heman = EMPTY_STATS;
+    const transformers = parseStatsRows(tfRows);
+    const heman = parseStatsRows(hmRows);
 
     const values = [
       starWars.estimatedTotalValue,

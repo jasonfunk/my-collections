@@ -10,6 +10,8 @@ import { StarWarsCatalogPage } from './pages/collections/StarWarsCatalogPage.js'
 import { StarWarsCatalogDetailPage } from './pages/collections/StarWarsCatalogDetailPage.js';
 import { MastersCatalogPage } from './pages/collections/MastersCatalogPage.js';
 import { MastersCatalogDetailPage } from './pages/collections/MastersCatalogDetailPage.js';
+import { TransformersCatalogPage } from './pages/collections/TransformersCatalogPage.js';
+import { TransformersCatalogDetailPage } from './pages/collections/TransformersCatalogDetailPage.js';
 import { SearchPage } from './pages/collections/SearchPage.js';
 import { WishlistPage } from './pages/WishlistPage.js';
 
@@ -31,6 +33,10 @@ function App() {
         {/* He-Man catalog model */}
         <Route path="/collections/he-man" element={<MastersCatalogPage />} />
         <Route path="/collections/he-man/:id" element={<MastersCatalogDetailPage />} />
+
+        {/* Transformers catalog model */}
+        <Route path="/collections/transformers" element={<TransformersCatalogPage />} />
+        <Route path="/collections/transformers/:id" element={<TransformersCatalogDetailPage />} />
 
         {/* /new and /:id/edit must come before /:id to avoid "new" matching as an item ID */}
         <Route path="/collections/:collection/new" element={<CollectionFormPage />} />
