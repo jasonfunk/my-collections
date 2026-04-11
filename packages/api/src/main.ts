@@ -15,8 +15,20 @@ async function bootstrap() {
   // Any entity property decorated with @Exclude() will be stripped from all responses.
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  // CORS — allow the web app and mobile app to call the API
-  app.enableCors();
+  // CORS — restrict to explicitly allowed origins (set via ALLOWED_ORIGINS env var).
+  // Defaults to the Vite dev server if the var is absent.
+  // In production, set ALLOWED_ORIGINS to the deployed frontend URL(s).
+  const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? 'http://localhost:5173')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
+
+  app.enableCors({
+    origin: allowedOrigins,
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
 
   // Swagger API documentation — auto-generated from decorators
   // Available at http://localhost:3000/api/docs
