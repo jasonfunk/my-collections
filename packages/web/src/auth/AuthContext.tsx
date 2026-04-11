@@ -166,10 +166,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const { redirectUrl }: { redirectUrl: string } = await loginResponse.json();
 
-      // Step 4: Extract auth code from the redirect URL (in-memory, no real navigation)
+      // Step 4: Extract auth code from the redirect URL and validate state.
+      // The server echoes the state we sent back in the redirect URL. Verifying
+      // it matches guards against a confused-deputy attack where a tampered
+      // redirect URL substitutes a different authorization code.
       const url = new URL(redirectUrl);
       const code = url.searchParams.get('code');
+      const returnedState = url.searchParams.get('state');
+
       if (!code) throw new Error('No authorization code in redirect URL');
+      if (returnedState !== state) throw new Error('OAuth state mismatch — possible CSRF attack');
 
       // Step 5: Exchange code + verifier for token pair
       const tokenResponse = await fetch('/api/auth/token', {
