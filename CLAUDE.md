@@ -74,6 +74,7 @@ See [docs/project-structure.md](docs/project-structure.md) for a detailed explan
 ## Known Environment Quirks
 
 - **`gh` CLI path:** `gh` is not on Claude Code's default PATH. Always invoke as `/opt/homebrew/bin/gh` in Bash tool calls.
+- **Killing NestJS watch mode:** `pkill -f "nest start"` does NOT reliably kill the watch process (the npm child process name differs). Use `lsof -ti :3000 | xargs kill -9` to kill by port.
 
 ## Development Commands
 
@@ -131,8 +132,9 @@ See [docs/project-structure.md](docs/project-structure.md) for full details. Sum
 - **React hooks before early returns:** All hooks (`useQuery`, `useParams`, etc.) must be called before any early `return`. When a component needs to bail on invalid params, use `enabled: !!config` to disable the query rather than returning before the hook.
 - **shadcn/ui v4 peer deps:** After `npx shadcn@latest add ...`, some packages need manual install: `class-variance-authority` (required by Button, Badge) and `tw-animate-css` (animation utilities).
 - **MCP tool schemas — ToolSearch first:** Before calling any MCP tool for the first time in a session, use `ToolSearch` to fetch its schema. Never guess parameter names. Known gotchas: `createJiraIssue` needs `cloudId` + `issueTypeName`; `transitionJiraIssue` needs `transition` as object `{"id":"21"}` not string; `resolve-library-id` needs both `libraryName` + `query`; `query-docs` uses `libraryId` + `query`.
-- **Playwright MCP:** Available for browser smoke testing. Use `browser_snapshot` (accessibility tree) for reading content and finding element refs; use `browser_take_screenshot` for visual confirmation. Dev credentials: `collector@example.com` / check `.env` or `packages/api/src/database/seeds/`.
+- **Playwright MCP:** Available for browser smoke testing. Use `browser_snapshot` (accessibility tree) for reading content and finding element refs; use `browser_take_screenshot` for visual confirmation. Dev credentials: `collector@example.com` / check `.env` or `packages/api/src/database/seeds/`. **shadcn/ui Select (Radix combobox):** `browser_select_option` requires a native `<select>` element and will fail on Radix UI comboboxes. Correct pattern: `browser_click` on the trigger button to open the dropdown, then `browser_click` on the desired option ref from the snapshot.
 - **TypeORM `find` select syntax:** The `select` option takes an *object*, not an array: `repo.find({ select: { externalId: true, name: true } })`. Passing an array compiles but produces wrong behaviour. Confirmed via Context7 docs.
+- **Aggregation services need all repos:** Any service that spans all collections (`CollectionsStatsService`, `CollectionsSearchService`, etc.) must inject every collection's entity repo in its constructor — even if that collection has no data yet. Omitting a repo causes silent 0-count or missing-results bugs when a new collection is seeded.
 - **Seed DataSource — entity glob vs explicit list:** Only safe to list a single entity explicitly (e.g. `entities: [OAuthClient]`) when that entity has *zero* relations. Any entity with `@OneToMany` / `@ManyToOne` / `@ManyToMany` requires the full relation graph to be registered, or TypeORM throws "Entity metadata not found". Use the glob instead: `entities: [__dirname + '/../../**/*.entity{.ts,.js}']` — same pattern as `app.module.ts`.
 - **Seed scripts — use `packages/api/tsconfig.json`, not `tsconfig.scripts.json`:** Seed scripts under `packages/api/src/database/seeds/` import NestJS entities which require `emitDecoratorMetadata: true` and `experimentalDecorators: true`. `tsconfig.scripts.json` (for root `scripts/`) lacks these flags. Run seeds with `ts-node --project packages/api/tsconfig.json <seed-path>` from the repo root.
 
