@@ -19,7 +19,7 @@ export class User {
   @Column()
   passwordHash!: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   isApproved!: boolean;
 
   @CreateDateColumn()

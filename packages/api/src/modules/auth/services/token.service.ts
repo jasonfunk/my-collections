@@ -45,7 +45,18 @@ export class TokenService {
     private readonly config: ConfigService,
     @InjectRepository(RefreshToken)
     private readonly refreshTokenRepo: Repository<RefreshToken>,
-  ) {}
+  ) {
+    // Fail fast at startup if JWT secrets are absent or too short.
+    // 32 hex chars = 16 bytes of entropy — the practical minimum for HS256.
+    const accessSecret = this.config.getOrThrow<string>('JWT_ACCESS_SECRET');
+    const refreshSecret = this.config.getOrThrow<string>('JWT_REFRESH_SECRET');
+    if (accessSecret.length < 32) {
+      throw new Error('JWT_ACCESS_SECRET must be at least 32 characters');
+    }
+    if (refreshSecret.length < 32) {
+      throw new Error('JWT_REFRESH_SECRET must be at least 32 characters');
+    }
+  }
 
   // ── Access tokens ──────────────────────────────────────────────────────────
 
@@ -58,7 +69,7 @@ export class TokenService {
       email: user.email,
     };
 
-    return jwt.sign(payload, secret, { expiresIn } as jwt.SignOptions);
+    return jwt.sign(payload, secret, { expiresIn, algorithm: 'HS256' } as jwt.SignOptions);
   }
 
   verifyAccessToken(token: string): AccessTokenPayload {

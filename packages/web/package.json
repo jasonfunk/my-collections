@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint": "tsc --noEmit && eslint \"src/**/*.{ts,tsx}\"",
     "test": "vitest --passWithNoTests",
     "test:ui": "vitest --ui",
     "clean": "rm -rf dist"
