@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { CollectionsModule } from './modules/collections/collections.module';
@@ -22,6 +24,10 @@ import { UsersModule } from './modules/users/users.module';
   imports: [
     // Makes .env variables available via ConfigService throughout the app
     ConfigModule.forRoot({ isGlobal: true }),
+
+    // Rate limiting — global default: 100 requests per 60 seconds per IP.
+    // Auth endpoints override this with tighter limits via @Throttle() decorators.
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
 
     // Database connection — forRootAsync lets us read config from ConfigService
     // (which in turn reads from .env via ConfigModule above).
@@ -54,6 +60,11 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
     CollectionsModule,
+  ],
+  providers: [
+    // Apply ThrottlerGuard globally so every route is rate-limited by default.
+    // Individual routes can override with @Throttle() or opt out with @SkipThrottle().
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule {}
