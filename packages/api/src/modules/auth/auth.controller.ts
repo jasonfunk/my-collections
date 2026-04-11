@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -97,19 +98,19 @@ export class AuthController {
   async token(@Body() dto: TokenDto) {
     if (dto.grantType === 'authorization_code') {
       if (!dto.code || !dto.codeVerifier || !dto.redirectUri) {
-        throw new Error('code, code_verifier, and redirect_uri are required for authorization_code grant');
+        throw new BadRequestException('code, code_verifier, and redirect_uri are required for authorization_code grant');
       }
       return this.authService.exchangeCode(dto.code, dto.codeVerifier, dto.clientId, dto.redirectUri);
     }
 
     if (dto.grantType === 'refresh_token') {
       if (!dto.refreshToken) {
-        throw new Error('refresh_token is required for refresh_token grant');
+        throw new BadRequestException('refresh_token is required for refresh_token grant');
       }
       return this.authService.refresh(dto.refreshToken, dto.clientId);
     }
 
-    throw new Error(`Unsupported grant_type: ${dto.grantType}`);
+    throw new BadRequestException(`Unsupported grant_type: ${dto.grantType}`);
   }
 
   @Post('revoke')

@@ -45,8 +45,9 @@ import { UsersModule } from './modules/users/users.module';
         // Never use synchronize: true — it auto-modifies the schema on startup,
         // which is destructive in production and masks migration errors in dev.
         synchronize: false,
-        // Run pending migrations automatically when the app starts.
-        migrationsRun: true,
+        // Auto-run migrations in development only. In production, run
+        // migrations explicitly before starting the app (see runbook).
+        migrationsRun: process.env.NODE_ENV !== 'production',
         // Log SQL queries in development; silence in production.
         logging: process.env.NODE_ENV !== 'production',
       }),

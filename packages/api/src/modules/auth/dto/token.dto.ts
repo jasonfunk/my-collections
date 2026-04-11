@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class TokenDto {
   @ApiProperty({ description: 'Grant type', example: 'authorization_code', enum: ['authorization_code', 'refresh_token'] })
-  @IsString()
-  grantType!: string;
+  @IsEnum(['authorization_code', 'refresh_token'])
+  grantType!: 'authorization_code' | 'refresh_token';
 
   @ApiProperty({ description: 'OAuth2 client identifier', example: 'web-app' })
   @IsString()
