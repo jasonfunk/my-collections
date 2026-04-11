@@ -110,9 +110,25 @@ scripts/
 ```
 docs/
 ├── overview.md
-├── setup-log.md            ← this session
-├── plan-catalog-refactor.md ← design decisions for COL-61 catalog/user-items split
-└── project-structure.md    ← this file
+├── setup-log.md              ← chronological work journal
+├── plan-catalog-refactor.md  ← design decisions for COL-61 catalog/user-items split
+├── confluence-style-guide.md ← formatting conventions for Confluence pages
+├── project-structure.md      ← this file
+└── confluence/               ← local markdown mirror of all Confluence pages
+    ├── README.md             ← page registry + update workflow
+    ├── technical-documentation.md
+    ├── documentation-style-guide.md
+    ├── project-architecture.md
+    ├── api-reference.md
+    ├── authentication-api.md
+    ├── users-api.md
+    ├── collections-api.md
+    ├── star-wars-figures.md
+    ├── g1-transformers.md
+    ├── masters-of-the-universe.md
+    ├── web-application-architecture.md
+    ├── infrastructure-overview.md
+    └── server-setup-runbook.md
 ```
 
 ### `docs/overview.md`
@@ -120,6 +136,12 @@ Original project goals document. Describes the dual purpose (learning + function
 
 ### `docs/setup-log.md`
 Chronological journal of every significant action taken — commands run, configurations made, decisions made, and their reasoning. Append a new entry after every work session. Primary learning reference.
+
+### `docs/confluence-style-guide.md`
+Formatting conventions for Confluence pages (headings, code blocks, panels, tables, naming). Mirrors the Confluence Documentation Style Guide page. Read this instead of downloading from Confluence.
+
+### `docs/confluence/`
+Local markdown mirror of all Confluence documentation pages. Each file has YAML frontmatter with the Confluence page ID and URL. **Workflow:** edit the markdown file here, then push the content to Confluence via `mcp__atlassian__updateConfluencePage`. See `docs/confluence/README.md` for the full page registry and staleness guide.
 
 ### `docs/project-structure.md`
 This file. Static reference to what each directory and file does. Update it when new files or directories are added.
