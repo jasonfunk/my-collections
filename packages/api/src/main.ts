@@ -2,10 +2,16 @@ import 'reflect-metadata';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Security headers — sets X-Frame-Options, X-Content-Type-Options,
+  // Strict-Transport-Security, Content-Security-Policy, and others.
+  // Must be applied before any route handlers.
+  app.use(helmet());
 
   // Global validation — automatically validates incoming request bodies
   // against DTO class definitions (similar to Java Bean Validation / C# DataAnnotations)
