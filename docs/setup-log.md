@@ -2521,3 +2521,50 @@ Modified: `packages/api/src/modules/collections/services/collections-search.serv
 - Reload after logout → stays on `/login` (401 from token endpoint), 0 errors ✓
 
 **Jira:** COL-76 → Done
+
+---
+
+## 2026-04-12 — COL-85: Fix concurrent token refresh race condition
+
+**Goal:** Eliminate an edge-case session logout triggered by concurrent 401 responses after the COL-76 httpOnly cookie migration introduced token rotation.
+
+### Problem
+
+After COL-76, refreshing the token rotates it — the old cookie value is invalidated and a new one is set. If multiple API requests happen to expire simultaneously (e.g., on a page with several parallel `useQuery` calls and the access token has just expired), each 401 response independently called `_refreshTokens()`. The second call presented the already-rotated-and-invalidated cookie, which triggered reuse detection, revoked all tokens for the session, and forced the user to log in again unexpectedly.
+
+### Fix
+
+`packages/web/src/api/client.ts` — added a module-level `refreshPromise` variable to deduplicate concurrent refresh calls:
+
+```ts
+let refreshPromise: Promise<void> | null = null;
+
+// In the 401 handler:
+if (!refreshPromise) {
+  refreshPromise = _refreshTokens().finally(() => {
+    refreshPromise = null;
+  });
+}
+await refreshPromise;
+```
+
+**How it works:**
+- First 401 response: `refreshPromise` is null → creates the single refresh call and assigns it.
+- All subsequent concurrent 401 responses: `refreshPromise` is already set → they `await` the same in-flight promise; no new refresh call is made.
+- On success: all waiters receive the (now-updated) access token and retry their requests.
+- On failure: all waiters catch and call `_logout()` (idempotent — calling it multiple times is safe).
+- `.finally()`: clears `refreshPromise` so the next genuine expiry after a new access token ages out works normally.
+
+No type changes needed — `_refreshTokens` was already `() => Promise<void>`.
+
+### Smoke test results
+
+- Navigate to `http://localhost:5173` → redirects to `/login` ✓
+- Login → `/dashboard` loads, 0 errors ✓
+- Transformers catalog → 443 items, detail page loads ✓
+- He-Man catalog → 127 items, 0 errors ✓
+- Sign out → redirects to `/login` ✓
+- Navigate to `/dashboard` after logout → stays on `/login` (400 from missing cookie, expected) ✓
+- Zero unexpected console errors throughout ✓
+
+**Jira:** COL-85 → Done
