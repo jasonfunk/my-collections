@@ -13,7 +13,6 @@ import {
   clearCodeVerifier,
 } from './pkce.js';
 import {
-  getRefreshToken,
   setTokens,
   clearTokens,
 } from './tokenStorage.js';
@@ -42,31 +41,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshRef = useRef<() => Promise<void>>(null!);
   const logoutRef = useRef<() => void>(null!);
 
+  // Guard: React StrictMode mounts components twice in development, which would fire
+  // restoreSession concurrently. Both calls would present the same cookie; the second
+  // would trigger token-reuse detection and revoke all tokens. This ref prevents the
+  // second invocation from starting before the first completes.
+  const isRestoringRef = useRef(false);
+
   const logout = useCallback(() => {
-    const rt = getRefreshToken();
     clearTokens();
     setUser(null);
-    if (rt) {
-      // Fire-and-forget: revoke on server, ignore errors
-      fetch('/api/auth/revoke', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: rt }),
-      }).catch(() => undefined);
-    }
+    // Fire-and-forget: tell the server to revoke the token and clear the httpOnly cookie.
+    // The browser sends the cookie automatically — no body needed.
+    fetch('/api/auth/revoke', { method: 'POST' }).catch(() => undefined);
   }, []);
 
   const refreshTokens = useCallback(async () => {
-    const rt = getRefreshToken();
-    if (!rt) throw new Error('No refresh token');
-
+    // No body required — the browser sends the httpOnly refresh-token cookie automatically.
     const response = await fetch('/api/auth/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         grantType: 'refresh_token',
         clientId: CLIENT_ID,
-        refreshToken: rt,
       }),
     });
 
@@ -77,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const tokens: TokenResponse = await response.json();
-    setTokens(tokens.accessToken, tokens.refreshToken);
+    setTokens(tokens.accessToken);
   }, []);
 
   const fetchUserProfile = useCallback(async (): Promise<UserProfile> => {
@@ -100,14 +96,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
   }, [refreshTokens, logout]);
 
-  // On mount: silently restore session from stored refresh token
+  // On mount: silently restore session from the httpOnly refresh-token cookie.
+  // We always attempt a refresh — the browser includes the cookie if one exists.
+  // A non-2xx response means there is no valid session; the user stays logged out.
   useEffect(() => {
     async function restoreSession() {
-      const rt = getRefreshToken();
-      if (!rt) {
-        setIsLoading(false);
-        return;
-      }
+      if (isRestoringRef.current) return;
+      isRestoringRef.current = true;
       try {
         await refreshTokens();
         const profile = await fetchUserProfile();
@@ -115,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         clearTokens();
       } finally {
+        isRestoringRef.current = false;
         setIsLoading(false);
       }
     }
@@ -177,7 +173,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!code) throw new Error('No authorization code in redirect URL');
       if (returnedState !== state) throw new Error('OAuth state mismatch — possible CSRF attack');
 
-      // Step 5: Exchange code + verifier for token pair
+      // Step 5: Exchange code + verifier for token pair.
+      // The server returns the access token in the body; the refresh token is
+      // set as an httpOnly cookie and is never accessible to JavaScript.
       const tokenResponse = await fetch('/api/auth/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -195,7 +193,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const tokens: TokenResponse = await tokenResponse.json();
-      setTokens(tokens.accessToken, tokens.refreshToken);
+      setTokens(tokens.accessToken);
       clearCodeVerifier();
 
       // Step 6: Load user profile into context

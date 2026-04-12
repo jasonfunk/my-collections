@@ -7,11 +7,18 @@ import {
   HttpStatus,
   Post,
   Query,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import type { Request, Response } from 'express';
 import { AuthService } from './services/auth.service';
 import { LoginDto, RegisterDto, RevokeDto, TokenDto } from './dto/index.js';
+
+// How long the refresh-token cookie lives in the browser (matches JWT_REFRESH_EXPIRES_IN).
+// In production this should come from config; 30 days is a safe default.
+const REFRESH_COOKIE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 
 // ── Controller ─────────────────────────────────────────────────────────────
 
@@ -19,6 +26,35 @@ import { LoginDto, RegisterDto, RevokeDto, TokenDto } from './dto/index.js';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  // ── Cookie helpers ─────────────────────────────────────────────────────
+
+  /** Set the httpOnly refresh-token cookie on a response. */
+  private setRefreshCookie(res: Response, token: string): void {
+    res.cookie('refresh_token', token, {
+      httpOnly: true,
+      // Require HTTPS in production; allow plain HTTP in development
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      // Path=/ is intentional: the Vite dev proxy rewrites /api → '', so the
+      // browser sees the cookie path relative to localhost:5173 (not :3000).
+      // Using / ensures the cookie is sent to both /api/auth/token and /api/auth/revoke.
+      path: '/',
+      maxAge: REFRESH_COOKIE_MAX_AGE_MS,
+    });
+  }
+
+  /** Clear the refresh-token cookie. Options must match setRefreshCookie exactly. */
+  private clearRefreshCookie(res: Response): void {
+    res.clearCookie('refresh_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+    });
+  }
+
+  // ── Routes ─────────────────────────────────────────────────────────────
 
   @Post('register')
   @Throttle({ default: { ttl: 60000, limit: 3 } })
@@ -92,22 +128,34 @@ export class AuthController {
   @ApiOperation({
     summary: 'Exchange authorization code or refresh token for tokens',
     description:
-      '**authorization_code grant:** Exchange a code + code_verifier (PKCE) for access + refresh tokens.\n\n' +
-      '**refresh_token grant:** Rotate a refresh token for a new token pair.',
+      '**authorization_code grant:** Exchange a code + code_verifier (PKCE) for an access token. ' +
+      'The refresh token is returned as an httpOnly cookie, not in the response body.\n\n' +
+      '**refresh_token grant:** Read the refresh token from the httpOnly cookie, rotate it, ' +
+      'set a new cookie, and return a fresh access token.',
   })
-  async token(@Body() dto: TokenDto) {
+  async token(
+    @Body() dto: TokenDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     if (dto.grantType === 'authorization_code') {
       if (!dto.code || !dto.codeVerifier || !dto.redirectUri) {
         throw new BadRequestException('code, code_verifier, and redirect_uri are required for authorization_code grant');
       }
-      return this.authService.exchangeCode(dto.code, dto.codeVerifier, dto.clientId, dto.redirectUri);
+      const tokens = await this.authService.exchangeCode(dto.code, dto.codeVerifier, dto.clientId, dto.redirectUri);
+      this.setRefreshCookie(res, tokens.refreshToken);
+      return { accessToken: tokens.accessToken, expiresIn: tokens.expiresIn };
     }
 
     if (dto.grantType === 'refresh_token') {
-      if (!dto.refreshToken) {
-        throw new BadRequestException('refresh_token is required for refresh_token grant');
+      // Read from cookie (web) — body fallback retained for future mobile support
+      const rawToken = (req.cookies as Record<string, string>)['refresh_token'] ?? dto.refreshToken;
+      if (!rawToken) {
+        throw new BadRequestException('refresh_token cookie (or body field) is required for refresh_token grant');
       }
-      return this.authService.refresh(dto.refreshToken, dto.clientId);
+      const tokens = await this.authService.refresh(rawToken, dto.clientId);
+      this.setRefreshCookie(res, tokens.refreshToken);
+      return { accessToken: tokens.accessToken, expiresIn: tokens.expiresIn };
     }
 
     throw new BadRequestException(`Unsupported grant_type: ${dto.grantType}`);
@@ -115,8 +163,17 @@ export class AuthController {
 
   @Post('revoke')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Revoke a refresh token (logout)' })
-  async revoke(@Body() dto: RevokeDto) {
-    await this.authService.revoke(dto.token);
+  @ApiOperation({ summary: 'Revoke the refresh token (logout)' })
+  async revoke(
+    @Body() dto: RevokeDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // Read from cookie (web) — body fallback for mobile/direct API clients
+    const rawToken = (req.cookies as Record<string, string>)['refresh_token'] ?? dto.token;
+    this.clearRefreshCookie(res);
+    if (rawToken) {
+      await this.authService.revoke(rawToken);
+    }
   }
 }

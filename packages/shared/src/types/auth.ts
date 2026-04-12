@@ -11,10 +11,10 @@ export interface AccessTokenPayload {
   exp?: number;  // expires at (Unix timestamp)
 }
 
-/** Response shape from POST /auth/token */
+/** Response shape from POST /auth/token.
+ * The refresh token is returned as an httpOnly cookie, not in the response body. */
 export interface TokenResponse {
   accessToken: string;
-  refreshToken: string;
   expiresIn: number; // seconds until access token expires
 }
 

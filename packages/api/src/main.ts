@@ -3,6 +3,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
@@ -12,6 +13,9 @@ async function bootstrap() {
   // Strict-Transport-Security, Content-Security-Policy, and others.
   // Must be applied before any route handlers.
   app.use(helmet());
+
+  // Cookie parser — required to read httpOnly refresh-token cookies in auth routes.
+  app.use(cookieParser());
 
   // Global validation — automatically validates incoming request bodies
   // against DTO class definitions (similar to Java Bean Validation / C# DataAnnotations)

@@ -1,11 +1,12 @@
 /**
  * Token storage strategy:
  *  - Access token:  in-memory only (never persisted — lost on page refresh, restored via refresh token)
- *  - Refresh token: localStorage under key 'mc_rt' (personal app trade-off; httpOnly cookie
- *                   would be more secure but requires server-side cookie support)
+ *  - Refresh token: httpOnly cookie set by the server (never accessible to JavaScript)
+ *
+ * On page reload, AuthContext calls POST /auth/token (refresh_token grant) with no body —
+ * the browser sends the cookie automatically. If the cookie is absent or expired the server
+ * returns 401 and the user is treated as logged out.
  */
-
-const REFRESH_TOKEN_KEY = 'mc_rt';
 
 let _accessToken: string | null = null;
 
@@ -13,16 +14,13 @@ export function getAccessToken(): string | null {
   return _accessToken;
 }
 
-export function getRefreshToken(): string | null {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
-}
-
-export function setTokens(accessToken: string, refreshToken: string): void {
+export function setTokens(accessToken: string): void {
   _accessToken = accessToken;
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 }
 
 export function clearTokens(): void {
   _accessToken = null;
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  // Migration: remove the old localStorage refresh-token key written by the
+  // pre-httpOnly-cookie implementation. Safe to call repeatedly (no-op if absent).
+  localStorage.removeItem('mc_rt');
 }
