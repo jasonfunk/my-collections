@@ -1,7 +1,8 @@
 /**
  * Typed API client wrapping native fetch.
  *
- * - Prepends /api base path (proxied to NestJS at localhost:3000 in dev)
+ * - Base URL: VITE_API_BASE_URL env var (empty in dev → Vite proxy handles /api)
+ *   In production set VITE_API_BASE_URL=https://api.example.com
  * - Injects Authorization: Bearer <accessToken> on every request
  * - On 401: attempts one silent token refresh, then retries
  * - If refresh also fails, calls the registered logout handler
@@ -9,6 +10,8 @@
  * The refresh + logout callbacks are registered by AuthContext at startup
  * to avoid a circular import dependency.
  */
+
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL ?? '';
 
 import { getAccessToken } from '../auth/tokenStorage.js';
 
@@ -47,7 +50,7 @@ async function request<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`/api${path}`, {
+  const response = await fetch(`${API_ORIGIN}/api${path}`, {
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -80,7 +83,7 @@ export async function uploadFile(path: string, file: File): Promise<{ url: strin
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`/api${path}`, {
+  const response = await fetch(`${API_ORIGIN}/api${path}`, {
     method: 'POST',
     // No Content-Type header — browser sets it automatically with multipart boundary
     headers: token ? { Authorization: `Bearer ${token}` } : {},

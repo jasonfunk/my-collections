@@ -2474,3 +2474,50 @@ Modified: `packages/api/src/modules/collections/services/collections-search.serv
 - `/search?q=Skeletor` → 1 He-Man result (existing functionality intact) ✓
 
 **Commits:** stats fix + Transformers UI (prior session) + search fix (this session)
+
+---
+
+## 2026-04-12 — COL-76: Migrate refresh token from localStorage to httpOnly cookie
+
+**Goal:** Eliminate the critical XSS-based session hijack risk where the refresh token was stored in `localStorage` under key `mc_rt`.
+
+### Changes
+
+**API (`packages/api`)**
+- Installed `cookie-parser` + `@types/cookie-parser`
+- `main.ts`: registered `cookieParser()` as global middleware
+- `auth.controller.ts`: rewrote `token` and `revoke` endpoints to manage the refresh token via an httpOnly cookie:
+  - `authorization_code` grant: sets `Set-Cookie: refresh_token=...; HttpOnly; SameSite=Strict; Path=/` on success; no longer returns `refreshToken` in body
+  - `refresh_token` grant: reads cookie (`req.cookies.refresh_token`), rotates it, sets new cookie; body fallback retained for future mobile support
+  - `revoke`: reads cookie, calls `clearCookie`, revokes token in DB
+- `dto/revoke.dto.ts`: made `token` optional (web clients no longer send a body)
+
+**Shared (`packages/shared`)**
+- `auth.ts`: removed `refreshToken` from `TokenResponse` interface — it's now delivered as a cookie, never in the response body
+
+**Web (`packages/web`)**
+- `tokenStorage.ts`: stripped all refresh-token localStorage logic; `setTokens` now takes only `accessToken`; `clearTokens` also removes the stale `mc_rt` migration key
+- `AuthContext.tsx`:
+  - `logout`: no longer reads a stored token; fires `POST /auth/revoke` with no body (browser sends cookie)
+  - `refreshTokens`: no longer checks for a stored token; sends `{ grantType, clientId }` and lets browser include the cookie
+  - Session restore (`useEffect`): always attempts refresh unconditionally (no localStorage gate)
+  - Added `isRestoringRef` guard to prevent React StrictMode's double-invocation from issuing two concurrent token-rotation requests, which would trigger reuse detection and revoke all tokens
+
+### Key decisions
+
+- **`Path=/` on the cookie** (not `Path=/auth`): the Vite proxy strips `/api` before forwarding, so from the browser's perspective all auth paths start with `/api/auth/...`. Using `Path=/auth` would prevent the cookie from being sent. `Path=/` is safe given `HttpOnly` + `SameSite=Strict`.
+- **`secure: NODE_ENV === 'production'`**: allows plain HTTP in development (localhost) while enforcing HTTPS in production.
+- **StrictMode guard**: React 18 StrictMode mounts components twice in dev, firing `restoreSession` concurrently. Both invocations would present the same cookie; the second triggers token-reuse detection, wiping all tokens. The `isRestoringRef` guard prevents the second invocation from starting.
+- **Body fallback for `refreshToken`**: the controller reads cookie first, body second. This preserves future mobile-app compatibility without a separate endpoint.
+
+### Smoke test results
+
+- Navigate to `http://localhost:5173` → redirects to `/login` (no cookie) ✓
+- Login → lands on `/dashboard`, cookie set, no JS-accessible cookie ✓
+- Page reload → session restored from cookie, 0 errors ✓
+- Navigate Star Wars list → detail page, 0 errors ✓
+- Navigate He-Man list → detail page, 0 errors ✓
+- Sign out → cookie cleared, `localStorage.mc_rt` cleaned up, redirects to `/login` ✓
+- Reload after logout → stays on `/login` (401 from token endpoint), 0 errors ✓
+
+**Jira:** COL-76 → Done

@@ -6,7 +6,8 @@ import { User } from '../entities/user.entity';
 // Minimal mock of ConfigService
 function makeConfig(overrides: Record<string, string> = {}): ConfigService {
   const defaults: Record<string, string> = {
-    JWT_ACCESS_SECRET: 'test-access-secret',
+    JWT_ACCESS_SECRET: 'test-access-secret-that-is-at-least-32-chars',
+    JWT_REFRESH_SECRET: 'test-refresh-secret-that-is-at-least-32-chars',
     JWT_ACCESS_EXPIRES_IN: '15m',
     JWT_REFRESH_EXPIRES_IN: '30d',
     ...overrides,
@@ -58,8 +59,8 @@ describe('TokenService — access tokens', () => {
   });
 
   it('throws UnauthorizedException for a token signed with a different secret', () => {
-    const signer = makeService({ JWT_ACCESS_SECRET: 'secret-a' });
-    const verifier = makeService({ JWT_ACCESS_SECRET: 'secret-b' });
+    const signer = makeService({ JWT_ACCESS_SECRET: 'secret-a-padded-to-at-least-32-characters' });
+    const verifier = makeService({ JWT_ACCESS_SECRET: 'secret-b-padded-to-at-least-32-characters' });
     const user = makeUser();
     const token = signer.signAccessToken(user);
     expect(() => verifier.verifyAccessToken(token)).toThrow(UnauthorizedException);
