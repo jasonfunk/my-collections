@@ -2521,3 +2521,113 @@ Modified: `packages/api/src/modules/collections/services/collections-search.serv
 - Reload after logout → stays on `/login` (401 from token endpoint), 0 errors ✓
 
 **Jira:** COL-76 → Done
+
+---
+
+## 2026-04-12 — COL-85: Fix concurrent token refresh race condition
+
+**Goal:** Eliminate an edge-case session logout triggered by concurrent 401 responses after the COL-76 httpOnly cookie migration introduced token rotation.
+
+### Problem
+
+After COL-76, refreshing the token rotates it — the old cookie value is invalidated and a new one is set. If multiple API requests happen to expire simultaneously (e.g., on a page with several parallel `useQuery` calls and the access token has just expired), each 401 response independently called `_refreshTokens()`. The second call presented the already-rotated-and-invalidated cookie, which triggered reuse detection, revoked all tokens for the session, and forced the user to log in again unexpectedly.
+
+### Fix
+
+`packages/web/src/api/client.ts` — added a module-level `refreshPromise` variable to deduplicate concurrent refresh calls:
+
+```ts
+let refreshPromise: Promise<void> | null = null;
+
+// In the 401 handler:
+if (!refreshPromise) {
+  refreshPromise = _refreshTokens().finally(() => {
+    refreshPromise = null;
+  });
+}
+await refreshPromise;
+```
+
+**How it works:**
+- First 401 response: `refreshPromise` is null → creates the single refresh call and assigns it.
+- All subsequent concurrent 401 responses: `refreshPromise` is already set → they `await` the same in-flight promise; no new refresh call is made.
+- On success: all waiters receive the (now-updated) access token and retry their requests.
+- On failure: all waiters catch and call `_logout()` (idempotent — calling it multiple times is safe).
+- `.finally()`: clears `refreshPromise` so the next genuine expiry after a new access token ages out works normally.
+
+No type changes needed — `_refreshTokens` was already `() => Promise<void>`.
+
+### Smoke test results
+
+- Navigate to `http://localhost:5173` → redirects to `/login` ✓
+- Login → `/dashboard` loads, 0 errors ✓
+- Transformers catalog → 443 items, detail page loads ✓
+- He-Man catalog → 127 items, 0 errors ✓
+- Sign out → redirects to `/login` ✓
+- Navigate to `/dashboard` after logout → stays on `/login` (400 from missing cookie, expected) ✓
+- Zero unexpected console errors throughout ✓
+
+**Jira:** COL-85 → Done
+
+---
+
+## 2026-04-12 — COL-78: Upgrade NestJS 10→11 and Expo 51→55
+
+**Goal:** Eliminate all HIGH-severity npm audit vulnerabilities by upgrading the two dependency chains responsible for them.
+
+### NestJS 10 → 11 (`packages/api`)
+
+Updated `packages/api/package.json`:
+
+| Package | Before | After |
+|---------|--------|-------|
+| `@nestjs/common` | `^10.0.0` | `^11.1.18` |
+| `@nestjs/core` | `^10.0.0` | `^11.1.18` |
+| `@nestjs/platform-express` | `^10.0.0` | `^11.1.18` |
+| `@nestjs/config` | `^3.0.0` | `^4.0.4` |
+| `@nestjs/typeorm` | `^10.0.0` | `^11.0.1` |
+| `@nestjs/swagger` | `^7.0.0` | `^11.2.7` |
+| `@nestjs/serve-static` | `^5.0.4` | `^5.0.5` |
+| `@nestjs/cli` | `^10.0.0` | `^11.0.19` |
+| `@nestjs/testing` | `^10.0.0` | `^11.1.18` |
+
+**Vulnerabilities fixed:** multer DoS, path-to-regexp ReDoS, lodash prototype pollution + code injection (GHSA-xxjr-mmjv-4gpg), NestJS injection vuln (GHSA-36xv-jgw5-4q75).
+
+**Breaking change assessment:** NestJS 11 ships Express v5, which requires named wildcards (`*` → `*splat`). Verified zero wildcard routes or middleware in this codebase — no application code changes required other than `main.ts`.
+
+**npm workspace hoisting issue encountered:** After upgrading, the API failed to start with `[PackageLoader] No driver (HTTP) has been selected`. Root cause: npm's workspace hoisting algorithm placed `@nestjs/core` at root `node_modules/` (because `@nestjs/throttler` and `@nestjs/typeorm` declare it as a peer dep), but `@nestjs/platform-express` only in `packages/api/node_modules/`. The `@nestjs/core` PackageLoader resolves packages relative to its own location (root `node_modules/@nestjs/core/`), so it cannot cross workspace boundaries to find the platform adapter.
+
+Fix: added `@nestjs/platform-express@^11.1.18` to ROOT `package.json` devDependencies to force it to be hoisted alongside core/common. Also added explicit `NestExpressApplication` type in `main.ts` for correctness.
+
+### Expo 51 → 55 (`packages/mobile`)
+
+Used `npx expo install expo@55` to upgrade, then updated individual packages via `npx expo install <pkg>` for each:
+
+- `expo`: `~51.0.39` → `55.0.14`
+- `expo-router`: `~3.5.0` → `~55.0.12`
+- `expo-camera`, `expo-image-picker`, `expo-notifications`, `expo-secure-store`: SDK 51 → SDK 55
+- `jest-expo`: `~51.0.0` → `~55.0.15`
+- `expo-secure-store` config plugin added to `app.json` (by `expo install`)
+- `jest-expo` was erroneously added to `dependencies` by `expo install` and also left in `devDependencies` at old version; manually corrected: removed from dependencies, updated devDependencies to `~55.0.15`
+
+**Vulnerabilities fixed:** @xmldom/xmldom XML injection (GHSA-wh4c-j3r5-mjhp), node-tar path traversal, send template injection.
+
+**Residual moderate vulns (accepted):**
+- `@tootallnate/once` — deep in `jest-expo` test infra; `--force` fix would downgrade jest-expo to 47.x
+- `esbuild/vite` — dev-only; `--force` fix requires Vite 8 (breaking change)
+
+### Final audit result
+
+```
+npm audit: found 0 vulnerabilities
+```
+(down from 21 HIGH before this session)
+
+### Verification
+
+- `npm run lint` — clean ✓
+- `npm run test --workspace=packages/api` — 9/9 tests pass ✓
+- `npm audit --audit-level=high` — 0 vulnerabilities ✓
+- Playwright smoke test — login → dashboard → Star Wars, Transformers, He-Man → sign out → 0 console errors ✓
+
+**Jira:** COL-78 → Done

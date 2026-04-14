@@ -20,6 +20,7 @@ type LogoutFn = () => void;
 
 let _refreshTokens: RefreshFn | null = null;
 let _logout: LogoutFn | null = null;
+let refreshPromise: Promise<void> | null = null;
 
 export function registerAuthCallbacks(refresh: RefreshFn, logout: LogoutFn): void {
   _refreshTokens = refresh;
@@ -58,7 +59,12 @@ async function request<T>(
 
   if (response.status === 401 && retry && _refreshTokens) {
     try {
-      await _refreshTokens();
+      if (!refreshPromise) {
+        refreshPromise = _refreshTokens().finally(() => {
+          refreshPromise = null;
+        });
+      }
+      await refreshPromise;
       return request<T>(method, path, body, false);
     } catch {
       _logout?.();

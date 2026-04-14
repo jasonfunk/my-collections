@@ -18,6 +18,7 @@
     "seed:transformers": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-transformers-seed.ts"
   },
   "devDependencies": {
+    "@nestjs/platform-express": "^11.1.18",
     "cheerio": "^1.2.0",
     "playwright": "^1.59.1",
     "turbo": "^2.0.0",
