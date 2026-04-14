@@ -2631,3 +2631,68 @@ npm audit: found 0 vulnerabilities
 - Playwright smoke test — login → dashboard → Star Wars, Transformers, He-Man → sign out → 0 console errors ✓
 
 **Jira:** COL-78 → Done
+
+---
+
+## Session: 2026-04-13 — COL-81 + COL-82: Secure Photo Delivery & Upload Hardening
+
+### Goals
+Implement two High-priority security tickets from the COL-71 epic:
+- **COL-81:** Replace public `ServeStaticModule` with an authenticated `GET /collections/photos/:filename` endpoint
+- **COL-82:** Validate upload file magic bytes instead of trusting client MIME type; randomize filenames with `crypto.randomBytes`
+
+### Changes Made
+
+**`packages/api/src/app.module.ts`**
+- Removed `ServeStaticModule.forRoot({ rootPath: ..., serveRoot: '/uploads' })` and its import
+- Removed unused `import { join } from 'path'`
+
+**`packages/api/src/modules/collections/controllers/photos.controller.ts`** (full rewrite)
+- Added `GET /collections/photos/:filename` — guarded by `JwtAuthGuard` (already on class); validates filename against `SAFE_FILENAME = /^[a-f0-9]{32}\.(jpg|jpeg|png|webp|gif)$/` to block path traversal; streams file via `res.sendFile()`
+- Switched `POST /collections/photos/upload` from `diskStorage` to `memoryStorage` — file arrives as `Buffer` for magic-bytes inspection
+- Added magic-bytes validation via `file-type` package (ESM-only; used dynamic `await import('file-type')` inside the async method — works in CJS Node.js)
+- Replaced predictable `Date.now() + Math.random()` filename with `crypto.randomBytes(16).toString('hex')` — 32 hex chars, no timestamp, no original filename
+- Upload now writes file manually via `fs/promises writeFile` after validation
+- Upload response URL changed from `/uploads/${name}` to `/collections/photos/${name}`
+
+**`packages/web/src/api/client.ts`**
+- Added `export` to `API_ORIGIN` constant (was private; needed by `AuthenticatedImage`)
+
+**`packages/web/src/components/AuthenticatedImage.tsx`** (new)
+- `<img>` tags can't send Authorization headers, so a plain `<img src="/api/collections/photos/foo.jpg">` would 401
+- Solution: `AuthenticatedImage` component fetches via `fetch()` with `Bearer` token, converts response to a blob URL via `URL.createObjectURL()`, passes blob URL as `<img src>`
+- Cleans up blob URL on unmount (`URL.revokeObjectURL()`) to prevent memory leaks
+- Accepts `fallback` prop for loading/error state
+
+**`packages/web/src/components/collections/ItemCard.tsx`**
+- Replaced `<img src={item.photoUrls[0]}>` with `<AuthenticatedImage>` (passes `initials` as fallback)
+
+**`packages/web/src/components/collections/forms/BaseFormFields.tsx`**
+- Replaced `<img src={url}>` thumbnail previews with `<AuthenticatedImage>`
+
+### Dependencies Installed
+- `file-type` (latest) in `packages/api` — detects file type from buffer magic bytes; ESM-only from v17+, handled via dynamic import
+
+### Commands Run
+```bash
+npm install file-type --workspace=packages/api
+npm run lint          # all pass
+```
+
+### Playwright Security Tests (all pass)
+| Check | Result |
+|---|---|
+| `GET /uploads/test.jpg` directly on API port 3000 | 404 — ServeStaticModule gone |
+| `GET /collections/photos/:filename` without Bearer token | 401 |
+| `GET /collections/photos/../package.json` with valid token | 404 — regex blocks non-hex filename |
+| Upload HTML file with `Content-Type: image/jpeg` header | 400 — magic bytes rejected |
+| Upload valid JPEG bytes | 201, URL = `/collections/photos/{32hex}.jpg` |
+| UI smoke test: login → dashboard → Transformers detail → sign out | 0 console errors |
+
+### Decisions & Notes
+- **AuthenticatedImage pattern** is the standard approach for authenticated image serving with Bearer tokens. Alternative (token in URL query param) leaks token into server logs and browser history — avoided.
+- **`file-type` dynamic import**: `await import('file-type')` inside an async method works fine in CJS Node.js. No need to pin to v16 (last CJS release).
+- **Existing DB photo URLs** (stored as `/uploads/...`) are broken after this change. Dev environment only — acceptable; re-upload photos. No DB migration needed.
+- **Path traversal guard** via `SAFE_FILENAME = /^[a-f0-9]{32}\.(jpg|jpeg|png|webp|gif)$/` is strict: only accepts exactly the filename format we generate. `..`, `/`, null bytes, spaces, etc. all fail.
+
+**Jira:** COL-81 → Done, COL-82 → Done

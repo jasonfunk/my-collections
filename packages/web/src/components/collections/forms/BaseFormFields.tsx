@@ -19,6 +19,7 @@ import {
 import { Textarea } from '@/components/ui/textarea.js';
 import { CONDITION_LABELS } from '@/lib/collectionConfig.js';
 import { Loader2Icon, XIcon } from 'lucide-react';
+import { AuthenticatedImage } from '@/components/AuthenticatedImage.js';
 
 export interface BaseFormData {
   name: string;
@@ -266,7 +267,7 @@ export function BaseFormFields({ data, errors, onChange }: Props) {
           <div className="flex flex-wrap gap-2">
             {data.photoUrls.map((url, i) => (
               <div key={i} className="relative">
-                <img
+                <AuthenticatedImage
                   src={url}
                   alt={`Photo ${i + 1}`}
                   className="h-20 w-20 rounded border object-cover"
