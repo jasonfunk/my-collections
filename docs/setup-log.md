@@ -2696,3 +2696,44 @@ npm run lint          # all pass
 - **Path traversal guard** via `SAFE_FILENAME = /^[a-f0-9]{32}\.(jpg|jpeg|png|webp|gif)$/` is strict: only accepts exactly the filename format we generate. `..`, `/`, null bytes, spaces, etc. all fail.
 
 **Jira:** COL-81 → Done, COL-82 → Done
+
+---
+
+## Session — 2026-04-13: COL-86 React Error Boundaries
+
+### Goal
+Add React error boundaries to `packages/web/src/` so a component render throw shows a recovery UI instead of a blank screen.
+
+### What Was Done
+
+**New file: `packages/web/src/components/ErrorBoundary.tsx`**
+- `ErrorBoundary` class component (React requires class components for error boundaries — function components cannot implement `getDerivedStateFromError`/`componentDidCatch`)
+- Accepts optional `fallback?: ReactNode`; uses built-in fallback UI when none is provided
+- `DefaultFallback` — full-screen centered card + "Reload page" button (`window.location.reload()`); used at root level
+- `PageErrorFallback` (named export) — inline card + "Go to dashboard" anchor; used at page level so the user can navigate away without losing the provider tree
+
+**`packages/web/src/main.tsx`** — added `<ErrorBoundary>` wrapping `<App />` inside `<AuthProvider>`. This is the outermost safety net; catches anything that slips through page-level or throws inside the provider tree.
+
+**`packages/web/src/App.tsx`** — added `<ErrorBoundary fallback={<PageErrorFallback />}>` wrapping the entire `<Routes>` block. Isolates per-page errors so one broken route doesn't kill the app shell or navigation.
+
+### Commands Run
+```bash
+npm run lint --workspace=packages/web   # tsc --noEmit + eslint — clean
+```
+
+### Playwright Smoke Test (all pass)
+| Check | Result |
+|---|---|
+| Navigate to `/` → redirects to `/login` | ✓ |
+| Login → `/dashboard` loads | ✓ |
+| Click Star Wars card → `/collections/star-wars` loads | ✓ |
+| Inject `throw new Error()` inside `StarWarsCatalogPage` render → navigate to `/collections/star-wars` | `PageErrorFallback` renders: "Page error / Go to dashboard" |
+| Click "Go to dashboard" link from error fallback | ✓ navigates to `/dashboard` |
+| Remove throw, reload page | Normal page renders, 0 new console errors |
+
+### Decisions & Notes
+- Two boundaries, not one: root boundary in `main.tsx` catches catastrophic failures (broken provider, bad import, etc.); page boundary in `App.tsx` catches per-route render errors and preserves app shell so the user can navigate away.
+- `PageErrorFallback` uses an `<a href>` (hard nav) rather than React Router `<Link>` — if the router itself is broken, `<Link>` won't work. Hard nav is the safe fallback.
+- No new dependencies needed; fallback UIs use existing Tailwind + shadcn CSS class tokens.
+
+**Jira:** COL-86 → Done

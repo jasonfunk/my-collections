@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { ErrorBoundary, PageErrorFallback } from './components/ErrorBoundary.js';
 import { ProtectedRoute } from './router/ProtectedRoute.js';
 import { LoginPage } from './pages/LoginPage.js';
 import { CallbackPage } from './pages/CallbackPage.js';
@@ -17,6 +18,7 @@ import { WishlistPage } from './pages/WishlistPage.js';
 
 function App() {
   return (
+    <ErrorBoundary fallback={<PageErrorFallback />}>
     <Routes>
       {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
@@ -50,6 +52,7 @@ function App() {
       {/* Default: redirect to dashboard (ProtectedRoute handles unauthenticated) */}
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
+    </ErrorBoundary>
   );
 }
 
