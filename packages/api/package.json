@@ -34,10 +34,12 @@
     "file-type": "^21.3.4",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
+    "nest-winston": "^1.10.2",
     "pg": "^8.11.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0",
-    "typeorm": "^0.3.0"
+    "typeorm": "^0.3.0",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.19",

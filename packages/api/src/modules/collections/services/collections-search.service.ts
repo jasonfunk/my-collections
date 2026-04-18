@@ -22,30 +22,34 @@ export class CollectionsSearchService {
     const { q, collectionType, condition, isOwned, isComplete, page = 1, limit = 20 } = query;
 
     const filters = { q, condition, isOwned, isComplete };
+    const pagination = { page, limit };
 
-    const [swItems, tfItems, hmItems] = await Promise.all([
+    const [[swItems, swCount], [tfItems, tfCount], [hmItems, hmCount]] = await Promise.all([
       collectionType && collectionType !== CollectionType.STAR_WARS
-        ? []
-        : this.queryStarWars(userId, filters),
+        ? [[], 0] as [CollectionItem[], number]
+        : this.queryStarWars(userId, filters, pagination),
       collectionType && collectionType !== CollectionType.TRANSFORMERS
-        ? []
-        : this.queryTransformers(userId, filters),
+        ? [[], 0] as [CollectionItem[], number]
+        : this.queryTransformers(userId, filters, pagination),
       collectionType && collectionType !== CollectionType.HE_MAN
-        ? []
-        : this.queryMasters(userId, filters),
+        ? [[], 0] as [CollectionItem[], number]
+        : this.queryMasters(userId, filters, pagination),
     ]);
 
-    const all = [...swItems, ...tfItems, ...hmItems].sort((a, b) => a.name.localeCompare(b.name));
-    const total = all.length;
-    const data = all.slice((page - 1) * limit, page * limit);
+    const total = swCount + tfCount + hmCount;
+    const data = [...swItems, ...tfItems, ...hmItems]
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, limit);
     return { data, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } };
   }
 
   private async queryStarWars(
     userId: string,
     filters: { q?: string; condition?: string; isOwned?: boolean; isComplete?: boolean },
-  ): Promise<CollectionItem[]> {
+    pagination: { page: number; limit: number },
+  ): Promise<[CollectionItem[], number]> {
     const { q, condition, isOwned, isComplete } = filters;
+    const { page, limit } = pagination;
 
     const qb = this.swRepo
       .createQueryBuilder('item')
@@ -62,8 +66,13 @@ export class CollectionsSearchService {
       );
     }
 
-    const items = await qb.getMany();
-    return items.map((item) => ({
+    const [entities, count] = await qb
+      .orderBy('catalog.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return [entities.map((item) => ({
       id: item.id,
       name: item.catalog.name,
       collectionType: CollectionType.STAR_WARS,
@@ -80,14 +89,16 @@ export class CollectionsSearchService {
       photoUrls: item.photoUrls,
       createdAt: item.createdAt instanceof Date ? item.createdAt.toISOString() : item.createdAt,
       updatedAt: item.updatedAt instanceof Date ? item.updatedAt.toISOString() : item.updatedAt,
-    }));
+    })), count];
   }
 
   private async queryTransformers(
     userId: string,
     filters: { q?: string; condition?: string; isOwned?: boolean; isComplete?: boolean },
-  ): Promise<CollectionItem[]> {
+    pagination: { page: number; limit: number },
+  ): Promise<[CollectionItem[], number]> {
     const { q, condition, isOwned, isComplete } = filters;
+    const { page, limit } = pagination;
 
     const qb = this.tfRepo
       .createQueryBuilder('item')
@@ -104,8 +115,13 @@ export class CollectionsSearchService {
       );
     }
 
-    const items = await qb.getMany();
-    return items.map((item) => ({
+    const [entities, count] = await qb
+      .orderBy('catalog.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return [entities.map((item) => ({
       id: item.id,
       name: item.catalog.name,
       collectionType: CollectionType.TRANSFORMERS,
@@ -122,14 +138,16 @@ export class CollectionsSearchService {
       photoUrls: item.photoUrls,
       createdAt: item.createdAt instanceof Date ? item.createdAt.toISOString() : item.createdAt,
       updatedAt: item.updatedAt instanceof Date ? item.updatedAt.toISOString() : item.updatedAt,
-    }));
+    })), count];
   }
 
   private async queryMasters(
     userId: string,
     filters: { q?: string; condition?: string; isOwned?: boolean; isComplete?: boolean },
-  ): Promise<CollectionItem[]> {
+    pagination: { page: number; limit: number },
+  ): Promise<[CollectionItem[], number]> {
     const { q, condition, isOwned, isComplete } = filters;
+    const { page, limit } = pagination;
 
     const qb = this.hmRepo
       .createQueryBuilder('item')
@@ -146,8 +164,13 @@ export class CollectionsSearchService {
       );
     }
 
-    const items = await qb.getMany();
-    return items.map((item) => ({
+    const [entities, count] = await qb
+      .orderBy('catalog.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return [entities.map((item) => ({
       id: item.id,
       name: item.catalog.name,
       collectionType: CollectionType.HE_MAN,
@@ -164,6 +187,6 @@ export class CollectionsSearchService {
       photoUrls: item.photoUrls,
       createdAt: item.createdAt instanceof Date ? item.createdAt.toISOString() : item.createdAt,
       updatedAt: item.updatedAt instanceof Date ? item.updatedAt.toISOString() : item.updatedAt,
-    }));
+    })), count];
   }
 }

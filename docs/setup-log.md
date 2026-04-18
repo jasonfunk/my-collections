@@ -2763,3 +2763,72 @@ npm run lint --workspace=packages/web   # tsc --noEmit + eslint — clean
 - `npm run lint` — clean
 
 **Jira:** COL-90 → Done
+
+---
+
+## Session 2026-04-18 — COL-92: Fix Cross-Collection Search In-Memory Pagination
+
+**Goal:** Replace in-memory pagination in `GET /collections/search` with DB-level pagination (medium-severity security/ops finding SEC-21).
+
+**Root cause:** Each of the three private query methods called `.getMany()` fetching all matching rows, then sorted and sliced in Node.js memory. With large collections every search query loads the entire result set.
+
+**Fix (only file changed: `collections-search.service.ts`):**
+- Changed `queryStarWars`, `queryTransformers`, `queryMasters` return type to `Promise<[CollectionItem[], number]>`
+- Added `.orderBy('catalog.name', 'ASC').skip((page-1)*limit).take(limit).getManyAndCount()` to each QueryBuilder
+- `search()` now sums the three DB counts for accurate `total`, combines the bounded result sets (≤ 3×limit rows), sorts, slices to `limit`
+- Response shape (`PaginatedResponse<CollectionItem>`) and controller unchanged — no API contract change
+
+**Trade-off:** True cross-collection DB pagination requires a unified tsvector view (flagged as long-term fix in COL-92). Per-collection skip/take gives approximate page contents but accurate totals and bounded memory usage.
+
+**Verified:**
+- `npm run lint` — clean
+- Playwright smoke test: login → dashboard → He-Man list → item detail → dashboard → sign out; zero new console errors
+
+**Jira:** COL-92 → Done
+
+---
+
+## Session N — 2026-04-18 (continued)
+
+### COL-91 — Structured Winston logging for security events
+
+**Goal:** Replace NestJS default logger with Winston structured logging and add explicit security-event log calls throughout auth and upload flows.
+
+**Dependencies installed:**
+```bash
+npm install nest-winston winston --workspace=packages/api
+```
+
+**Changes:**
+
+`packages/api/src/main.ts`
+- Added `WinstonModule.createLogger()` with environment-aware format: JSON + timestamp in production, colorized simple in development
+- Passed logger + `bufferLogs: true` to `NestFactory.create()`
+- Replaced bare `console.log` calls at bootstrap with `new Logger('Bootstrap').log()`
+
+`packages/api/src/modules/auth/services/auth.service.ts`
+- Added `private readonly logger = new Logger(AuthService.name)`
+- `register()`: `warn` on disabled/duplicate, `log` on success (userId only — no PII)
+- `login()`: `warn` on failed auth and not-approved (no email/password logged), `log` on success with userId + clientId
+
+`packages/api/src/modules/auth/services/token.service.ts`
+- Added `private readonly logger = new Logger(TokenService.name)`
+- `rotateRefreshToken()`: `warn` on reuse detection with userId + clientId before revoking all tokens
+
+`packages/api/src/modules/collections/controllers/photos.controller.ts`
+- Added `private readonly logger = new Logger(PhotosController.name)`
+- Added `@CurrentUser() user: AccessTokenPayload` to `uploadPhoto()` signature
+- Logs `photo.upload userId=... mimeType=... sizeBytes=...` after successful write
+
+**Library validation:** Winston APIs confirmed via Context7 before implementation. `nest-winston` not in Context7; used well-established package per Jira spec; NestJS custom logger pattern confirmed via Context7.
+
+**Security log rule enforced:** Never log passwords, raw tokens, or email addresses — only user IDs and outcomes.
+
+**Verified:**
+- `npm run lint` — clean
+- API restarted; colorized Winston output visible for all NestJS bootstrap messages
+- `curl` with bad password → `warn: auth.login.failed {"context":"AuthService"}` in terminal
+- `curl` successful login → `info: auth.login.success userId=... clientId=web-app {"context":"AuthService"}`
+- Playwright smoke test: login → dashboard → Star Wars list → item detail (2-1B) → dashboard → sign out; zero console errors
+
+**Jira:** COL-91 → Done

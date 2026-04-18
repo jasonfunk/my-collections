@@ -1,17 +1,34 @@
 import 'reflect-metadata';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import { WinstonModule } from 'nest-winston';
+import { format, transports } from 'winston';
 import { AppModule } from './app.module.js';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+const winstonLogger = WinstonModule.createLogger({
+  transports: [
+    new transports.Console({
+      format: isProd
+        ? format.combine(format.timestamp(), format.json())
+        : format.combine(format.colorize(), format.simple()),
+    }),
+  ],
+});
 
 async function bootstrap() {
   // NestExpressApplication type is required in NestJS 11 + npm workspaces: the
   // PackageLoader auto-detection for @nestjs/platform-express does not cross
   // workspace node_modules boundaries, so we pin the platform explicitly.
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: winstonLogger,
+    bufferLogs: true,
+  });
 
   // Security headers — sets X-Frame-Options, X-Content-Type-Options,
   // Strict-Transport-Security, Content-Security-Policy, and others.
@@ -66,8 +83,9 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`API running on http://localhost:${port}`);
-  console.log(`Swagger docs at http://localhost:${port}/api/docs`);
+  const logger = new Logger('Bootstrap');
+  logger.log(`API running on http://localhost:${port}`);
+  logger.log(`Swagger docs at http://localhost:${port}/api/docs`);
 }
 
 bootstrap();

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -37,6 +38,7 @@ export interface AuthorizeSession {
  */
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
   // Authorization codes expire in 10 minutes (OAuth2 spec recommends ≤10m)
   private readonly CODE_EXPIRY_MS = 10 * 60 * 1000;
 
@@ -57,17 +59,21 @@ export class AuthService {
   async register(email: string, password: string): Promise<User> {
     const enabled = this.config.get<string>('REGISTRATION_ENABLED', 'false');
     if (enabled !== 'true') {
+      this.logger.warn('auth.register.disabled');
       throw new ForbiddenException('Registration is currently disabled');
     }
 
     const existing = await this.userRepo.findOne({ where: { email } });
     if (existing) {
+      this.logger.warn('auth.register.duplicate');
       throw new BadRequestException('Email already registered');
     }
 
     const passwordHash = await this.passwordService.hash(password);
     const user = this.userRepo.create({ email, passwordHash });
-    return this.userRepo.save(user);
+    const saved = await this.userRepo.save(user);
+    this.logger.log(`auth.register.success userId=${saved.id}`);
+    return saved;
   }
 
   // ── Authorize (step 1) ─────────────────────────────────────────────────────
@@ -116,9 +122,11 @@ export class AuthService {
   ): Promise<string> {
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user || !(await this.passwordService.verify(user.passwordHash, password))) {
+      this.logger.warn('auth.login.failed');
       throw new UnauthorizedException('Invalid email or password');
     }
     if (!user.isApproved) {
+      this.logger.warn(`auth.login.not_approved userId=${user.id}`);
       throw new ForbiddenException('Account pending approval');
     }
 
@@ -141,6 +149,7 @@ export class AuthService {
     });
     await this.authCodeRepo.save(authCode);
 
+    this.logger.log(`auth.login.success userId=${user.id} clientId=${client.clientId}`);
     const params = new URLSearchParams({ code: rawCode, state: session.state });
     return `${session.redirectUri}?${params.toString()}`;
   }

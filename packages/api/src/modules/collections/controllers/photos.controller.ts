@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Get,
+  Logger,
   NotFoundException,
   Param,
   Post,
@@ -24,7 +25,9 @@ import { existsSync } from 'fs';
 import { writeFile } from 'fs/promises';
 import { memoryStorage } from 'multer';
 import { join } from 'path';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { AccessTokenPayload } from '../../auth/services/token.service';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 // Only hex filenames we generate are accepted — blocks path traversal entirely
@@ -37,6 +40,8 @@ const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 @UseGuards(JwtAuthGuard)
 @Controller('collections/photos')
 export class PhotosController {
+  private readonly logger = new Logger(PhotosController.name);
+
   // COL-81: Authenticated photo delivery — replaces public ServeStaticModule
   @Get(':filename')
   @ApiOperation({ summary: 'Serve a collection photo (authenticated)' })
@@ -67,7 +72,10 @@ export class PhotosController {
       // No fileFilter — trusting client mimetype is the vulnerability; validate below
     }),
   )
-  async uploadPhoto(@UploadedFile() file: Express.Multer.File): Promise<{ url: string }> {
+  async uploadPhoto(
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUser() user: AccessTokenPayload,
+  ): Promise<{ url: string }> {
     if (!file) throw new BadRequestException('No file provided');
 
     // Dynamic import: file-type is ESM-only; dynamic import() works in CJS Node.js
@@ -82,6 +90,9 @@ export class PhotosController {
     const name = `${randomBytes(16).toString('hex')}.${detected.ext}`;
     await writeFile(join(UPLOAD_DIR, name), file.buffer);
 
+    this.logger.log(
+      `photo.upload userId=${user.sub} mimeType=${detected.mime} sizeBytes=${file.size}`,
+    );
     return { url: `/collections/photos/${name}` };
   }
 }
