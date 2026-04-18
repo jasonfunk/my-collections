@@ -74,7 +74,8 @@ postman/
 ├── auth.collection.json                ← all auth endpoints (register, authorize, login, token, revoke)
 ├── users.collection.json               ← user profile endpoints (GET /users/me)
 ├── collections.collection.json         ← CRUD endpoints for all three collection types + stats
-└── collections-photos.collection.json  ← photo upload (POST /collections/photos/upload) + static file serve
+├── collections-photos.collection.json  ← photo upload (POST /collections/photos/upload) + static file serve
+└── health.collection.json              ← health check endpoints (GET /health, GET /health/ready)
 ```
 
 Postman Collection v2.1 schema. Import into Postman alongside the environment file to test the API interactively without needing Swagger.
@@ -234,6 +235,9 @@ packages/api/
 │   │   │   │   └── jwt-auth.guard.ts
 │   │   │   └── decorators/
 │   │   │       └── current-user.decorator.ts
+│   │   ├── health/             ← liveness + readiness endpoints (no auth)
+│   │   │   ├── health.controller.ts
+│   │   │   └── health.module.ts
 │   │   └── users/              ← user profile module
 │   │       ├── users.module.ts
 │   │       ├── users.controller.ts
@@ -259,7 +263,7 @@ packages/api/
 **Framework pattern:** NestJS organizes code into *modules*. Each feature area (collections, auth, users) gets its own module folder under `src/modules/`. Each module contains a controller (handles HTTP requests), a service (business logic), and entities (database table definitions). This is the same pattern as Spring MVC controllers/services/repositories or ASP.NET Core controllers/services.
 
 ### `src/main.ts`
-Application entry point. Bootstraps the NestJS app, registers global middleware (validation pipe, CORS), and sets up Swagger documentation. The `bootstrap()` function is equivalent to `public static void main()` in Java or `Program.cs` in C#.
+Application entry point. Bootstraps the NestJS app, registers global middleware (validation pipe, CORS), and sets up Swagger documentation. The `bootstrap()` function is equivalent to `public static void main()` in Java or `Program.cs` in C#. Winston (via `nest-winston`) is configured here as the application logger — JSON format in production, colorized in development. `bufferLogs: true` ensures no log output is lost before the logger is fully initialized.
 
 ### `src/app.module.ts`
 Root module — the top of the dependency injection tree. All feature modules are imported here. `ConfigModule.forRoot({ isGlobal: true })` makes environment variables accessible throughout the app without re-importing in every module. `TypeOrmModule.forRootAsync()` wires the database connection using `DATABASE_URL` from `.env`.
@@ -304,6 +308,9 @@ OAuth2 Authorization Code Flow with PKCE. Owns identity: registration, login, to
 **Decorators:** `current-user.decorator.ts` — extracts the payload JwtAuthGuard attached to the request. Usage: `@CurrentUser() user: AccessTokenPayload`
 
 **Controller:** `auth.controller.ts` — 5 endpoints: register, authorize, login, token, revoke
+
+### `src/modules/health/`
+Liveness and readiness probes. No auth guard — intended for load balancer / uptime monitoring. `GET /health` returns `{ status: 'ok' }`. `GET /health/ready` checks `dataSource.isInitialized` and returns `{ status: 'ready', db: 'ok' }` or 503 if the DB is not connected. Both endpoints are decorated with `@SkipThrottle()` to exempt them from rate limiting.
 
 ### `src/modules/users/`
 User profile data. Imports AuthModule to get the User repository (via TypeOrmModule re-export) and TokenService (for JwtAuthGuard). Keeps profile concerns separate from auth concerns.
