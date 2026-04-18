@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
@@ -41,6 +41,7 @@ export interface TokenPair {
  */
 @Injectable()
 export class TokenService {
+  private readonly logger = new Logger(TokenService.name);
   constructor(
     private readonly config: ConfigService,
     @InjectRepository(RefreshToken)
@@ -133,6 +134,9 @@ export class TokenService {
     if (existing.revokedAt !== null) {
       // Token reuse detected — a rotated token was used again.
       // This likely means the token was stolen. Revoke all tokens for this user/client.
+      this.logger.warn(
+        `auth.token.reuse userId=${existing.user.id} clientId=${client.clientId}`,
+      );
       await this.revokeAllForUserAndClient(existing.user.id, client.id);
       throw new UnauthorizedException('Refresh token already used — possible token theft');
     }
