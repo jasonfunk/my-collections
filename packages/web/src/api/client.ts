@@ -11,7 +11,7 @@
  * to avoid a circular import dependency.
  */
 
-const API_ORIGIN = import.meta.env.VITE_API_BASE_URL ?? '';
+export const API_ORIGIN = import.meta.env.VITE_API_BASE_URL ?? '';
 
 import { getAccessToken } from '../auth/tokenStorage.js';
 

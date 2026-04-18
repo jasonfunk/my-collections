@@ -3,6 +3,7 @@ import type { CollectionItem } from '@my-collections/shared';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AuthenticatedImage } from '@/components/AuthenticatedImage.js';
 import { ConditionBadge } from './ConditionBadge.js';
 import type { CollectionKey } from '@/lib/collectionConfig';
 import {
@@ -59,7 +60,12 @@ export function ItemCard({ item, collectionKey }: ItemCardProps) {
       {/* Photo / placeholder */}
       <div className={`flex h-32 items-center justify-center rounded-t-lg ${colorClass}`}>
         {hasPhoto ? (
-          <img src={item.photoUrls[0]} alt={item.name} className="h-full w-full rounded-t-lg object-cover" />
+          <AuthenticatedImage
+            src={item.photoUrls[0]}
+            alt={item.name}
+            className="h-full w-full rounded-t-lg object-cover"
+            fallback={<span className="text-3xl font-bold opacity-40">{initials}</span>}
+          />
         ) : (
           <span className="text-3xl font-bold opacity-40">{initials}</span>
         )}

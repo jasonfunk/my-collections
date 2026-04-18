@@ -2631,3 +2631,135 @@ npm audit: found 0 vulnerabilities
 - Playwright smoke test — login → dashboard → Star Wars, Transformers, He-Man → sign out → 0 console errors ✓
 
 **Jira:** COL-78 → Done
+
+---
+
+## Session: 2026-04-13 — COL-81 + COL-82: Secure Photo Delivery & Upload Hardening
+
+### Goals
+Implement two High-priority security tickets from the COL-71 epic:
+- **COL-81:** Replace public `ServeStaticModule` with an authenticated `GET /collections/photos/:filename` endpoint
+- **COL-82:** Validate upload file magic bytes instead of trusting client MIME type; randomize filenames with `crypto.randomBytes`
+
+### Changes Made
+
+**`packages/api/src/app.module.ts`**
+- Removed `ServeStaticModule.forRoot({ rootPath: ..., serveRoot: '/uploads' })` and its import
+- Removed unused `import { join } from 'path'`
+
+**`packages/api/src/modules/collections/controllers/photos.controller.ts`** (full rewrite)
+- Added `GET /collections/photos/:filename` — guarded by `JwtAuthGuard` (already on class); validates filename against `SAFE_FILENAME = /^[a-f0-9]{32}\.(jpg|jpeg|png|webp|gif)$/` to block path traversal; streams file via `res.sendFile()`
+- Switched `POST /collections/photos/upload` from `diskStorage` to `memoryStorage` — file arrives as `Buffer` for magic-bytes inspection
+- Added magic-bytes validation via `file-type` package (ESM-only; used dynamic `await import('file-type')` inside the async method — works in CJS Node.js)
+- Replaced predictable `Date.now() + Math.random()` filename with `crypto.randomBytes(16).toString('hex')` — 32 hex chars, no timestamp, no original filename
+- Upload now writes file manually via `fs/promises writeFile` after validation
+- Upload response URL changed from `/uploads/${name}` to `/collections/photos/${name}`
+
+**`packages/web/src/api/client.ts`**
+- Added `export` to `API_ORIGIN` constant (was private; needed by `AuthenticatedImage`)
+
+**`packages/web/src/components/AuthenticatedImage.tsx`** (new)
+- `<img>` tags can't send Authorization headers, so a plain `<img src="/api/collections/photos/foo.jpg">` would 401
+- Solution: `AuthenticatedImage` component fetches via `fetch()` with `Bearer` token, converts response to a blob URL via `URL.createObjectURL()`, passes blob URL as `<img src>`
+- Cleans up blob URL on unmount (`URL.revokeObjectURL()`) to prevent memory leaks
+- Accepts `fallback` prop for loading/error state
+
+**`packages/web/src/components/collections/ItemCard.tsx`**
+- Replaced `<img src={item.photoUrls[0]}>` with `<AuthenticatedImage>` (passes `initials` as fallback)
+
+**`packages/web/src/components/collections/forms/BaseFormFields.tsx`**
+- Replaced `<img src={url}>` thumbnail previews with `<AuthenticatedImage>`
+
+### Dependencies Installed
+- `file-type` (latest) in `packages/api` — detects file type from buffer magic bytes; ESM-only from v17+, handled via dynamic import
+
+### Commands Run
+```bash
+npm install file-type --workspace=packages/api
+npm run lint          # all pass
+```
+
+### Playwright Security Tests (all pass)
+| Check | Result |
+|---|---|
+| `GET /uploads/test.jpg` directly on API port 3000 | 404 — ServeStaticModule gone |
+| `GET /collections/photos/:filename` without Bearer token | 401 |
+| `GET /collections/photos/../package.json` with valid token | 404 — regex blocks non-hex filename |
+| Upload HTML file with `Content-Type: image/jpeg` header | 400 — magic bytes rejected |
+| Upload valid JPEG bytes | 201, URL = `/collections/photos/{32hex}.jpg` |
+| UI smoke test: login → dashboard → Transformers detail → sign out | 0 console errors |
+
+### Decisions & Notes
+- **AuthenticatedImage pattern** is the standard approach for authenticated image serving with Bearer tokens. Alternative (token in URL query param) leaks token into server logs and browser history — avoided.
+- **`file-type` dynamic import**: `await import('file-type')` inside an async method works fine in CJS Node.js. No need to pin to v16 (last CJS release).
+- **Existing DB photo URLs** (stored as `/uploads/...`) are broken after this change. Dev environment only — acceptable; re-upload photos. No DB migration needed.
+- **Path traversal guard** via `SAFE_FILENAME = /^[a-f0-9]{32}\.(jpg|jpeg|png|webp|gif)$/` is strict: only accepts exactly the filename format we generate. `..`, `/`, null bytes, spaces, etc. all fail.
+
+**Jira:** COL-81 → Done, COL-82 → Done
+
+---
+
+## Session — 2026-04-13: COL-86 React Error Boundaries
+
+### Goal
+Add React error boundaries to `packages/web/src/` so a component render throw shows a recovery UI instead of a blank screen.
+
+### What Was Done
+
+**New file: `packages/web/src/components/ErrorBoundary.tsx`**
+- `ErrorBoundary` class component (React requires class components for error boundaries — function components cannot implement `getDerivedStateFromError`/`componentDidCatch`)
+- Accepts optional `fallback?: ReactNode`; uses built-in fallback UI when none is provided
+- `DefaultFallback` — full-screen centered card + "Reload page" button (`window.location.reload()`); used at root level
+- `PageErrorFallback` (named export) — inline card + "Go to dashboard" anchor; used at page level so the user can navigate away without losing the provider tree
+
+**`packages/web/src/main.tsx`** — added `<ErrorBoundary>` wrapping `<App />` inside `<AuthProvider>`. This is the outermost safety net; catches anything that slips through page-level or throws inside the provider tree.
+
+**`packages/web/src/App.tsx`** — added `<ErrorBoundary fallback={<PageErrorFallback />}>` wrapping the entire `<Routes>` block. Isolates per-page errors so one broken route doesn't kill the app shell or navigation.
+
+### Commands Run
+```bash
+npm run lint --workspace=packages/web   # tsc --noEmit + eslint — clean
+```
+
+### Playwright Smoke Test (all pass)
+| Check | Result |
+|---|---|
+| Navigate to `/` → redirects to `/login` | ✓ |
+| Login → `/dashboard` loads | ✓ |
+| Click Star Wars card → `/collections/star-wars` loads | ✓ |
+| Inject `throw new Error()` inside `StarWarsCatalogPage` render → navigate to `/collections/star-wars` | `PageErrorFallback` renders: "Page error / Go to dashboard" |
+| Click "Go to dashboard" link from error fallback | ✓ navigates to `/dashboard` |
+| Remove throw, reload page | Normal page renders, 0 new console errors |
+
+### Decisions & Notes
+- Two boundaries, not one: root boundary in `main.tsx` catches catastrophic failures (broken provider, bad import, etc.); page boundary in `App.tsx` catches per-route render errors and preserves app shell so the user can navigate away.
+- `PageErrorFallback` uses an `<a href>` (hard nav) rather than React Router `<Link>` — if the router itself is broken, `<Link>` won't work. Hard nav is the safe fallback.
+- No new dependencies needed; fallback UIs use existing Tailwind + shadcn CSS class tokens.
+
+**Jira:** COL-86 → Done
+
+---
+
+## Session 2026-04-18 — COL-90: Health Check Endpoints
+
+**Goal:** Add liveness and readiness health check endpoints to the NestJS API (medium-severity security finding).
+
+**Changes made:**
+
+- Created `packages/api/src/modules/health/health.controller.ts` — `@Controller('health')` with `@SkipThrottle()`:
+  - `GET /health` → `{ status: 'ok', timestamp: <ISO> }` (liveness, no DB check)
+  - `GET /health/ready` → `{ status: 'ready', db: 'ok' }` or 503 if `dataSource.isInitialized` is false (readiness)
+  - No `@UseGuards(JwtAuthGuard)` — public by default (JwtAuthGuard is per-route, not global)
+- Created `packages/api/src/modules/health/health.module.ts` — minimal module, no imports needed (TypeOrmModule.forRootAsync registers DataSource globally)
+- Updated `packages/api/src/app.module.ts` — added `HealthModule` to imports
+- Created `postman/health.collection.json` — GET /health and GET /health/ready requests
+- Updated `README.md` — added Health row to API Overview table
+- Updated `docs/confluence/api-reference.md` + synced to Confluence (page 3702785) — added Health Endpoints section with response examples
+- Updated `docs/confluence/server-setup-runbook.md` + synced to Confluence (page 6356993) — replaced smoke test curl with `/health/ready` probe; added load balancer guidance note
+
+**Verified:**
+- `curl http://localhost:3000/health` → `{"status":"ok","timestamp":"..."}` (200, no auth)
+- `curl http://localhost:3000/health/ready` → `{"status":"ready","db":"ok"}` (200, no auth)
+- `npm run lint` — clean
+
+**Jira:** COL-90 → Done

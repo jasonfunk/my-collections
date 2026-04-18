@@ -206,6 +206,7 @@ See [`docs/project-structure.md`](docs/project-structure.md) for a detailed brea
 | Transformers | GET/POST /collections/transformers, GET/PATCH/DELETE /collections/transformers/:id | Yes |
 | He-Man | GET/POST /collections/he-man, GET/PATCH/DELETE /collections/he-man/:id | Yes |
 | Photos | POST /collections/photos/upload | Yes (Bearer JWT) |
+| Health | GET /health, GET /health/ready | No |
 
 All three collection list endpoints support query params: `search` (name/notes, case-insensitive), `acquisitionSource`, `isComplete`, `owned`, `condition`, plus collection-specific `line`/`faction`. The global `GET /collections/search` endpoint adds `q`, `collectionType`, `isOwned`, `isComplete`, and `condition` filters across all three tables simultaneously.
 

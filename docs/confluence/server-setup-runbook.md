@@ -256,6 +256,9 @@ Open the session with: _"Read devops/CLAUDE.md and walk me through setting up th
 ### Test the API Directly
 
 ```shell
+# Health readiness probe — should return 200 with { "status": "ready", "db": "ok" }
+curl -s https://api.yourdomain.com/health/ready | jq .
+
 # Swagger docs — should return 200
 curl -s -o /dev/null -w "%{http_code}" https://api.yourdomain.com/api/docs
 
@@ -264,6 +267,8 @@ curl -s -X POST https://api.yourdomain.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{}' | jq .
 ```
+
+> **Load balancer / reverse proxy probe:** Use `GET /health/ready` as the readiness probe. It checks both the API process and the database connection. Use `GET /health` as the liveness probe (process alive only, no DB check). Neither endpoint requires authentication.
 
 ### Test the OAuth Flow from the Web Frontend
 
@@ -285,7 +290,7 @@ ssh username@mini.local
 pm2 status                                              # my-collections-api should be online
 sudo launchctl list | grep cloudflared                  # tunnel service running
 sudo launchctl list | grep actions                      # runner service running
-curl -s -o /dev/null -w "%{http_code}" https://api.yourdomain.com/api/docs  # 200
+curl -s https://api.yourdomain.com/health/ready | jq .  # { "status": "ready", "db": "ok" }
 ```
 
 If all four checks pass after the reboot, the Mac Mini is fully headless-ready and production-ready. Append the session to `devops/setup-log.md` before closing.

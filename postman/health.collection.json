@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "My Collections — Health",
+    "_postman_id": "mc-health-v1",
+    "description": "Health check endpoints. No authentication required.\n\nUse GET /health/ready as the readiness probe for load balancers and reverse proxies.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Liveness Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Returns 200 if the API process is running. No database check.\n\nExpected response: { \"status\": \"ok\", \"timestamp\": \"<ISO 8601>\" }"
+      }
+    },
+    {
+      "name": "Readiness Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health/ready",
+          "host": ["{{baseUrl}}"],
+          "path": ["health", "ready"]
+        },
+        "description": "Returns 200 if the API is running and the database connection is initialised. Returns 503 if the database is not ready.\n\nRecommended probe for load balancers and reverse proxies.\n\nExpected response (200): { \"status\": \"ready\", \"db\": \"ok\" }\nExpected response (503): { \"statusCode\": 503, \"message\": \"Database not ready\" }"
+      }
+    }
+  ]
+}
