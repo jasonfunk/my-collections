@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthModule } from './modules/auth/auth.module';
 import { CollectionsModule } from './modules/collections/collections.module';
+import { HealthModule } from './modules/health/health.module';
 import { UsersModule } from './modules/users/users.module';
 
 /**
@@ -54,6 +55,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
     CollectionsModule,
+    HealthModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally so every route is rate-limited by default.

@@ -2737,3 +2737,29 @@ npm run lint --workspace=packages/web   # tsc --noEmit + eslint — clean
 - No new dependencies needed; fallback UIs use existing Tailwind + shadcn CSS class tokens.
 
 **Jira:** COL-86 → Done
+
+---
+
+## Session 2026-04-18 — COL-90: Health Check Endpoints
+
+**Goal:** Add liveness and readiness health check endpoints to the NestJS API (medium-severity security finding).
+
+**Changes made:**
+
+- Created `packages/api/src/modules/health/health.controller.ts` — `@Controller('health')` with `@SkipThrottle()`:
+  - `GET /health` → `{ status: 'ok', timestamp: <ISO> }` (liveness, no DB check)
+  - `GET /health/ready` → `{ status: 'ready', db: 'ok' }` or 503 if `dataSource.isInitialized` is false (readiness)
+  - No `@UseGuards(JwtAuthGuard)` — public by default (JwtAuthGuard is per-route, not global)
+- Created `packages/api/src/modules/health/health.module.ts` — minimal module, no imports needed (TypeOrmModule.forRootAsync registers DataSource globally)
+- Updated `packages/api/src/app.module.ts` — added `HealthModule` to imports
+- Created `postman/health.collection.json` — GET /health and GET /health/ready requests
+- Updated `README.md` — added Health row to API Overview table
+- Updated `docs/confluence/api-reference.md` + synced to Confluence (page 3702785) — added Health Endpoints section with response examples
+- Updated `docs/confluence/server-setup-runbook.md` + synced to Confluence (page 6356993) — replaced smoke test curl with `/health/ready` probe; added load balancer guidance note
+
+**Verified:**
+- `curl http://localhost:3000/health` → `{"status":"ok","timestamp":"..."}` (200, no auth)
+- `curl http://localhost:3000/health/ready` → `{"status":"ready","db":"ok"}` (200, no auth)
+- `npm run lint` — clean
+
+**Jira:** COL-90 → Done
