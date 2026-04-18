@@ -2763,3 +2763,25 @@ npm run lint --workspace=packages/web   # tsc --noEmit + eslint — clean
 - `npm run lint` — clean
 
 **Jira:** COL-90 → Done
+
+---
+
+## Session 2026-04-18 — COL-92: Fix Cross-Collection Search In-Memory Pagination
+
+**Goal:** Replace in-memory pagination in `GET /collections/search` with DB-level pagination (medium-severity security/ops finding SEC-21).
+
+**Root cause:** Each of the three private query methods called `.getMany()` fetching all matching rows, then sorted and sliced in Node.js memory. With large collections every search query loads the entire result set.
+
+**Fix (only file changed: `collections-search.service.ts`):**
+- Changed `queryStarWars`, `queryTransformers`, `queryMasters` return type to `Promise<[CollectionItem[], number]>`
+- Added `.orderBy('catalog.name', 'ASC').skip((page-1)*limit).take(limit).getManyAndCount()` to each QueryBuilder
+- `search()` now sums the three DB counts for accurate `total`, combines the bounded result sets (≤ 3×limit rows), sorts, slices to `limit`
+- Response shape (`PaginatedResponse<CollectionItem>`) and controller unchanged — no API contract change
+
+**Trade-off:** True cross-collection DB pagination requires a unified tsvector view (flagged as long-term fix in COL-92). Per-collection skip/take gives approximate page contents but accurate totals and bounded memory usage.
+
+**Verified:**
+- `npm run lint` — clean
+- Playwright smoke test: login → dashboard → He-Man list → item detail → dashboard → sign out; zero new console errors
+
+**Jira:** COL-92 → Done
