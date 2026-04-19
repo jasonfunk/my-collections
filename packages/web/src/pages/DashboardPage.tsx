@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card.
 import { Badge } from '../components/ui/badge.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
+import { CollectionIcon } from '../components/ui/collection-icons.js';
+import type { CollectionKey } from '../lib/collectionConfig.js';
 
 function formatCurrency(value: number | null): string {
   if (value === null) return '—';
@@ -16,7 +18,8 @@ function formatCurrency(value: number | null): string {
 
 interface CollectionCardProps {
   title: string;
-  emoji: string;
+  subtitle: string;
+  collectionKey: CollectionKey;
   owned: number;
   wishlist: number;
   value: number | null;
@@ -24,16 +27,22 @@ interface CollectionCardProps {
   accent: string;
 }
 
-function CollectionCard({ title, emoji, owned, wishlist, value, href, accent }: CollectionCardProps) {
+function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value, href, accent }: CollectionCardProps) {
   const navigate = useNavigate();
   return (
     <Card
       className={`cursor-pointer transition-shadow hover:shadow-lg border-t-2 ${accent}`}
       onClick={() => navigate(href)}
     >
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-medium">{emoji} {title}</CardTitle>
-        <Badge variant="secondary">{owned} owned</Badge>
+      <CardHeader className="pb-2">
+        <div className="flex items-center gap-3">
+          <CollectionIcon variant={collectionKey} size={40} />
+          <div className="min-w-0 flex-1">
+            <CardTitle className="text-base font-semibold leading-none">{title}</CardTitle>
+            <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+          </div>
+          <Badge variant="secondary" className="shrink-0">{owned} owned</Badge>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="text-3xl font-bold">{owned}</div>
@@ -121,7 +130,8 @@ export function DashboardPage() {
             <>
               <CollectionCard
                 title="Star Wars"
-                emoji="⭐"
+                subtitle="Original Trilogy · 1977–1985"
+                collectionKey="star-wars"
                 owned={stats!.starWars.owned}
                 wishlist={stats!.starWars.wishlist}
                 value={stats!.starWars.estimatedTotalValue}
@@ -130,7 +140,8 @@ export function DashboardPage() {
               />
               <CollectionCard
                 title="Transformers"
-                emoji="🤖"
+                subtitle="Generation 1 · Series 1–6 · 1984–1990"
+                collectionKey="transformers"
                 owned={stats!.transformers.owned}
                 wishlist={stats!.transformers.wishlist}
                 value={stats!.transformers.estimatedTotalValue}
@@ -139,7 +150,8 @@ export function DashboardPage() {
               />
               <CollectionCard
                 title="He-Man"
-                emoji="⚔️"
+                subtitle="Masters of the Universe · 1981–1988"
+                collectionKey="he-man"
                 owned={stats!.heman.owned}
                 wishlist={stats!.heman.wishlist}
                 value={stats!.heman.estimatedTotalValue}

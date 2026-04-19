@@ -11,6 +11,7 @@ import {
   WISHLIST_PRIORITY_OPTIONS,
 } from '@/lib/collectionConfig.js';
 import { TransformersCatalogCard, TransformersCatalogCardSkeleton } from '@/components/collections/TransformersCatalogCard.js';
+import { CollectionIcon } from '@/components/ui/collection-icons.js';
 import { Button } from '@/components/ui/button.js';
 import { Input } from '@/components/ui/input.js';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.js';
@@ -113,9 +114,13 @@ export function TransformersCatalogPage() {
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             Dashboard
           </Button>
-          <h1 className="flex-1 text-xl font-semibold">
-            🤖 G1 Transformers
-          </h1>
+          <div className="flex-1 flex items-center gap-3">
+            <CollectionIcon variant="transformers" size={32} />
+            <div>
+              <h1 className="text-xl font-semibold leading-none">G1 Transformers</h1>
+              <p className="text-xs text-muted-foreground mt-1">Generation 1 · Series 1–6 · 1984–1990</p>
+            </div>
+          </div>
           <span className="text-sm text-muted-foreground">
             {ownedCount} of {catalogTotal} owned
           </span>
