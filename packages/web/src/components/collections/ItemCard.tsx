@@ -14,9 +14,9 @@ import {
 } from '@/lib/collectionConfig';
 
 const COLLECTION_COLORS: Record<CollectionKey, string> = {
-  'star-wars': 'bg-yellow-100 text-yellow-700',
-  'transformers': 'bg-blue-100 text-blue-700',
-  'he-man': 'bg-purple-100 text-purple-700',
+  'star-wars':    'bg-amber-500/10 text-amber-300',
+  'transformers': 'bg-blue-500/10 text-blue-300',
+  'he-man':       'bg-purple-500/10 text-purple-300',
 };
 
 function getLineLabel(item: CollectionItem & Record<string, unknown>, collectionKey: CollectionKey): string {

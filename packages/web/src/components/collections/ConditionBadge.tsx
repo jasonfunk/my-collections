@@ -2,14 +2,14 @@ import { ConditionGrade } from '@my-collections/shared';
 import { cn } from '@/lib/utils';
 
 const CONDITION_STYLES: Record<string, string> = {
-  [ConditionGrade.MINT]: 'bg-green-100 text-green-800',
-  [ConditionGrade.NEAR_MINT]: 'bg-emerald-100 text-emerald-800',
-  [ConditionGrade.VERY_FINE]: 'bg-blue-100 text-blue-800',
-  [ConditionGrade.FINE]: 'bg-indigo-100 text-indigo-800',
-  [ConditionGrade.VERY_GOOD]: 'bg-yellow-100 text-yellow-800',
-  [ConditionGrade.GOOD]: 'bg-orange-100 text-orange-800',
-  [ConditionGrade.POOR]: 'bg-red-100 text-red-800',
-  [ConditionGrade.INCOMPLETE]: 'bg-gray-100 text-gray-600',
+  [ConditionGrade.MINT]:       'bg-green-500/15 text-green-400',
+  [ConditionGrade.NEAR_MINT]:  'bg-emerald-500/15 text-emerald-400',
+  [ConditionGrade.VERY_FINE]:  'bg-blue-500/15 text-blue-400',
+  [ConditionGrade.FINE]:       'bg-indigo-500/15 text-indigo-400',
+  [ConditionGrade.VERY_GOOD]:  'bg-yellow-500/15 text-yellow-300',
+  [ConditionGrade.GOOD]:       'bg-orange-500/15 text-orange-400',
+  [ConditionGrade.POOR]:       'bg-red-500/15 text-red-400',
+  [ConditionGrade.INCOMPLETE]: 'bg-zinc-500/15 text-zinc-400',
 };
 
 interface ConditionBadgeProps {

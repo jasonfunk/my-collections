@@ -39,7 +39,7 @@ export function MastersCatalogCard({ catalogItem, userItem }: MastersCatalogCard
       onClick={() => navigate(`/collections/he-man/${catalogItem.id}`)}
     >
       {/* Photo / placeholder */}
-      <div className="flex h-32 items-center justify-center rounded-t-lg bg-amber-100 text-amber-700 overflow-hidden">
+      <div className="flex h-32 items-center justify-center rounded-t-lg bg-purple-500/10 text-purple-300 overflow-hidden">
         {catalogItem.catalogImageUrl ? (
           <img
             src={catalogItem.catalogImageUrl}
@@ -72,7 +72,7 @@ export function MastersCatalogCard({ catalogItem, userItem }: MastersCatalogCard
           )}
           {isWishlisted && (
             <>
-              <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-700">Wishlist</Badge>
+              <Badge variant="outline" className="text-xs border-amber-500/60 text-amber-400">Wishlist</Badge>
               {userItem!.wishlistPriority && (
                 <Badge variant="outline" className="text-xs">
                   {WISHLIST_PRIORITY_LABELS[userItem!.wishlistPriority]}

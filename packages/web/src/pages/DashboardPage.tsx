@@ -21,13 +21,14 @@ interface CollectionCardProps {
   wishlist: number;
   value: number | null;
   href: string;
+  accent: string;
 }
 
-function CollectionCard({ title, emoji, owned, wishlist, value, href }: CollectionCardProps) {
+function CollectionCard({ title, emoji, owned, wishlist, value, href, accent }: CollectionCardProps) {
   const navigate = useNavigate();
   return (
     <Card
-      className="cursor-pointer transition-shadow hover:shadow-md"
+      className={`cursor-pointer transition-shadow hover:shadow-lg border-t-2 ${accent}`}
       onClick={() => navigate(href)}
     >
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -79,7 +80,7 @@ export function DashboardPage() {
   const isLoading = statsQuery.isPending;
 
   return (
-    <div className="min-h-screen bg-muted/40">
+    <div className="min-h-screen bg-muted">
       {/* Top nav */}
       <header className="border-b bg-background px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
@@ -125,6 +126,7 @@ export function DashboardPage() {
                 wishlist={stats!.starWars.wishlist}
                 value={stats!.starWars.estimatedTotalValue}
                 href="/collections/star-wars"
+                accent="border-t-amber-500/70"
               />
               <CollectionCard
                 title="Transformers"
@@ -133,6 +135,7 @@ export function DashboardPage() {
                 wishlist={stats!.transformers.wishlist}
                 value={stats!.transformers.estimatedTotalValue}
                 href="/collections/transformers"
+                accent="border-t-blue-500/70"
               />
               <CollectionCard
                 title="He-Man"
@@ -141,6 +144,7 @@ export function DashboardPage() {
                 wishlist={stats!.heman.wishlist}
                 value={stats!.heman.estimatedTotalValue}
                 href="/collections/he-man"
+                accent="border-t-purple-500/70"
               />
             </>
           )}

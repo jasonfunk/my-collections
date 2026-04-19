@@ -30,7 +30,7 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
       ? 'cursor-pointer transition-shadow hover:shadow-md border-dashed'
       : 'cursor-pointer transition-shadow hover:shadow-md opacity-60';
 
-  const bgColor = catalogItem.faction === 'DECEPTICON' ? 'bg-purple-100 text-purple-700' : 'bg-red-100 text-red-700';
+  const bgColor = catalogItem.faction === 'DECEPTICON' ? 'bg-purple-500/10 text-purple-300' : 'bg-red-500/10 text-red-300';
 
   return (
     <Card
@@ -69,7 +69,7 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
           )}
           {isWishlisted && (
             <>
-              <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-700">Wishlist</Badge>
+              <Badge variant="outline" className="text-xs border-amber-500/60 text-amber-400">Wishlist</Badge>
               {userItem!.wishlistPriority && (
                 <Badge variant="outline" className="text-xs">
                   {WISHLIST_PRIORITY_LABELS[userItem!.wishlistPriority]}
