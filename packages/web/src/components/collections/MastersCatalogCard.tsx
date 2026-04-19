@@ -28,7 +28,7 @@ export function MastersCatalogCard({ catalogItem, userItem }: MastersCatalogCard
   const isUnclaimed = userItem === undefined;
 
   const cardClass = isOwned
-    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-green-600'
+    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-purple-500/70'
     : isWishlisted
       ? 'cursor-pointer transition-shadow hover:shadow-md border-dashed'
       : 'cursor-pointer transition-shadow hover:shadow-md opacity-60';
@@ -66,7 +66,7 @@ export function MastersCatalogCard({ catalogItem, userItem }: MastersCatalogCard
         <div className="mt-1 flex flex-wrap items-center gap-1">
           {isOwned && (
             <>
-              <Badge variant="default" className="text-xs bg-green-600 hover:bg-green-600">Owned</Badge>
+              <Badge variant="default" className="text-xs bg-purple-500/20 hover:bg-purple-500/20 text-purple-300 border border-purple-500/50">Owned</Badge>
               {userItem!.condition && <ConditionBadge grade={userItem!.condition} />}
             </>
           )}

@@ -25,7 +25,7 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
   const isUnclaimed = userItem === undefined;
 
   const cardClass = isOwned
-    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-red-600'
+    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-blue-500/70'
     : isWishlisted
       ? 'cursor-pointer transition-shadow hover:shadow-md border-dashed'
       : 'cursor-pointer transition-shadow hover:shadow-md opacity-60';
@@ -63,7 +63,7 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
         <div className="mt-1 flex flex-wrap items-center gap-1">
           {isOwned && (
             <>
-              <Badge variant="default" className="text-xs bg-red-600 hover:bg-red-600">Owned</Badge>
+              <Badge variant="default" className="text-xs bg-blue-500/20 hover:bg-blue-500/20 text-blue-300 border border-blue-500/50">Owned</Badge>
               {userItem!.condition && <ConditionBadge grade={userItem!.condition} />}
             </>
           )}
