@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import type { StarWarsCatalogItem, UserStarWarsItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  DEFAULT_PAGE_SIZE,
+  MAX_USER_ITEMS_FETCH,
   STAR_WARS_CATEGORY_OPTIONS,
   STAR_WARS_LINE_LABELS,
   WISHLIST_PRIORITY_OPTIONS,
@@ -56,7 +58,7 @@ export function StarWarsCatalogPage() {
   }
 
   // Build catalog query string (server-side: line, category, search, page)
-  const catalogParams = new URLSearchParams({ limit: '50', page: String(page) });
+  const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (line) catalogParams.set('line', line);
   if (category) catalogParams.set('category', category);
   if (searchInput) catalogParams.set('search', searchInput);
@@ -69,7 +71,7 @@ export function StarWarsCatalogPage() {
 
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['sw-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserStarWarsItem>>('/collections/star-wars/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserStarWarsItem>>(`/collections/star-wars/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
 
   // Build O(1) lookup map: catalogId → UserStarWarsItem

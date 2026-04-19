@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { G1TransformersCatalogItem, UserG1TransformersItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  MAX_USER_ITEMS_FETCH,
   FACTION_LABELS,
   TF_LINE_LABELS,
   TF_SIZE_LABELS,
@@ -59,7 +60,7 @@ export function TransformersCatalogDetailPage() {
 
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['tf-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserG1TransformersItem>>('/collections/transformers/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserG1TransformersItem>>(`/collections/transformers/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
   const userItem = userItemsPage?.data.find((i) => i.catalogId === id);
 

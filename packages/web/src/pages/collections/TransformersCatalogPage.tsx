@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import type { G1TransformersCatalogItem, UserG1TransformersItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  DEFAULT_PAGE_SIZE,
+  MAX_USER_ITEMS_FETCH,
   FACTION_LABELS,
   TF_LINE_LABELS,
   WISHLIST_PRIORITY_OPTIONS,
@@ -55,7 +57,7 @@ export function TransformersCatalogPage() {
     }, { replace: true });
   }
 
-  const catalogParams = new URLSearchParams({ limit: '50', page: String(page) });
+  const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (faction) catalogParams.set('faction', faction);
   if (line) catalogParams.set('line', line);
   if (searchInput) catalogParams.set('search', searchInput);
@@ -68,7 +70,7 @@ export function TransformersCatalogPage() {
 
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['tf-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserG1TransformersItem>>('/collections/transformers/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserG1TransformersItem>>(`/collections/transformers/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
 
   const userItemMap = new Map<string, UserG1TransformersItem>(

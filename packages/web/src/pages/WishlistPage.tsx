@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import type {
   PaginatedResponse,
   UserStarWarsItem,
@@ -14,9 +14,11 @@ import { Skeleton } from '../components/ui/skeleton.js';
 import { MarkAcquiredDialog } from '../components/collections/MarkAcquiredDialog.js';
 import {
   COLLECTION_CONFIG,
+  WISHLIST_PAGE_SIZE,
   WISHLIST_PRIORITY_LABELS,
   STAR_WARS_CATEGORY_LABELS,
 } from '../lib/collectionConfig.js';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 // ── Priority badge ────────────────────────────────────────────────────────────
 
@@ -62,28 +64,66 @@ function SectionSkeleton() {
   );
 }
 
+// ── Pagination controls ───────────────────────────────────────────────────────
+
+interface PaginationControlsProps {
+  page: number;
+  totalPages: number;
+  isPlaceholderData: boolean;
+  onPrev: () => void;
+  onNext: () => void;
+}
+
+function PaginationControls({ page, totalPages, isPlaceholderData, onPrev, onNext }: PaginationControlsProps) {
+  if (totalPages <= 1) return null;
+  return (
+    <div className="flex items-center justify-center gap-3 pt-2">
+      <Button variant="outline" size="sm" disabled={page <= 1} onClick={onPrev}>
+        <ChevronLeftIcon className="h-4 w-4" /> Prev
+      </Button>
+      <span className="text-sm text-muted-foreground">Page {page} of {totalPages}</span>
+      <Button variant="outline" size="sm" disabled={isPlaceholderData || page >= totalPages} onClick={onNext}>
+        Next <ChevronRightIcon className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export function WishlistPage() {
   const navigate = useNavigate();
   const [acquiring, setAcquiring] = useState<AcquiringState | null>(null);
 
+  const [swPage, setSwPage] = useState(1);
+  const [tfPage, setTfPage] = useState(1);
+  const [hemanPage, setHemanPage] = useState(1);
+
   const swQuery = useQuery({
-    queryKey: ['sw-wishlist'],
+    queryKey: ['sw-wishlist', swPage],
     queryFn: () =>
-      apiClient.get<PaginatedResponse<UserStarWarsItem>>('/collections/star-wars/wishlist?limit=500'),
+      apiClient.get<PaginatedResponse<UserStarWarsItem>>(
+        `/collections/star-wars/wishlist?limit=${WISHLIST_PAGE_SIZE}&page=${swPage}`,
+      ),
+    placeholderData: keepPreviousData,
   });
 
   const tfQuery = useQuery({
-    queryKey: ['tf-wishlist'],
+    queryKey: ['tf-wishlist', tfPage],
     queryFn: () =>
-      apiClient.get<PaginatedResponse<UserG1TransformersItem>>('/collections/transformers/wishlist?limit=500'),
+      apiClient.get<PaginatedResponse<UserG1TransformersItem>>(
+        `/collections/transformers/wishlist?limit=${WISHLIST_PAGE_SIZE}&page=${tfPage}`,
+      ),
+    placeholderData: keepPreviousData,
   });
 
   const hemanQuery = useQuery({
-    queryKey: ['heman-wishlist'],
+    queryKey: ['heman-wishlist', hemanPage],
     queryFn: () =>
-      apiClient.get<PaginatedResponse<UserMastersItem>>('/collections/he-man/wishlist?limit=500'),
+      apiClient.get<PaginatedResponse<UserMastersItem>>(
+        `/collections/he-man/wishlist?limit=${WISHLIST_PAGE_SIZE}&page=${hemanPage}`,
+      ),
+    placeholderData: keepPreviousData,
   });
 
   const totalWishlist =
@@ -170,7 +210,7 @@ export function WishlistPage() {
                         itemId: item.id,
                         itemName: item.catalog?.name ?? 'Item',
                         collectionPath: '/collections/star-wars',
-                        queryKeys: [['sw-wishlist'], ['sw-user-items'], ['collection-stats']],
+                        queryKeys: [['sw-wishlist', swPage], ['sw-user-items'], ['collection-stats']],
                       })
                     }
                   >
@@ -180,12 +220,24 @@ export function WishlistPage() {
               ))}
             </div>
           )}
+          <PaginationControls
+            page={swPage}
+            totalPages={swQuery.data?.meta.totalPages ?? 1}
+            isPlaceholderData={swQuery.isPlaceholderData}
+            onPrev={() => setSwPage((p) => p - 1)}
+            onNext={() => setSwPage((p) => p + 1)}
+          />
         </section>
 
         {/* Transformers section */}
         <section>
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold">
             {tfConfig.emoji} {tfConfig.label}
+            {tfQuery.data && tfQuery.data.meta.total > 0 && (
+              <span className="text-sm font-normal text-muted-foreground">
+                ({tfQuery.data.meta.total})
+              </span>
+            )}
           </h2>
           {tfQuery.isPending ? (
             <SectionSkeleton />
@@ -213,7 +265,7 @@ export function WishlistPage() {
                         itemId: item.id,
                         itemName: item.catalog?.name ?? 'Item',
                         collectionPath: '/collections/transformers',
-                        queryKeys: [['tf-wishlist'], ['collection-stats']],
+                        queryKeys: [['tf-wishlist', tfPage], ['collection-stats']],
                       })
                     }
                   >
@@ -223,12 +275,24 @@ export function WishlistPage() {
               ))}
             </div>
           )}
+          <PaginationControls
+            page={tfPage}
+            totalPages={tfQuery.data?.meta.totalPages ?? 1}
+            isPlaceholderData={tfQuery.isPlaceholderData}
+            onPrev={() => setTfPage((p) => p - 1)}
+            onNext={() => setTfPage((p) => p + 1)}
+          />
         </section>
 
         {/* He-Man section */}
         <section>
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold">
             {hemanConfig.emoji} {hemanConfig.label}
+            {hemanQuery.data && hemanQuery.data.meta.total > 0 && (
+              <span className="text-sm font-normal text-muted-foreground">
+                ({hemanQuery.data.meta.total})
+              </span>
+            )}
           </h2>
           {hemanQuery.isPending ? (
             <SectionSkeleton />
@@ -256,7 +320,7 @@ export function WishlistPage() {
                         itemId: item.id,
                         itemName: item.catalog?.name ?? 'Item',
                         collectionPath: '/collections/he-man',
-                        queryKeys: [['heman-wishlist'], ['collection-stats']],
+                        queryKeys: [['heman-wishlist', hemanPage], ['collection-stats']],
                       })
                     }
                   >
@@ -266,6 +330,13 @@ export function WishlistPage() {
               ))}
             </div>
           )}
+          <PaginationControls
+            page={hemanPage}
+            totalPages={hemanQuery.data?.meta.totalPages ?? 1}
+            isPlaceholderData={hemanQuery.isPlaceholderData}
+            onPrev={() => setHemanPage((p) => p - 1)}
+            onNext={() => setHemanPage((p) => p + 1)}
+          />
         </section>
       </main>
 

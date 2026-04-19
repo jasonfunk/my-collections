@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { MastersCatalogItem, UserMastersItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  MAX_USER_ITEMS_FETCH,
   MASTERS_CHARACTER_LABELS,
   MASTERS_LINE_LABELS,
   WISHLIST_PRIORITY_LABELS,
@@ -58,7 +59,7 @@ export function MastersCatalogDetailPage() {
 
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['hm-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserMastersItem>>('/collections/he-man/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserMastersItem>>(`/collections/he-man/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
   const userItem = userItemsPage?.data.find((i) => i.catalogId === id);
 

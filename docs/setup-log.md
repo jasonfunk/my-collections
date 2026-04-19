@@ -2832,3 +2832,49 @@ npm install nest-winston winston --workspace=packages/api
 - Playwright smoke test: login → dashboard → Star Wars list → item detail (2-1B) → dashboard → sign out; zero console errors
 
 **Jira:** COL-91 → Done
+
+---
+
+## 2026-04-19 — COL-94: Pagination on wishlist and catalog pages
+
+### What was done
+
+Implemented server-side pagination on the wishlist page and replaced all hardcoded `limit=500` values with named constants across catalog, catalog detail, and wishlist pages (SEC-23 finding).
+
+### Changes
+
+**`packages/web/src/lib/collectionConfig.ts`**
+- Added three exported constants:
+  - `DEFAULT_PAGE_SIZE = 50` — page size for catalog browse
+  - `WISHLIST_PAGE_SIZE = 50` — page size for each wishlist section
+  - `MAX_USER_ITEMS_FETCH = 500` — intentional full-load for client-side owned/wishlist overlay maps on catalog pages
+
+**`packages/web/src/pages/WishlistPage.tsx`**
+- Added per-section page state (`swPage`, `tfPage`, `hemanPage`), each starting at 1
+- Switched all three wishlist queries from `limit=500` to `limit=${WISHLIST_PAGE_SIZE}&page=N`
+- Added `placeholderData: keepPreviousData` (TanStack Query v5 API) to each query — stale data shown during page transitions, no blank-screen flicker
+- Added `PaginationControls` component (inline, within the file) — Prev/Next buttons with disabled state and "Page X of Y" label, only rendered when `totalPages > 1`
+- Fixed `queryKeysToInvalidate` in MarkAcquiredDialog calls to include the current page number (so invalidation targets the right cached key)
+- Added Transformers and He-Man section total counts (previously missing from section headings)
+
+**Catalog pages** (`StarWarsCatalogPage`, `TransformersCatalogPage`, `MastersCatalogPage`)
+- User items fetch: replaced `limit=500` with `limit=${MAX_USER_ITEMS_FETCH}`
+- Catalog browse: replaced hardcoded `'50'` with `String(DEFAULT_PAGE_SIZE)`
+- Added `DEFAULT_PAGE_SIZE` and `MAX_USER_ITEMS_FETCH` to collectionConfig imports
+
+**Catalog detail pages** (`StarWarsCatalogDetailPage`, `TransformersCatalogDetailPage`, `MastersCatalogDetailPage`)
+- User items fetch: replaced `limit=500` with `limit=${MAX_USER_ITEMS_FETCH}`
+
+### Library validation
+
+TanStack Query v5 pagination API confirmed via Context7 before implementation:
+- `placeholderData: keepPreviousData` (not the v4 `keepPreviousData: true` option)
+- `isPlaceholderData` flag used to disable Next button during in-flight page fetch
+
+### Verified
+
+- `npm run lint` — clean
+- `npm run build` — clean
+- Playwright smoke test: login → wishlist (3 sections load, totals correct) → Star Wars catalog (199 items, Page 1 of 4, Prev disabled, Next enabled) → catalog detail (ownership resolves) → dashboard → sign out; zero console errors
+
+**Jira:** COL-94 → Done

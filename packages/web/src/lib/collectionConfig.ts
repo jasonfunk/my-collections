@@ -13,6 +13,10 @@ import {
   WishlistPriority,
 } from '@my-collections/shared';
 
+export const DEFAULT_PAGE_SIZE = 50;
+export const WISHLIST_PAGE_SIZE = 50;
+export const MAX_USER_ITEMS_FETCH = 500;
+
 export type CollectionKey = 'star-wars' | 'transformers' | 'he-man';
 
 export interface FilterOption {

@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import type { MastersCatalogItem, UserMastersItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  DEFAULT_PAGE_SIZE,
+  MAX_USER_ITEMS_FETCH,
   MASTERS_LINE_LABELS,
   MASTERS_CHARACTER_OPTIONS,
   WISHLIST_PRIORITY_OPTIONS,
@@ -55,7 +57,7 @@ export function MastersCatalogPage() {
     }, { replace: true });
   }
 
-  const catalogParams = new URLSearchParams({ limit: '50', page: String(page) });
+  const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (line) catalogParams.set('line', line);
   if (characterType) catalogParams.set('characterType', characterType);
   if (searchInput) catalogParams.set('search', searchInput);
@@ -68,7 +70,7 @@ export function MastersCatalogPage() {
 
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['hm-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserMastersItem>>('/collections/he-man/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserMastersItem>>(`/collections/he-man/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
 
   const userItemMap = new Map<string, UserMastersItem>(
