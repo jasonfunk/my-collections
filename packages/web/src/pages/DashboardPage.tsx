@@ -5,7 +5,6 @@ import type { CollectionStats, UserProfile } from '@my-collections/shared';
 import { apiClient } from '../api/client.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card.js';
-import { Badge } from '../components/ui/badge.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
 import { CollectionIcon } from '../components/ui/collection-icons.js';
@@ -27,6 +26,18 @@ interface CollectionCardProps {
   accent: string;
 }
 
+const COUNT_COLORS: Record<CollectionKey, string> = {
+  'star-wars':    'text-amber-400',
+  'transformers': 'text-blue-400',
+  'he-man':       'text-purple-400',
+};
+
+const COUNT_BORDERS: Record<CollectionKey, string> = {
+  'star-wars':    'border-amber-500/50',
+  'transformers': 'border-blue-500/50',
+  'he-man':       'border-purple-500/50',
+};
+
 function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value, href, accent }: CollectionCardProps) {
   const navigate = useNavigate();
   return (
@@ -41,12 +52,16 @@ function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value
             <CardTitle className="text-base font-semibold leading-none">{title}</CardTitle>
             <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
           </div>
-          <Badge variant="secondary" className="shrink-0">{owned} owned</Badge>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="text-3xl font-bold">{owned}</div>
-        <p className="text-sm text-muted-foreground mt-1">
+      <CardContent className="pt-2 pb-4">
+        <div className="flex justify-center mb-3">
+          <div className={`border ${COUNT_BORDERS[collectionKey]} rounded-xl px-8 py-3 text-center`}>
+            <div className={`text-4xl font-bold ${COUNT_COLORS[collectionKey]}`}>{owned}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">owned</p>
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground text-center">
           {wishlist} on wishlist · est. {formatCurrency(value)}
         </p>
       </CardContent>
