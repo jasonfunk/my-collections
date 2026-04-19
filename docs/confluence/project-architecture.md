@@ -36,8 +36,8 @@ Build order is enforced by Turborepo: `shared` builds first, then `api`, `web`, 
 - TypeORM with migrations — `synchronize: true` is never used; `migrationsRun: true` on startup
 - Five migrations: `InitialSchema`, `AuthSchema`, `CollectionsSchema`, `CatalogRefactorSchema`, `AddToyStoreSource`
 - Auth tables: `users`, `oauth_clients`, `authorization_codes`, `refresh_tokens`
-- Catalog tables (pre-populated reference data): `star_wars_catalog`, `g1_transformers_catalog`, `masters_catalog`
-- User item tables (personal collection records): `user_star_wars_items`, `user_g1_transformers_items`, `user_masters_items`
+- Catalog tables (pre-populated reference data, shared across users): `star_wars_catalog` (199 records), `g1_transformers_catalog` (443 records), `masters_catalog` (127 records) — seeded from transformerland.com
+- User item tables (personal collection records, userId-scoped): `user_star_wars_items`, `user_g1_transformers_items`, `user_masters_items` — linked to catalog entries via `catalogId`
 
 ## GitHub Actions CI/CD
 

@@ -2981,4 +2981,42 @@ Two entries required:
 - `npm run test --workspace=packages/api` — 41 tests pass, 4 suites
 - `npm run lint --workspace=packages/api` — clean
 
+---
+
+## Session — 2026-04-18 (Catalog Refactor Docs + COL-96 merged)
+
+### Context
+
+Two tasks completed this session:
+
+1. **COL-96 merged** — PR with 41 API tests (auth integration + photo upload validation) merged to main.
+2. **Catalog refactor documentation cleanup** — the plan doc `docs/plan-catalog-refactor.md` still described the catalog/user-items split as "not yet started." Updated all documentation to reflect that every phase of that plan is complete.
+
+---
+
+### 1. Catalog refactor documentation updated
+
+The catalog/user-items architecture was fully implemented in a prior session (6 DB tables, 769 seed records, full API, full web frontend). Documentation was stale in three places:
+
+**`docs/plan-catalog-refactor.md`** — changed status from "Approved, not yet started" to "Complete / Completed 2026-04-19." Added a completion summary at the top. Preserved all decisions below as an architectural decision record.
+
+**Memory `project_catalog_refactor_plan.md`** — replaced active-plan content with a completion note. Preserved key architectural decisions that are not derivable from code alone (no userId on catalog tables, UNIQUE(catalogId, userId), variants as separate entries, WishlistPriority nullable on user_items only when !isOwned).
+
+**Confluence pages** — updated both pages to reflect current reality:
+
+- **Project Architecture** (page 3670018, v6): Database section now lists record counts (199 SW, 443 TF, 127 HM), seeding source (transformerland.com), and the userId-scoped nature of user_items tables. Corrected migration count from 5 to 6 (added `UserIsApprovedDefaultFalse`). Updated test count table to reflect COL-96 results (41 tests, 4 suites).
+- **Collections API** (page 3833858, v7): Rewrote the opening section as a "Data Model" description explaining the catalog/user-items two-table pattern. Fixed the global search description (was incorrectly described as merging in application memory — it runs DB-level queries with server-side pagination). Fixed photo URL format to match actual implementation (`/collections/photos/[32hexchars].jpg`).
+
+---
+
+### 2. MCP context optimization
+
+Evaluated MCP server overhead and removed Serena (semantic coding tools). Serena's hooks fired on every tool use regardless of whether Serena tools were called — significant context overhead for a codebase small enough to navigate with Glob/Grep. Instructions for re-enabling are saved in memory (`feedback_serena.md`).
+
+Docker MCP evaluated and rejected — not worth it for this project's hosting model (single Mac Mini, docker-compose for local dev only).
+
+---
+
+### No new files or directories added this session.
+
 **Jira:** COL-96 → Done
