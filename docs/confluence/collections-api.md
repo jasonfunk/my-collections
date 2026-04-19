@@ -7,26 +7,36 @@ last_updated: "2026-04-10"
 
 All Collections API endpoints require `Authorization: Bearer <access_token>` in the request header. Obtain tokens via the Authentication API.
 
-## Common Fields
+## Data Model
 
-These base fields are present on every collection item regardless of type:
+All three collection types follow a two-table pattern:
 
-| **Field** | **Type** | **Required** | **Description** |
-| --- | --- | --- | --- |
-| `id` | string (UUID) | _auto_ | Unique identifier |
-| `name` | string | **yes** | Display name, e.g. "Luke Skywalker (X-Wing Pilot)" |
-| `condition` | ConditionGrade | **yes** | Physical condition of the item |
-| `packagingCondition` | PackagingCondition | **yes** | Condition of original packaging |
-| `isOwned` | boolean | **yes** | true = owned, false = wishlist |
-| `isComplete` | boolean | **yes** | All parts and accessories present |
-| `acquisitionSource` | AcquisitionSource | _no_ | Where the item was acquired |
-| `acquisitionDate` | string (ISO 8601) | _no_ | Date the item was acquired |
-| `acquisitionPrice` | number | _no_ | Price paid (2 decimal precision) |
-| `estimatedValue` | number | _no_ | Current market value estimate |
-| `notes` | string | _no_ | Free-text notes |
-| `photoUrls` | string\[\] | _no_ | Array of photo URLs |
+- **Catalog table** — pre-populated reference data scraped from transformerland.com. Shared across all users. Contains the canonical name, expected accessories, images, variant info, and collection-specific fields. Read-only from the user's perspective.
+- **User items table** — personal collection records. Linked to a catalog entry via `catalogId`. Contains ownership status, condition, acquisition details, wishlist priority, personal photos, and notes.
 
-All three collection-type list endpoints support these shared query filters in addition to their collection-specific params: `search` (case-insensitive substring match on name and notes), `acquisitionSource` (AcquisitionSource enum), `isComplete` (boolean — true = complete, false = incomplete).
+Seed data: 199 Star Wars, 443 G1 Transformers, 127 He-Man = **769 total catalog records**.
+
+## Common User Item Fields
+
+These fields are present on every user item record regardless of collection type:
+
+| **Field** | **Type** | **Notes** |
+| --- | --- | --- |
+| `id` | string (UUID) | User item record ID |
+| `catalogId` | string (UUID) | FK to catalog entry |
+| `catalog` | object | Embedded catalog data (hydrated on reads) |
+| `isOwned` | boolean | true = owned, false = on wishlist |
+| `wishlistPriority` | WishlistPriority | Nullable — meaningful only when `!isOwned` |
+| `condition` | ConditionGrade | Nullable |
+| `packagingCondition` | PackagingCondition | Nullable |
+| `isComplete` | boolean | All accessories present |
+| `ownedAccessories` | string[] | Subset of catalog accessories actually owned |
+| `acquisitionSource` | AcquisitionSource | Nullable |
+| `acquisitionDate` | string (ISO 8601) | Nullable |
+| `acquisitionPrice` | number | Nullable, 2 decimal precision |
+| `estimatedValue` | number | Nullable |
+| `notes` | string | Nullable |
+| `photoUrls` | string[] | Personal photos (distinct from catalog image) |
 
 ### ConditionGrade Enum
 
@@ -109,7 +119,7 @@ Global free-text search across all three collection tables simultaneously. Retur
 | `page` | number | Page number (1-based, default 1) |
 | `limit` | number | Items per page (max 100, default 20) |
 
-The search merges results from all three tables in application memory, sorts by name, then paginates. This is appropriate for personal collection sizes (hundreds of items). The `collectionType` field on each returned item indicates which table it came from.
+The search runs DB-level queries across all three user items tables with server-side pagination. The `collectionType` field on each returned item indicates which collection it came from.
 
 ---
 
@@ -129,7 +139,7 @@ Content-Type: multipart/form-data
 ### Response 201
 
 ```json
-{ "url": "/uploads/1712345678901-123456789.jpg" }
+{ "url": "/collections/photos/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4.jpg" }
 ```
 
 ### Errors

@@ -138,6 +138,7 @@ export function MastersCatalogDetailPage() {
             src={catalogItem.catalogImageUrl}
             alt={catalogItem.name}
             className="max-h-64 rounded-lg object-contain"
+            loading="lazy"
           />
         )}
 

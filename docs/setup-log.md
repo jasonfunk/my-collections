@@ -2981,4 +2981,113 @@ Two entries required:
 - `npm run test --workspace=packages/api` — 41 tests pass, 4 suites
 - `npm run lint --workspace=packages/api` — clean
 
+---
+
+## Session — 2026-04-18 (Catalog Refactor Docs + COL-96 merged)
+
+### Context
+
+Two tasks completed this session:
+
+1. **COL-96 merged** — PR with 41 API tests (auth integration + photo upload validation) merged to main.
+2. **Catalog refactor documentation cleanup** — the plan doc `docs/plan-catalog-refactor.md` still described the catalog/user-items split as "not yet started." Updated all documentation to reflect that every phase of that plan is complete.
+
+---
+
+### 1. Catalog refactor documentation updated
+
+The catalog/user-items architecture was fully implemented in a prior session (6 DB tables, 769 seed records, full API, full web frontend). Documentation was stale in three places:
+
+**`docs/plan-catalog-refactor.md`** — changed status from "Approved, not yet started" to "Complete / Completed 2026-04-19." Added a completion summary at the top. Preserved all decisions below as an architectural decision record.
+
+**Memory `project_catalog_refactor_plan.md`** — replaced active-plan content with a completion note. Preserved key architectural decisions that are not derivable from code alone (no userId on catalog tables, UNIQUE(catalogId, userId), variants as separate entries, WishlistPriority nullable on user_items only when !isOwned).
+
+**Confluence pages** — updated both pages to reflect current reality:
+
+- **Project Architecture** (page 3670018, v6): Database section now lists record counts (199 SW, 443 TF, 127 HM), seeding source (transformerland.com), and the userId-scoped nature of user_items tables. Corrected migration count from 5 to 6 (added `UserIsApprovedDefaultFalse`). Updated test count table to reflect COL-96 results (41 tests, 4 suites).
+- **Collections API** (page 3833858, v7): Rewrote the opening section as a "Data Model" description explaining the catalog/user-items two-table pattern. Fixed the global search description (was incorrectly described as merging in application memory — it runs DB-level queries with server-side pagination). Fixed photo URL format to match actual implementation (`/collections/photos/[32hexchars].jpg`).
+
+---
+
+### 2. MCP context optimization
+
+Evaluated MCP server overhead and removed Serena (semantic coding tools). Serena's hooks fired on every tool use regardless of whether Serena tools were called — significant context overhead for a codebase small enough to navigate with Glob/Grep. Instructions for re-enabling are saved in memory (`feedback_serena.md`).
+
+Docker MCP evaluated and rejected — not worth it for this project's hosting model (single Mac Mini, docker-compose for local dev only).
+
+---
+
+### No new files or directories added this session.
+
 **Jira:** COL-96 → Done
+
+---
+
+## Session — 2026-04-19
+
+### Context
+Closed the three remaining low-priority tickets under the COL-71 Production Security Hardening epic (COL-97, COL-98, COL-99). This completes the COL-71 epic.
+
+---
+
+### 1. COL-99 — `loading="lazy"` on collection item images
+
+**Files modified:**
+- `packages/web/src/components/collections/StarWarsCatalogCard.tsx`
+- `packages/web/src/components/collections/TransformersCatalogCard.tsx`
+- `packages/web/src/components/collections/MastersCatalogCard.tsx`
+- `packages/web/src/pages/collections/StarWarsCatalogDetailPage.tsx`
+- `packages/web/src/pages/collections/TransformersCatalogDetailPage.tsx`
+- `packages/web/src/pages/collections/MastersCatalogDetailPage.tsx`
+- `packages/web/src/components/AuthenticatedImage.tsx`
+
+**What:** Added `loading="lazy"` to every `<img>` tag rendering catalog images. The browser native lazy-loading attribute defers image fetches until the element is near the viewport — reduces unnecessary network requests on grid/list pages that render 50+ cards.
+
+**Why not eager on detail pages:** Detail page images sit below the header and metadata — they're typically off-screen on load on smaller viewports, so lazy is still appropriate.
+
+---
+
+### 2. COL-98 — FK `ON DELETE CASCADE` for oauth_clients
+
+**Problem:** The original `AuthSchema` migration defined foreign keys from `refresh_tokens` and `authorization_codes` to `oauth_clients` with `ON DELETE NO ACTION`. Deleting an OAuth client would leave orphaned token/code rows that can never be cleaned up.
+
+**Fix:** New migration `1776100000000-AddCascadeDeleteToOAuthFKs.ts` drops the two affected FK constraints and recreates them with `ON DELETE CASCADE`. Also updated `@ManyToOne` decorators in both entities to `{ onDelete: 'CASCADE' }` so the entity definition matches the schema.
+
+**Commands:**
+```bash
+# Migration ran automatically on API startup (migrationsRun: true in dev)
+docker exec my-collections-db psql -U my_collections -d my_collections \
+  -c "SELECT constraint_name, delete_rule FROM information_schema.referential_constraints ..."
+# Confirmed: both FKs now show delete_rule = CASCADE
+```
+
+---
+
+### 3. COL-97 — Scheduled token purge job
+
+**Problem:** Expired and revoked refresh tokens + used/expired authorization codes accumulate in the DB forever. Over time this slows token lookup queries.
+
+**Install:**
+```bash
+npm install @nestjs/schedule --workspace=packages/api
+```
+
+**New file:** `packages/api/src/modules/auth/token-cleanup.service.ts`
+- `@Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)` fires once daily
+- Deletes `refresh_tokens` where `expiresAt < NOW()` OR `revokedAt IS NOT NULL`
+- Deletes `authorization_codes` where `expiresAt < NOW()` OR `usedAt IS NOT NULL`
+- Logs count of deleted rows via NestJS `Logger`
+
+**Registered:** `ScheduleModule.forRoot()` added to `AppModule` imports; `TokenCleanupService` added to `AuthModule` providers.
+
+**Why `@nestjs/schedule`:** It wraps the `node-cron` library with NestJS DI support. The `@Cron` decorator integrates cleanly with the DI container — the service gets its repositories injected normally, no separate process or cron infrastructure needed.
+
+---
+
+### Verification
+
+- `npm run lint` — 5/5 passing, no new errors
+- `npm run test` — 41/41 tests passing
+- Playwright smoke test: login → dashboard → all 3 collections → item detail → sign out; zero console errors
+
+**Jira:** COL-97, COL-98, COL-99 → Done. COL-71 epic now fully complete.

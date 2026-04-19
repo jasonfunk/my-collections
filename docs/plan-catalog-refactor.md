@@ -1,8 +1,10 @@
 # Plan: Catalog/User-Items Split + Star Wars Pre-Population
 
-**Status:** Approved, not yet started  
-**Branch:** `develop`  
-**Last updated:** 2026-04-06
+**Status:** Complete  
+**Completed:** 2026-04-19  
+**Last updated:** 2026-04-06 (decisions); 2026-04-19 (status update)
+
+All phases implemented. Schema, seed data (769 records), API endpoints, and web frontend are all live on `develop`/`main`. This file is preserved as a decision record — the architectural decisions below remain accurate and are not derivable from the code alone.
 
 ---
 

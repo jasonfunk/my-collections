@@ -47,5 +47,5 @@ export function AuthenticatedImage({ src, alt, className, fallback }: Props) {
   }, [src]);
 
   if (!blobUrl) return fallback ? <>{fallback}</> : null;
-  return <img src={blobUrl} alt={alt} className={className} />;
+  return <img src={blobUrl} alt={alt} className={className} loading="lazy" />;
 }

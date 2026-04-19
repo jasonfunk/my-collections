@@ -7,6 +7,7 @@ import { RefreshToken } from './entities/refresh-token.entity';
 import { User } from './entities/user.entity';
 import { AuthService } from './services/auth.service';
 import { PasswordService } from './services/password.service';
+import { TokenCleanupService } from './token-cleanup.service';
 import { TokenService } from './services/token.service';
 
 /**
@@ -19,7 +20,7 @@ import { TokenService } from './services/token.service';
     TypeOrmModule.forFeature([User, OAuthClient, AuthorizationCode, RefreshToken]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, PasswordService],
+  providers: [AuthService, TokenService, PasswordService, TokenCleanupService],
   exports: [TokenService, PasswordService, TypeOrmModule],
 })
 export class AuthModule {}
