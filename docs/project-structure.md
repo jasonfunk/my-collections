@@ -230,11 +230,21 @@ packages/api/
 │   │   │   ├── services/
 │   │   │   │   ├── auth.service.ts
 │   │   │   │   ├── token.service.ts
-│   │   │   │   └── password.service.ts
+│   │   │   │   ├── password.service.ts
+│   │   │   │   ├── token.service.spec.ts     ← unit tests: JWT sign/verify
+│   │   │   │   └── password.service.spec.ts  ← unit tests: argon2 hash/verify
+│   │   │   ├── auth.controller.spec.ts        ← integration tests: full OAuth2 PKCE flow
 │   │   │   ├── guards/
 │   │   │   │   └── jwt-auth.guard.ts
 │   │   │   └── decorators/
 │   │   │       └── current-user.decorator.ts
+│   │   ├── collections/        ← CRUD, photos, search, stats for all collection types
+│   │   │   ├── controllers/
+│   │   │   │   ├── photos.controller.ts
+│   │   │   │   ├── photos.controller.spec.ts  ← integration tests: upload validation + auth
+│   │   │   │   └── __mocks__/
+│   │   │   │       └── file-type.ts           ← jest.fn() shim for ESM file-type library
+│   │   │   └── (other controllers, services, entities)
 │   │   ├── health/             ← liveness + readiness endpoints (no auth)
 │   │   │   ├── health.controller.ts
 │   │   │   └── health.module.ts

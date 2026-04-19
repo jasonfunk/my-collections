@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { StarWarsCatalogItem, UserStarWarsItem, PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '@/api/client.js';
 import {
+  MAX_USER_ITEMS_FETCH,
   STAR_WARS_CATEGORY_LABELS,
   STAR_WARS_LINE_LABELS,
   FIGURE_SIZE_LABELS,
@@ -61,7 +62,7 @@ export function StarWarsCatalogDetailPage() {
   // Fetch user items and find the one for this catalog entry
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['sw-user-items'],
-    queryFn: () => apiClient.get<PaginatedResponse<UserStarWarsItem>>('/collections/star-wars/items?limit=500'),
+    queryFn: () => apiClient.get<PaginatedResponse<UserStarWarsItem>>(`/collections/star-wars/items?limit=${MAX_USER_ITEMS_FETCH}`),
   });
   const userItem = userItemsPage?.data.find((i) => i.catalogId === id);
 

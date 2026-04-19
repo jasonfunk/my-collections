@@ -75,6 +75,23 @@ Security-relevant events are logged explicitly:
 
 **PII policy:** Passwords, raw tokens, and email addresses are never written to logs. Only user IDs and outcomes are recorded.
 
+## Test Coverage
+
+As of COL-96 (2026-04-18), the API has 41 tests across 4 suites:
+
+| File | Type | Tests | Coverage |
+| --- | --- | --- | --- |
+| `token.service.spec.ts` | unit | 5 | JWT sign/verify, expiry parsing |
+| `password.service.spec.ts` | unit | 4 | argon2 hash/verify |
+| `auth.controller.spec.ts` | integration | 19 | Full OAuth2 PKCE flow (register → authorize → login → token → refresh → revoke), error cases |
+| `photos.controller.spec.ts` | integration | 13 | Upload auth enforcement, valid/invalid MIME types, size limit, path traversal |
+
+**Test infrastructure:**
+- `@nestjs/testing` + `supertest` — feature-module tests, no real DB required
+- `file-type` (ESM-only library) mocked via Jest `moduleNameMapper` — `jest.fn()` shim at `controllers/__mocks__/file-type.ts`
+- `fs/promises.writeFile` mocked at module level to avoid disk I/O
+- Tests use mocked TypeORM repositories and a real `PasswordService`/`TokenService` (pure crypto, no DB)
+
 ## Known Vulnerability Debt
 
 As of COL-78 (2026-04-12), all HIGH-severity vulnerabilities have been resolved (NestJS upgraded to 11, Expo upgraded to 55). Residual moderate-severity findings exist only in test infrastructure (`jest-expo` dev dependencies) and are not exploitable in production.

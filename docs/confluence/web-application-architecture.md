@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-04-10"
+last_updated: "2026-04-19"
 ---
 
 ## Overview
@@ -89,7 +89,7 @@ Both the create and edit flows render the same `CollectionFormPage` component:
 
 The main entry point for each collection is the catalog browse page (e.g., `/collections/star-wars`). Users browse what was manufactured, then claim items to add them to their personal collection:
 
-- **Catalog pages** (`StarWarsCatalogPage`, `MastersCatalogPage`, `TransformersCatalogPage`): paginated grid of catalog items with search and filter. Each card shows the catalog image, name, faction/line, and a claim/wishlist button.
+- **Catalog pages** (`StarWarsCatalogPage`, `MastersCatalogPage`, `TransformersCatalogPage`): paginated grid of catalog items (50 per page, `DEFAULT_PAGE_SIZE`) with server-side search and filter. Each card shows the catalog image, name, faction/line, and a claim/wishlist button. Inline Prev/Next controls appear when there are multiple pages; `placeholderData: keepPreviousData` prevents flash between page transitions.
 - **Catalog detail pages** (`StarWarsCatalogDetailPage`, etc.): full details for a single catalog entry — accessories list, variant info, and a dialog to claim as owned or add to wishlist.
 - **Claim dialogs** (`StarWarsClaimDialog`, `TransformersClaimDialog`, `MastersClaimDialog`): modal form for setting initial condition, packaging, and owned accessories when claiming a catalog item.
 - **Mark Acquired dialog** (`MarkAcquiredDialog`): converts a wishlist item to owned — updates `isOwned=true` via `PATCH /items/:id/acquired`, optionally setting condition and acquisition details.
@@ -98,7 +98,9 @@ The main entry point for each collection is the catalog browse page (e.g., `/col
 
 - **TanStack Query v5** manages all server state (collections data, user profile)
 - `useQuery` for reads, `useMutation` for creates, updates, and deletes
-- Query keys scoped by collection type and item ID
+- Query keys scoped by collection type and item ID; paginated queries include the current page number in the key
+- `placeholderData: keepPreviousData` on all paginated queries — shows stale data while the next page loads, preventing blank-screen flicker between pages
+- Page size constants defined in `src/lib/collectionConfig.ts`: `DEFAULT_PAGE_SIZE = 50` (catalog browse), `WISHLIST_PAGE_SIZE = 50` (wishlist sections), `MAX_USER_ITEMS_FETCH = 500` (intentional full-load for owned/wishlist overlay maps on catalog pages)
 - Access token injected by the `src/api/client.ts` fetch wrapper on every request
 
 ## UI Components
