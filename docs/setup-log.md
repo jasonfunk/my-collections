@@ -2878,3 +2878,107 @@ TanStack Query v5 pagination API confirmed via Context7 before implementation:
 - Playwright smoke test: login → wishlist (3 sections load, totals correct) → Star Wars catalog (199 items, Page 1 of 4, Prev disabled, Next enabled) → catalog detail (ownership resolves) → dashboard → sign out; zero console errors
 
 **Jira:** COL-94 → Done
+
+---
+
+## 2026-04-18 — COL-94 Validation + COL-96 Test Coverage
+
+### Session summary
+
+Validated COL-94 (wishlist pagination) as complete — no code changes needed. Implemented COL-96 (test coverage) by adding auth integration tests and upload validation tests. Also removed Serena MCP from Claude Code (low ROI at current codebase size; re-add instructions saved to memory).
+
+---
+
+### COL-94 Validation
+
+Confirmed fully complete:
+- API: All 3 collection controllers accept `PaginationQueryDto`; TypeORM `.skip()` / `.take()` / `.getManyAndCount()` used at DB level
+- Web: `WishlistPage.tsx` has per-section page state, `PaginationControls` component, `WISHLIST_PAGE_SIZE=50` constant, `keepPreviousData` for smooth transitions
+- Docs already updated in prior session
+
+**Jira:** COL-94 → Done
+
+---
+
+### COL-96 — Test Infrastructure
+
+**Dependencies added to `packages/api/package.json`:**
+- `supertest@^7.1.0` (devDependency)
+- `@types/supertest@^6.0.0` (devDependency)
+
+**Jest config additions (`packages/api/package.json`):**
+```json
+"moduleNameMapper": {
+  "^file-type$": "<rootDir>/modules/collections/controllers/__mocks__/file-type.ts",
+  "^(\\.+\\/.+)\\.js$": "$1"
+}
+```
+
+Two entries required:
+1. `file-type` maps to a CJS-compatible jest.fn() shim — the real library is ESM-only, which ts-jest (CJS) can't import via `await import('file-type')`
+2. `.js` extension stripping — NestJS source uses explicit `.js` imports for ESM output; Jest's CJS resolver needs them stripped to find `.ts` files
+
+**New files:**
+- `packages/api/src/modules/collections/controllers/__mocks__/file-type.ts` — exports `fileTypeFromBuffer` as `jest.fn()` for per-test configuration
+- `packages/api/src/modules/auth/auth.controller.spec.ts` — auth integration tests
+- `packages/api/src/modules/collections/controllers/photos.controller.spec.ts` — upload validation tests
+
+---
+
+### COL-96 — Auth Integration Tests (`auth.controller.spec.ts`)
+
+**Pattern used:** `Test.createTestingModule()` with real `PasswordService` and `TokenService` (pure crypto, no DB) + mocked TypeORM repos. Mutable `testConfig` object allows per-test config overrides (e.g. `REGISTRATION_ENABLED=false`). `cookieParser()` and `ValidationPipe` applied to test app to match production behavior.
+
+**Key design decisions:**
+- Real `PasswordService`: `testPasswordHash` computed in `beforeAll` — login tests use a real argon2 hash
+- `ThrottlerGuard` uses `APP_GUARD` in `AppModule`; not present in feature module tests — no override needed
+- Cookie extraction for refresh flow: `res.headers['set-cookie']` → parse `refresh_token=` header → `.set('Cookie', ...)` on next request
+
+**Test coverage (19 tests):**
+
+| Area | Tests |
+|---|---|
+| Register | success, disabled, duplicate email, short password |
+| Authorize | success, unknown client, invalid redirect_uri, plain method |
+| Login | success, wrong password, unapproved user, missing fields |
+| Token | auth_code happy path, bad verifier, used code, expired code, refresh rotation, bad grantType |
+| Revoke | cookie cleared + repo.update called |
+
+---
+
+### COL-96 — Upload Validation Tests (`photos.controller.spec.ts`)
+
+**Pattern used:** `Test.createTestingModule()` with real `JwtAuthGuard` + `TokenService`. Access token generated in `beforeAll` via real `TokenService.signAccessToken`. `fs/promises` mocked at module level with `jest.mock()`. `file-type` intercepted via `moduleNameMapper` — `fileTypeFromBuffer` is a jest.fn() configured per test.
+
+**Test coverage (12 tests):**
+
+| Area | Tests |
+|---|---|
+| Auth enforcement | no header → 401, invalid JWT → 401 |
+| Missing file | no file part → 400 |
+| Valid MIME types | JPEG, PNG, WebP, GIF → 201 with hex-filename URL (4 parameterized) |
+| Rejected MIME types | PDF, HTML, JS → 400 (3 parameterized) |
+| Undetectable file | undefined → 400 |
+| Size limit | 10MB+1 → 413 |
+| Path traversal | `../etc/passwd` GET → 404 |
+
+---
+
+### Final test count
+
+| File | Type | Tests |
+|---|---|---|
+| `token.service.spec.ts` | unit | 5 |
+| `password.service.spec.ts` | unit | 4 |
+| `auth.controller.spec.ts` | integration | 19 |
+| `photos.controller.spec.ts` | integration | 13 |
+| **Total** | | **41** |
+
+---
+
+### Verified
+
+- `npm run test --workspace=packages/api` — 41 tests pass, 4 suites
+- `npm run lint --workspace=packages/api` — clean
+
+**Jira:** COL-96 → Done
