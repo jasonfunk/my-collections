@@ -1,0 +1,7 @@
+appId: com.mycollections.app
+---
+- tapOn: "Dashboard"
+- assertVisible: "Welcome back"
+- tapOn: "Sign Out"
+- assertVisible: "My Collections"
+- assertVisible: "Sign in to your collection"

@@ -1,0 +1,5 @@
+appId: com.mycollections.app
+---
+- runFlow: auth/login.yaml
+- runFlow: navigation/tabs.yaml
+- runFlow: auth/logout.yaml

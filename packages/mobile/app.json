@@ -17,7 +17,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mycollections.app"
+      "package": "com.mycollections.app",
+      "usesCleartextTraffic": true
     },
     "ios": {
       "supportsTablet": true,
@@ -25,8 +26,15 @@
     },
     "plugins": [
       "expo-router",
-      "expo-camera",
-      "expo-barcode-scanner",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow My Collections to access your camera",
+          "microphonePermission": "Allow My Collections to access your microphone",
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": true
+        }
+      ],
       [
         "expo-notifications",
         {

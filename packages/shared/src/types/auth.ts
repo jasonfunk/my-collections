@@ -12,10 +12,12 @@ export interface AccessTokenPayload {
 }
 
 /** Response shape from POST /auth/token.
- * The refresh token is returned as an httpOnly cookie, not in the response body. */
+ * Web: refresh token is set as an httpOnly cookie; refreshToken is absent from the body.
+ * Mobile: refresh token is included in the body (no cookie support); store in SecureStore. */
 export interface TokenResponse {
   accessToken: string;
   expiresIn: number; // seconds until access token expires
+  refreshToken?: string; // only present for mobile-app client (no cookie)
 }
 
 /** Response shape from GET /users/me */

@@ -1,0 +1,19 @@
+appId: com.mycollections.app
+---
+- clearState
+- launchApp
+- assertVisible: "My Collections"
+- assertVisible: "Sign in to your collection"
+
+- tapOn: "Email"
+- inputText: "collector@example.com"
+- tapOn: "Password"
+- inputText: "correct-horse-battery"
+- hideKeyboard
+- tapOn: "Sign In"
+
+# API call may take a moment — wait up to 10s for dashboard
+- extendedWaitUntil:
+    visible: "Welcome back"
+    timeout: 10000
+- assertVisible: "Dashboard"
