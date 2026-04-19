@@ -5,9 +5,10 @@ import type { CollectionStats, UserProfile } from '@my-collections/shared';
 import { apiClient } from '../api/client.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card.js';
-import { Badge } from '../components/ui/badge.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
+import { CollectionIcon } from '../components/ui/collection-icons.js';
+import type { CollectionKey } from '../lib/collectionConfig.js';
 
 function formatCurrency(value: number | null): string {
   if (value === null) return '—';
@@ -16,27 +17,51 @@ function formatCurrency(value: number | null): string {
 
 interface CollectionCardProps {
   title: string;
-  emoji: string;
+  subtitle: string;
+  collectionKey: CollectionKey;
   owned: number;
   wishlist: number;
   value: number | null;
   href: string;
+  accent: string;
 }
 
-function CollectionCard({ title, emoji, owned, wishlist, value, href }: CollectionCardProps) {
+const COUNT_COLORS: Record<CollectionKey, string> = {
+  'star-wars':    'text-amber-400',
+  'transformers': 'text-blue-400',
+  'he-man':       'text-purple-400',
+};
+
+const COUNT_BORDERS: Record<CollectionKey, string> = {
+  'star-wars':    'border-amber-500/50',
+  'transformers': 'border-blue-500/50',
+  'he-man':       'border-purple-500/50',
+};
+
+function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value, href, accent }: CollectionCardProps) {
   const navigate = useNavigate();
   return (
     <Card
-      className="cursor-pointer transition-shadow hover:shadow-md"
+      className={`cursor-pointer transition-shadow hover:shadow-lg border-t-2 ${accent}`}
       onClick={() => navigate(href)}
     >
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-medium">{emoji} {title}</CardTitle>
-        <Badge variant="secondary">{owned} owned</Badge>
+      <CardHeader className="pb-2">
+        <div className="flex items-center gap-3">
+          <CollectionIcon variant={collectionKey} size={40} />
+          <div className="min-w-0 flex-1">
+            <CardTitle className="text-base font-semibold leading-none">{title}</CardTitle>
+            <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent>
-        <div className="text-3xl font-bold">{owned}</div>
-        <p className="text-sm text-muted-foreground mt-1">
+      <CardContent className="pt-2 pb-4">
+        <div className="flex justify-center mb-3">
+          <div className={`border ${COUNT_BORDERS[collectionKey]} rounded-xl px-8 py-3 text-center`}>
+            <div className={`text-4xl font-bold ${COUNT_COLORS[collectionKey]}`}>{owned}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">owned</p>
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground text-center">
           {wishlist} on wishlist · est. {formatCurrency(value)}
         </p>
       </CardContent>
@@ -79,7 +104,7 @@ export function DashboardPage() {
   const isLoading = statsQuery.isPending;
 
   return (
-    <div className="min-h-screen bg-muted/40">
+    <div className="min-h-screen bg-muted">
       {/* Top nav */}
       <header className="border-b bg-background px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
@@ -120,27 +145,33 @@ export function DashboardPage() {
             <>
               <CollectionCard
                 title="Star Wars"
-                emoji="⭐"
+                subtitle="Original Trilogy · 1977–1985"
+                collectionKey="star-wars"
                 owned={stats!.starWars.owned}
                 wishlist={stats!.starWars.wishlist}
                 value={stats!.starWars.estimatedTotalValue}
                 href="/collections/star-wars"
+                accent="border-t-amber-500/70"
               />
               <CollectionCard
                 title="Transformers"
-                emoji="🤖"
+                subtitle="Generation 1 · Series 1–6 · 1984–1990"
+                collectionKey="transformers"
                 owned={stats!.transformers.owned}
                 wishlist={stats!.transformers.wishlist}
                 value={stats!.transformers.estimatedTotalValue}
                 href="/collections/transformers"
+                accent="border-t-blue-500/70"
               />
               <CollectionCard
                 title="He-Man"
-                emoji="⚔️"
+                subtitle="Masters of the Universe · 1981–1988"
+                collectionKey="he-man"
                 owned={stats!.heman.owned}
                 wishlist={stats!.heman.wishlist}
                 value={stats!.heman.estimatedTotalValue}
                 href="/collections/he-man"
+                accent="border-t-purple-500/70"
               />
             </>
           )}

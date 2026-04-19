@@ -25,12 +25,12 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
   const isUnclaimed = userItem === undefined;
 
   const cardClass = isOwned
-    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-red-600'
+    ? 'cursor-pointer transition-shadow hover:shadow-md border-2 border-blue-500/70'
     : isWishlisted
       ? 'cursor-pointer transition-shadow hover:shadow-md border-dashed'
       : 'cursor-pointer transition-shadow hover:shadow-md opacity-60';
 
-  const bgColor = catalogItem.faction === 'DECEPTICON' ? 'bg-purple-100 text-purple-700' : 'bg-red-100 text-red-700';
+  const bgColor = catalogItem.faction === 'DECEPTICON' ? 'bg-purple-500/10 text-purple-300' : 'bg-red-500/10 text-red-300';
 
   return (
     <Card
@@ -63,13 +63,13 @@ export function TransformersCatalogCard({ catalogItem, userItem }: TransformersC
         <div className="mt-1 flex flex-wrap items-center gap-1">
           {isOwned && (
             <>
-              <Badge variant="default" className="text-xs bg-red-600 hover:bg-red-600">Owned</Badge>
+              <Badge variant="default" className="text-xs bg-blue-500/20 hover:bg-blue-500/20 text-blue-300 border border-blue-500/50">Owned</Badge>
               {userItem!.condition && <ConditionBadge grade={userItem!.condition} />}
             </>
           )}
           {isWishlisted && (
             <>
-              <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-700">Wishlist</Badge>
+              <Badge variant="outline" className="text-xs border-amber-500/60 text-amber-400">Wishlist</Badge>
               {userItem!.wishlistPriority && (
                 <Badge variant="outline" className="text-xs">
                   {WISHLIST_PRIORITY_LABELS[userItem!.wishlistPriority]}

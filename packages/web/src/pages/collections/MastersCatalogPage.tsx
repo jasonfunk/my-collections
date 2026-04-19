@@ -11,6 +11,7 @@ import {
   WISHLIST_PRIORITY_OPTIONS,
 } from '@/lib/collectionConfig.js';
 import { MastersCatalogCard, MastersCatalogCardSkeleton } from '@/components/collections/MastersCatalogCard.js';
+import { CollectionIcon } from '@/components/ui/collection-icons.js';
 import { Button } from '@/components/ui/button.js';
 import { Input } from '@/components/ui/input.js';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.js';
@@ -113,9 +114,13 @@ export function MastersCatalogPage() {
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             Dashboard
           </Button>
-          <h1 className="flex-1 text-xl font-semibold">
-            ⚔️ Masters of the Universe
-          </h1>
+          <div className="flex-1 flex items-center gap-3">
+            <CollectionIcon variant="he-man" size={32} />
+            <div>
+              <h1 className="text-xl font-semibold leading-none">Masters of the Universe</h1>
+              <p className="text-xs text-muted-foreground mt-1">Masters of the Universe · 1981–1988</p>
+            </div>
+          </div>
           <span className="text-sm text-muted-foreground">
             {ownedCount} of {catalogTotal} owned
           </span>

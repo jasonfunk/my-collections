@@ -28,6 +28,7 @@ export interface CollectionConfig {
   key: CollectionKey;
   label: string;
   emoji: string;
+  subtitle: string;
   apiPath: string;
   lineLabel: string | null;
   lineOptions: FilterOption[] | null;
@@ -159,6 +160,7 @@ export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
     key: 'star-wars',
     label: 'Star Wars',
     emoji: '⭐',
+    subtitle: 'Original Trilogy · 1977–1985',
     apiPath: '/collections/star-wars',
     lineLabel: 'Line',
     lineOptions: enumToOptions(STAR_WARS_LINE_LABELS),
@@ -168,6 +170,7 @@ export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
     key: 'transformers',
     label: 'Transformers',
     emoji: '🤖',
+    subtitle: 'Generation 1 · Series 1–6 · 1984–1990',
     apiPath: '/collections/transformers',
     lineLabel: 'Series',
     lineOptions: enumToOptions(TF_LINE_LABELS),
@@ -177,6 +180,7 @@ export const COLLECTION_CONFIG: Record<CollectionKey, CollectionConfig> = {
     key: 'he-man',
     label: 'He-Man',
     emoji: '⚔️',
+    subtitle: 'Masters of the Universe · 1981–1988',
     apiPath: '/collections/he-man',
     lineLabel: 'Line',
     lineOptions: enumToOptions(MASTERS_LINE_LABELS),
