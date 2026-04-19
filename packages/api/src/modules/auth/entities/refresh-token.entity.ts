@@ -19,7 +19,7 @@ export class RefreshToken {
   @ManyToOne(() => User)
   user!: User;
 
-  @ManyToOne(() => OAuthClient)
+  @ManyToOne(() => OAuthClient, { onDelete: 'CASCADE' })
   client!: OAuthClient;
 
   @Column('text', { array: true })

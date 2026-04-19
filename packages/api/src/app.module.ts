@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from './modules/auth/auth.module';
 import { CollectionsModule } from './modules/collections/collections.module';
 import { HealthModule } from './modules/health/health.module';
@@ -27,6 +28,7 @@ import { UsersModule } from './modules/users/users.module';
     // Rate limiting — global default: 100 requests per 60 seconds per IP.
     // Auth endpoints override this with tighter limits via @Throttle() decorators.
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
+    ScheduleModule.forRoot(),
 
     // Database connection — forRootAsync lets us read config from ConfigService
     // (which in turn reads from .env via ConfigModule above).

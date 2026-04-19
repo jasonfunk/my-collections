@@ -19,7 +19,7 @@ export class AuthorizationCode {
   @ManyToOne(() => User)
   user!: User;
 
-  @ManyToOne(() => OAuthClient)
+  @ManyToOne(() => OAuthClient, { onDelete: 'CASCADE' })
   client!: OAuthClient;
 
   @Column()

@@ -312,6 +312,7 @@ OAuth2 Authorization Code Flow with PKCE. Owns identity: registration, login, to
 - `password.service.ts` — argon2 hash and verify
 - `token.service.ts` — JWT sign/verify + refresh token lifecycle (issue, rotate, revoke)
 - `auth.service.ts` — orchestrates the full OAuth2 flow
+- `token-cleanup.service.ts` — daily cron (`@Cron(EVERY_DAY_AT_MIDNIGHT)`) that hard-deletes expired/revoked refresh tokens and used/expired authorization codes; logs purge counts via NestJS Logger
 
 **Guards:** `jwt-auth.guard.ts` — validates Bearer token on protected routes; attaches decoded payload to `request.user`
 
