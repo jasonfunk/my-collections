@@ -253,7 +253,12 @@ export function WishlistPage() {
                   className="flex items-center justify-between rounded-lg border bg-background px-4 py-3"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium">{item.catalog?.name ?? 'Unknown item'}</p>
+                    <button
+                      className="text-left text-sm font-medium hover:underline truncate block"
+                      onClick={() => navigate(`/collections/transformers/${item.catalogId}`)}
+                    >
+                      {item.catalog?.name ?? 'Unknown item'}
+                    </button>
                     <PriorityBadge priority={item.wishlistPriority} />
                   </div>
                   <Button
@@ -308,7 +313,12 @@ export function WishlistPage() {
                   className="flex items-center justify-between rounded-lg border bg-background px-4 py-3"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium">{item.catalog?.name ?? 'Unknown item'}</p>
+                    <button
+                      className="text-left text-sm font-medium hover:underline truncate block"
+                      onClick={() => navigate(`/collections/he-man/${item.catalogId}`)}
+                    >
+                      {item.catalog?.name ?? 'Unknown item'}
+                    </button>
                     <PriorityBadge priority={item.wishlistPriority} />
                   </div>
                   <Button
