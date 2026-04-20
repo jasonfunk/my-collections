@@ -14,11 +14,12 @@ import { CollectionType } from '@my-collections/shared';
 import type { CollectionStats, RecentCollectionItem } from '@my-collections/shared';
 import { apiClient } from '../../src/api/client';
 import { useAuth } from '../../src/hooks/useAuth';
+import { CollectionIcon } from '../../src/components/CollectionIcon';
 
-const COLLECTION_CONFIG: Record<CollectionType, { label: string; color: string }> = {
-  [CollectionType.STAR_WARS]: { label: 'Star Wars', color: '#fbbf24' },
-  [CollectionType.TRANSFORMERS]: { label: 'Transformers', color: '#60a5fa' },
-  [CollectionType.HE_MAN]: { label: 'He-Man', color: '#a78bfa' },
+const COLLECTION_CONFIG: Record<CollectionType, { label: string; color: string; subtitle: string }> = {
+  [CollectionType.STAR_WARS]: { label: 'Star Wars', color: '#fbbf24', subtitle: 'Original Trilogy · 1977–1985' },
+  [CollectionType.TRANSFORMERS]: { label: 'Transformers', color: '#60a5fa', subtitle: 'Generation 1 · 1984–1990' },
+  [CollectionType.HE_MAN]: { label: 'He-Man', color: '#a78bfa', subtitle: 'Masters of the Universe · 1981–1988' },
 };
 
 function formatValue(value: number | null): string {
@@ -99,20 +100,17 @@ export default function DashboardScreen() {
             <Text style={styles.sectionLabel}>Collections</Text>
 
             <CollectionCard
-              label="Star Wars"
-              color="#fbbf24"
+              collectionType={CollectionType.STAR_WARS}
               stats={stats.starWars}
               onPress={() => router.navigate('/(app)/collections')}
             />
             <CollectionCard
-              label="Transformers"
-              color="#60a5fa"
+              collectionType={CollectionType.TRANSFORMERS}
               stats={stats.transformers}
               onPress={() => router.navigate('/(app)/collections')}
             />
             <CollectionCard
-              label="He-Man"
-              color="#a78bfa"
+              collectionType={CollectionType.HE_MAN}
               stats={stats.heman}
               onPress={() => router.navigate('/(app)/collections')}
             />
@@ -140,21 +138,26 @@ export default function DashboardScreen() {
 }
 
 function CollectionCard({
-  label,
-  color,
+  collectionType,
   stats,
   onPress,
 }: {
-  label: string;
-  color: string;
+  collectionType: CollectionType;
   stats: { owned: number; wishlist: number; estimatedTotalValue: number | null };
   onPress: () => void;
 }) {
+  const { label, color, subtitle } = COLLECTION_CONFIG[collectionType];
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
       <View style={[styles.cardAccent, { backgroundColor: color }]} />
       <View style={styles.cardBody}>
-        <Text style={styles.cardLabel}>{label}</Text>
+        <View style={styles.cardHeader}>
+          <CollectionIcon type={collectionType} size={36} />
+          <View style={styles.cardTitleBlock}>
+            <Text style={styles.cardLabel}>{label}</Text>
+            <Text style={styles.cardSubtitle}>{subtitle}</Text>
+          </View>
+        </View>
         <Text style={[styles.cardOwned, { color }]}>{stats.owned} owned</Text>
         <View style={styles.cardMeta}>
           <Text style={styles.cardMetaText}>{stats.wishlist} on wishlist</Text>
@@ -219,7 +222,10 @@ const styles = StyleSheet.create({
   card: { flexDirection: 'row', backgroundColor: '#1a1a1a', borderRadius: 12, marginBottom: 12, overflow: 'hidden' },
   cardAccent: { width: 4 },
   cardBody: { flex: 1, padding: 16 },
-  cardLabel: { fontSize: 16, fontWeight: '600', color: '#fff', marginBottom: 4 },
+  cardHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 10 },
+  cardTitleBlock: { flex: 1 },
+  cardLabel: { fontSize: 16, fontWeight: '600', color: '#fff', marginBottom: 2 },
+  cardSubtitle: { fontSize: 11, color: '#888' },
   cardOwned: { fontSize: 24, fontWeight: 'bold', marginBottom: 6 },
   cardMeta: { flexDirection: 'row', justifyContent: 'space-between' },
   cardMetaText: { fontSize: 13, color: '#888' },

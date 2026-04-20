@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../src/hooks/useAuth';
+import { FaviconIcon } from '../../src/components/CollectionIcon';
 
 export default function LoginScreen() {
   const { login } = useAuth();
@@ -39,6 +40,9 @@ export default function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.inner}>
+        <View style={styles.iconWrap}>
+          <FaviconIcon size={64} />
+        </View>
         <Text style={styles.title}>My Collections</Text>
         <Text style={styles.subtitle}>Sign in to your collection</Text>
 
@@ -84,6 +88,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f0f0f' },
   inner: { flex: 1, justifyContent: 'center', padding: 32 },
+  iconWrap: { alignItems: 'center', marginBottom: 16 },
   title: { fontSize: 32, fontWeight: 'bold', color: '#fff', marginBottom: 8 },
   subtitle: { fontSize: 16, color: '#888', marginBottom: 40 },
   input: {
