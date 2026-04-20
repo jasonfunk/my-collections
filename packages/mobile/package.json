@@ -13,6 +13,7 @@
     "clean": "rm -rf .expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "@my-collections/shared": "*",
     "expo": "~55.0.15",
     "expo-camera": "~55.0.15",
