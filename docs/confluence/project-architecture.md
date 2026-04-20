@@ -2,7 +2,7 @@
 confluence_page_id: "3670018"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3670018"
 title: "My Collections — Project Architecture"
-last_updated: "2026-04-18"
+last_updated: "2026-04-19"
 ---
 
 ## Tech Stack
@@ -12,7 +12,7 @@ last_updated: "2026-04-18"
 | Database | PostgreSQL | 16 |
 | Backend | NestJS | 11 |
 | Frontend | React SPA (Vite) | 18 / Vite 5 |
-| Mobile | Expo (React Native) | 55 / RN 0.76 |
+| Mobile | Expo (React Native) | 55 / RN 0.83.4 |
 | Auth | OAuth2 + PKCE | Custom implementation |
 | Language | TypeScript | 5.4 |
 | Monorepo | Turborepo + npm workspaces | 2.0 |
@@ -26,7 +26,7 @@ The repository is organized as an npm workspace monorepo managed by Turborepo. I
 - `@my-collections/shared` — TypeScript types only. Compiles to CommonJS for NestJS compatibility. Single source of truth for all shared types across API, web, and mobile.
 - `@my-collections/api` — NestJS REST API. Connects to PostgreSQL via TypeORM. Runs on port 3000. Swagger UI at `/api/docs`.
 - `@my-collections/web` — React 18 SPA (Vite 5). Deployed as static files to Dreamhost shared hosting. Runs on port 5173 in development.
-- `@my-collections/mobile` — Expo 55 React Native. Android is the primary target; iOS is secondary. Single codebase for both platforms.
+- `@my-collections/mobile` — Expo 55 / React Native 0.83.4. Android is the primary target; iOS is secondary. Single codebase for both platforms. Uses Expo Router (file-based routing), OAuth2 PKCE auth with `expo-secure-store` token storage, and Maestro UI tests.
 
 Build order is enforced by Turborepo: `shared` builds first, then `api`, `web`, and `mobile` in parallel.
 
@@ -91,6 +91,18 @@ As of COL-96 (2026-04-18), the API has 41 tests across 4 suites:
 - `file-type` (ESM-only library) mocked via Jest `moduleNameMapper` — `jest.fn()` shim at `controllers/__mocks__/file-type.ts`
 - `fs/promises.writeFile` mocked at module level to avoid disk I/O
 - Tests use mocked TypeORM repositories and a real `PasswordService`/`TokenService` (pure crypto, no DB)
+
+## Authentication Notes
+
+The API serves two OAuth clients registered at startup: `web-app` and `mobile-app`. Both use the Authorization Code Flow with PKCE. They differ in one important way:
+
+| | `web-app` | `mobile-app` |
+| --- | --- | --- |
+| Refresh token delivery | httpOnly cookie (set by `POST /auth/token`) | Response body JSON field `refreshToken` |
+| Refresh token storage | Browser cookie jar (automatic) | `expo-secure-store` (encrypted device keychain) |
+| Refresh token on refresh grant | Not needed in request body (sent as cookie) | Must be included as `refreshToken` in request body |
+
+This difference means mobile auth is handled entirely in-body with no cookie dependency. The API detects the client type from `clientId` in the token request and conditionally includes `refreshToken` in the response.
 
 ## Known Vulnerability Debt
 

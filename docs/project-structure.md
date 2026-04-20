@@ -455,13 +455,35 @@ Extends `../../tsconfig.base.json`. Adds `"lib": ["DOM", "DOM.Iterable"]` (brows
 
 ```
 packages/mobile/
+├── app/
+│   ├── _layout.tsx             # Root layout — wraps AuthProvider, no nav chrome
+│   ├── (auth)/
+│   │   ├── _layout.tsx         # Stack navigator for auth screens
+│   │   └── login.tsx           # Email/password login form
+│   └── (app)/
+│       ├── _layout.tsx         # Protected layout — auth guard + bottom Tabs chrome
+│       ├── index.tsx           # Dashboard tab (home)
+│       ├── collections/
+│       │   ├── _layout.tsx     # Stack navigator for drill-down
+│       │   └── index.tsx       # Collections list
+│       ├── wishlist.tsx        # Wishlist tab
+│       └── search.tsx          # Search tab
 ├── src/
-│   ├── screens/
-│   │   └── HomeScreen.tsx
-│   ├── components/     ← reusable UI components
-│   ├── navigation/     ← navigation config
-│   ├── hooks/          ← custom hooks
-│   └── services/       ← API call functions
+│   ├── api/
+│   │   └── client.ts           # Typed fetch wrapper with 401-retry + token injection
+│   ├── auth/
+│   │   ├── AuthContext.tsx     # AuthProvider — login/logout/refresh, session restore
+│   │   ├── pkce.ts             # PKCE code verifier + challenge (expo-crypto)
+│   │   └── tokenStorage.ts     # expo-secure-store wrappers for refresh token
+│   └── hooks/
+│       └── useAuth.ts          # useAuth() hook over AuthContext
+├── .maestro/                   # Maestro UI smoke tests
+│   ├── smoke-test.yaml         # Orchestrates full login → tabs → logout flow
+│   ├── auth/
+│   │   ├── login.yaml
+│   │   └── logout.yaml
+│   └── navigation/
+│       └── tabs.yaml
 ├── app.json
 ├── package.json
 └── tsconfig.json
@@ -469,31 +491,40 @@ packages/mobile/
 
 **Purpose:** The Expo/React Native mobile app. Shares types with the API and web app via `@my-collections/shared`. Targets Android first, iOS second from a single codebase.
 
-**Runs via:** `expo start` (opens Expo Go or connects to an emulator).
+**Runs via:** `npm run dev --workspace=packages/mobile` (starts Expo dev server).
+
+### `app/` — Expo Router file-based routes
+
+Expo Router maps files to routes, exactly like Next.js's `app/` directory but for React Native. Key conventions:
+
+- **`_layout.tsx`** in a folder wraps all routes in that folder (equivalent to a React Router `<Outlet>` parent).
+- **`(group)` folders** — the parentheses are stripped from the URL. They group related screens under a shared layout without affecting the route path.
+- **`(auth)/`** — contains the login screen. Its layout is a simple Stack (push/pop navigator). Unauthenticated users land here.
+- **`(app)/`** — the protected section. Its layout checks `isAuthenticated`; unauthenticated users are redirected to `/(auth)/login`. Authenticated users see the bottom tab bar with Dashboard, Collections, Wishlist, and Search.
 
 ### `app.json`
-Expo project configuration. Defines:
-- App name, version, icon, and splash screen
-- Bundle identifiers (`com.mycollections.app`) used to identify the app in app stores
-- **Plugins** — declares which native device capabilities the app uses:
-  - `expo-camera` — camera access
-  - `expo-barcode-scanner` — barcode/QR scanning
-  - `expo-notifications` — push notifications
+Expo project configuration. Defines app name, version, icon, splash screen, bundle identifiers (`com.mycollections.app`), and native capability plugins:
+- `expo-camera` — camera access
+- `expo-barcode-scanner` — barcode/QR scanning
+- `expo-notifications` — push notifications
 
-### `src/screens/`
-One component per app screen. Screens are what navigation moves between. `HomeScreen.tsx` is the placeholder dashboard.
+### `src/auth/AuthContext.tsx`
+`AuthProvider` wraps the entire app (mounted in `app/_layout.tsx`). Provides `login()`, `logout()`, `refreshTokens()`, `isAuthenticated`, and `isLoading`. On mount, attempts to restore the previous session by reading the refresh token from SecureStore and calling `POST /auth/token` with a `refresh_token` grant. Uses the full OAuth2 PKCE flow for login — same steps as the web app, but with `mycollections://auth/callback` as the redirect URI.
 
-### `src/components/`
-Reusable React Native UI components shared across multiple screens.
+### `src/auth/tokenStorage.ts`
+Two-tier token storage: access token held in memory (fast, never written to disk, lost on app close), refresh token stored in `expo-secure-store` (encrypted device keychain, survives restarts). On session restore, the refresh token is read from SecureStore to obtain a new access token without requiring re-login.
 
-### `src/navigation/`
-Navigation configuration — defines the app's tab structure, stack navigators, and deep link handling. Will use Expo Router (file-based routing) or React Navigation.
+### `src/auth/pkce.ts`
+PKCE helpers adapted for React Native. Uses `expo-crypto` (`Crypto.getRandomValues` + `Crypto.digestStringAsync`) instead of `window.crypto.subtle`.
 
-### `src/hooks/`
-Custom hooks for device features and shared logic — e.g., `useCamera()`, `useBarcodeScanner()`.
+### `src/api/client.ts`
+Typed `fetch` wrapper. Reads `EXPO_PUBLIC_API_BASE_URL` from the environment. Injects `Authorization: Bearer <token>` on every request. On 401, attempts one silent token refresh (deduplicating concurrent refresh calls via a shared promise) then retries; if refresh fails, calls `logout()`.
 
-### `src/services/`
-API call functions — same pattern as the web app's `src/services/`. Shared logic may eventually move to `packages/shared/`.
+### `src/hooks/useAuth.ts`
+`useAuth()` — consumes `AuthContext`. Throws if called outside `AuthProvider`.
+
+### `.maestro/`
+Maestro UI test suite for Android. `smoke-test.yaml` orchestrates the full flow: clear app state → login → verify tab bar → navigate tabs → sign out → verify login screen. Run with `maestro test packages/mobile/.maestro/smoke-test.yaml`.
 
 ### `tsconfig.json`
-Extends Expo's base TypeScript config (`expo/tsconfig.base`). Adds a `paths` alias so `@my-collections/shared` resolves directly to the shared package source during development.
+Extends `../../tsconfig.base.json`. Sets `"moduleResolution": "bundler"` and `"jsx": "react-native"` for Expo/Metro compatibility.
