@@ -3090,4 +3090,165 @@ npm install @nestjs/schedule --workspace=packages/api
 - `npm run test` — 41/41 tests passing
 - Playwright smoke test: login → dashboard → all 3 collections → item detail → sign out; zero console errors
 
+---
+
+## Session 11 — 2026-04-19
+
+### Context
+Phase 6 start: Android mobile app foundation (COL-46 Expo Router navigation + COL-30 OAuth2 login flow).
+
+---
+
+### 1. Android Studio + emulator setup
+
+**Install:**
+```bash
+brew install --cask android-studio
+```
+
+Added to `~/.zshrc`:
+```bash
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+```
+
+**Emulator:** Pixel 9 Pro (API 35) created via Android Studio Device Manager and started via AVD.
+
+**Maestro** installed for mobile smoke testing (same JAVA_HOME requirement as Gradle).
+
+---
+
+### 2. API change — refresh token in response body for mobile-app client (COL-30)
+
+The existing `/auth/token` endpoint set the refresh token as an httpOnly cookie only. Mobile clients can't receive or send cookies, so the endpoint was extended to also include `refreshToken` in the response body when `clientId === 'mobile-app'`.
+
+**`packages/shared/src/types/auth.ts`:**
+```typescript
+export interface TokenResponse {
+  accessToken: string;
+  expiresIn: number;
+  refreshToken?: string; // only present for mobile-app client (no cookie)
+}
+```
+
+**`packages/api/src/modules/auth/auth.controller.ts`** — `authorization_code` grant branch:
+```typescript
+const isMobile = dto.clientId === 'mobile-app';
+return {
+  accessToken: tokens.accessToken,
+  expiresIn: tokens.expiresIn,
+  ...(isMobile && { refreshToken: tokens.refreshToken }),
+};
+```
+
+---
+
+### 3. Mobile package dependency fixes
+
+- Upgraded to Expo SDK 55: `expo: ~55.0.15`, `react: 19.2.0`, `react-native: 0.83.4`
+- Added `expo-crypto: ~55.0.14` (needed for `getRandomValues` and `randomUUID` — Hermes engine doesn't expose `crypto` global)
+- Removed `expo-barcode-scanner` (deprecated in SDK 55 — barcode scanning now via `expo-camera` with `barcodeScannerEnabled: true`)
+- Removed `@react-navigation/bottom-tabs` and `@react-navigation/native` — Expo Router 55 bundles React Navigation v7; having v6 alongside caused peer dep conflicts
+- `@types/react` moved to devDependencies only (`~19.2.10`) to avoid conflict with web package's v18 types
+
+---
+
+### 4. Expo Router file structure (COL-46)
+
+Created `packages/mobile/app/` directory tree:
+
+```
+app/
+├── _layout.tsx             # Root layout — wraps AuthProvider, Stack navigator
+├── (auth)/
+│   ├── _layout.tsx         # Stack for auth screens (no chrome)
+│   └── login.tsx           # Email/password login form
+└── (app)/
+    ├── _layout.tsx         # Protected: Redirect to login if not authed; Tabs chrome
+    ├── index.tsx           # Dashboard tab placeholder
+    ├── collections/
+    │   ├── _layout.tsx     # Stack inside Collections tab
+    │   └── index.tsx       # Collections list placeholder
+    ├── wishlist.tsx        # Wishlist tab placeholder
+    └── search.tsx          # Search tab placeholder
+```
+
+Deleted old placeholder: `packages/mobile/src/screens/HomeScreen.tsx`.
+
+---
+
+### 5. Auth layer (COL-30)
+
+Created `packages/mobile/src/auth/`:
+
+- **`pkce.ts`** — PKCE helper using `expo-crypto` (`Crypto.getRandomValues`, `Crypto.digestStringAsync`) instead of `window.crypto.subtle` (unavailable in Hermes)
+- **`tokenStorage.ts`** — Access token stored in-memory; refresh token persisted in `expo-secure-store` (survives app restarts, encrypted keychain)
+- **`AuthContext.tsx`** — Full 5-step OAuth2 PKCE flow mirroring the web, but sends/receives refresh token in JSON body instead of cookies. Session restored from SecureStore on mount. `router.replace('/(app)')` called explicitly after login — Expo Router doesn't auto-navigate on auth state change across route groups.
+
+Created `packages/mobile/src/api/client.ts` — typed API client with silent 401 token refresh.
+
+Created `packages/mobile/src/hooks/useAuth.ts` — thin hook wrapping AuthContext.
+
+---
+
+### 6. Android build environment
+
+Expo SDK 55 requires a **development build** (not Expo Go). Build pipeline:
+
+```bash
+# From packages/mobile/android/
+./gradlew assembleDebug
+
+# Install to running emulator
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+
+# Start Metro bundler
+cd packages/mobile && npx expo start --android
+```
+
+**Gradle version:** RN 0.83 is incompatible with Gradle 9.x and requires ≥ 8.13.  
+`gradle-wrapper.properties` → `gradle-8.13-bin.zip`
+
+**JAVA_HOME:** `gradle.properties` → `java.home=/Applications/Android Studio.app/Contents/jbr/Contents/Home`
+
+**Note:** `expo prebuild --clean` regenerates the `android/` directory and resets both of these settings. Must re-apply gradle version and java.home after every clean prebuild.
+
+**Cleartext HTTP (API 35):** Android blocks cleartext HTTP by default. Added `android:usesCleartextTraffic="true"` to `AndroidManifest.xml` and `"usesCleartextTraffic": true` to `app.json` android config.
+
+**API base URL:** `packages/mobile/.env` → `EXPO_PUBLIC_API_BASE_URL=http://10.0.2.2:3000`  
+(Android emulator maps `10.0.2.2` to the host machine's localhost)
+
+---
+
+### 7. Placeholder assets
+
+`expo prebuild` requires `assets/icon.png`, `splash.png`, `adaptive-icon.png`, and `notification-icon.png`. Generated solid-color placeholder PNGs via Python:
+```bash
+python3 -c "from PIL import Image; img = Image.new('RGB', (1024, 1024), (99, 102, 241)); img.save('icon.png')"
+```
+
+---
+
+### 8. Maestro smoke tests
+
+Created `packages/mobile/.maestro/`:
+
+- `smoke-test.yaml` — orchestrates full flow: login → tabs → logout
+- `auth/login.yaml` — `clearState`, launch, fill credentials, `hideKeyboard`, tap Sign In, `extendedWaitUntil` for "Welcome back"
+- `auth/logout.yaml` — tap Sign Out, assert login screen visible
+- `navigation/tabs.yaml` — tap Collections/Wishlist/Search tabs, assert placeholder text
+
+**Run:** `maestro test packages/mobile/.maestro/smoke-test.yaml`
+
+All tests passing: login → tab navigation → logout.
+
+---
+
+### Verification
+
+- All Maestro smoke tests passing (login, tab navigation, logout)
+- `npm run lint` — no new errors
+- Development build running on Pixel 9 Pro emulator (API 35)
+
 **Jira:** COL-97, COL-98, COL-99 → Done. COL-71 epic now fully complete.

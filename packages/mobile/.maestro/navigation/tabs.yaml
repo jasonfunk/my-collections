@@ -1,0 +1,13 @@
+appId: com.mycollections.app
+---
+- tapOn: "Collections"
+- assertVisible: "Star Wars · Transformers · He-Man — coming soon."
+
+- tapOn: "Wishlist"
+- assertVisible: "Items you're hunting for — coming soon."
+
+- tapOn: "Search"
+- assertVisible: "Search across all collections — coming soon."
+
+- tapOn: "Dashboard"
+- assertVisible: "Welcome back"

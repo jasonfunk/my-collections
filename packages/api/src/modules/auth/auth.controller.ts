@@ -144,7 +144,13 @@ export class AuthController {
       }
       const tokens = await this.authService.exchangeCode(dto.code, dto.codeVerifier, dto.clientId, dto.redirectUri);
       this.setRefreshCookie(res, tokens.refreshToken);
-      return { accessToken: tokens.accessToken, expiresIn: tokens.expiresIn };
+      // Mobile clients (no cookie support) receive the refresh token in the body.
+      const isMobile = dto.clientId === 'mobile-app';
+      return {
+        accessToken: tokens.accessToken,
+        expiresIn: tokens.expiresIn,
+        ...(isMobile && { refreshToken: tokens.refreshToken }),
+      };
     }
 
     if (dto.grantType === 'refresh_token') {
