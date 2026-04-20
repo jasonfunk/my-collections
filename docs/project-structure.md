@@ -475,6 +475,8 @@ packages/mobile/
 │   │   ├── AuthContext.tsx     # AuthProvider — login/logout/refresh, session restore
 │   │   ├── pkce.ts             # PKCE code verifier + challenge (expo-crypto)
 │   │   └── tokenStorage.ts     # expo-secure-store wrappers for refresh token
+│   ├── components/
+│   │   └── CollectionIcon.tsx  # SVG collection icons (react-native-svg) + FaviconIcon
 │   └── hooks/
 │       └── useAuth.ts          # useAuth() hook over AuthContext
 ├── .maestro/                   # Maestro UI smoke tests

@@ -3350,3 +3350,29 @@ Updated all four Maestro flows for the new dashboard:
 - `npm run lint` — no new errors
 
 **Jira:** COL-47 → Done.
+
+---
+
+## Session 14 — 2026-04-20: Dashboard Icons + Login Favicon
+
+### What was done
+
+Added SVG collection icons and subtitles to the mobile dashboard cards, and the favicon figure to the login screen.
+
+**New dependency:** `react-native-svg` — installed via `npx expo install react-native-svg` (from `packages/mobile/`). Expo's install command pins the SDK-compatible version (15.15.3 for Expo 55).
+
+**New file:** `packages/mobile/src/components/CollectionIcon.tsx` — ports the web `collection-icons.tsx` SVG components to `react-native-svg` primitives (`Svg`, `Rect`, `Circle`, `Path`, `Line`). Exports `CollectionIcon` (keyed by `CollectionType` enum) and `FaviconIcon` (amber person figure for the login screen).
+
+**Dashboard cards** (`app/(app)/index.tsx`) — `COLLECTION_CONFIG` extended with `subtitle` strings matching the web dashboard. `CollectionCard` now renders icon (36 px) + title + subtitle in a flex row header above the owned count and meta row.
+
+**Login screen** (`app/(auth)/login.tsx`) — `FaviconIcon` (64 px) rendered centered above the app title.
+
+### Build note
+
+`react-native-svg` adds a native module — Metro hot reload does not pick it up. Required a full `expo run:android` rebuild. Gradle needs `JAVA_HOME` set and `android/local.properties` with `sdk.dir=/Users/jfunk/Library/Android/sdk`. The `local.properties` file is gitignored (correct — it's machine-local).
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing after rebuild
+- `npm run lint` — no new errors
+- Commit: `fc97133` on `develop`

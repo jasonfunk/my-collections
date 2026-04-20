@@ -97,6 +97,10 @@ The dashboard makes two parallel API calls on mount and on pull-to-refresh:
 - `GET /collections/stats` — returns owned/wishlist counts and estimated total value per collection type. Rendered as three tappable collection cards (Star Wars/amber, Transformers/blue, He-Man/purple) and a totals row.
 - `GET /collections/recent?limit=5` — returns the 5 most recently added user items across all collections. Rendered as a "Recently Added" list with collection badge, owned/wishlist tag, and date.
 
+Each collection card shows the collection icon (36 px, from `src/components/CollectionIcon.tsx`) alongside the collection name and a subtitle ("Original Trilogy · 1977–1985", "Generation 1 · 1984–1990", "Masters of the Universe · 1981–1988"). Icons are SVG components built with `react-native-svg`, ported from the web's `collection-icons.tsx`.
+
+The login screen shows a `FaviconIcon` (amber person figure, 64 px) centered above the app title.
+
 Tapping a collection card calls `router.navigate('/(app)/collections')` to switch to the Collections tab. Uses `router.navigate` (not `router.push`) — `push` creates a stack entry inside the tab navigator that corrupts subsequent tab-switching state.
 
 Loading state shows a centered `ActivityIndicator`; the header and all content only render after both API calls resolve. Pull-to-refresh via `ScrollView` + `RefreshControl`.
@@ -130,3 +134,4 @@ Individual test flows:
 - **`SafeAreaView` must come from `react-native-safe-area-context`:** React Native's built-in `SafeAreaView` does not correctly apply the top inset on Android. Using it places the header under the status bar, where it is invisible to Maestro's accessibility tree. Always import from `react-native-safe-area-context`.
 - **Tab navigation: use `router.navigate`, not `router.push`:** `router.push('/(app)/collections')` creates a stack entry inside the tab navigator. This corrupts tab-switching state — subsequent `tapOn` the Collections tab may silently no-op. Use `router.navigate` to switch tabs without adding history.
 - **Metro `.js`→`.ts` resolution:** `@my-collections/shared` uses TypeScript Node16 module resolution (explicit `.js` extensions in source imports). Expo SDK 52+ routes Metro to the TypeScript source of workspace packages. Without `metro.config.js`'s custom resolver, Metro fails to resolve `./types/common.js` when processing the shared package source. The config is already in place — do not remove it.
+- **`react-native-svg` requires a native rebuild:** Adding `react-native-svg` (or any package with native modules) requires a full `expo run:android` rebuild — Metro hot reload alone won't pick it up. Install via `npx expo install react-native-svg` (run from `packages/mobile/`) to get the Expo SDK-compatible version. Gradle also requires `JAVA_HOME` and `android/local.properties` with `sdk.dir` pointing to the Android SDK.
