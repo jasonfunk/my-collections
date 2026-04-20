@@ -3252,3 +3252,28 @@ All tests passing: login → tab navigation → logout.
 - Development build running on Pixel 9 Pro emulator (API 35)
 
 **Jira:** COL-97, COL-98, COL-99 → Done. COL-71 epic now fully complete.
+
+---
+
+## Session 12 — CI Fix: PR #24 Dependency Conflicts
+
+**Goal:** Fix three CI failures (Lint, Test, npm audit) on PR #24 (mobile app foundation).
+
+**Root cause:** The lockfile on PR #24 was generated with `npm install --legacy-peer-deps`, which skips peer dependency installation. `rxjs` is a peer dep of `@nestjs/core` — it was never written to the lockfile. CI's `npm ci` aborted with `Missing: rxjs@7.8.2 from lock file`. The lockfile was also truncated (~798 packages instead of ~1534).
+
+**Secondary issue:** Regenerating the lockfile without `--legacy-peer-deps` caused npm to hoist `@types/react@19` to root (mobile's devDep requires `~19.2.10`). `react-router-dom` is also hoisted to root, so TypeScript resolved React 19 types when compiling web, producing `TS2786: 'Routes' cannot be used as a JSX component`.
+
+**Fix applied:**
+
+1. Added `"@types/react": "~18.3.0"` to root `package.json` devDependencies — pins v18 at root so react-router-dom resolves correct types; mobile's v19 nests under `packages/mobile/node_modules/@types/react`
+2. Added `"@expo/vector-icons": "^15.0.2"` to `packages/mobile/package.json` — was imported in `(app)/_layout.tsx` but missing from deps
+3. Moved `rxjs` from `packages/api` `dependencies` → `devDependencies` (it is a NestJS peer dep, not a direct runtime dep; resolved at root via peer dep mechanism)
+4. Removed `rxjs` from root devDeps (was added as a failed workaround)
+5. Regenerated lockfile: `rm -rf node_modules packages/*/node_modules package-lock.json && npm install`
+
+**Result:** All lint, test, and audit jobs green. PR #24 merged to `main`.
+
+**Key learnings:**
+- `typeRoots` in tsconfig only controls automatic type inclusion — it does NOT affect how TypeScript resolves `@types/*` transitively from library definitions
+- npm `overrides` causes ERESOLVE when the forced version conflicts with optional peer deps (react-native requires `@types/react@^19` as optional); adding a devDep at root does not
+- `--legacy-peer-deps` silently omits peer deps from the lockfile — never use it to generate a lockfile that CI will consume with `npm ci`
