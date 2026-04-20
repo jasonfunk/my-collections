@@ -2,7 +2,11 @@ appId: com.mycollections.app
 ---
 - clearState
 - launchApp
-- assertVisible: "My Collections"
+
+# AuthProvider checks SecureStore before redirecting — wait for login screen to appear
+- extendedWaitUntil:
+    visible: "My Collections"
+    timeout: 10000
 - assertVisible: "Sign in to your collection"
 
 - tapOn: "Email"
@@ -12,8 +16,10 @@ appId: com.mycollections.app
 - hideKeyboard
 - tapOn: "Sign In"
 
-# API call may take a moment — wait up to 10s for dashboard
+# Header + Sign Out only render after the loading spinner clears (stats + recent fetched).
+# Cold start (clearState + PKCE 5-call OAuth flow + 2 dashboard API calls) needs ~30s.
 - extendedWaitUntil:
-    visible: "Welcome back"
-    timeout: 10000
+    visible: "Sign Out"
+    timeout: 30000
+- assertVisible: "My Collections"
 - assertVisible: "Dashboard"

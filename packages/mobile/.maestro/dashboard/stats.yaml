@@ -1,0 +1,27 @@
+appId: com.mycollections.app
+---
+# Assumes login has completed and the dashboard is the active screen.
+
+# Wait for all three collection cards — confirms stats API call succeeded
+- extendedWaitUntil:
+    visible: "Star Wars"
+    timeout: 10000
+- assertVisible: "Transformers"
+- assertVisible: "He-Man"
+
+# Screen title and section labels
+- assertVisible: "My Collections"
+- assertVisible: "Totals"
+
+# Tapping a collection card switches to the Collections tab (router.navigate)
+- tapOn: "Star Wars"
+- extendedWaitUntil:
+    visible: "Star Wars · Transformers · He-Man — coming soon."
+    timeout: 5000
+
+# Return to Dashboard tab
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 5000
+- assertVisible: "My Collections"

@@ -23,7 +23,7 @@ Expo Router maps files in `app/` to routes. Route groups (folder names in parent
 | `app/(auth)/_layout.tsx` | (auth group) | Stack navigator for auth screens. |
 | `app/(auth)/login.tsx` | `/login` (effectively) | Email/password login form. |
 | `app/(app)/_layout.tsx` | (app group) | Protected layout. Redirects to `/(auth)/login` if not authenticated. Renders bottom tab bar. |
-| `app/(app)/index.tsx` | `/` | Dashboard tab. |
+| `app/(app)/index.tsx` | `/` | Dashboard — collection stats cards, totals, recently added. |
 | `app/(app)/collections/_layout.tsx` | (collections stack) | Stack navigator for drill-down within Collections tab. |
 | `app/(app)/collections/index.tsx` | `/collections` | Collections list. |
 | `app/(app)/wishlist.tsx` | `/wishlist` | Wishlist tab. |
@@ -90,27 +90,43 @@ Uses `expo-crypto` instead of `window.crypto.subtle` (not available in React Nat
 - `generateCodeVerifier()` — `Crypto.getRandomValues(new Uint8Array(96))` → base64url-encoded string (128 chars).
 - `generateCodeChallenge(verifier)` — `Crypto.digestStringAsync(SHA256, verifier, BASE64)` → base64url-encoded SHA-256 hash.
 
+## Dashboard Screen (`app/(app)/index.tsx`)
+
+The dashboard makes two parallel API calls on mount and on pull-to-refresh:
+
+- `GET /collections/stats` — returns owned/wishlist counts and estimated total value per collection type. Rendered as three tappable collection cards (Star Wars/amber, Transformers/blue, He-Man/purple) and a totals row.
+- `GET /collections/recent?limit=5` — returns the 5 most recently added user items across all collections. Rendered as a "Recently Added" list with collection badge, owned/wishlist tag, and date.
+
+Tapping a collection card calls `router.navigate('/(app)/collections')` to switch to the Collections tab. Uses `router.navigate` (not `router.push`) — `push` creates a stack entry inside the tab navigator that corrupts subsequent tab-switching state.
+
+Loading state shows a centered `ActivityIndicator`; the header and all content only render after both API calls resolve. Pull-to-refresh via `ScrollView` + `RefreshControl`.
+
 ## Testing
 
 Maestro UI test suite at `packages/mobile/.maestro/`. Requires Maestro CLI and a running Android emulator.
 
 ```bash
-maestro test packages/mobile/.maestro/smoke-test.yaml
+JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
+  ~/.maestro/bin/maestro test packages/mobile/.maestro/smoke-test.yaml
 ```
 
-The smoke test orchestrates: clear app state → cold launch → fill login form → assert tab bar visible → navigate Collections, Wishlist, and Search tabs → tap Sign Out → assert login screen visible.
+The smoke test orchestrates: clear app state → cold launch → login → assert dashboard loaded → dashboard navigation → tab navigation → sign out → assert login screen.
 
 Individual test flows:
 
 | File | Purpose |
 | --- | --- |
 | `smoke-test.yaml` | Full end-to-end orchestrator |
-| `auth/login.yaml` | Launch + credentials + assert "Welcome back" |
+| `auth/login.yaml` | Launch + credentials + wait 30s for dashboard to load (cold start includes PKCE flow + 2 API calls) |
 | `auth/logout.yaml` | Tap Sign Out + assert login screen |
-| `navigation/tabs.yaml` | Tap each tab + assert placeholder text |
+| `dashboard/stats.yaml` | Assert all 3 collection cards + Totals visible; tap card → assert Collections tab; return to Dashboard |
+| `navigation/tabs.yaml` | Tap each tab + assert content. Uses `index: 1` on "Collections" tap to skip the dashboard section label and target the tab bar. |
 
 ## Known Quirks
 
 - **Android emulator localhost alias:** The emulator's `10.0.2.2` maps to the host machine's `localhost`. Set `EXPO_PUBLIC_API_BASE_URL=http://10.0.2.2:3000` in `packages/mobile/.env` to hit the local API.
 - **`expo prebuild --clean` resets Gradle config:** After running this command, re-apply the `java.home` Gradle property and verify `JAVA_HOME`/`ANDROID_HOME` in `~/.zshrc`. See the Android Build Environment memory note.
-- **Maestro `JAVA_HOME`:** Maestro requires the same `JAVA_HOME` as Gradle. Set before running tests.
+- **Maestro `JAVA_HOME`:** Maestro requires the same `JAVA_HOME` as Gradle. Set before running tests: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`.
+- **`SafeAreaView` must come from `react-native-safe-area-context`:** React Native's built-in `SafeAreaView` does not correctly apply the top inset on Android. Using it places the header under the status bar, where it is invisible to Maestro's accessibility tree. Always import from `react-native-safe-area-context`.
+- **Tab navigation: use `router.navigate`, not `router.push`:** `router.push('/(app)/collections')` creates a stack entry inside the tab navigator. This corrupts tab-switching state — subsequent `tapOn` the Collections tab may silently no-op. Use `router.navigate` to switch tabs without adding history.
+- **Metro `.js`→`.ts` resolution:** `@my-collections/shared` uses TypeScript Node16 module resolution (explicit `.js` extensions in source imports). Expo SDK 52+ routes Metro to the TypeScript source of workspace packages. Without `metro.config.js`'s custom resolver, Metro fails to resolve `./types/common.js` when processing the shared package source. The config is already in place — do not remove it.

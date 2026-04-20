@@ -478,13 +478,16 @@ packages/mobile/
 │   └── hooks/
 │       └── useAuth.ts          # useAuth() hook over AuthContext
 ├── .maestro/                   # Maestro UI smoke tests
-│   ├── smoke-test.yaml         # Orchestrates full login → tabs → logout flow
+│   ├── smoke-test.yaml         # Orchestrates full login → dashboard → tabs → logout flow
 │   ├── auth/
 │   │   ├── login.yaml
 │   │   └── logout.yaml
+│   ├── dashboard/
+│   │   └── stats.yaml          # Asserts collection cards, totals, card-tap navigation
 │   └── navigation/
 │       └── tabs.yaml
 ├── app.json
+├── metro.config.js             # Metro bundler config — .js→.ts resolver for Node16 workspace pkgs
 ├── package.json
 └── tsconfig.json
 ```
@@ -525,6 +528,9 @@ Typed `fetch` wrapper. Reads `EXPO_PUBLIC_API_BASE_URL` from the environment. In
 
 ### `.maestro/`
 Maestro UI test suite for Android. `smoke-test.yaml` orchestrates the full flow: clear app state → login → verify tab bar → navigate tabs → sign out → verify login screen. Run with `maestro test packages/mobile/.maestro/smoke-test.yaml`.
+
+### `metro.config.js`
+Metro bundler configuration. Uses `expo/metro-config` as the base. Adds a custom `resolveRequest` that strips `.js` extensions from relative imports before passing them to Metro's resolver — required because `@my-collections/shared` uses TypeScript Node16 module resolution (explicit `.js` extensions in source imports), but Expo SDK 52+ routes Metro directly to the TypeScript source of workspace packages. Without this, Metro fails to find `./types/common.js` when processing `shared/src/index.ts`.
 
 ### `tsconfig.json`
 Extends `../../tsconfig.base.json`. Sets `"moduleResolution": "bundler"` and `"jsx": "react-native"` for Expo/Metro compatibility.

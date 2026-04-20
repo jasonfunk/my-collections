@@ -3277,3 +3277,76 @@ All tests passing: login → tab navigation → logout.
 - `typeRoots` in tsconfig only controls automatic type inclusion — it does NOT affect how TypeScript resolves `@types/*` transitively from library definitions
 - npm `overrides` causes ERESOLVE when the forced version conflicts with optional peer deps (react-native requires `@types/react@^19` as optional); adding a devDep at root does not
 - `--legacy-peer-deps` silently omits peer deps from the lockfile — never use it to generate a lockfile that CI will consume with `npm ci`
+
+---
+
+## Session 13 — COL-47: Mobile Home/Dashboard Screen
+
+**Goal:** Build the mobile home/dashboard screen — collection stats, total value, recently added items, wishlist counts, tappable collection cards.
+
+### 1. New API endpoint — GET /collections/recent
+
+Added `GET /collections/recent?limit=N` (max 20, default 5) to `CollectionsController`. Returns the N most-recently-added user items across all three collection types, sorted by `createdAt` desc.
+
+**New shared type** (`packages/shared/src/types/stats.ts`):
+```ts
+export interface RecentCollectionItem {
+  id: string;
+  name: string;
+  collectionType: CollectionType;
+  isOwned: boolean;
+  condition?: string;
+  createdAt: string; // ISO 8601
+}
+```
+
+**Service** (`CollectionsStatsService.getRecentItems`): queries all three user-items repos in parallel via `createQueryBuilder` with `innerJoin('item.catalog', 'catalog')`, selecting `id`, `isOwned`, `condition`, `createdAt`, and `catalog.name`. Merges results, sorts by `createdAt` desc, slices to `limit`.
+
+Files changed:
+- `packages/shared/src/types/stats.ts` — added `RecentCollectionItem`
+- `packages/api/src/modules/collections/services/collections-stats.service.ts` — added `getRecentItems()`
+- `packages/api/src/modules/collections/controllers/collections.controller.ts` — added `GET /recent` endpoint
+- `postman/collections.collection.json` — added "Recent" folder
+
+### 2. Mobile dashboard screen
+
+Replaced the placeholder `app/(app)/index.tsx` with the full dashboard. Two parallel API calls on mount and pull-to-refresh:
+- `GET /collections/stats` → collection cards (Star Wars/amber, Transformers/blue, He-Man/purple) + totals pills
+- `GET /collections/recent?limit=5` → Recently Added section
+
+Key implementation decisions:
+- `useState` + `useEffect` (no TanStack Query in mobile deps)
+- `SafeAreaView` from `react-native-safe-area-context` — **not** `react-native`'s built-in. The built-in version doesn't add top inset on Android, which pushed the header under the status bar and removed it from the accessibility tree entirely.
+- `router.navigate('/(app)/collections')` — **not** `router.push`. `push` creates a new stack entry in the tab navigator which corrupts tab switching state for subsequent navigation.
+
+### 3. Metro monorepo config
+
+Created `packages/mobile/metro.config.js`. Required because Expo SDK 52+ auto-config routes to TypeScript source of workspace packages (for hot reload), but `@my-collections/shared` uses Node16 module resolution with explicit `.js` extensions in import statements (e.g. `export * from './types/common.js'`). Metro can't find the `.js` files when processing `.ts` source.
+
+**Fix:** custom `resolveRequest` that strips `.js` from relative imports and lets Metro resolve the extension itself (finds `.ts`):
+```js
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName.startsWith('.') && moduleName.endsWith('.js')) {
+    try {
+      return context.resolveRequest(context, moduleName.slice(0, -3), platform);
+    } catch { /* fall through */ }
+  }
+  // ...
+};
+```
+
+### 4. Maestro smoke test updates
+
+Updated all four Maestro flows for the new dashboard:
+
+- `auth/login.yaml` — wait for `"Sign Out"` (30s timeout) instead of `"Welcome back"`. Sign Out only renders after both API calls complete (loading spinner is the only thing shown during fetch). `extendedWaitUntil` on login screen appearance handles the `AuthProvider` async SecureStore check on cold start.
+- `auth/logout.yaml` — updated to match new dashboard (Sign Out in header, not bottom of screen)
+- `navigation/tabs.yaml` — `tapOn` with `index: 1` to disambiguate the "Collections" tab bar from the "Collections" section label on the dashboard; `extendedWaitUntil` for each tab transition
+- `dashboard/stats.yaml` (new) — asserts all 3 collection cards visible, Totals section, card tap navigates to Collections tab
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing — login → dashboard stats → tab navigation → logout
+- `npm run lint` — no new errors
+
+**Jira:** COL-47 → Done.

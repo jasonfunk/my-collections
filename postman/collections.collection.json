@@ -35,6 +35,37 @@
       ]
     },
     {
+      "name": "Recent",
+      "item": [
+        {
+          "name": "GET /collections/recent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/collections/recent?limit=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                "recent"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5",
+                  "description": "Max items to return (default 5, max 20)"
+                }
+              ]
+            },
+            "description": "Returns the most recently added user items across all collection types, sorted by creation date descending."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Star Wars",
       "item": [
         {

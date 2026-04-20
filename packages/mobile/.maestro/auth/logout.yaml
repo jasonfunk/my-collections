@@ -1,7 +1,9 @@
 appId: com.mycollections.app
 ---
 - tapOn: "Dashboard"
-- assertVisible: "Welcome back"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 5000
 - tapOn: "Sign Out"
 - assertVisible: "My Collections"
 - assertVisible: "Sign in to your collection"
