@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, DefaultValuePipe, Get, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AccessTokenPayload } from '../../auth/services/token.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
@@ -24,6 +24,18 @@ export class CollectionsController {
   })
   getStats(@CurrentUser() user: AccessTokenPayload) {
     return this.statsService.getStats(user.sub);
+  }
+
+  @Get('recent')
+  @ApiOperation({
+    summary: 'Recently added items across all collections',
+    description: 'Returns the most recently added user items across Star Wars, Transformers, and He-Man, sorted by creation date.',
+  })
+  getRecent(
+    @CurrentUser() user: AccessTokenPayload,
+    @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit: number,
+  ) {
+    return this.statsService.getRecentItems(user.sub, Math.min(limit, 20));
   }
 
   @Get('search')

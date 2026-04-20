@@ -1,7 +1,4 @@
-/**
- * Statistics shapes for the collections dashboard.
- * Produced by GET /collections/stats; consumed by web and mobile.
- */
+import { CollectionType } from './common.js';
 
 export interface CollectionTypeStats {
   owned: number;
@@ -18,4 +15,13 @@ export interface CollectionStats {
     wishlist: number;
     estimatedTotalValue: number | null;
   };
+}
+
+export interface RecentCollectionItem {
+  id: string;
+  name: string;
+  collectionType: CollectionType;
+  isOwned: boolean;
+  condition?: string;
+  createdAt: string;
 }

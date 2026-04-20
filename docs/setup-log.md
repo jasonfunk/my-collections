@@ -3252,3 +3252,127 @@ All tests passing: login → tab navigation → logout.
 - Development build running on Pixel 9 Pro emulator (API 35)
 
 **Jira:** COL-97, COL-98, COL-99 → Done. COL-71 epic now fully complete.
+
+---
+
+## Session 12 — CI Fix: PR #24 Dependency Conflicts
+
+**Goal:** Fix three CI failures (Lint, Test, npm audit) on PR #24 (mobile app foundation).
+
+**Root cause:** The lockfile on PR #24 was generated with `npm install --legacy-peer-deps`, which skips peer dependency installation. `rxjs` is a peer dep of `@nestjs/core` — it was never written to the lockfile. CI's `npm ci` aborted with `Missing: rxjs@7.8.2 from lock file`. The lockfile was also truncated (~798 packages instead of ~1534).
+
+**Secondary issue:** Regenerating the lockfile without `--legacy-peer-deps` caused npm to hoist `@types/react@19` to root (mobile's devDep requires `~19.2.10`). `react-router-dom` is also hoisted to root, so TypeScript resolved React 19 types when compiling web, producing `TS2786: 'Routes' cannot be used as a JSX component`.
+
+**Fix applied:**
+
+1. Added `"@types/react": "~18.3.0"` to root `package.json` devDependencies — pins v18 at root so react-router-dom resolves correct types; mobile's v19 nests under `packages/mobile/node_modules/@types/react`
+2. Added `"@expo/vector-icons": "^15.0.2"` to `packages/mobile/package.json` — was imported in `(app)/_layout.tsx` but missing from deps
+3. Moved `rxjs` from `packages/api` `dependencies` → `devDependencies` (it is a NestJS peer dep, not a direct runtime dep; resolved at root via peer dep mechanism)
+4. Removed `rxjs` from root devDeps (was added as a failed workaround)
+5. Regenerated lockfile: `rm -rf node_modules packages/*/node_modules package-lock.json && npm install`
+
+**Result:** All lint, test, and audit jobs green. PR #24 merged to `main`.
+
+**Key learnings:**
+- `typeRoots` in tsconfig only controls automatic type inclusion — it does NOT affect how TypeScript resolves `@types/*` transitively from library definitions
+- npm `overrides` causes ERESOLVE when the forced version conflicts with optional peer deps (react-native requires `@types/react@^19` as optional); adding a devDep at root does not
+- `--legacy-peer-deps` silently omits peer deps from the lockfile — never use it to generate a lockfile that CI will consume with `npm ci`
+
+---
+
+## Session 13 — COL-47: Mobile Home/Dashboard Screen
+
+**Goal:** Build the mobile home/dashboard screen — collection stats, total value, recently added items, wishlist counts, tappable collection cards.
+
+### 1. New API endpoint — GET /collections/recent
+
+Added `GET /collections/recent?limit=N` (max 20, default 5) to `CollectionsController`. Returns the N most-recently-added user items across all three collection types, sorted by `createdAt` desc.
+
+**New shared type** (`packages/shared/src/types/stats.ts`):
+```ts
+export interface RecentCollectionItem {
+  id: string;
+  name: string;
+  collectionType: CollectionType;
+  isOwned: boolean;
+  condition?: string;
+  createdAt: string; // ISO 8601
+}
+```
+
+**Service** (`CollectionsStatsService.getRecentItems`): queries all three user-items repos in parallel via `createQueryBuilder` with `innerJoin('item.catalog', 'catalog')`, selecting `id`, `isOwned`, `condition`, `createdAt`, and `catalog.name`. Merges results, sorts by `createdAt` desc, slices to `limit`.
+
+Files changed:
+- `packages/shared/src/types/stats.ts` — added `RecentCollectionItem`
+- `packages/api/src/modules/collections/services/collections-stats.service.ts` — added `getRecentItems()`
+- `packages/api/src/modules/collections/controllers/collections.controller.ts` — added `GET /recent` endpoint
+- `postman/collections.collection.json` — added "Recent" folder
+
+### 2. Mobile dashboard screen
+
+Replaced the placeholder `app/(app)/index.tsx` with the full dashboard. Two parallel API calls on mount and pull-to-refresh:
+- `GET /collections/stats` → collection cards (Star Wars/amber, Transformers/blue, He-Man/purple) + totals pills
+- `GET /collections/recent?limit=5` → Recently Added section
+
+Key implementation decisions:
+- `useState` + `useEffect` (no TanStack Query in mobile deps)
+- `SafeAreaView` from `react-native-safe-area-context` — **not** `react-native`'s built-in. The built-in version doesn't add top inset on Android, which pushed the header under the status bar and removed it from the accessibility tree entirely.
+- `router.navigate('/(app)/collections')` — **not** `router.push`. `push` creates a new stack entry in the tab navigator which corrupts tab switching state for subsequent navigation.
+
+### 3. Metro monorepo config
+
+Created `packages/mobile/metro.config.js`. Required because Expo SDK 52+ auto-config routes to TypeScript source of workspace packages (for hot reload), but `@my-collections/shared` uses Node16 module resolution with explicit `.js` extensions in import statements (e.g. `export * from './types/common.js'`). Metro can't find the `.js` files when processing `.ts` source.
+
+**Fix:** custom `resolveRequest` that strips `.js` from relative imports and lets Metro resolve the extension itself (finds `.ts`):
+```js
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName.startsWith('.') && moduleName.endsWith('.js')) {
+    try {
+      return context.resolveRequest(context, moduleName.slice(0, -3), platform);
+    } catch { /* fall through */ }
+  }
+  // ...
+};
+```
+
+### 4. Maestro smoke test updates
+
+Updated all four Maestro flows for the new dashboard:
+
+- `auth/login.yaml` — wait for `"Sign Out"` (30s timeout) instead of `"Welcome back"`. Sign Out only renders after both API calls complete (loading spinner is the only thing shown during fetch). `extendedWaitUntil` on login screen appearance handles the `AuthProvider` async SecureStore check on cold start.
+- `auth/logout.yaml` — updated to match new dashboard (Sign Out in header, not bottom of screen)
+- `navigation/tabs.yaml` — `tapOn` with `index: 1` to disambiguate the "Collections" tab bar from the "Collections" section label on the dashboard; `extendedWaitUntil` for each tab transition
+- `dashboard/stats.yaml` (new) — asserts all 3 collection cards visible, Totals section, card tap navigates to Collections tab
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing — login → dashboard stats → tab navigation → logout
+- `npm run lint` — no new errors
+
+**Jira:** COL-47 → Done.
+
+---
+
+## Session 14 — 2026-04-20: Dashboard Icons + Login Favicon
+
+### What was done
+
+Added SVG collection icons and subtitles to the mobile dashboard cards, and the favicon figure to the login screen.
+
+**New dependency:** `react-native-svg` — installed via `npx expo install react-native-svg` (from `packages/mobile/`). Expo's install command pins the SDK-compatible version (15.15.3 for Expo 55).
+
+**New file:** `packages/mobile/src/components/CollectionIcon.tsx` — ports the web `collection-icons.tsx` SVG components to `react-native-svg` primitives (`Svg`, `Rect`, `Circle`, `Path`, `Line`). Exports `CollectionIcon` (keyed by `CollectionType` enum) and `FaviconIcon` (amber person figure for the login screen).
+
+**Dashboard cards** (`app/(app)/index.tsx`) — `COLLECTION_CONFIG` extended with `subtitle` strings matching the web dashboard. `CollectionCard` now renders icon (36 px) + title + subtitle in a flex row header above the owned count and meta row.
+
+**Login screen** (`app/(auth)/login.tsx`) — `FaviconIcon` (64 px) rendered centered above the app title.
+
+### Build note
+
+`react-native-svg` adds a native module — Metro hot reload does not pick it up. Required a full `expo run:android` rebuild. Gradle needs `JAVA_HOME` set and `android/local.properties` with `sdk.dir=/Users/jfunk/Library/Android/sdk`. The `local.properties` file is gitignored (correct — it's machine-local).
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing after rebuild
+- `npm run lint` — no new errors
+- Commit: `fc97133` on `develop`

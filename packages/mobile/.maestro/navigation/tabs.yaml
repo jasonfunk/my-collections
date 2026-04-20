@@ -1,13 +1,26 @@
 appId: com.mycollections.app
 ---
-- tapOn: "Collections"
-- assertVisible: "Star Wars · Transformers · He-Man — coming soon."
+# The dashboard has a "Collections" section label (raw text same as the tab bar label).
+# Use index: 1 to skip the section label (index 0) and tap the tab bar item.
+- tapOn:
+    text: "Collections"
+    index: 1
+- extendedWaitUntil:
+    visible: "Star Wars · Transformers · He-Man — coming soon."
+    timeout: 5000
 
 - tapOn: "Wishlist"
-- assertVisible: "Items you're hunting for — coming soon."
+- extendedWaitUntil:
+    visible: "Items you're hunting for — coming soon."
+    timeout: 5000
 
 - tapOn: "Search"
-- assertVisible: "Search across all collections — coming soon."
+- extendedWaitUntil:
+    visible: "Search across all collections — coming soon."
+    timeout: 5000
 
 - tapOn: "Dashboard"
-- assertVisible: "Welcome back"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 5000
+- assertVisible: "My Collections"

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CollectionStats, CollectionTypeStats } from '@my-collections/shared';
+import { CollectionStats, CollectionType, CollectionTypeStats, RecentCollectionItem } from '@my-collections/shared';
 import { UserStarWarsItemEntity } from '../entities/user-star-wars-item.entity';
 import { UserG1TransformersItemEntity } from '../entities/user-g1-transformers-item.entity';
 import { UserMastersItemEntity } from '../entities/user-masters-item.entity';
@@ -91,5 +91,63 @@ export class CollectionsStatsService {
         estimatedTotalValue: values.length > 0 ? values.reduce((a, b) => a + b, 0) : null,
       },
     };
+  }
+
+  async getRecentItems(userId: string, limit: number): Promise<RecentCollectionItem[]> {
+    const [swItems, tfItems, hmItems] = await Promise.all([
+      this.swRepo
+        .createQueryBuilder('item')
+        .innerJoin('item.catalog', 'catalog')
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .where('item.userId = :userId', { userId })
+        .orderBy('item.createdAt', 'DESC')
+        .take(limit)
+        .getMany(),
+      this.tfRepo
+        .createQueryBuilder('item')
+        .innerJoin('item.catalog', 'catalog')
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .where('item.userId = :userId', { userId })
+        .orderBy('item.createdAt', 'DESC')
+        .take(limit)
+        .getMany(),
+      this.hmRepo
+        .createQueryBuilder('item')
+        .innerJoin('item.catalog', 'catalog')
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .where('item.userId = :userId', { userId })
+        .orderBy('item.createdAt', 'DESC')
+        .take(limit)
+        .getMany(),
+    ]);
+
+    const all: RecentCollectionItem[] = [
+      ...swItems.map((item) => ({
+        id: item.id,
+        name: item.catalog.name,
+        collectionType: CollectionType.STAR_WARS,
+        isOwned: item.isOwned,
+        condition: item.condition ?? undefined,
+        createdAt: item.createdAt.toISOString(),
+      })),
+      ...tfItems.map((item) => ({
+        id: item.id,
+        name: item.catalog.name,
+        collectionType: CollectionType.TRANSFORMERS,
+        isOwned: item.isOwned,
+        condition: item.condition ?? undefined,
+        createdAt: item.createdAt.toISOString(),
+      })),
+      ...hmItems.map((item) => ({
+        id: item.id,
+        name: item.catalog.name,
+        collectionType: CollectionType.HE_MAN,
+        isOwned: item.isOwned,
+        condition: item.condition ?? undefined,
+        createdAt: item.createdAt.toISOString(),
+      })),
+    ];
+
+    return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
   }
 }

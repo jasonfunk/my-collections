@@ -101,6 +101,37 @@ Returns summary statistics across all collection types.
 
 ---
 
+## GET /collections/recent
+
+```http
+GET /collections/recent?limit=5
+```
+
+Returns the most recently added user items across all three collection types, sorted by creation date descending. Useful for dashboard "recently added" widgets.
+
+| **Param** | **Type** | **Description** |
+| --- | --- | --- |
+| `limit` | number | Max items to return (default 5, max 20) |
+
+**Response — array of `RecentCollectionItem`:**
+
+```json
+[
+  {
+    "id": "d4f8...",
+    "name": "Optimus Prime",
+    "collectionType": "TRANSFORMERS",
+    "isOwned": true,
+    "condition": "C8",
+    "createdAt": "2026-04-10T14:23:00.000Z"
+  }
+]
+```
+
+`collectionType` is `STAR_WARS`, `TRANSFORMERS`, or `HE_MAN`. `condition` is a `ConditionGrade` value (nullable — omitted if not set). Results are merged across all three user-items tables and re-sorted by `createdAt` after the per-table queries.
+
+---
+
 ## GET /collections/search
 
 ```http
