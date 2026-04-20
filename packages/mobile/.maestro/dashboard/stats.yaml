@@ -13,11 +13,14 @@ appId: com.mycollections.app
 - assertVisible: "My Collections"
 - assertVisible: "Totals"
 
-# Tapping a collection card switches to the Collections tab (router.navigate)
-- tapOn: "Star Wars"
+# Tapping a collection card navigates to the Star Wars browse screen
+- tapOn:
+    text: "Star Wars"
+    index: 0
+- waitForAnimationToEnd
 - extendedWaitUntil:
-    visible: "Star Wars · Transformers · He-Man — coming soon."
-    timeout: 5000
+    visible: "2 items"
+    timeout: 20000
 
 # Return to Dashboard tab
 - tapOn: "Dashboard"

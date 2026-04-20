@@ -464,8 +464,11 @@ packages/mobile/
 │       ├── _layout.tsx         # Protected layout — auth guard + bottom Tabs chrome
 │       ├── index.tsx           # Dashboard tab (home)
 │       ├── collections/
-│       │   ├── _layout.tsx     # Stack navigator for drill-down
-│       │   └── index.tsx       # Collections list
+│       │   ├── _layout.tsx              # Stack navigator for drill-down
+│       │   ├── index.tsx                # Collection picker (three tappable cards → browse)
+│       │   ├── [collection].tsx         # Browse screen — FlatList of items per collection
+│       │   └── [collection]/
+│       │       └── [id].tsx             # Item detail stub (COL-49)
 │       ├── wishlist.tsx        # Wishlist tab
 │       └── search.tsx          # Search tab
 ├── src/
@@ -476,9 +479,14 @@ packages/mobile/
 │   │   ├── pkce.ts             # PKCE code verifier + challenge (expo-crypto)
 │   │   └── tokenStorage.ts     # expo-secure-store wrappers for refresh token
 │   ├── components/
-│   │   └── CollectionIcon.tsx  # SVG collection icons (react-native-svg) + FaviconIcon
-│   └── hooks/
-│       └── useAuth.ts          # useAuth() hook over AuthContext
+│   │   ├── CollectionIcon.tsx  # SVG collection icons (react-native-svg) + FaviconIcon
+│   │   └── FilterSheet.tsx     # Slide-up filter modal (status: all/owned/wishlist)
+│   ├── config/
+│   │   └── collections.ts      # COLLECTION_CONFIG + SLUG_TO_COLLECTION reverse map
+│   ├── hooks/
+│   │   └── useAuth.ts          # useAuth() hook over AuthContext
+│   └── services/
+│       └── collectionsService.ts  # fetchItems() — maps CollectionType → API path
 ├── .maestro/                   # Maestro UI smoke tests
 │   ├── smoke-test.yaml         # Orchestrates full login → dashboard → tabs → logout flow
 │   ├── auth/
@@ -527,6 +535,24 @@ Typed `fetch` wrapper. Reads `EXPO_PUBLIC_API_BASE_URL` from the environment. In
 
 ### `src/hooks/useAuth.ts`
 `useAuth()` — consumes `AuthContext`. Throws if called outside `AuthProvider`.
+
+### `src/config/collections.ts`
+Single source of truth for per-collection display config. Exports `COLLECTION_CONFIG` (keyed by `CollectionType` — label, accent color, subtitle, and URL slug) and `SLUG_TO_COLLECTION` (reverse map from slug string to `CollectionType`). Used by the dashboard, collection picker, and browse screen so display metadata never drifts out of sync.
+
+### `src/services/collectionsService.ts`
+API service for item lists. Exports `BrowseItem` (the display-oriented item shape: `id`, `catalog.name`, `isOwned`, `condition?`, `estimatedValue?`) and `fetchItems(collectionType, page, limit)` which maps `CollectionType` to its REST path (`/collections/star-wars/items`, etc.) and returns `PaginatedResponse<BrowseItem>`.
+
+### `src/components/FilterSheet.tsx`
+Slide-up filter modal. Uses `Modal` + `Animated.Value` (no new dependencies). Exports `BrowseFilters` (`{ status: 'all' | 'owned' | 'wishlist' }`) and the `FilterSheet` component. Slides in from the bottom with a dim backdrop, Apply and Reset buttons, closes on backdrop tap or Apply.
+
+### `app/(app)/collections/index.tsx`
+Collection picker screen. Shown when tapping the Collections tab. Three tappable cards (same style as dashboard) each navigating to `/(app)/collections/<slug>` — `star-wars`, `transformers`, or `he-man`.
+
+### `app/(app)/collections/[collection].tsx`
+Browse screen for a single collection. Reads the `collection` slug via `useLocalSearchParams`, maps it to a `CollectionType` via `SLUG_TO_COLLECTION`, fetches items via `collectionsService.fetchItems`. Renders a `FlatList` with pull-to-refresh and a `FilterSheet` for client-side owned/wishlist filtering. Filter button in the Stack header shows an indigo dot when a filter is active. Tapping a row navigates to `/(app)/collections/<slug>/<id>`.
+
+### `app/(app)/collections/[collection]/[id].tsx`
+Item detail stub (COL-49 placeholder). Shows the item ID and "Full detail coming in COL-49." Navigation target for browse screen row taps — exists so Expo Router doesn't 404 when a row is tapped.
 
 ### `.maestro/`
 Maestro UI test suite for Android. `smoke-test.yaml` orchestrates the full flow: clear app state → login → verify tab bar → navigate tabs → sign out → verify login screen. Run with `maestro test packages/mobile/.maestro/smoke-test.yaml`.

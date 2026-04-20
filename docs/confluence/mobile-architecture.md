@@ -25,7 +25,9 @@ Expo Router maps files in `app/` to routes. Route groups (folder names in parent
 | `app/(app)/_layout.tsx` | (app group) | Protected layout. Redirects to `/(auth)/login` if not authenticated. Renders bottom tab bar. |
 | `app/(app)/index.tsx` | `/` | Dashboard — collection stats cards, totals, recently added. |
 | `app/(app)/collections/_layout.tsx` | (collections stack) | Stack navigator for drill-down within Collections tab. |
-| `app/(app)/collections/index.tsx` | `/collections` | Collections list. |
+| `app/(app)/collections/index.tsx` | `/collections` | Collection picker — three tappable cards navigating to browse. |
+| `app/(app)/collections/[collection].tsx` | `/collections/:slug` | Browse screen — scrollable item list for one collection. |
+| `app/(app)/collections/[collection]/[id].tsx` | `/collections/:slug/:id` | Item detail stub (COL-49). |
 | `app/(app)/wishlist.tsx` | `/wishlist` | Wishlist tab. |
 | `app/(app)/search.tsx` | `/search` | Search tab. |
 
@@ -101,9 +103,35 @@ Each collection card shows the collection icon (36 px, from `src/components/Coll
 
 The login screen shows a `FaviconIcon` (amber person figure, 64 px) centered above the app title.
 
-Tapping a collection card calls `router.navigate('/(app)/collections')` to switch to the Collections tab. Uses `router.navigate` (not `router.push`) — `push` creates a stack entry inside the tab navigator that corrupts subsequent tab-switching state.
+Tapping a collection card calls `router.navigate('/(app)/collections/star-wars')` (or `transformers` / `he-man`) to navigate directly to that collection's browse screen. Uses `router.navigate` (not `router.push`) — `push` creates a stack entry inside the tab navigator that corrupts subsequent tab-switching state.
 
 Loading state shows a centered `ActivityIndicator`; the header and all content only render after both API calls resolve. Pull-to-refresh via `ScrollView` + `RefreshControl`.
+
+## Collection Picker (`app/(app)/collections/index.tsx`)
+
+Shown when the Collections tab is tapped. Three tappable cards — one per collection — navigate to `/(app)/collections/<slug>`. Card style matches the dashboard. Collection display metadata (label, accent color, subtitle, slug) comes from `src/config/collections.ts`.
+
+## Browse Screen (`app/(app)/collections/[collection].tsx`)
+
+Per-collection item list. The `collection` route parameter is a slug (`star-wars`, `transformers`, `he-man`); `SLUG_TO_COLLECTION` maps it to a `CollectionType` for the API call.
+
+- **Data:** `collectionsService.fetchItems(collectionType)` → `GET /collections/<slug>/items?page=1&limit=50`
+- **List:** `FlatList` with `RefreshControl` (pull-to-refresh). Each row shows catalog name, condition grade (if present), estimated value (if present), and an owned/wishlist badge.
+- **Filter:** Filter button in the Stack header (Ionicons `options-outline`, indigo dot when active) opens `FilterSheet`. Filtering is client-side — `isOwned` boolean drives owned/wishlist split.
+- **Navigation:** Tapping a row pushes `/(app)/collections/<slug>/<id>` (item detail stub, COL-49).
+- **Item count:** Rendered in a plain `View` above the `FlatList` — not in `ListHeaderComponent`, which is unreliable in Android's accessibility tree.
+
+### `src/config/collections.ts`
+
+Single source of truth for collection display config. `COLLECTION_CONFIG` maps `CollectionType` → `{ label, color, subtitle, slug }`. `SLUG_TO_COLLECTION` is the reverse map (slug string → `CollectionType`). Both dashboard and browse screen import from here.
+
+### `src/services/collectionsService.ts`
+
+Exports `BrowseItem` (display shape: `id`, `catalog?.name`, `isOwned`, `condition?: string | null`, `estimatedValue?: number | null`) and `fetchItems(collectionType, page, limit)`. Note: `condition` and `estimatedValue` are nullable DB columns — TypeORM returns `null`, not `undefined`. Guards must use `!= null`.
+
+### `src/components/FilterSheet.tsx`
+
+Slide-up filter modal built with `Modal` + `Animated.Value` (no new package dependencies). Exports `BrowseFilters` type and `FilterSheet` component. Animates in from the bottom with a dimmed backdrop; Apply and Reset buttons; closes on backdrop tap or Apply.
 
 ## Testing
 
@@ -135,3 +163,6 @@ Individual test flows:
 - **Tab navigation: use `router.navigate`, not `router.push`:** `router.push('/(app)/collections')` creates a stack entry inside the tab navigator. This corrupts tab-switching state — subsequent `tapOn` the Collections tab may silently no-op. Use `router.navigate` to switch tabs without adding history.
 - **Metro `.js`→`.ts` resolution:** `@my-collections/shared` uses TypeScript Node16 module resolution (explicit `.js` extensions in source imports). Expo SDK 52+ routes Metro to the TypeScript source of workspace packages. Without `metro.config.js`'s custom resolver, Metro fails to resolve `./types/common.js` when processing the shared package source. The config is already in place — do not remove it.
 - **`react-native-svg` requires a native rebuild:** Adding `react-native-svg` (or any package with native modules) requires a full `expo run:android` rebuild — Metro hot reload alone won't pick it up. Install via `npx expo install react-native-svg` (run from `packages/mobile/`) to get the Expo SDK-compatible version. Gradle also requires `JAVA_HOME` and `android/local.properties` with `sdk.dir` pointing to the Android SDK.
+- **Maestro: always `waitForAnimationToEnd` after navigation:** After any `tapOn` that triggers a stack push or tab switch, add `waitForAnimationToEnd` before asserting on screen content. Without it, Maestro evaluates the accessibility hierarchy mid-transition and misses newly visible elements, causing spurious timeouts even when the target element is present.
+- **`FlatList` `ListHeaderComponent` unreliable in Maestro:** Text rendered inside `ListHeaderComponent` is not consistently visible in Android's accessibility tree during Maestro assertions. Place count or summary views in a sibling `View` above the `FlatList` instead.
+- **Nullable DB columns in `BrowseItem`:** TypeORM returns `null` (not `undefined`) for nullable columns. Type optional fields as `T | null` and guard with `!= null` rather than `!== undefined`.

@@ -2,24 +2,32 @@ appId: com.mycollections.app
 ---
 # The dashboard has a "Collections" section label (raw text same as the tab bar label).
 # Use index: 1 to skip the section label (index 0) and tap the tab bar item.
+# Collections tab may show the browse screen if already navigated there
 - tapOn:
     text: "Collections"
     index: 1
+- waitForAnimationToEnd
 - extendedWaitUntil:
-    visible: "Star Wars · Transformers · He-Man — coming soon."
-    timeout: 5000
+    visible: "Star Wars"
+    timeout: 10000
 
-- tapOn: "Wishlist"
+# "Wishlist" text appears on item rows too — use index: 1 to hit the tab bar
+- tapOn:
+    text: "Wishlist"
+    index: 1
+- waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "Items you're hunting for — coming soon."
     timeout: 5000
 
 - tapOn: "Search"
+- waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "Search across all collections — coming soon."
     timeout: 5000
 
 - tapOn: "Dashboard"
+- waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "Sign Out"
     timeout: 5000

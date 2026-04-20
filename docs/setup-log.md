@@ -3376,3 +3376,46 @@ Added SVG collection icons and subtitles to the mobile dashboard cards, and the 
 - Maestro smoke test: all 4 flows passing after rebuild
 - `npm run lint` — no new errors
 - Commit: `fc97133` on `develop`
+
+---
+
+## Session 15 — 2026-04-20: COL-48 Collection Browse Screen
+
+### What was done
+
+Built the collection browse screen for the mobile app, replacing the "coming soon" placeholder with a real per-collection item list.
+
+**New files:**
+- `packages/mobile/src/config/collections.ts` — shared `COLLECTION_CONFIG` (label, color, subtitle, slug per `CollectionType`) + `SLUG_TO_COLLECTION` reverse map; extracted from the inline constant in `index.tsx` so dashboard and browse screen share one source of truth
+- `packages/mobile/src/services/collectionsService.ts` — `fetchItems(collectionType, page, limit)` mapping each `CollectionType` to its API path (`/collections/star-wars/items`, etc.) and returning `PaginatedResponse<BrowseItem>`
+- `packages/mobile/src/components/FilterSheet.tsx` — custom slide-up filter modal using `Modal` + `Animated.Value` (no new dependencies); exposes `BrowseFilters { status: 'all' | 'owned' | 'wishlist' }` with Apply/Reset buttons
+- `packages/mobile/app/(app)/collections/[collection].tsx` — browse screen; `FlatList` with pull-to-refresh, client-side owned/wishlist filter, filter button in Stack header; tap row navigates to `[id]` stub
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — COL-49 stub (shows item ID + "Full detail coming in COL-49")
+
+**Modified files:**
+- `packages/mobile/app/(app)/collections/index.tsx` — replaced placeholder with a collection picker (three tappable cards → navigate to `/(app)/collections/<slug>`)
+- `packages/mobile/app/(app)/index.tsx` — dashboard cards now navigate to specific collection slugs; imports `COLLECTION_CONFIG` from shared config
+
+### Bug fixed during smoke test
+
+`condition` and `estimatedValue` are nullable columns in the DB; TypeORM returns `null`, not `undefined`. The `BrowseItem` interface typed them as `string | undefined` and guards used `!== undefined`, causing a `toLocaleString of null` crash on render. Fixed by typing as `string | null` and `number | null` and changing guards to `!= null`.
+
+### Maestro smoke test fixes
+
+After implementing the browse screen, three of the four existing Maestro flows needed updates:
+
+- `dashboard/stats.yaml` — updated `tapOn: "Star Wars"` to use `index: 0` (avoids potential ambiguity), added `waitForAnimationToEnd` before the assertion, changed assertion to `"2 items"` (more specific), extended timeout to 20s (navigation animation blocked hierarchy reads without `waitForAnimationToEnd`)
+- `navigation/tabs.yaml` — updated Collections assertion to check `"Star Wars"` (browse screen is the top of the tab stack after stats flow, not the picker); added `index: 1` + `waitForAnimationToEnd` to Wishlist and other tab taps (the Amanaman row's "Wishlist" badge was being tapped instead of the tab bar label without the index); added `waitForAnimationToEnd` throughout
+- All 4 flows passing after fixes
+
+### Key learning
+
+FlatList's `ListHeaderComponent` text is NOT reliably accessible via Maestro's view hierarchy on Android. Moved the item count `View` above the `FlatList` entirely so it's always in the top-level accessibility tree.
+
+`waitForAnimationToEnd` is required after tab switches and stack navigations before asserting on screen content — without it, Maestro checks the hierarchy during the transition and misses newly-visible elements.
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing
+- `npm run lint` — no errors
+- **Jira:** COL-48 → Done
