@@ -75,6 +75,12 @@ See [docs/project-structure.md](docs/project-structure.md) for a detailed explan
 
 - **`gh` CLI path:** `gh` is not on Claude Code's default PATH. Always invoke as `/opt/homebrew/bin/gh` in Bash tool calls.
 - **Killing NestJS watch mode:** `pkill -f "nest start"` does NOT reliably kill the watch process (the npm child process name differs). Use `lsof -ti :3000 | xargs kill -9` to kill by port.
+- **Maestro binary + JAVA_HOME:** Claude Code does not inherit `~/.zshrc`, so neither `maestro` nor `JAVA_HOME` are available. Always invoke Maestro as:
+  ```bash
+  JAVA_HOME=/Users/jfunk/.gradle/jdks/eclipse_adoptium-17-aarch64-os_x.2/jdk-17.0.18+8/Contents/Home \
+  ~/.maestro/bin/maestro test <flow.yaml>
+  ```
+  The Gradle-downloaded JDK (`eclipse_adoptium-17`) is the reliable choice — `$(/usr/libexec/java_home)` returns empty in Claude Code's shell.
 
 ## Development Commands
 
@@ -137,6 +143,9 @@ See [docs/project-structure.md](docs/project-structure.md) for full details. Sum
 - **Aggregation services need all repos:** Any service that spans all collections (`CollectionsStatsService`, `CollectionsSearchService`, etc.) must inject every collection's entity repo in its constructor — even if that collection has no data yet. Omitting a repo causes silent 0-count or missing-results bugs when a new collection is seeded.
 - **Seed DataSource — entity glob vs explicit list:** Only safe to list a single entity explicitly (e.g. `entities: [OAuthClient]`) when that entity has *zero* relations. Any entity with `@OneToMany` / `@ManyToOne` / `@ManyToMany` requires the full relation graph to be registered, or TypeORM throws "Entity metadata not found". Use the glob instead: `entities: [__dirname + '/../../**/*.entity{.ts,.js}']` — same pattern as `app.module.ts`.
 - **Seed scripts — use `packages/api/tsconfig.json`, not `tsconfig.scripts.json`:** Seed scripts under `packages/api/src/database/seeds/` import NestJS entities which require `emitDecoratorMetadata: true` and `experimentalDecorators: true`. `tsconfig.scripts.json` (for root `scripts/`) lacks these flags. Run seeds with `ts-node --project packages/api/tsconfig.json <seed-path>` from the repo root.
+- **Maestro `extendedWaitUntil` uses exact text matching:** `visible: "items"` will NOT match the text "2 items" on screen — it must be the full exact string. Use `visible: "2 items"`. `assertVisible` is more lenient (substring), but `extendedWaitUntil` is strict.
+- **Maestro back navigation on Android:** The Stack header back button on Android is an arrow icon with no text label. `tapOn: "PreviousScreenTitle"` will fail. Use `pressKey: Back` to trigger Android system back navigation instead.
+- **Atlassian MCP cloud ID:** Use `c27d03df-ec97-431d-b4ba-76bf0e31ca34`. If it fails, call `getAccessibleAtlassianResources` to get the current authoritative ID.
 
 ## Session Close Checklist
 

@@ -71,6 +71,16 @@ export class MastersController {
     return this.itemsService.findAll(user.sub, pagination);
   }
 
+  @Get('items/:id')
+  @ApiOperation({ summary: 'Get a single He-Man item by ID' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  getItem(
+    @CurrentUser() user: AccessTokenPayload,
+    @Param('id') id: string,
+  ) {
+    return this.itemsService.findOne(user.sub, id);
+  }
+
   @Post('items')
   @ApiOperation({ summary: 'Claim a Masters catalog item (add to collection or wishlist)' })
   @ApiResponse({ status: 201, description: 'User record created' })

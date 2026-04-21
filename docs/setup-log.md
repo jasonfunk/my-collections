@@ -3376,3 +3376,84 @@ Added SVG collection icons and subtitles to the mobile dashboard cards, and the 
 - Maestro smoke test: all 4 flows passing after rebuild
 - `npm run lint` — no new errors
 - Commit: `fc97133` on `develop`
+
+---
+
+## Session 15 — 2026-04-20: COL-48 Collection Browse Screen
+
+### What was done
+
+Built the collection browse screen for the mobile app, replacing the "coming soon" placeholder with a real per-collection item list.
+
+**New files:**
+- `packages/mobile/src/config/collections.ts` — shared `COLLECTION_CONFIG` (label, color, subtitle, slug per `CollectionType`) + `SLUG_TO_COLLECTION` reverse map; extracted from the inline constant in `index.tsx` so dashboard and browse screen share one source of truth
+- `packages/mobile/src/services/collectionsService.ts` — `fetchItems(collectionType, page, limit)` mapping each `CollectionType` to its API path (`/collections/star-wars/items`, etc.) and returning `PaginatedResponse<BrowseItem>`
+- `packages/mobile/src/components/FilterSheet.tsx` — custom slide-up filter modal using `Modal` + `Animated.Value` (no new dependencies); exposes `BrowseFilters { status: 'all' | 'owned' | 'wishlist' }` with Apply/Reset buttons
+- `packages/mobile/app/(app)/collections/[collection].tsx` — browse screen; `FlatList` with pull-to-refresh, client-side owned/wishlist filter, filter button in Stack header; tap row navigates to `[id]` stub
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — COL-49 stub (shows item ID + "Full detail coming in COL-49")
+
+**Modified files:**
+- `packages/mobile/app/(app)/collections/index.tsx` — replaced placeholder with a collection picker (three tappable cards → navigate to `/(app)/collections/<slug>`)
+- `packages/mobile/app/(app)/index.tsx` — dashboard cards now navigate to specific collection slugs; imports `COLLECTION_CONFIG` from shared config
+
+### Bug fixed during smoke test
+
+`condition` and `estimatedValue` are nullable columns in the DB; TypeORM returns `null`, not `undefined`. The `BrowseItem` interface typed them as `string | undefined` and guards used `!== undefined`, causing a `toLocaleString of null` crash on render. Fixed by typing as `string | null` and `number | null` and changing guards to `!= null`.
+
+### Maestro smoke test fixes
+
+After implementing the browse screen, three of the four existing Maestro flows needed updates:
+
+- `dashboard/stats.yaml` — updated `tapOn: "Star Wars"` to use `index: 0` (avoids potential ambiguity), added `waitForAnimationToEnd` before the assertion, changed assertion to `"2 items"` (more specific), extended timeout to 20s (navigation animation blocked hierarchy reads without `waitForAnimationToEnd`)
+- `navigation/tabs.yaml` — updated Collections assertion to check `"Star Wars"` (browse screen is the top of the tab stack after stats flow, not the picker); added `index: 1` + `waitForAnimationToEnd` to Wishlist and other tab taps (the Amanaman row's "Wishlist" badge was being tapped instead of the tab bar label without the index); added `waitForAnimationToEnd` throughout
+- All 4 flows passing after fixes
+
+### Key learning
+
+FlatList's `ListHeaderComponent` text is NOT reliably accessible via Maestro's view hierarchy on Android. Moved the item count `View` above the `FlatList` entirely so it's always in the top-level accessibility tree.
+
+`waitForAnimationToEnd` is required after tab switches and stack navigations before asserting on screen content — without it, Maestro checks the hierarchy during the transition and misses newly-visible elements.
+
+### Verification
+
+- Maestro smoke test: all 4 flows passing
+- `npm run lint` — no errors
+- **Jira:** COL-48 → Done
+
+---
+
+## Session 16 — 2026-04-20: COL-49 Item Detail Screen
+
+### What was done
+
+Built the item detail screen for the mobile app, replacing the "Full detail coming in COL-49" stub with a full read-only detail view.
+
+**API changes (3 controllers):**
+- `packages/api/src/modules/collections/controllers/star-wars.controller.ts` — added `GET /collections/star-wars/items/:id` endpoint (delegates to existing `itemsService.findOne(userId, id)`)
+- `packages/api/src/modules/collections/controllers/transformers.controller.ts` — added `GET /collections/transformers/items/:id`
+- `packages/api/src/modules/collections/controllers/masters.controller.ts` — added `GET /collections/he-man/items/:id`
+
+No service changes needed — `findOne(userId, id)` with `catalog` relation already existed in all three services.
+
+**Mobile changes:**
+- `packages/mobile/src/services/collectionsService.ts` — added `DetailItem` interface (superset of all three collection types; collection-specific fields optional) and `fetchItemDetail(collectionType, id)` function
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — full detail screen implementation: `ScrollView` with sections (Status header, Condition, Collection-specific fields, Acquisition, Notes, Photos); collection-type-aware display branches on `SLUG_TO_COLLECTION[slug]`; condition and source labels mapped to human strings; owned accessories shown with catalog accessory checklist (green = owned, gray = missing); photo gallery as horizontal `ScrollView` of `Image` thumbnails; loading/error/retry states
+
+**New Maestro test:**
+- `packages/mobile/.maestro/collections/item-detail.yaml` — navigates Dashboard → Star Wars browse → taps "2-1B / Two-Onebee" → asserts "Condition" and "Details" sections visible → presses Android back → returns to Dashboard
+- `packages/mobile/.maestro/smoke-test.yaml` — added `collections/item-detail.yaml` to the flow
+
+### Key learnings
+
+**`extendedWaitUntil` does exact text matching, not substring.** `visible: "items"` does NOT match the text "2 items" on screen. Must use the exact rendered string (e.g. `visible: "2 items"`). `assertVisible` is more lenient with substring matching but `extendedWaitUntil` is strict.
+
+**Android header back button has no text label.** Attempting to `tapOn: "Star Wars"` to go back from the detail screen failed — Android uses an arrow icon, not the previous screen's title text. Solution: `pressKey: Back` to trigger Android back navigation.
+
+**Atlassian MCP cloud ID:** Correct cloud ID is `c27d03df-ec97-431d-b4ba-76bf0e31ca34` (from `getAccessibleAtlassianResources`). The previously used ID `a3c2d4e0-22e2-4652-856d-d9e902aae63b` no longer grants access.
+
+### Verification
+
+- API: `GET /collections/star-wars/items/:id` returns full entity with `catalog` relation (verified via curl)
+- Maestro full smoke test: all 5 flows passing (login → stats → navigation → item-detail → logout)
+- `npm run lint` — no errors (API and mobile)
+- **Jira:** COL-49 → Done

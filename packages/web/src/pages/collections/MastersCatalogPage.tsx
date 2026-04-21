@@ -50,14 +50,6 @@ export function MastersCatalogPage() {
     }, { replace: true });
   }
 
-  function resetPage() {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.delete('page');
-      return next;
-    }, { replace: true });
-  }
-
   const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (line) catalogParams.set('line', line);
   if (characterType) catalogParams.set('characterType', characterType);
@@ -96,6 +88,11 @@ export function MastersCatalogPage() {
     if (priority) {
       displayUserItems = displayUserItems.filter((i) => i.wishlistPriority === priority);
     }
+  }
+
+  if (isUserItemMode) {
+    if (line)          displayUserItems = displayUserItems.filter((ui) => ui.catalog?.line === line);
+    if (characterType) displayUserItems = displayUserItems.filter((ui) => ui.catalog?.characterType === characterType);
   }
 
   const displayCountLabel = claimedFilter === 'owned'
@@ -167,8 +164,12 @@ export function MastersCatalogPage() {
           <Select
             value={line}
             onValueChange={(v) => {
-              setParam('line', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('line'); else next.set('line', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-44 text-sm">
@@ -186,8 +187,12 @@ export function MastersCatalogPage() {
           <Select
             value={characterType}
             onValueChange={(v) => {
-              setParam('characterType', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('characterType'); else next.set('characterType', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-44 text-sm">

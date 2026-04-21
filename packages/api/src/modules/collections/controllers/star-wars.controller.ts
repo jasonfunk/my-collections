@@ -71,6 +71,16 @@ export class StarWarsController {
     return this.itemsService.findAll(user.sub, pagination);
   }
 
+  @Get('items/:id')
+  @ApiOperation({ summary: 'Get a single Star Wars item by ID' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  getItem(
+    @CurrentUser() user: AccessTokenPayload,
+    @Param('id') id: string,
+  ) {
+    return this.itemsService.findOne(user.sub, id);
+  }
+
   @Post('items')
   @ApiOperation({ summary: 'Claim a catalog item (mark as owned or add to wishlist)' })
   @ApiResponse({ status: 201, description: 'Record created' })

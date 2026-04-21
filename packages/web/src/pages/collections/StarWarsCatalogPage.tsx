@@ -50,14 +50,6 @@ export function StarWarsCatalogPage() {
     }, { replace: true });
   }
 
-  function resetPage() {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.delete('page');
-      return next;
-    }, { replace: true });
-  }
-
   // Build catalog query string (server-side: line, category, search, page)
   const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (line) catalogParams.set('line', line);
@@ -101,6 +93,11 @@ export function StarWarsCatalogPage() {
     if (priority) {
       displayUserItems = displayUserItems.filter((i) => i.wishlistPriority === priority);
     }
+  }
+
+  if (isUserItemMode) {
+    if (line) displayUserItems = displayUserItems.filter((ui) => ui.catalog?.line === line);
+    if (category) displayUserItems = displayUserItems.filter((ui) => ui.catalog?.category === category);
   }
 
   const displayCount = isUserItemMode ? displayUserItems.length : catalogTotal;
@@ -173,8 +170,12 @@ export function StarWarsCatalogPage() {
           <Select
             value={line}
             onValueChange={(v) => {
-              setParam('line', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('line'); else next.set('line', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-48 text-sm">
@@ -192,8 +193,12 @@ export function StarWarsCatalogPage() {
           <Select
             value={category}
             onValueChange={(v) => {
-              setParam('category', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('category'); else next.set('category', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-40 text-sm">

@@ -50,14 +50,6 @@ export function TransformersCatalogPage() {
     }, { replace: true });
   }
 
-  function resetPage() {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.delete('page');
-      return next;
-    }, { replace: true });
-  }
-
   const catalogParams = new URLSearchParams({ limit: String(DEFAULT_PAGE_SIZE), page: String(page) });
   if (faction) catalogParams.set('faction', faction);
   if (line) catalogParams.set('line', line);
@@ -96,6 +88,11 @@ export function TransformersCatalogPage() {
     if (priority) {
       displayUserItems = displayUserItems.filter((i) => i.wishlistPriority === priority);
     }
+  }
+
+  if (isUserItemMode) {
+    if (faction) displayUserItems = displayUserItems.filter((ui) => ui.catalog?.faction === faction);
+    if (line)    displayUserItems = displayUserItems.filter((ui) => ui.catalog?.line === line);
   }
 
   const displayCountLabel = claimedFilter === 'owned'
@@ -167,8 +164,12 @@ export function TransformersCatalogPage() {
           <Select
             value={faction}
             onValueChange={(v) => {
-              setParam('faction', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('faction'); else next.set('faction', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-40 text-sm">
@@ -186,8 +187,12 @@ export function TransformersCatalogPage() {
           <Select
             value={line}
             onValueChange={(v) => {
-              setParam('line', v === '__all__' ? null : v);
-              resetPage();
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (v === '__all__') next.delete('line'); else next.set('line', v);
+                next.delete('page');
+                return next;
+              }, { replace: true });
             }}
           >
             <SelectTrigger className="h-8 w-44 text-sm">

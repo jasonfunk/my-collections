@@ -1,5 +1,6 @@
 import { ConditionGrade } from '@my-collections/shared';
 import { cn } from '@/lib/utils';
+import { CONDITION_GRADE_NAMES } from '@/lib/collectionConfig';
 
 const CONDITION_STYLES: Record<string, string> = {
   [ConditionGrade.MINT]:       'bg-green-500/15 text-green-400',
@@ -19,6 +20,7 @@ interface ConditionBadgeProps {
 
 export function ConditionBadge({ grade, className }: ConditionBadgeProps) {
   const style = CONDITION_STYLES[grade] ?? 'bg-gray-100 text-gray-600';
+  const name = CONDITION_GRADE_NAMES[grade];
   return (
     <span
       className={cn(
@@ -27,7 +29,7 @@ export function ConditionBadge({ grade, className }: ConditionBadgeProps) {
         className,
       )}
     >
-      {grade}
+      {grade}{name ? ` · ${name}` : ''}
     </span>
   );
 }

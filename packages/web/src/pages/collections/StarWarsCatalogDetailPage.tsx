@@ -59,7 +59,6 @@ export function StarWarsCatalogDetailPage() {
     enabled: !!id,
   });
 
-  // Fetch user items and find the one for this catalog entry
   const { data: userItemsPage, isPending: userItemsPending } = useQuery({
     queryKey: ['sw-user-items'],
     queryFn: () => apiClient.get<PaginatedResponse<UserStarWarsItem>>(`/collections/star-wars/items?limit=${MAX_USER_ITEMS_FETCH}`),
@@ -78,15 +77,23 @@ export function StarWarsCatalogDetailPage() {
     return (
       <div className="min-h-screen bg-muted/40">
         <header className="border-b bg-background px-6 py-4">
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-5xl">
             <Skeleton className="h-8 w-32" />
           </div>
         </header>
-        <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
-          <Skeleton className="h-8 w-64" />
-          <Skeleton className="h-5 w-48" />
-          <Skeleton className="h-px w-full" />
-          {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-4 w-full max-w-sm" />)}
+        <main className="mx-auto max-w-5xl px-6 py-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
+            <div className="space-y-4">
+              <Skeleton className="h-64 w-full rounded-lg" />
+              <Skeleton className="h-40 w-full rounded-lg" />
+            </div>
+            <div className="space-y-4">
+              <Skeleton className="h-8 w-64" />
+              <Skeleton className="h-5 w-48" />
+              <Skeleton className="h-px w-full" />
+              {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-4 w-full max-w-sm" />)}
+            </div>
+          </div>
         </main>
       </div>
     );
@@ -103,192 +110,190 @@ export function StarWarsCatalogDetailPage() {
   return (
     <div className="min-h-screen bg-muted/40">
       <header className="border-b bg-background px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate('/collections/star-wars')}>
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             Star Wars
           </Button>
-          <div className="flex gap-2">
-            {userItem && (
-              <Button variant="outline" size="sm" onClick={() => setClaimDialogOpen(true)}>
-                Edit
-              </Button>
-            )}
-          </div>
+          {userItem && (
+            <Button variant="outline" size="sm" onClick={() => setClaimDialogOpen(true)}>
+              Edit
+            </Button>
+          )}
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
-        {/* Title */}
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold">{catalogItem.name}</h1>
-            {catalogItem.isVariant && (
-              <Badge variant="secondary">Variant</Badge>
-            )}
-          </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {STAR_WARS_CATEGORY_LABELS[catalogItem.category] ?? catalogItem.category}
-            {catalogItem.line && ` · ${STAR_WARS_LINE_LABELS[catalogItem.line] ?? catalogItem.line}`}
-          </p>
-        </div>
+      <main className="mx-auto max-w-5xl px-6 py-8 space-y-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
 
-        {/* Catalog image */}
-        {catalogItem.catalogImageUrl && (
-          <img
-            src={catalogItem.catalogImageUrl}
-            alt={catalogItem.name}
-            className="max-h-64 rounded-lg object-contain"
-            loading="lazy"
-          />
-        )}
-
-        <Separator />
-
-        {/* Catalog details */}
-        <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-            Catalog Info
-          </h2>
-          <div className="space-y-2">
-            {catalogItem.figureSize && (
-              <DetailRow label="Figure size" value={FIGURE_SIZE_LABELS[catalogItem.figureSize] ?? catalogItem.figureSize} />
-            )}
-            {catalogItem.cardbackStyle && (
-              <DetailRow label="Cardback" value={CARDBACK_LABELS[catalogItem.cardbackStyle] ?? catalogItem.cardbackStyle} />
-            )}
-            {catalogItem.kennerItemNumber && (
-              <DetailRow label="Kenner #" value={catalogItem.kennerItemNumber} />
-            )}
-            <BoolRow label="Coin included" value={catalogItem.coinIncluded} />
-            {catalogItem.isVariant && catalogItem.variantDescription && (
-              <DetailRow label="Variant" value={catalogItem.variantDescription} />
-            )}
-            {catalogItem.features && catalogItem.features.length > 0 && (
-              <DetailRow label="Features" value={catalogItem.features.join(', ')} />
-            )}
-          </div>
-        </section>
-
-        {/* Expected accessories */}
-        {catalogItem.accessories.length > 0 && (
-          <>
-            <Separator />
-            <section>
-              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                Expected Accessories
-              </h2>
-              <AccessoriesList
-                accessories={catalogItem.accessories}
-                ownedAccessories={userItem?.ownedAccessories ?? []}
-              />
-            </section>
-          </>
-        )}
-
-        <Separator />
-
-        {/* User record */}
-        <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-            Your Record
-          </h2>
-
-          {userItemsPending ? (
-            <div className="space-y-2">
-              <Skeleton className="h-6 w-24" />
-              <Skeleton className="h-4 w-48" />
-              <Skeleton className="h-4 w-36" />
-            </div>
-          ) : userItem ? (
-            <div className="space-y-4">
-              {/* Ownership status */}
-              <div className="flex flex-wrap items-center gap-2">
-                {userItem.isOwned ? (
-                  <Badge className="bg-green-600 hover:bg-green-600">Owned</Badge>
-                ) : (
-                  <>
-                    <Badge variant="outline" className="border-yellow-500 text-yellow-700">Wishlist</Badge>
-                    {userItem.wishlistPriority && (
-                      <Badge variant="outline">
-                        {WISHLIST_PRIORITY_LABELS[userItem.wishlistPriority]} priority
-                      </Badge>
-                    )}
-                  </>
-                )}
+          {/* LEFT — image + your record */}
+          <div className="space-y-4">
+            {catalogItem.catalogImageUrl && (
+              <div className="overflow-hidden rounded-lg border bg-muted/20">
+                <img
+                  src={catalogItem.catalogImageUrl}
+                  alt={catalogItem.name}
+                  className="w-full object-cover object-top"
+                  style={{ maxHeight: 320 }}
+                  loading="lazy"
+                />
               </div>
+            )}
 
-              {userItem.isOwned && (
+            <div className="rounded-lg border p-4 space-y-3">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your Record</h2>
+
+              {userItemsPending ? (
                 <div className="space-y-2">
-                  {userItem.condition && <ConditionBadge grade={userItem.condition} />}
-                  <DetailRow label="Complete" value={userItem.isComplete ? '✓ Yes' : '✗ No'} />
-                  <BoolRow label="Carded" value={userItem.isCarded} />
-                  <BoolRow label="Boxed" value={userItem.isBoxed} />
-                  {userItem.estimatedValue != null && (
-                    <DetailRow label="Est. value" value={formatCurrency(userItem.estimatedValue)} />
-                  )}
-                  {userItem.acquisitionSource && (
-                    <DetailRow label="Source" value={ACQUISITION_SOURCE_LABELS[userItem.acquisitionSource] ?? userItem.acquisitionSource} />
-                  )}
-                  {userItem.acquisitionDate && (
-                    <DetailRow label="Acquired" value={formatDate(userItem.acquisitionDate)} />
-                  )}
-                  {userItem.acquisitionPrice != null && (
-                    <DetailRow label="Price paid" value={formatCurrency(userItem.acquisitionPrice)} />
-                  )}
+                  <Skeleton className="h-6 w-24" />
+                  <Skeleton className="h-4 w-48" />
+                  <Skeleton className="h-4 w-36" />
                 </div>
-              )}
+              ) : userItem ? (
+                <div className="space-y-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {userItem.isOwned ? (
+                      <Badge className="bg-green-600 hover:bg-green-600">Owned</Badge>
+                    ) : (
+                      <>
+                        <Badge variant="outline" className="border-yellow-500 text-yellow-700">Wishlist</Badge>
+                        {userItem.wishlistPriority && (
+                          <Badge variant="outline">
+                            {WISHLIST_PRIORITY_LABELS[userItem.wishlistPriority]} priority
+                          </Badge>
+                        )}
+                      </>
+                    )}
+                  </div>
 
-              {userItem.notes && (
-                <p className="text-sm">{userItem.notes}</p>
-              )}
+                  {userItem.isOwned && (
+                    <div className="space-y-2">
+                      {userItem.condition && <ConditionBadge grade={userItem.condition} />}
+                      <DetailRow label="Complete" value={userItem.isComplete ? '✓ Yes' : '✗ No'} />
+                      <BoolRow label="Carded" value={userItem.isCarded} />
+                      <BoolRow label="Boxed" value={userItem.isBoxed} />
+                      {userItem.estimatedValue != null && (
+                        <DetailRow label="Est. value" value={formatCurrency(userItem.estimatedValue)} />
+                      )}
+                      {userItem.acquisitionSource && (
+                        <DetailRow label="Source" value={ACQUISITION_SOURCE_LABELS[userItem.acquisitionSource] ?? userItem.acquisitionSource} />
+                      )}
+                      {userItem.acquisitionDate && (
+                        <DetailRow label="Acquired" value={formatDate(userItem.acquisitionDate)} />
+                      )}
+                      {userItem.acquisitionPrice != null && (
+                        <DetailRow label="Price paid" value={formatCurrency(userItem.acquisitionPrice)} />
+                      )}
+                    </div>
+                  )}
 
-              {/* Delete */}
-              {confirmDelete ? (
-                <div className="flex items-center gap-3">
-                  <p className="text-sm text-destructive">Remove this from your collection?</p>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    disabled={deleteMutation.isPending}
-                    onClick={() => deleteMutation.mutate()}
-                  >
-                    {deleteMutation.isPending ? 'Removing…' : 'Yes, remove'}
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(false)}>
-                    Cancel
-                  </Button>
+                  {userItem.notes && (
+                    <p className="text-sm text-muted-foreground">{userItem.notes}</p>
+                  )}
                 </div>
               ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-destructive hover:text-destructive"
-                  onClick={() => setConfirmDelete(true)}
-                >
-                  Remove from collection
-                </Button>
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    You have not claimed this item yet.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" onClick={() => setClaimDialogOpen(true)}>
+                      Mark as Owned
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setClaimDialogOpen(true)}>
+                      Add to Wishlist
+                    </Button>
+                  </div>
+                </div>
               )}
             </div>
-          ) : (
-            <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                You have not claimed this item yet.
+          </div>
+
+          {/* RIGHT — title + catalog info + accessories */}
+          <div className="space-y-5">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-2xl font-bold">{catalogItem.name}</h1>
+                {catalogItem.isVariant && <Badge variant="secondary">Variant</Badge>}
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {STAR_WARS_CATEGORY_LABELS[catalogItem.category] ?? catalogItem.category}
+                {catalogItem.line && ` · ${STAR_WARS_LINE_LABELS[catalogItem.line] ?? catalogItem.line}`}
               </p>
-              <div className="flex gap-3">
-                <Button onClick={() => setClaimDialogOpen(true)}>
-                  Mark as Owned
-                </Button>
+            </div>
+
+            <Separator />
+
+            <section>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Catalog Info
+              </h2>
+              <div className="space-y-2">
+                {catalogItem.figureSize && (
+                  <DetailRow label="Figure size" value={FIGURE_SIZE_LABELS[catalogItem.figureSize] ?? catalogItem.figureSize} />
+                )}
+                {catalogItem.cardbackStyle && (
+                  <DetailRow label="Cardback" value={CARDBACK_LABELS[catalogItem.cardbackStyle] ?? catalogItem.cardbackStyle} />
+                )}
+                {catalogItem.kennerItemNumber && (
+                  <DetailRow label="Kenner #" value={catalogItem.kennerItemNumber} />
+                )}
+                <BoolRow label="Coin included" value={catalogItem.coinIncluded} />
+                {catalogItem.isVariant && catalogItem.variantDescription && (
+                  <DetailRow label="Variant" value={catalogItem.variantDescription} />
+                )}
+                {catalogItem.features && catalogItem.features.length > 0 && (
+                  <DetailRow label="Features" value={catalogItem.features.join(', ')} />
+                )}
+              </div>
+            </section>
+
+            {catalogItem.accessories.length > 0 && (
+              <>
+                <Separator />
+                <section>
+                  <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                    Expected Accessories
+                  </h2>
+                  <AccessoriesList
+                    accessories={catalogItem.accessories}
+                    ownedAccessories={userItem?.ownedAccessories ?? []}
+                  />
+                </section>
+              </>
+            )}
+          </div>
+        </div>
+
+        {userItem && (
+          <div className="flex justify-end border-t pt-4">
+            {confirmDelete ? (
+              <div className="flex items-center gap-3">
+                <p className="text-sm text-destructive">Remove this from your collection?</p>
                 <Button
-                  variant="outline"
-                  onClick={() => setClaimDialogOpen(true)}
+                  variant="destructive"
+                  size="sm"
+                  disabled={deleteMutation.isPending}
+                  onClick={() => deleteMutation.mutate()}
                 >
-                  Add to Wishlist
+                  {deleteMutation.isPending ? 'Removing…' : 'Yes, remove'}
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(false)}>
+                  Cancel
                 </Button>
               </div>
-            </div>
-          )}
-        </section>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-destructive hover:text-destructive"
+                onClick={() => setConfirmDelete(true)}
+              >
+                Remove from collection
+              </Button>
+            )}
+          </div>
+        )}
       </main>
 
       <StarWarsClaimDialog

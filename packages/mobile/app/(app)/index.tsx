@@ -15,12 +15,7 @@ import type { CollectionStats, RecentCollectionItem } from '@my-collections/shar
 import { apiClient } from '../../src/api/client';
 import { useAuth } from '../../src/hooks/useAuth';
 import { CollectionIcon } from '../../src/components/CollectionIcon';
-
-const COLLECTION_CONFIG: Record<CollectionType, { label: string; color: string; subtitle: string }> = {
-  [CollectionType.STAR_WARS]: { label: 'Star Wars', color: '#fbbf24', subtitle: 'Original Trilogy · 1977–1985' },
-  [CollectionType.TRANSFORMERS]: { label: 'Transformers', color: '#60a5fa', subtitle: 'Generation 1 · 1984–1990' },
-  [CollectionType.HE_MAN]: { label: 'He-Man', color: '#a78bfa', subtitle: 'Masters of the Universe · 1981–1988' },
-};
+import { COLLECTION_CONFIG } from '../../src/config/collections';
 
 function formatValue(value: number | null): string {
   if (value === null) return '—';
@@ -102,17 +97,17 @@ export default function DashboardScreen() {
             <CollectionCard
               collectionType={CollectionType.STAR_WARS}
               stats={stats.starWars}
-              onPress={() => router.navigate('/(app)/collections')}
+              onPress={() => router.navigate('/(app)/collections/star-wars')}
             />
             <CollectionCard
               collectionType={CollectionType.TRANSFORMERS}
               stats={stats.transformers}
-              onPress={() => router.navigate('/(app)/collections')}
+              onPress={() => router.navigate('/(app)/collections/transformers')}
             />
             <CollectionCard
               collectionType={CollectionType.HE_MAN}
               stats={stats.heman}
-              onPress={() => router.navigate('/(app)/collections')}
+              onPress={() => router.navigate('/(app)/collections/he-man')}
             />
 
             <Text style={[styles.sectionLabel, styles.sectionSpacing]}>Totals</Text>

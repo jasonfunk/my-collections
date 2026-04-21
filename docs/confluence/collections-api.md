@@ -189,9 +189,9 @@ All three collection types follow the same pattern: a shared read-only catalog o
 
 | **Collection** | **Catalog Endpoints** | **User Item Endpoints** | **Wishlist** |
 | --- | --- | --- | --- |
-| **Star Wars** | `GET /collections/star-wars/catalog`, `GET /collections/star-wars/catalog/:id` | `GET/POST /collections/star-wars/items`, `PATCH /collections/star-wars/items/:id`, `PATCH /collections/star-wars/items/:id/acquired`, `DELETE /collections/star-wars/items/:id` | `GET /collections/star-wars/wishlist` |
-| **Transformers** | `GET /collections/transformers/catalog`, `GET /collections/transformers/catalog/:id` | `GET/POST /collections/transformers/items`, `PATCH /collections/transformers/items/:id`, `PATCH /collections/transformers/items/:id/acquired`, `DELETE /collections/transformers/items/:id` | `GET /collections/transformers/wishlist` |
-| **He-Man** | `GET /collections/he-man/catalog`, `GET /collections/he-man/catalog/:id` | `GET/POST /collections/he-man/items`, `PATCH /collections/he-man/items/:id`, `PATCH /collections/he-man/items/:id/acquired`, `DELETE /collections/he-man/items/:id` | `GET /collections/he-man/wishlist` |
+| **Star Wars** | `GET /collections/star-wars/catalog`, `GET /collections/star-wars/catalog/:id` | `GET/POST /collections/star-wars/items`, `GET /collections/star-wars/items/:id`, `PATCH /collections/star-wars/items/:id`, `PATCH /collections/star-wars/items/:id/acquired`, `DELETE /collections/star-wars/items/:id` | `GET /collections/star-wars/wishlist` |
+| **Transformers** | `GET /collections/transformers/catalog`, `GET /collections/transformers/catalog/:id` | `GET/POST /collections/transformers/items`, `GET /collections/transformers/items/:id`, `PATCH /collections/transformers/items/:id`, `PATCH /collections/transformers/items/:id/acquired`, `DELETE /collections/transformers/items/:id` | `GET /collections/transformers/wishlist` |
+| **He-Man** | `GET /collections/he-man/catalog`, `GET /collections/he-man/catalog/:id` | `GET/POST /collections/he-man/items`, `GET /collections/he-man/items/:id`, `PATCH /collections/he-man/items/:id`, `PATCH /collections/he-man/items/:id/acquired`, `DELETE /collections/he-man/items/:id` | `GET /collections/he-man/wishlist` |
 
 - My Collections — Star Wars Figures
 - My Collections — G1 Transformers

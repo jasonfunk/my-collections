@@ -44,7 +44,7 @@ export function StarWarsCatalogCard({ catalogItem, userItem }: StarWarsCatalogCa
           <img
             src={catalogItem.catalogImageUrl}
             alt={catalogItem.name}
-            className="h-full w-full rounded-t-lg object-cover"
+            className="h-full w-full rounded-t-lg object-cover object-top"
             loading="lazy"
           />
         ) : (

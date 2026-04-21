@@ -17,9 +17,11 @@ import {
   TF_SIZE_LABELS,
   MASTERS_LINE_LABELS,
   MASTERS_CHARACTER_LABELS,
+  ACQUISITION_SOURCE_LABELS,
 } from '@/lib/collectionConfig.js';
 import { ConditionBadge } from '@/components/collections/ConditionBadge.js';
 import { AccessoriesList } from '@/components/collections/AccessoriesList.js';
+import { AuthenticatedImage } from '@/components/AuthenticatedImage.js';
 import { Button } from '@/components/ui/button.js';
 import { Badge } from '@/components/ui/badge.js';
 import { Separator } from '@/components/ui/separator.js';
@@ -127,24 +129,25 @@ export function CollectionDetailPage() {
 
   return (
     <div className="min-h-screen bg-muted/40">
-      {/* Top nav */}
       <header className="border-b bg-background px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
             <ArrowLeftIcon className="mr-1 h-4 w-4" />
             {config.label}
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => navigate(`/collections/${collection}/${id}/edit`)}
-          >
-            Edit
-          </Button>
+          {item && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(`/collections/${collection}/${id}/edit`)}
+            >
+              Edit
+            </Button>
+          )}
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-8">
+      <main className="mx-auto max-w-5xl px-6 py-8">
         {isPending ? (
           <DetailSkeleton />
         ) : isError || !item ? (
@@ -159,89 +162,101 @@ export function CollectionDetailPage() {
 
 function DetailContent({ item, collection }: { item: CollectionItem; collection: string }) {
   const i = item as CollectionItem & Record<string, unknown>;
+  const hasPhoto = item.photoUrls.length > 0;
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-bold">{item.name}</h1>
-          {!item.isOwned && <Badge variant="outline">Wishlist</Badge>}
-        </div>
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-          {item.condition && <ConditionBadge grade={item.condition} />}
-          {item.estimatedValue != null && (
-            <span>est. {formatCurrency(item.estimatedValue)}</span>
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
+
+      {/* LEFT — photo + ownership / acquisition summary */}
+      <div className="space-y-4">
+        {hasPhoto ? (
+          <div className="overflow-hidden rounded-lg border bg-muted/20 max-h-80">
+            <AuthenticatedImage
+              src={item.photoUrls[0]}
+              alt={item.name}
+              className="w-full object-cover object-top"
+              fallback={<div className="flex h-48 items-center justify-center text-muted-foreground text-sm">Photo unavailable</div>}
+            />
+          </div>
+        ) : null}
+
+        <div className="rounded-lg border p-4 space-y-3">
+          <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your Record</h2>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {!item.isOwned && <Badge variant="outline">Wishlist</Badge>}
+            {item.condition && <ConditionBadge grade={item.condition} />}
+          </div>
+
+          <div className="space-y-2">
+            <DetailRow label="Complete" value={item.isComplete ? '✓ Yes' : '✗ No'} />
+            {item.estimatedValue != null && (
+              <DetailRow label="Est. value" value={formatCurrency(item.estimatedValue)} />
+            )}
+            {item.acquisitionSource && (
+              <DetailRow label="Source" value={ACQUISITION_SOURCE_LABELS[item.acquisitionSource] ?? item.acquisitionSource.replace(/_/g, ' ')} />
+            )}
+            {item.acquisitionDate && (
+              <DetailRow label="Acquired" value={formatDate(item.acquisitionDate)} />
+            )}
+            {item.acquisitionPrice != null && (
+              <DetailRow label="Price paid" value={formatCurrency(item.acquisitionPrice)} />
+            )}
+          </div>
+
+          {item.notes && (
+            <>
+              <Separator />
+              <p className="text-sm text-muted-foreground">{item.notes}</p>
+            </>
           )}
-          {item.acquisitionPrice != null && (
-            <span>· paid {formatCurrency(item.acquisitionPrice)}</span>
-          )}
-          <span>· {item.isComplete ? 'Complete' : 'Incomplete'}</span>
         </div>
       </div>
 
-      <Separator />
+      {/* RIGHT — name + collection-specific details + accessories */}
+      <div className="space-y-5">
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold">{item.name}</h1>
+          </div>
+        </div>
 
-      {/* Collection-specific fields */}
-      <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Details</h2>
-        {collection === 'star-wars' && <StarWarsDetails item={item as StarWarsFigure} />}
-        {collection === 'transformers' && <TransformersDetails item={item as G1Transformer} />}
-        {collection === 'he-man' && <MastersDetails item={item as MastersOfTheUniverseFigure} />}
-      </section>
+        <Separator />
 
-      {/* Accessories */}
-      {(i.accessories as string[] | undefined)?.length ? (
-        <>
-          <Separator />
-          <section>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Accessories</h2>
-            <AccessoriesList
-              accessories={i.accessories as string[]}
-              ownedAccessories={i.ownedAccessories as string[] ?? []}
-            />
-          </section>
-        </>
-      ) : null}
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Details</h2>
+          {collection === 'star-wars' && <StarWarsDetails item={item as StarWarsFigure} />}
+          {collection === 'transformers' && <TransformersDetails item={item as G1Transformer} />}
+          {collection === 'he-man' && <MastersDetails item={item as MastersOfTheUniverseFigure} />}
+        </section>
 
-      {/* Acquisition */}
-      {(item.acquisitionSource || item.acquisitionDate) && (
-        <>
-          <Separator />
-          <section>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Acquisition</h2>
-            <div className="space-y-2">
-              <DetailRow label="Source" value={item.acquisitionSource?.replace(/_/g, ' ')} />
-              <DetailRow label="Date" value={formatDate(item.acquisitionDate)} />
-              <DetailRow label="Price paid" value={formatCurrency(item.acquisitionPrice)} />
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* Notes */}
-      {item.notes && (
-        <>
-          <Separator />
-          <section>
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Notes</h2>
-            <p className="text-sm">{item.notes}</p>
-          </section>
-        </>
-      )}
+        {(i.accessories as string[] | undefined)?.length ? (
+          <>
+            <Separator />
+            <section>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Accessories</h2>
+              <AccessoriesList
+                accessories={i.accessories as string[]}
+                ownedAccessories={i.ownedAccessories as string[] ?? []}
+              />
+            </section>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }
 
 function DetailSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <Skeleton className="h-8 w-64" />
-        <Skeleton className="h-5 w-48" />
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
+      <div className="space-y-4">
+        <Skeleton className="h-64 w-full rounded-lg" />
+        <Skeleton className="h-40 w-full rounded-lg" />
       </div>
-      <Skeleton className="h-px w-full" />
-      <div className="space-y-3">
+      <div className="space-y-4">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-px w-full" />
         {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-4 w-full max-w-sm" />
         ))}

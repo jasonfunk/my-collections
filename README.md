@@ -2,9 +2,9 @@
 
 ![Node 20+](https://img.shields.io/badge/Node-20%2B-339933?style=flat-square)
 ![TypeScript 5.4](https://img.shields.io/badge/TypeScript-5.4-3178C6?style=flat-square)
-![NestJS 10](https://img.shields.io/badge/NestJS-10-E0234E?style=flat-square)
+![NestJS 11](https://img.shields.io/badge/NestJS-11-E0234E?style=flat-square)
 ![React 18](https://img.shields.io/badge/React-18-61DAFB?style=flat-square)
-![Expo 51](https://img.shields.io/badge/Expo-51-000020?style=flat-square)
+![Expo 55](https://img.shields.io/badge/Expo-55-000020?style=flat-square)
 ![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square)
 
 Personal full-stack app to track vintage toy collections (Star Wars, G1 Transformers, Masters of the Universe). Built as a learning project covering OAuth2 from scratch, React, TypeScript, Expo/React Native, and full SDLC practices — Jira tracking, Confluence docs, CI/CD pipeline, and monorepo tooling.
@@ -16,9 +16,9 @@ Personal full-stack app to track vintage toy collections (Star Wars, G1 Transfor
 | Layer | Technology | Version |
 |---|---|---|
 | Database | PostgreSQL | 16 |
-| Backend API | NestJS | 10 |
+| Backend API | NestJS | 11 |
 | Frontend | React SPA (Vite) | 18 / Vite 5 |
-| Mobile | Expo (React Native) | 51 / RN 0.74 |
+| Mobile | Expo (React Native) | 55 / RN 0.83.4 |
 | Auth | OAuth2 + PKCE | Custom |
 | Language | TypeScript | 5.4 |
 | Monorepo | Turborepo + npm workspaces | 2.0 |
@@ -28,10 +28,9 @@ Personal full-stack app to track vintage toy collections (Star Wars, G1 Transfor
 
 ## Project Status
 
-- Phases 1–5 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API, React SPA with full CRUD (browse, detail, add, edit)
-- COL-61 in progress: catalog/user-items refactor + Star Wars pre-population (scraper done, seed runner + web views pending)
+- Phases 1–5 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API, React SPA with full CRUD (browse, detail, add, edit, wishlist, search)
+- Phase 6 (mobile) in progress: login, dashboard, collection browse, and item detail screens complete (COL-47 through COL-49); barcode scanning, camera, add/edit, and push notifications remain
 - Active development on `develop` branch; `main` is production-ready
-- Next: COL-66 seed runner, COL-67 web views, then Phase 6 — Expo mobile app
 
 ---
 
@@ -202,9 +201,9 @@ See [`docs/project-structure.md`](docs/project-structure.md) for a detailed brea
 | Users | GET /users/me | Yes (Bearer JWT) |
 | Collections | GET /collections/stats, GET /collections/search | Yes |
 | Star Wars Catalog | GET /collections/star-wars/catalog, GET /collections/star-wars/catalog/:id | Yes |
-| Star Wars Items | GET/POST /collections/star-wars/items, PATCH/DELETE /collections/star-wars/items/:id | Yes |
-| Transformers | GET/POST /collections/transformers, GET/PATCH/DELETE /collections/transformers/:id | Yes |
-| He-Man | GET/POST /collections/he-man, GET/PATCH/DELETE /collections/he-man/:id | Yes |
+| Star Wars Items | GET/POST /collections/star-wars/items, GET/PATCH/DELETE /collections/star-wars/items/:id | Yes |
+| Transformers | GET/POST /collections/transformers/items, GET/PATCH/DELETE /collections/transformers/items/:id | Yes |
+| He-Man | GET/POST /collections/he-man/items, GET/PATCH/DELETE /collections/he-man/items/:id | Yes |
 | Photos | POST /collections/photos/upload | Yes (Bearer JWT) |
 | Health | GET /health, GET /health/ready | No |
 
@@ -242,7 +241,7 @@ Branch protection on `main`: all CI checks must pass before merge.
 
 ## Known Issues
 
-> **Vulnerability debt:** High-severity (not critical) vulnerabilities exist in `multer` (via `@nestjs/platform-express`) and `tar`/`send` (via `@expo/cli`). These are accepted scaffold risks in NestJS 10 and Expo 51. The security audit workflow is configured to `--audit-level=critical` so CI still passes. Address when upgrading to NestJS 11 / Expo 55 before any production deployment.
+> **Vulnerability debt:** No high-severity vulnerabilities as of NestJS 11 + Expo 55 upgrade (2026-04-12). Residual moderate-severity issues exist in test infrastructure dependencies only. CI is configured to `--audit-level=critical` — these do not block builds.
 
 ---
 
