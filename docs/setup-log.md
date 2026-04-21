@@ -3419,3 +3419,41 @@ FlatList's `ListHeaderComponent` text is NOT reliably accessible via Maestro's v
 - Maestro smoke test: all 4 flows passing
 - `npm run lint` — no errors
 - **Jira:** COL-48 → Done
+
+---
+
+## Session 16 — 2026-04-20: COL-49 Item Detail Screen
+
+### What was done
+
+Built the item detail screen for the mobile app, replacing the "Full detail coming in COL-49" stub with a full read-only detail view.
+
+**API changes (3 controllers):**
+- `packages/api/src/modules/collections/controllers/star-wars.controller.ts` — added `GET /collections/star-wars/items/:id` endpoint (delegates to existing `itemsService.findOne(userId, id)`)
+- `packages/api/src/modules/collections/controllers/transformers.controller.ts` — added `GET /collections/transformers/items/:id`
+- `packages/api/src/modules/collections/controllers/masters.controller.ts` — added `GET /collections/he-man/items/:id`
+
+No service changes needed — `findOne(userId, id)` with `catalog` relation already existed in all three services.
+
+**Mobile changes:**
+- `packages/mobile/src/services/collectionsService.ts` — added `DetailItem` interface (superset of all three collection types; collection-specific fields optional) and `fetchItemDetail(collectionType, id)` function
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — full detail screen implementation: `ScrollView` with sections (Status header, Condition, Collection-specific fields, Acquisition, Notes, Photos); collection-type-aware display branches on `SLUG_TO_COLLECTION[slug]`; condition and source labels mapped to human strings; owned accessories shown with catalog accessory checklist (green = owned, gray = missing); photo gallery as horizontal `ScrollView` of `Image` thumbnails; loading/error/retry states
+
+**New Maestro test:**
+- `packages/mobile/.maestro/collections/item-detail.yaml` — navigates Dashboard → Star Wars browse → taps "2-1B / Two-Onebee" → asserts "Condition" and "Details" sections visible → presses Android back → returns to Dashboard
+- `packages/mobile/.maestro/smoke-test.yaml` — added `collections/item-detail.yaml` to the flow
+
+### Key learnings
+
+**`extendedWaitUntil` does exact text matching, not substring.** `visible: "items"` does NOT match the text "2 items" on screen. Must use the exact rendered string (e.g. `visible: "2 items"`). `assertVisible` is more lenient with substring matching but `extendedWaitUntil` is strict.
+
+**Android header back button has no text label.** Attempting to `tapOn: "Star Wars"` to go back from the detail screen failed — Android uses an arrow icon, not the previous screen's title text. Solution: `pressKey: Back` to trigger Android back navigation.
+
+**Atlassian MCP cloud ID:** Correct cloud ID is `c27d03df-ec97-431d-b4ba-76bf0e31ca34` (from `getAccessibleAtlassianResources`). The previously used ID `a3c2d4e0-22e2-4652-856d-d9e902aae63b` no longer grants access.
+
+### Verification
+
+- API: `GET /collections/star-wars/items/:id` returns full entity with `catalog` relation (verified via curl)
+- Maestro full smoke test: all 5 flows passing (login → stats → navigation → item-detail → logout)
+- `npm run lint` — no errors (API and mobile)
+- **Jira:** COL-49 → Done
