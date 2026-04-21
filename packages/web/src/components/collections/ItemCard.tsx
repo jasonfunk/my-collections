@@ -63,7 +63,7 @@ export function ItemCard({ item, collectionKey }: ItemCardProps) {
           <AuthenticatedImage
             src={item.photoUrls[0]}
             alt={item.name}
-            className="h-full w-full rounded-t-lg object-cover"
+            className="h-full w-full rounded-t-lg object-cover object-top"
             fallback={<span className="text-3xl font-bold opacity-40">{initials}</span>}
           />
         ) : (

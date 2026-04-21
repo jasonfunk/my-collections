@@ -148,6 +148,17 @@ export const ACQUISITION_SOURCE_LABELS: Record<string, string> = {
   [AcquisitionSource.OTHER]: 'Other',
 };
 
+export const CONDITION_GRADE_NAMES: Record<string, string> = {
+  C10: 'Mint',
+  C9:  'Near Mint',
+  C8:  'Very Fine',
+  C7:  'Fine',
+  C6:  'Very Good',
+  C5:  'Good',
+  C4:  'Poor',
+  INC: 'Incomplete',
+};
+
 export const CONDITION_OPTIONS: FilterOption[] = enumToOptions(CONDITION_LABELS);
 export const ACQUISITION_SOURCE_OPTIONS: FilterOption[] = enumToOptions(ACQUISITION_SOURCE_LABELS);
 export const STAR_WARS_CATEGORY_OPTIONS: FilterOption[] = enumToOptions(STAR_WARS_CATEGORY_LABELS);
