@@ -3578,3 +3578,69 @@ Extended completion rings to the mobile dashboard using `react-native-svg`.
 - `npm run lint` — all packages clean
 - Rings visible and animated on Android emulator for all three collection cards
 
+
+---
+
+## Session 19 — COL-100 Star Wars catalog line enrichment (2026-04-25)
+
+### What was done
+
+Enriched the Star Wars catalog with `line`, `coinIncluded`, and `releaseYear` fields — all derivable from the `year` field already present in the seed JSON. Also added `--update` upsert mode to all three seed runners to support future enrichment passes without re-seeding from scratch.
+
+**New files:**
+- `scripts/patch-star-wars-line.ts` — one-time patch script; derives `StarWarsLine` from `year` using year-range cutoffs, sets `coinIncluded: true` for all POTF items, adds `releaseYear` field to JSON
+- `packages/api/src/migrations/1776200000000-AddReleaseYearToStarWarsCatalog.ts` — adds `releaseYear integer` column to `star_wars_catalog`
+- `docs/catalog-data-gaps.md` — new reference doc; full gap inventory for all three collections with fill strategy by tier (patch scripts / re-scrape / external sources); will be updated as gaps are closed
+
+**Modified files:**
+- `packages/api/src/database/seeds/data/star-wars-catalog.json` — all 199 records now have `line`, `releaseYear`, `coinIncluded`
+- `packages/api/src/modules/collections/entities/star-wars-catalog.entity.ts` — added `releaseYear: number | null` column
+- `packages/shared/src/types/star-wars.ts` — added `releaseYear?: number` to `StarWarsCatalogItem`
+- `packages/api/src/database/seeds/run-star-wars-seed.ts` — added `--update` flag; uses `repo.update({ externalId })` per row; handles null-externalId records by name+category match
+- `packages/api/src/database/seeds/run-transformers-seed.ts` — same `--update` pattern
+- `packages/api/src/database/seeds/run-he-man-seed.ts` — same `--update` pattern
+- `CLAUDE.md` — added migration and seed command patterns to Development Commands section
+
+### Key decisions
+
+**Line from year, not re-scrape.** The `year` field was already 100% populated in the JSON from the original scrape. Deriving `line` via year cutoffs (`≤1979 → STAR_WARS`, `1980–82 → ESB`, `1983–84 → ROTJ`, `1985 → POTF`) is instant and accurate for initial release year. No scraping needed.
+
+**`repo.update()` over `repo.upsert()`.** The catalog tables have no unique constraint on `externalId` (only a PK on `id`), so TypeORM's `upsert()` with `conflictPaths: ['externalId']` cannot be used — it requires a DB-level unique constraint. Using `repo.update({ externalId }, data)` is correct and sufficient for 199 rows.
+
+**Context7 before writing code.** Verified TypeORM `update()` and `upsert()` API signatures via Context7 before finalizing the seed runner. Caught that `upsert` needs a unique constraint; avoided a runtime error.
+
+### Line distribution (post-patch)
+
+| Line | Count |
+|---|---|
+| STAR_WARS | 51 |
+| EMPIRE_STRIKES_BACK | 71 |
+| RETURN_OF_THE_JEDI | 56 |
+| POWER_OF_THE_FORCE | 21 |
+
+### Commands run
+
+```bash
+npx ts-node --project tsconfig.scripts.json scripts/patch-star-wars-line.ts
+npm run migration:run          # applied 1776200000000-AddReleaseYearToStarWarsCatalog
+npm run seed:star-wars -- --update   # 199 updated, 0 inserted
+npm run lint                   # clean
+git push && gh pr create       # PR #29
+```
+
+### Lessons learned
+
+- Migration and seed commands must be run via npm scripts from repo root — not raw `typeorm` / `ts-node` invocations. Documented in CLAUDE.md.
+- `data-source.ts` is at `packages/api/src/data-source.ts` (not `src/database/data-source.ts`).
+- Seed scripts live in root `package.json`, not `packages/api/package.json`.
+
+### Verification
+
+- `npm run lint` — all packages clean
+- `SELECT line, COUNT(*) FROM star_wars_catalog GROUP BY line` — matches table above
+- All POTF items have `coinIncluded = true`
+- `npm run seed:star-wars -- --update` re-runs cleanly (199 updated, 0 inserted)
+
+### Jira
+
+- COL-100 transitioned to Done
