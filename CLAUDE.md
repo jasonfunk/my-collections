@@ -115,6 +115,19 @@ cd packages/web && npm run dev
 # Mobile (Expo)
 cd packages/mobile && npm run android   # Android emulator
 cd packages/mobile && npm run ios       # iOS simulator
+
+# --- TypeORM migrations (run from repo root or packages/api — NOT with raw typeorm binary) ---
+npm run migration:run      # apply pending migrations
+npm run migration:show     # list applied/pending
+npm run migration:revert   # roll back last migration
+npm run migration:generate -- src/migrations/MigrationName  # generate from entity diff
+# data-source config is at packages/api/src/data-source.ts
+
+# --- Catalog seed scripts (defined in ROOT package.json — must run from repo root) ---
+npm run seed:star-wars                  # insert-only (idempotent)
+npm run seed:star-wars -- --update      # upsert: update existing rows too
+npm run seed:transformers -- --update
+npm run seed:he-man -- --update
 ```
 
 ## Architecture Notes
