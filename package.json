@@ -13,6 +13,7 @@
     "scrape:star-wars": "ts-node --project tsconfig.scripts.json scripts/scrape-star-wars-catalog.ts",
     "seed:star-wars": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-star-wars-seed.ts",
     "scrape:he-man": "ts-node --project tsconfig.scripts.json scripts/scrape-he-man-catalog.ts",
+    "patch:he-man-enrichment": "ts-node --project tsconfig.scripts.json scripts/patch-he-man-enrichment.ts",
     "seed:he-man": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-he-man-seed.ts",
     "scrape:transformers": "ts-node --project tsconfig.scripts.json scripts/scrape-transformers-catalog.ts",
     "seed:transformers": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-transformers-seed.ts"

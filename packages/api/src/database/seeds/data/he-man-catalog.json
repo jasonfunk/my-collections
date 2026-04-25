@@ -12,9 +12,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44127.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-ram-man/44125/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "He-Man Meets Ram-Man!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spring-loaded ramming legs"
   },
   {
     "externalId": "44153",
@@ -29,7 +29,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44155.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-kobra-khan/44153/",
-    "miniComic": null,
+    "miniComic": "Dragon's Gift",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -46,7 +46,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44050.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-he-man/44048/",
-    "miniComic": null,
+    "miniComic": "He-Man and the Power Sword",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -63,7 +63,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44610.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-battle-cat/44608/",
-    "miniComic": null,
+    "miniComic": "The Magic Stealer",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -80,7 +80,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44631.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-zoar/44629/",
-    "miniComic": null,
+    "miniComic": "The Magic Stealer",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -352,9 +352,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44183.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-battle-armor-he-man/44181/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Greyskull Under Siege",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Rotating chest plates with three battle-damage states"
   },
   {
     "externalId": "44132",
@@ -369,9 +369,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44134.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-battle-armor-skeletor/44132/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Double-Edged Sword",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Rotating chest plates with three battle-damage states"
   },
   {
     "externalId": "44027",
@@ -386,7 +386,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44029.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-beast-man/44027/",
-    "miniComic": null,
+    "miniComic": "The Vengeance of Skeletor",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -403,9 +403,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44421.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-blast-attak/44419/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Powers of Grayskull — The Legend Begins!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spring-loaded exploding body"
   },
   {
     "externalId": "44188",
@@ -420,7 +420,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44190.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-buzz-off/44188/",
-    "miniComic": null,
+    "miniComic": "Dragon's Gift",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -437,7 +437,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44491.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-buzz-saw-hordak/44489/",
-    "miniComic": null,
+    "miniComic": "Enter: Buzz-Saw Hordak!",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -454,7 +454,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44449.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-clamp-champ/44447/",
-    "miniComic": null,
+    "miniComic": "Enter: Buzz-Saw Hordak!",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -471,7 +471,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44141.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-clawful/44139/",
-    "miniComic": null,
+    "miniComic": "Siege of Avion",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -489,8 +489,8 @@
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44225.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-dragon-blaster-skeletor/44223/",
     "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "hasArmorOrFeature": true,
+    "featureDescription": "Water-squirting dragon backpack"
   },
   {
     "externalId": "44391",
@@ -505,7 +505,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44393.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-dragstor/44391/",
-    "miniComic": null,
+    "miniComic": "Energy Zoids",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -522,7 +522,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44092.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-evil-lyn/44090/",
-    "miniComic": null,
+    "miniComic": "The Masks of Power",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -539,9 +539,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44330.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-extendar/44328/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Battle of the Towers",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Extending limbs and torso"
   },
   {
     "externalId": "44097",
@@ -556,7 +556,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44099.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-faker/44097/",
-    "miniComic": null,
+    "miniComic": "He-Man and the Power Sword",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -573,7 +573,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44197.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-fisto/44195/",
-    "miniComic": null,
+    "miniComic": "The Clash of Arms",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -590,9 +590,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44337.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-flying-fists-he-man/44335/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Powers of Grayskull — The Legend Begins!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spin-punch action"
   },
   {
     "externalId": "44286",
@@ -607,9 +607,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44288.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-grizzlor-darker-brown/44286/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Horde",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Flocked fur body"
   },
   {
     "externalId": "44279",
@@ -624,9 +624,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44281.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-grizzlor-lighter-brown/44279/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Horde",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Flocked fur body"
   },
   {
     "externalId": "44678",
@@ -658,9 +658,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44295.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-hordak/44293/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Horde",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spring-loaded arm cannon"
   },
   {
     "externalId": "44398",
@@ -675,7 +675,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44400.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-horde-trooper/44398/",
-    "miniComic": null,
+    "miniComic": "The Horde",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -692,9 +692,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44407.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-hurricane-hordak/44405/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Enter: Buzz-Saw Hordak!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spinning arms"
   },
   {
     "externalId": "44146",
@@ -709,7 +709,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44148.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-jitsu/44146/",
-    "miniComic": null,
+    "miniComic": "The Clash of Arms",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -726,9 +726,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44372.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-king-hiss/44370/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Treachery of Modulok",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Flip-open torso reveals inner snake body"
   },
   {
     "externalId": "44454",
@@ -743,7 +743,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44456.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-king-randor/44454/",
-    "miniComic": null,
+    "miniComic": "Enter: Buzz-Saw Hordak!",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -794,9 +794,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44302.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-leech/44300/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Leech: The Master of Power Suction",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Suction-cup hands and mouth"
   },
   {
     "externalId": "44055",
@@ -811,7 +811,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44057.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-man-at-arms/44055/",
-    "miniComic": null,
+    "miniComic": "He-Man and the Power Sword",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -828,9 +828,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44120.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-man-e-faces/44118/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Masks of Power",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Rotating face disc — human, robotic, and monstrous"
   },
   {
     "externalId": "44307",
@@ -845,9 +845,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44309.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mantenna/44307/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Leech: The Master of Power Suction",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spring-loaded pop-up bug eyes"
   },
   {
     "externalId": "44202",
@@ -862,9 +862,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44204.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mekaneck/44202/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Dragon Invasion",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Twist base extends neck"
   },
   {
     "externalId": "44034",
@@ -879,7 +879,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44036.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mer-man/44034/",
-    "miniComic": null,
+    "miniComic": "The Vengeance of Skeletor",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -896,9 +896,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44316.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-modulok/44314/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Energy Zoids",
+    "hasArmorOrFeature": true,
+    "featureDescription": "22 modular interchangeable body parts"
   },
   {
     "externalId": "44496",
@@ -914,8 +914,8 @@
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44498.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-mosquitor/44496/",
     "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "hasArmorOrFeature": true,
+    "featureDescription": "Chest blood-pump action"
   },
   {
     "externalId": "44251",
@@ -930,9 +930,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44253.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-moss-man/44251/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Stench of Evil",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Flocked texture with pine scent"
   },
   {
     "externalId": "44412",
@@ -947,9 +947,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44414.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-multi-bot/44412/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Energy Zoids",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Modular interchangeable body parts"
   },
   {
     "externalId": "44426",
@@ -964,7 +964,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44428.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-ninjor/44426/",
-    "miniComic": null,
+    "miniComic": "The Search for Keldor",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -981,7 +981,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44211.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-orko/44209/",
-    "miniComic": null,
+    "miniComic": "Prince Adam No More",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -998,7 +998,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44218.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-prince-adam/44216/",
-    "miniComic": null,
+    "miniComic": "Prince Adam No More",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1015,7 +1015,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44379.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rattlor/44377/",
-    "miniComic": null,
+    "miniComic": "The Treachery of Modulok",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1032,9 +1032,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44344.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rio-blast/44342/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Battle of the Towers",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Flip-open chest gun"
   },
   {
     "externalId": "44258",
@@ -1049,9 +1049,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44260.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-roboto/44258/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Greyskull Under Siege",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Waist twist animates visible gears in clear chest"
   },
   {
     "externalId": "44349",
@@ -1083,9 +1083,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44463.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-rotar/44461/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Battle of the Towers",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Gyroscope spinning torso action"
   },
   {
     "externalId": "44433",
@@ -1100,7 +1100,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44435.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-scare-glow/44433/",
-    "miniComic": null,
+    "miniComic": "The Search for Keldor",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1117,7 +1117,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44043.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-skeletor/44041/",
-    "miniComic": null,
+    "miniComic": "King of Castle Grayskull",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1134,9 +1134,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44477.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-snake-face/44475/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Snake Attack!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Pop-out snakes from face"
   },
   {
     "externalId": "44356",
@@ -1151,9 +1151,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44358.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-snout-spout/44356/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Powers of Grayskull — The Legend Begins!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Water-squirting trunk"
   },
   {
     "externalId": "44468",
@@ -1185,7 +1185,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44232.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-spikor/44230/",
-    "miniComic": null,
+    "miniComic": "Double-Edged Sword",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1202,9 +1202,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44484.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-sssqueeze/44482/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Treachery of Modulok",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spring-extending arms"
   },
   {
     "externalId": "44237",
@@ -1219,9 +1219,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44239.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stinkor/44237/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Stench of Evil",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Patchouli-scented figure"
   },
   {
     "externalId": "44363",
@@ -1253,7 +1253,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44064.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stratos-blue/44062/",
-    "miniComic": null,
+    "miniComic": "Battle in the Clouds",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1270,7 +1270,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44071.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-stratos-red/44069/",
-    "miniComic": null,
+    "miniComic": "Battle in the Clouds",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1287,9 +1287,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44267.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-sy-klone/44265/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Fastest Drawing in the Universe",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spinning gyro torso"
   },
   {
     "externalId": "44076",
@@ -1304,7 +1304,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44078.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-teela/44076/",
-    "miniComic": null,
+    "miniComic": "Teela the Warrior Goddess",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1321,9 +1321,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44323.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-terror-claws-skeletor-/44321/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Search for Keldor",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Spinning claw arms"
   },
   {
     "externalId": "44272",
@@ -1338,9 +1338,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44274.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-thunder-punch-he-man/44272/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Powers of Grayskull — The Legend Begins!",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Punching action activates clicking sound disc"
   },
   {
     "externalId": "44104",
@@ -1355,9 +1355,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44106.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-trap-jaw/44104/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "The Menace of Trap Jaw",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Swivel jaw and interchangeable arm attachments"
   },
   {
     "externalId": "44111",
@@ -1372,7 +1372,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44113.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-tri-klops/44111/",
-    "miniComic": null,
+    "miniComic": "The Masks of Power",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1389,7 +1389,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44386.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-tung-lashor/44384/",
-    "miniComic": null,
+    "miniComic": "The Treachery of Modulok",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1406,9 +1406,9 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44442.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-twistoid/44440/",
-    "miniComic": null,
-    "hasArmorOrFeature": false,
-    "featureDescription": null
+    "miniComic": "Battle of the Towers",
+    "hasArmorOrFeature": true,
+    "featureDescription": "Gyroscope spinning torso action"
   },
   {
     "externalId": "44244",
@@ -1423,7 +1423,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44246.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-two-bad/44244/",
-    "miniComic": null,
+    "miniComic": "Double-Edged Sword",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1440,7 +1440,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44169.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-webstor/44167/",
-    "miniComic": null,
+    "miniComic": "The Dragon Invasion",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1457,7 +1457,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44176.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-whiplash/44174/",
-    "miniComic": null,
+    "miniComic": "Siege of Avion",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1474,7 +1474,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44085.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-basic-figures-zodac/44083/",
-    "miniComic": null,
+    "miniComic": "Battle in the Clouds",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },
@@ -1587,7 +1587,7 @@
     "variantDescription": null,
     "catalogImageUrl": "https://www.transformerland.com/image/reference_images/44617.jpg",
     "sourceUrl": "https://www.transformerland.com/wiki/toy-info/masters-of-the-universe-motu-the-original-series-creatures-panthor/44615/",
-    "miniComic": null,
+    "miniComic": "The Magic Stealer",
     "hasArmorOrFeature": false,
     "featureDescription": null
   },

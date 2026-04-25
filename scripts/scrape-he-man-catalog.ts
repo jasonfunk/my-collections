@@ -231,46 +231,9 @@ function extractYear($: cheerio.CheerioAPI): number | null {
   return result;
 }
 
-/**
- * Extract mini-comic title from the info table "Mini-Comic:" row.
- * Returns null if absent.
- */
-function extractMiniComic($: cheerio.CheerioAPI): string | null {
-  let result: string | null = null;
-  $('tr').each((_, row) => {
-    const header = $(row).find('th').text().trim();
-    if (header === 'Mini-Comic:' || header === 'Mini Comic:') {
-      const value = $(row).find('td').text().trim();
-      if (value && value !== '(none)' && value !== 'None') result = value;
-      return false;
-    }
-  });
-  return result;
-}
-
-/**
- * Detect armor/action feature from the info table "Features:" or "Action Feature:" row.
- * Returns { hasArmorOrFeature, featureDescription }.
- */
-function extractFeature($: cheerio.CheerioAPI): { hasArmorOrFeature: boolean; featureDescription: string | null } {
-  let featureDescription: string | null = null;
-
-  $('tr').each((_, row) => {
-    const header = $(row).find('th').text().trim();
-    if (header === 'Features:' || header === 'Action Feature:' || header === 'Feature:') {
-      const value = $(row).find('td').text().trim();
-      if (value && value !== '(none)' && value !== 'None') {
-        featureDescription = value;
-      }
-      return false;
-    }
-  });
-
-  return {
-    hasArmorOrFeature: featureDescription !== null,
-    featureDescription,
-  };
-}
+// miniComic, hasArmorOrFeature, and featureDescription are not present on
+// transformerland.com MOTU pages. These fields are populated post-scrape
+// by scripts/patch-he-man-enrichment.ts (COL-101).
 
 // ---------------------------------------------------------------------------
 // Index page scraping
@@ -319,8 +282,6 @@ async function scrapeDetailPage(page: Page, url: string): Promise<CatalogEntry> 
   const catalogImageUrl = extractCatalogImage($);
   const accessories = extractAccessories($);
   const releaseYear = extractYear($);
-  const miniComic = extractMiniComic($);
-  const { hasArmorOrFeature, featureDescription } = extractFeature($);
 
   return {
     externalId,
@@ -333,9 +294,9 @@ async function scrapeDetailPage(page: Page, url: string): Promise<CatalogEntry> 
     variantDescription: null,
     catalogImageUrl,
     sourceUrl: url,
-    miniComic,
-    hasArmorOrFeature,
-    featureDescription,
+    miniComic: null,
+    hasArmorOrFeature: false,
+    featureDescription: null,
   };
 }
 

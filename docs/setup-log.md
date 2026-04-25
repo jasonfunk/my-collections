@@ -3644,3 +3644,83 @@ git push && gh pr create       # PR #29
 ### Jira
 
 - COL-100 transitioned to Done
+
+---
+
+## Session 20 — 2026-04-25
+
+### Context
+COL-101: He-Man catalog enrichment Tier 2a — populate `miniComic`, `hasArmorOrFeature`, `featureDescription` for 127 MOTU records.
+
+---
+
+### 1. Root cause investigation via Playwright MCP
+
+Inspected He-Man (base figure) and Battle Armor He-Man detail pages on transformerland.com. The scraper's `extractMiniComic()` and `extractFeature()` stubs had always returned null because **this data is simply absent from the site** — the MOTU info table only ever contains: Toy Line / Series / Subgroup / Alliance / Year / ID. No "Mini-Comic:", "Action Feature:", or "Features:" row exists.
+
+This is the same root cause as `characterType` (COL-99) — the site doesn't encode it. The fix is a patch script using MOTU collector knowledge, not a scraper change.
+
+---
+
+### 2. Created `scripts/patch-he-man-enrichment.ts`
+
+New patch script following the exact pattern of `scripts/patch-he-man-charactertype.ts`. Two lookup maps keyed by item name:
+
+- `MINI_COMIC_MAP` — figure name → mini-comic title (65 entries; remaining 22 are European exclusives, mail-away, very late/movie figures — legitimately null)
+- `FEATURE_MAP` — 32 figures with `hasArmorOrFeature: true` + `featureDescription`
+
+Mini-comic data sourced from MOTU collector databases (He-Man.org, fan wikis).
+
+Action feature data sourced from authoritative MOTU lore (e.g., "Rotating chest plates with three battle-damage states" for Battle Armor He-Man/Skeletor, "Rotating face disc — human, robotic, and monstrous" for Man-E-Faces, etc.).
+
+**Command:**
+```bash
+npm run patch:he-man-enrichment
+```
+
+**Output:**
+```
+Patched miniComic for 65 entries.
+Patched hasArmorOrFeature/featureDescription for 32 entries.
+# ~22 remaining character names logged as "needs research" (nulls are correct for these)
+```
+
+---
+
+### 3. Cleaned up dead scraper stubs
+
+Removed `extractMiniComic()` and `extractFeature()` functions from `scripts/scrape-he-man-catalog.ts`. Replaced with static defaults (`miniComic: null, hasArmorOrFeature: false, featureDescription: null`) and a comment explaining these fields are populated by the patch script. Prevents future confusion about "broken selectors."
+
+---
+
+### 4. Added npm script
+
+Added to root `package.json`:
+```json
+"patch:he-man-enrichment": "ts-node --project tsconfig.scripts.json scripts/patch-he-man-enrichment.ts"
+```
+
+---
+
+### 5. Re-seeded dev DB
+
+```bash
+npm run seed:he-man -- --update
+# Done: 127 updated, 0 inserted
+```
+
+---
+
+### Verification
+
+```sql
+SELECT COUNT(*) FROM masters_catalog WHERE mini_comic IS NOT NULL;     -- 65
+SELECT COUNT(*) FROM masters_catalog WHERE has_armor_or_feature = true; -- 32
+-- Spot: Battle Armor He-Man has featureDescription = 'Rotating chest plates with three battle-damage states'
+-- Spot: He-Man has miniComic = 'He-Man and the Power Sword'
+-- Spot: Ram Man has miniComic = 'He-Man Meets Ram-Man!'
+```
+
+### Jira
+
+- COL-101 transitioned to Done

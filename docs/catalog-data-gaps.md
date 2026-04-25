@@ -2,7 +2,7 @@
 
 Reference document for the catalog enrichment effort. Updated as gaps are filled.
 
-**Last evaluated:** 2026-04-24  
+**Last evaluated:** 2026-04-25  
 **Total records:** Star Wars 199 / G1 Transformers 443 / He-Man 127
 
 ---
@@ -69,14 +69,14 @@ year <= 1979  → STAR_WARS
 ### Complete fields ✓
 - `name`, `line` (all ORIGINAL), `releaseYear`, `catalogImageUrl`, `externalId`
 - `characterType` — 95/127 (correct nulls for non-figure items like vehicles/playsets)
+- `miniComic` — 65/127 ✓ (COL-101; patch script; remaining 22 are European exclusives, mail-away, very late/movie figures — legitimately null)
+- `hasArmorOrFeature` — 32 figures true ✓ (COL-101)
+- `featureDescription` — 32/32 populated ✓ (COL-101)
 
 ### Gaps
 
 | Field | Populated | Gap | Notes |
 |---|---|---|---|
-| `miniComic` | 0/127 | ~95 | Each figure shipped with a mini comic; scraper field exists but extraction returned null for all |
-| `featureDescription` | 0/127 | ~95 | Scraper field and stub exist; extraction didn't fire |
-| `hasArmorOrFeature` | all false | many | Battle Armor He-Man/Skeletor, Man-E-Faces, Trap Jaw etc. all have action features |
 | `accessories` | 108/127 | 19 | Missing for some vehicles/playsets |
 | `isVariant` | 0/127 | some | No variants captured |
 | `variantDescription` | 0/127 | some | Same |
@@ -98,8 +98,7 @@ year <= 1979  → STAR_WARS
 
 | Task | What | File |
 |---|---|---|
-| He-Man `miniComic` | Fix extraction logic; headless:false Playwright re-scrape | `scripts/scrape-he-man-catalog.ts` |
-| He-Man `hasArmorOrFeature` / `featureDescription` | Fix extraction logic; same re-scrape | Same |
+| He-Man `miniComic` / `hasArmorOrFeature` / `featureDescription` | ~~Re-scrape~~ **Done — patch script** (COL-101; data not on site) | `scripts/patch-he-man-enrichment.ts` |
 | SW accessories (partial) | Improved selectors; may recover some of the 47 | `scripts/scrape-star-wars-catalog.ts` |
 | TF accessories (partial) | Improved selectors for S4 era | `scripts/scrape-transformers-catalog.ts` |
 
@@ -142,3 +141,4 @@ ON CONFLICT (externalId) DO UPDATE SET
 | `scripts/scrape-he-man-catalog.ts` | Same for MOTU |
 | `scripts/patch-star-wars-12inch.ts` | Manual patch: 9 twelve-inch figures missing from site |
 | `scripts/patch-he-man-charactertype.ts` | Manual patch: characterType for items missing from scrape |
+| `scripts/patch-he-man-enrichment.ts` | Manual patch: miniComic, hasArmorOrFeature, featureDescription (COL-101) |
