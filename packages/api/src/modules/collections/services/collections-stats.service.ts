@@ -2,13 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CollectionStats, CollectionType, CollectionTypeStats, RecentCollectionItem } from '@my-collections/shared';
+import { StarWarsCatalogEntity } from '../entities/star-wars-catalog.entity';
+import { G1TransformersCatalogEntity } from '../entities/g1-transformers-catalog.entity';
+import { MastersCatalogEntity } from '../entities/masters-catalog.entity';
 import { UserStarWarsItemEntity } from '../entities/user-star-wars-item.entity';
 import { UserG1TransformersItemEntity } from '../entities/user-g1-transformers-item.entity';
 import { UserMastersItemEntity } from '../entities/user-masters-item.entity';
 
 type StatsRow = { isOwned: boolean; count: string; totalValue: string | null };
 
-function parseStatsRows(rows: StatsRow[]): CollectionTypeStats {
+function parseStatsRows(rows: StatsRow[], catalogTotal: number): CollectionTypeStats {
   let owned = 0;
   let wishlist = 0;
   const values: number[] = [];
@@ -29,12 +32,19 @@ function parseStatsRows(rows: StatsRow[]): CollectionTypeStats {
     owned,
     wishlist,
     estimatedTotalValue: values.length > 0 ? values.reduce((a, b) => a + b, 0) : null,
+    catalogTotal,
   };
 }
 
 @Injectable()
 export class CollectionsStatsService {
   constructor(
+    @InjectRepository(StarWarsCatalogEntity)
+    private readonly swCatalogRepo: Repository<StarWarsCatalogEntity>,
+    @InjectRepository(G1TransformersCatalogEntity)
+    private readonly tfCatalogRepo: Repository<G1TransformersCatalogEntity>,
+    @InjectRepository(MastersCatalogEntity)
+    private readonly hmCatalogRepo: Repository<MastersCatalogEntity>,
     @InjectRepository(UserStarWarsItemEntity)
     private readonly swRepo: Repository<UserStarWarsItemEntity>,
     @InjectRepository(UserG1TransformersItemEntity)
@@ -44,7 +54,7 @@ export class CollectionsStatsService {
   ) {}
 
   async getStats(userId: string): Promise<CollectionStats> {
-    const [swRows, tfRows, hmRows] = await Promise.all([
+    const [swRows, tfRows, hmRows, swCatalogTotal, tfCatalogTotal, hmCatalogTotal] = await Promise.all([
       this.swRepo
         .createQueryBuilder('item')
         .select('item.isOwned', 'isOwned')
@@ -69,11 +79,14 @@ export class CollectionsStatsService {
         .where('item.userId = :userId', { userId })
         .groupBy('item.isOwned')
         .getRawMany<StatsRow>(),
+      this.swCatalogRepo.count(),
+      this.tfCatalogRepo.count(),
+      this.hmCatalogRepo.count(),
     ]);
 
-    const starWars = parseStatsRows(swRows);
-    const transformers = parseStatsRows(tfRows);
-    const heman = parseStatsRows(hmRows);
+    const starWars = parseStatsRows(swRows, swCatalogTotal);
+    const transformers = parseStatsRows(tfRows, tfCatalogTotal);
+    const heman = parseStatsRows(hmRows, hmCatalogTotal);
 
     const values = [
       starWars.estimatedTotalValue,
