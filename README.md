@@ -29,7 +29,7 @@ Personal full-stack app to track vintage toy collections (Star Wars, G1 Transfor
 ## Project Status
 
 - Phases 1–5 complete: CI/CD, local DB + migrations, OAuth2 auth, Collections API, React SPA with full CRUD (browse, detail, add, edit, wishlist, search)
-- Phase 6 (mobile) in progress: login, dashboard, collection browse, and item detail screens complete (COL-47 through COL-49); barcode scanning, camera, add/edit, and push notifications remain
+- Phase 6 (mobile) in progress: login, dashboard, browse, item detail, and add/edit/delete complete (COL-47 through COL-52); barcode scanning and push notifications remain
 - Active development on `develop` branch; `main` is production-ready
 
 ---

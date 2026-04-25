@@ -1,0 +1,123 @@
+appId: com.mycollections.app
+---
+# Assumes: user is logged in and on dashboard (run after auth/login.yaml)
+# Adds a new Star Wars item, edits its notes, then removes it.
+
+# Navigate to Star Wars collection
+- tapOn:
+    text: "Star Wars"
+    index: 0
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "2 items"
+    timeout: 20000
+
+# Tap the + Add button in the header
+- tapOn:
+    id: "header-add-button"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Select Item"
+    timeout: 10000
+
+# Search catalog for Luke Skywalker
+- tapOn: "Search catalog…"
+- inputText: "Luke"
+- extendedWaitUntil:
+    visible: "Luke Skywalker"
+    timeout: 15000
+
+# Dismiss keyboard before tapping result
+- hideKeyboard
+- waitForAnimationToEnd
+
+# Tap first result by testID (taps the clickable TouchableOpacity, not the inner Text)
+- tapOn:
+    id: "catalog-result-0"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Owned"
+    timeout: 15000
+
+# Owned is already the default — scroll to save button and tap
+- assertVisible: "Owned"
+- scrollUntilVisible:
+    element:
+      id: "add-item-save"
+- tapOn:
+    id: "add-item-save"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "3 items"
+    timeout: 15000
+
+# Tap the newly added item
+- tapOn: "Luke Skywalker"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Condition"
+    timeout: 10000
+
+# Tap Edit button in header
+- tapOn:
+    id: "header-edit-button"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Condition"
+    timeout: 10000
+
+# Scroll to notes, edit, then scroll to save
+- scrollUntilVisible:
+    element:
+      id: "item-notes-input"
+- tapOn:
+    id: "item-notes-input"
+- inputText: "Added by Maestro test"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "edit-item-save"
+- tapOn:
+    id: "edit-item-save"
+- waitForAnimationToEnd
+
+# Verify notes visible on detail screen
+- extendedWaitUntil:
+    visible: "Added by Maestro test"
+    timeout: 10000
+- assertVisible: "Added by Maestro test"
+
+# Go back to browse list
+- pressKey: Back
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "3 items"
+    timeout: 10000
+
+# Tap item again to delete it (clean up test data)
+- tapOn: "Luke Skywalker"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Condition"
+    timeout: 10000
+- tapOn:
+    id: "header-edit-button"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Condition"
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: "Remove from Collection"
+- tapOn: "Remove from Collection"
+- tapOn: "Remove"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "2 items"
+    timeout: 15000
+
+# Return to dashboard
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 10000

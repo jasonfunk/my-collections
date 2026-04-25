@@ -91,18 +91,28 @@ export default function CollectionBrowseScreen() {
         options={{
           title: config.label,
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => setFilterVisible(true)}
-              style={styles.filterButton}
-              activeOpacity={0.7}
-            >
-              <Ionicons
-                name="options-outline"
-                size={22}
-                color={activeFilterCount > 0 ? '#6366f1' : '#fff'}
-              />
-              {activeFilterCount > 0 && <View style={styles.filterDot} />}
-            </TouchableOpacity>
+            <View style={styles.headerButtons}>
+              <TouchableOpacity
+                onPress={() => router.push(`/(app)/collections/${slug}/add`)}
+                style={styles.headerButton}
+                activeOpacity={0.7}
+                testID="header-add-button"
+              >
+                <Ionicons name="add" size={26} color="#fff" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setFilterVisible(true)}
+                style={styles.headerButton}
+                activeOpacity={0.7}
+              >
+                <Ionicons
+                  name="options-outline"
+                  size={22}
+                  color={activeFilterCount > 0 ? '#6366f1' : '#fff'}
+                />
+                {activeFilterCount > 0 && <View style={styles.filterDot} />}
+              </TouchableOpacity>
+            </View>
           ),
         }}
       />
@@ -183,6 +193,8 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#0f0f0f' },
   centered: { flex: 1, backgroundColor: '#0f0f0f', justifyContent: 'center', alignItems: 'center' },
 
+  headerButtons: { flexDirection: 'row', alignItems: 'center', gap: 4, marginRight: 4 },
+  headerButton: { padding: 4 },
   filterButton: { padding: 4, marginRight: 4 },
   filterDot: {
     position: 'absolute',

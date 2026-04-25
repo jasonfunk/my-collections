@@ -2,6 +2,37 @@ import { CollectionType } from '@my-collections/shared';
 import type { PaginatedResponse } from '@my-collections/shared';
 import { apiClient } from '../api/client';
 
+export interface CatalogItem {
+  id: string;
+  name: string;
+  accessories: string[];
+  catalogImageUrl?: string | null;
+}
+
+export interface CreateItemPayload {
+  catalogId: string;
+  isOwned: boolean;
+  wishlistPriority?: string;
+  condition?: string;
+  packagingCondition?: string;
+  isComplete?: boolean;
+  ownedAccessories?: string[];
+  isCarded?: boolean;
+  isBoxed?: boolean;
+  hasInstructions?: boolean;
+  hasTechSpec?: boolean;
+  rubSign?: boolean;
+  hasBackCard?: boolean;
+  acquisitionSource?: string;
+  acquisitionDate?: string;
+  acquisitionPrice?: number;
+  estimatedValue?: number;
+  notes?: string;
+  photoUrls?: string[];
+}
+
+export type UpdateItemPayload = Omit<CreateItemPayload, 'catalogId'>;
+
 export interface BrowseItem {
   id: string;
   catalogId: string;
@@ -54,6 +85,12 @@ const ITEM_PATHS: Record<CollectionType, string> = {
   [CollectionType.HE_MAN]: '/collections/he-man/items',
 };
 
+const CATALOG_PATHS: Record<CollectionType, string> = {
+  [CollectionType.STAR_WARS]: '/collections/star-wars/catalog',
+  [CollectionType.TRANSFORMERS]: '/collections/transformers/catalog',
+  [CollectionType.HE_MAN]: '/collections/he-man/catalog',
+};
+
 export async function fetchItems(
   collectionType: CollectionType,
   page = 1,
@@ -68,4 +105,36 @@ export async function fetchItemDetail(
   id: string,
 ): Promise<DetailItem> {
   return apiClient.get<DetailItem>(`${ITEM_PATHS[collectionType]}/${id}`);
+}
+
+export async function searchCatalog(
+  collectionType: CollectionType,
+  query: string,
+  limit = 20,
+): Promise<CatalogItem[]> {
+  const path = `${CATALOG_PATHS[collectionType]}?search=${encodeURIComponent(query)}&limit=${limit}`;
+  const res = await apiClient.get<PaginatedResponse<CatalogItem>>(path);
+  return res.data;
+}
+
+export async function createItem(
+  collectionType: CollectionType,
+  dto: CreateItemPayload,
+): Promise<DetailItem> {
+  return apiClient.post<DetailItem>(ITEM_PATHS[collectionType], dto);
+}
+
+export async function updateItem(
+  collectionType: CollectionType,
+  id: string,
+  dto: UpdateItemPayload,
+): Promise<DetailItem> {
+  return apiClient.patch<DetailItem>(`${ITEM_PATHS[collectionType]}/${id}`, dto);
+}
+
+export async function deleteItem(
+  collectionType: CollectionType,
+  id: string,
+): Promise<void> {
+  return apiClient.delete(`${ITEM_PATHS[collectionType]}/${id}`);
 }

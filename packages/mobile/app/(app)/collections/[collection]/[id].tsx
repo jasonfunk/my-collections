@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -8,11 +8,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { CollectionType } from '@my-collections/shared';
 import { type DetailItem, fetchItemDetail } from '../../../../src/services/collectionsService';
 import { SLUG_TO_COLLECTION } from '../../../../src/config/collections';
+import { API_BASE } from '../../../../src/api/client';
+import { getAccessToken } from '../../../../src/auth/tokenStorage';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -92,6 +95,7 @@ function BoolRow({ label, value }: { label: string; value: boolean }) {
 
 export default function ItemDetailScreen() {
   const { collection: slug, id } = useLocalSearchParams<{ collection: string; id: string }>();
+  const router = useRouter();
 
   const collectionType = SLUG_TO_COLLECTION[slug ?? ''];
   const [item, setItem] = useState<DetailItem | null>(null);
@@ -109,9 +113,11 @@ export default function ItemDetailScreen() {
     }
   }, [collectionType, id]);
 
-  useEffect(() => {
-    void loadItem().finally(() => setLoading(false));
-  }, [loadItem]);
+  useFocusEffect(
+    useCallback(() => {
+      void loadItem().finally(() => setLoading(false));
+    }, [loadItem])
+  );
 
   const itemName = item?.catalog?.name ?? 'Item Detail';
 
@@ -141,9 +147,25 @@ export default function ItemDetailScreen() {
     item.acquisitionPrice != null ||
     item.estimatedValue != null;
 
+  const authHeaders = { Authorization: `Bearer ${getAccessToken() ?? ''}` };
+
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <Stack.Screen options={{ title: itemName }} />
+      <Stack.Screen
+        options={{
+          title: itemName,
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ padding: 4, marginRight: 4 }}
+              onPress={() => router.push(`/(app)/collections/${slug}/edit/${id}`)}
+              activeOpacity={0.7}
+              testID="header-edit-button"
+            >
+              <Ionicons name="pencil-outline" size={20} color="#fff" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <ScrollView contentContainerStyle={styles.content}>
 
         {/* ── Status Header ── */}
@@ -263,7 +285,14 @@ export default function ItemDetailScreen() {
             <SectionHeader title="Photos" />
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.photoScroll}>
               {item.photoUrls.map((url, i) => (
-                <Image key={i} source={{ uri: url }} style={styles.photo} />
+                <Image
+                  key={i}
+                  source={{
+                    uri: url.startsWith('http') ? url : `${API_BASE}${url}`,
+                    headers: authHeaders,
+                  }}
+                  style={styles.photo}
+                />
               ))}
             </ScrollView>
           </>

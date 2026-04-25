@@ -2,7 +2,7 @@
 confluence_page_id: "9535489"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489"
 title: "My Collections — Mobile Application Architecture"
-last_updated: "2026-04-19"
+last_updated: "2026-04-24"
 ---
 
 ## Overview
@@ -27,7 +27,9 @@ Expo Router maps files in `app/` to routes. Route groups (folder names in parent
 | `app/(app)/collections/_layout.tsx` | (collections stack) | Stack navigator for drill-down within Collections tab. |
 | `app/(app)/collections/index.tsx` | `/collections` | Collection picker — three tappable cards navigating to browse. |
 | `app/(app)/collections/[collection].tsx` | `/collections/:slug` | Browse screen — scrollable item list for one collection. |
-| `app/(app)/collections/[collection]/[id].tsx` | `/collections/:slug/:id` | Item detail screen — condition, accessories, acquisition info, notes, photos. |
+| `app/(app)/collections/[collection]/[id].tsx` | `/collections/:slug/:id` | Item detail screen — condition, accessories, acquisition info, notes, photos. Re-fetches on focus. |
+| `app/(app)/collections/[collection]/add.tsx` | `/collections/:slug/add` | Two-step Add screen: Step 1 catalog search, Step 2 personal record form. |
+| `app/(app)/collections/[collection]/edit/[id].tsx` | `/collections/:slug/edit/:id` | Edit screen — pre-populated form, save + delete. Uses literal `edit/` segment to avoid naming conflict with `[id].tsx`. |
 | `app/(app)/wishlist.tsx` | `/wishlist` | Wishlist tab. |
 | `app/(app)/search.tsx` | `/search` | Search tab. |
 
@@ -69,10 +71,11 @@ Clear tokens from memory and SecureStore, reset `user` to `null` (triggers redir
 
 Typed `fetch` wrapper. Key behaviours:
 
-- Reads `EXPO_PUBLIC_API_BASE_URL` at module load time.
+- Reads `EXPO_PUBLIC_API_BASE_URL` at module load time. Exports `API_BASE` constant — used by `ItemForm` to build authenticated photo URIs.
 - Injects `Authorization: Bearer <token>` on every request using the in-memory access token.
 - On 401: attempts one silent token refresh, deduplicating concurrent refresh calls via a shared promise, then retries the original request. If refresh fails, calls `logout()`.
-- Exports `apiClient.get<T>()`, `.post<T>()`, `.patch<T>()`, `.delete()`.
+- Exports `apiClient.get<T>()`, `.post<T>()`, `.patch<T>()`, `.delete()`, `.multipartPost<T>()`.
+- **`multipartPost`** sends `FormData` without a `Content-Type` header — React Native sets it automatically with the correct multipart boundary. Used for photo uploads to `POST /collections/photos/upload`.
 
 `AuthContext` registers `refreshTokens` and `logout` callbacks with the client on mount via `registerAuthCallbacks()` — this avoids a circular import while keeping the client decoupled from React.
 
@@ -118,6 +121,7 @@ Per-collection item list. The `collection` route parameter is a slug (`star-wars
 - **Data:** `collectionsService.fetchItems(collectionType)` → `GET /collections/<slug>/items?page=1&limit=50`
 - **List:** `FlatList` with `RefreshControl` (pull-to-refresh). Each row shows catalog name, condition grade (if present), estimated value (if present), and an owned/wishlist badge.
 - **Filter:** Filter button in the Stack header (Ionicons `options-outline`, indigo dot when active) opens `FilterSheet`. Filtering is client-side — `isOwned` boolean drives owned/wishlist split.
+- **Add:** `+` button (`testID="header-add-button"`) in the Stack header navigates to `/(app)/collections/<slug>/add`.
 - **Navigation:** Tapping a row pushes `/(app)/collections/<slug>/<id>` (item detail screen).
 - **Item count:** Rendered in a plain `View` above the `FlatList` — not in `ListHeaderComponent`, which is unreliable in Android's accessibility tree.
 
@@ -134,9 +138,39 @@ Full read-only detail view for a single user item. Fetches via `collectionsServi
   - All: owned accessories list with catalog accessory checklist (green = owned, gray = missing).
 - **Acquisition** — source, date, price paid, estimated value. Section hidden if all null.
 - **Notes** — free-text. Section hidden if null.
-- **Photos** — horizontal `ScrollView` of `Image` thumbnails. Section hidden if no URLs.
+- **Photos** — horizontal `ScrollView` of `Image` thumbnails with `headers: { Authorization: 'Bearer ...' }` for authenticated access. Section hidden if no URLs.
 
 `Stack.Screen` title is set dynamically to `catalog.name` once loaded. Loading/error/retry states match the browse screen pattern.
+
+**Edit button:** Pencil icon (`testID="header-edit-button"`) in the Stack header navigates to `/(app)/collections/<slug>/edit/<id>`.
+
+**Focus refresh:** Uses `useFocusEffect` (not `useEffect`) so the screen re-fetches item data every time it comes back into focus. This ensures edits made on the Edit screen appear immediately when the user navigates back. The initial load shows an `ActivityIndicator`; subsequent focus-triggered fetches update silently in the background.
+
+## Add Item Screen (`app/(app)/collections/[collection]/add.tsx`)
+
+Two-step flow controlled by `step: 'search' | 'form'` state.
+
+**Step 1 — Catalog Search**
+
+- `TextInput` with 300 ms debounce calls `searchCatalog(collectionType, query)` → `GET /collections/<slug>/catalog?search=q&limit=20`.
+- Results rendered in a `FlatList`. Each result row is a `TouchableOpacity` with `testID="catalog-result-{index}"` — the `testID` is on the touchable wrapper (not the inner `Text`) so Maestro taps the clickable ViewGroup.
+- Selecting a result sets `selectedCatalog` and advances to Step 2.
+
+**Step 2 — Personal Record Form**
+
+- `ItemForm` rendered inside `KeyboardAvoidingView` + `ScrollView`.
+- Submit (`testID="add-item-save"`) builds `CreateItemPayload` with `catalogId` from `selectedCatalog.id` plus `buildPayload(form, collectionType)`, then calls `createItem()`. On success, `router.replace` navigates back to the browse screen.
+- **Photo upload:** Camera/library `Alert.alert` → `expo-image-picker` → client validates fileSize < 10 MB and mimeType starts with `image/` → `apiClient.multipartPost('/collections/photos/upload', formData)` → appends returned URL to `photoUrls` state.
+- **Android back:** `BackHandler` registered while on Step 2 so the system back button returns to Step 1 rather than leaving the screen.
+
+## Edit Item Screen (`app/(app)/collections/[collection]/edit/[id].tsx`)
+
+Single-step form, pre-populated from the existing item.
+
+- On mount: `fetchItemDetail(collectionType, id)` → `itemToFormState(item)` maps all fields to `FormState`. Shows `ActivityIndicator` while loading.
+- **Save** (`testID="edit-item-save"`): `buildPayload(form, collectionType)` → `updateItem(collectionType, id, dto)` → `router.back()` to return to the detail screen (which re-fetches via `useFocusEffect`).
+- **Remove from Collection:** `Alert.alert` confirmation → `deleteItem(collectionType, id)` → `router.replace` to the browse screen.
+- Photo upload works identically to the Add screen.
 
 ### `src/config/collections.ts`
 
@@ -144,16 +178,33 @@ Single source of truth for collection display config. `COLLECTION_CONFIG` maps `
 
 ### `src/services/collectionsService.ts`
 
-Exports two fetch functions and their types:
+Exports fetch and mutation functions with their types:
 
 - **`BrowseItem` / `fetchItems(collectionType, page, limit)`** — lightweight list shape (`id`, `catalog?.name`, `isOwned`, `condition?: string | null`, `estimatedValue?: number | null`). Used by the browse screen.
-- **`DetailItem` / `fetchItemDetail(collectionType, id)`** — full item shape. Superset covering all three collection types; collection-specific fields are optional. Includes: `condition`, `packagingCondition`, `isComplete`, `ownedAccessories[]`, `isCarded`, `isBoxed`, `hasBackCard`, `hasInstructions`, `hasTechSpec`, `rubSign`, `acquisitionSource`, `acquisitionDate`, `acquisitionPrice`, `estimatedValue`, `notes`, `photoUrls[]`, and nested `catalog` with `name` and `accessories[]`. Used by the detail screen.
+- **`DetailItem` / `fetchItemDetail(collectionType, id)`** — full item shape. Superset covering all three collection types; collection-specific fields are optional. Used by the detail and edit screens.
+- **`CatalogItem` / `searchCatalog(collectionType, query, limit?)`** — calls `GET /collections/<slug>/catalog?search=q&limit=20`. Returns `{ id, name, accessories[], catalogImageUrl? }`. The `id` is used as `catalogId` in create payloads — never taken from a text input.
+- **`CreateItemPayload` / `createItem(collectionType, dto)`** — `POST /collections/<slug>/items`. Requires `catalogId` + `isOwned`; all other fields optional.
+- **`UpdateItemPayload` / `updateItem(collectionType, id, dto)`** — `PATCH /collections/<slug>/items/:id`. Same fields as `CreateItemPayload` minus `catalogId`.
+- **`deleteItem(collectionType, id)`** — `DELETE /collections/<slug>/items/:id`.
 
 Note: nullable DB columns return `null` (not `undefined`) from TypeORM. Guards must use `!= null`.
 
 ### `src/components/FilterSheet.tsx`
 
 Slide-up filter modal built with `Modal` + `Animated.Value` (no new package dependencies). Exports `BrowseFilters` type and `FilterSheet` component. Animates in from the bottom with a dimmed backdrop; Apply and Reset buttons; closes on backdrop tap or Apply.
+
+### `src/components/SelectPicker.tsx`
+
+Modal-based picker for enum fields. A trigger button shows the current value's label; tapping it opens a bottom-sheet `Modal` with a `FlatList` of options. Tapping an option closes the modal and calls `onChange`. Used for condition, packaging condition, wishlist priority, acquisition source, and rub sign throughout `ItemForm`.
+
+### `src/components/ItemForm.tsx`
+
+Shared form component used by both Add and Edit screens. Exports:
+
+- **`FormState`** — all item fields as React state types (booleans as booleans, numbers as strings for `TextInput` compatibility, `rubSign` as `'' | 'true' | 'false'`).
+- **`defaultFormState()`** — initial state for Add: `isOwned: true`, `condition: 'C8'`, `packagingCondition: 'NONE'`, `isComplete: true`, everything else empty/false.
+- **`buildPayload(form, collectionType)`** — converts `FormState` → API DTO. Critically: only includes collection-specific fields for the given `collectionType` (e.g. `isCarded`/`isBoxed` for Star Wars, `hasInstructions`/`hasTechSpec` for Transformers). **Must receive `collectionType`** — the API uses `whitelist: true` validation and returns 400 if unexpected fields are present.
+- **`ItemForm`** — renders sections: Status (Owned/Wishlist pills), Condition (two `SelectPicker`s), Accessories (checkbox checklist populated from `accessoryOptions`), Details (collection-specific `Switch` toggles), Acquisition (owned items only), Value, Notes (`testID="item-notes-input"`), Photos (horizontal scroll + upload button).
 
 ## Testing
 
@@ -170,12 +221,13 @@ Individual test flows:
 
 | File | Purpose |
 | --- | --- |
-| `smoke-test.yaml` | Full end-to-end orchestrator (5 flows) |
+| `smoke-test.yaml` | Full end-to-end orchestrator (6 flows) |
 | `auth/login.yaml` | Clear state → launch → login → assert dashboard (cold start ~30s for PKCE + 2 API calls) |
 | `auth/logout.yaml` | Tap Sign Out → assert login screen |
 | `dashboard/stats.yaml` | Assert 3 collection cards + Totals; tap Star Wars card → assert browse loads; return to Dashboard |
 | `navigation/tabs.yaml` | Cycle all four tabs; assert placeholder content on Wishlist/Search |
 | `collections/item-detail.yaml` | Dashboard → Star Wars browse → tap item → assert Condition + Details sections → back |
+| `collections/add-edit-item.yaml` | Star Wars browse → add Luke Skywalker → edit notes → assert note on detail screen → delete → assert count restored → return to Dashboard |
 
 ## Known Quirks
 
@@ -191,3 +243,8 @@ Individual test flows:
 - **Maestro: always `waitForAnimationToEnd` after navigation:** After any `tapOn` that triggers a stack push or tab switch, add `waitForAnimationToEnd` before asserting on screen content. Without it, Maestro evaluates the accessibility hierarchy mid-transition and misses newly visible elements, causing spurious timeouts even when the target element is present.
 - **`FlatList` `ListHeaderComponent` unreliable in Maestro:** Text rendered inside `ListHeaderComponent` is not consistently visible in Android's accessibility tree during Maestro assertions. Place count or summary views in a sibling `View` above the `FlatList` instead.
 - **Nullable DB columns in `BrowseItem`:** TypeORM returns `null` (not `undefined`) for nullable columns. Type optional fields as `T | null` and guard with `!= null` rather than `!== undefined`.
+- **Maestro: `tapOn: id:` does not auto-scroll.** Unlike `tapOn: "text"`, tapping by `id` fails if the element is off-screen. Always precede with `scrollUntilVisible: { element: { id: "..." } }`. A plain `- scroll` often doesn't go far enough; `scrollUntilVisible` keeps scrolling until the element reaches full visibility.
+- **Maestro: dismiss keyboard before tapping list results.** After `inputText` in a search field, the software keyboard stays open and intercepts React Native's touch responder. Even though Maestro reports `tapOn` as COMPLETED, the `onPress` may not fire. Add `hideKeyboard` + `waitForAnimationToEnd` before tapping result rows.
+- **Maestro: tap list results by `testID`, not by inner text.** A `TouchableOpacity` wrapping a `Text` element creates a clickable ViewGroup around a non-clickable TextView. `tapOn: "Luke Skywalker"` targets the inner non-clickable TextView; `onPress` never fires. Use `tapOn: { id: "catalog-result-0" }` to hit the touchable wrapper. Add `testID` on the `TouchableOpacity`, not on the `Text`.
+- **NestJS `whitelist: true` rejects extra payload fields.** If a DTO for collection A has fields that DTO for collection B doesn't, sending those extra fields to collection B's endpoint returns `400 property X should not exist`. Always build payloads with `buildPayload(form, collectionType)` so only the correct collection-specific fields are included.
+- **`useFocusEffect` instead of `useEffect` for screens with child mutations.** If a screen loads data in `useEffect` and the user can navigate to a child screen that mutates that data (e.g. an edit screen), the parent shows stale data on return. Replace `useEffect` with `useFocusEffect` (from `expo-router`) + `useCallback`. The first focus triggers the loading spinner; subsequent focuses silently refresh in the background.
