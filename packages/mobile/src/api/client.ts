@@ -1,6 +1,6 @@
 import { getAccessToken } from '../auth/tokenStorage';
 
-const API_BASE = process.env.EXPO_PUBLIC_API_BASE_URL ?? '';
+export const API_BASE = process.env.EXPO_PUBLIC_API_BASE_URL ?? '';
 
 type RefreshFn = () => Promise<void>;
 type LogoutFn = () => void;
@@ -63,9 +63,40 @@ async function request<T>(
   return response.json() as Promise<T>;
 }
 
+async function multipartRequest<T>(path: string, formData: FormData, retry = true): Promise<T> {
+  const token = getAccessToken();
+  const headers: Record<string, string> = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const response = await fetch(`${API_BASE}${path}`, { method: 'POST', headers, body: formData });
+
+  if (response.status === 401 && retry && _refresh) {
+    try {
+      if (!refreshPromise) {
+        refreshPromise = _refresh().finally(() => { refreshPromise = null; });
+      }
+      await refreshPromise;
+      return multipartRequest<T>(path, formData, false);
+    } catch {
+      _logout?.();
+      throw new ApiError(401, 'Session expired');
+    }
+  }
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => response.statusText);
+    throw new ApiError(response.status, text);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export const apiClient = {
   get<T>(path: string): Promise<T> { return request<T>('GET', path); },
   post<T>(path: string, body?: unknown): Promise<T> { return request<T>('POST', path, body); },
   patch<T>(path: string, body: unknown): Promise<T> { return request<T>('PATCH', path, body); },
   delete(path: string): Promise<void> { return request<void>('DELETE', path); },
+  multipartPost<T>(path: string, formData: FormData): Promise<T> {
+    return multipartRequest<T>(path, formData);
+  },
 };

@@ -466,33 +466,39 @@ packages/mobile/
 │       ├── collections/
 │       │   ├── _layout.tsx              # Stack navigator for drill-down
 │       │   ├── index.tsx                # Collection picker (three tappable cards → browse)
-│       │   ├── [collection].tsx         # Browse screen — FlatList of items per collection
+│       │   ├── [collection].tsx         # Browse screen — FlatList of items, + button header
 │       │   └── [collection]/
-│       │       └── [id].tsx             # Item detail screen — condition, accessories, acquisition, notes, photos
+│       │       ├── [id].tsx             # Item detail screen — condition, accessories, acquisition, notes, photos; useFocusEffect refresh
+│       │       ├── add.tsx              # Add item — two-step: catalog search → personal record form
+│       │       └── edit/
+│       │           └── [id].tsx         # Edit item — pre-populated form + delete
 │       ├── wishlist.tsx        # Wishlist tab
 │       └── search.tsx          # Search tab
 ├── src/
 │   ├── api/
-│   │   └── client.ts           # Typed fetch wrapper with 401-retry + token injection
+│   │   └── client.ts           # Typed fetch wrapper — 401-retry, token injection, multipartPost, exports API_BASE
 │   ├── auth/
 │   │   ├── AuthContext.tsx     # AuthProvider — login/logout/refresh, session restore
 │   │   ├── pkce.ts             # PKCE code verifier + challenge (expo-crypto)
 │   │   └── tokenStorage.ts     # expo-secure-store wrappers for refresh token
 │   ├── components/
 │   │   ├── CollectionIcon.tsx  # SVG collection icons (react-native-svg) + FaviconIcon
-│   │   └── FilterSheet.tsx     # Slide-up filter modal (status: all/owned/wishlist)
+│   │   ├── FilterSheet.tsx     # Slide-up filter modal (status: all/owned/wishlist)
+│   │   ├── ItemForm.tsx        # Shared add/edit form — all field sections + buildPayload(form, collectionType)
+│   │   └── SelectPicker.tsx    # Modal-based enum picker (condition, source, priority, etc.)
 │   ├── config/
 │   │   └── collections.ts      # COLLECTION_CONFIG + SLUG_TO_COLLECTION reverse map
 │   ├── hooks/
 │   │   └── useAuth.ts          # useAuth() hook over AuthContext
 │   └── services/
-│       └── collectionsService.ts  # fetchItems() + fetchItemDetail() — maps CollectionType → API path
+│       └── collectionsService.ts  # fetchItems, fetchItemDetail, searchCatalog, createItem, updateItem, deleteItem
 ├── .maestro/                   # Maestro UI smoke tests
-│   ├── smoke-test.yaml         # Orchestrates full login → dashboard → tabs → item-detail → logout flow
+│   ├── smoke-test.yaml         # Orchestrates 6-flow: login → stats → tabs → item-detail → add-edit-item → logout
 │   ├── auth/
 │   │   ├── login.yaml
 │   │   └── logout.yaml
 │   ├── collections/
+│   │   ├── add-edit-item.yaml  # Add Luke Skywalker → edit notes → assert detail refresh → delete → verify count
 │   │   └── item-detail.yaml    # Browse → tap item → assert detail sections → back
 │   ├── dashboard/
 │   │   └── stats.yaml          # Asserts collection cards, totals, card-tap navigation

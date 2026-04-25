@@ -4,4 +4,5 @@ appId: com.mycollections.app
 - runFlow: dashboard/stats.yaml
 - runFlow: navigation/tabs.yaml
 - runFlow: collections/item-detail.yaml
+- runFlow: collections/add-edit-item.yaml
 - runFlow: auth/logout.yaml

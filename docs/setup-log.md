@@ -3457,3 +3457,78 @@ No service changes needed — `findOne(userId, id)` with `catalog` relation alre
 - Maestro full smoke test: all 5 flows passing (login → stats → navigation → item-detail → logout)
 - `npm run lint` — no errors (API and mobile)
 - **Jira:** COL-49 → Done
+
+---
+
+## Session 17 — 2026-04-21: Web App Polish (Filters, Condition Labels, Layout, Images)
+
+### What was done
+
+Four UX issues fixed on the web app before resuming mobile work. No Jira tickets — unplanned polish session.
+
+**Files changed (all in `packages/web/`):**
+
+- `src/lib/collectionConfig.ts` — added `CONDITION_GRADE_NAMES` map (`C10 → 'Mint'`, `C9 → 'Near Mint'`, etc.) for use in the badge
+- `src/components/collections/ConditionBadge.tsx` — now renders `"C6 · Very Good"` instead of just `"C6"`; imports `CONDITION_GRADE_NAMES` from collectionConfig
+- `src/components/collections/{StarWars,Transformers,Masters}CatalogCard.tsx` + `ItemCard.tsx` — changed `object-cover` to `object-cover object-top` so card thumbnails show figure heads/faces instead of cropping to the torso
+- `src/pages/collections/{StarWars,Transformers,Masters}CatalogPage.tsx` — two-part filter fix:
+  1. **Root cause of broken dropdowns:** each `onValueChange` handler called `setParam(...)` then `resetPage()` — two separate `setSearchParams` calls. React Router's second call starts from the same URL snapshot as the first, overwriting it. Fixed by merging into a single `setSearchParams` functional update. Also removed the now-dead `resetPage` helper.
+  2. In Owned/Wishlist mode, `displayUserItems` was filtered only by ownership, ignoring dropdown params entirely. Added client-side filters on `ui.catalog?.line`, `ui.catalog?.category`, `ui.catalog?.faction`, `ui.catalog?.characterType` after the ownership filter.
+- `src/pages/collections/{StarWars,Transformers,Masters}CatalogDetailPage.tsx` — redesigned to two-column layout (`md:grid-cols-[2fr_3fr]`); max-width widened from `max-w-3xl` to `max-w-5xl`; image + Your Record panel in left column; name/catalog info/accessories in right column. "Remove from collection" button moved out of the Your Record panel to an isolated bottom-right position below a `border-t` separator.
+- `src/pages/collections/CollectionDetailPage.tsx` — same two-column layout applied to the legacy (non-catalog) item detail page; photo on left, details on right.
+
+### Key learnings
+
+**React Router double `setSearchParams` bug.** Calling `setSearchParams` twice in the same event handler does NOT compose — each functional update receives the *original* URL params (before any changes), so the second call overwrites the first. The fix is always to do a single `setSearchParams` call that makes all changes atomically.
+
+**Pre-existing `LoginPage` React warning.** A "Cannot update a component while rendering a different component" warning fires on the initial load when the user is already authenticated and `LoginPage` calls `navigate()` during render. Pre-existing, not introduced this session.
+
+### Verification
+
+- Playwright smoke test: dashboard → all three collections → item detail → sign out; 0 new console errors
+- `npm run lint` — all packages clean
+- PR #26 merged to `main`
+
+---
+
+## Session 17 — COL-52: Mobile Add/Edit Item Screen (2026-04-24)
+
+### What was done
+
+Implemented the full add/edit/delete CRUD loop on mobile (COL-52).
+
+**New files:**
+- `packages/mobile/src/components/SelectPicker.tsx` — modal-based picker for enum fields; shows trigger button, opens bottom sheet with FlatList of options
+- `packages/mobile/src/components/ItemForm.tsx` — shared form component used by both Add and Edit screens; renders Status, Condition, Accessories checklist, collection-specific fields, Acquisition, Value, Notes, Photos sections
+- `packages/mobile/app/(app)/collections/[collection]/add.tsx` — two-step Add screen: Step 1 catalog search (debounced), Step 2 personal record form
+- `packages/mobile/app/(app)/collections/[collection]/edit/[id].tsx` — Edit screen with pre-populated form; includes Remove from Collection with confirmation
+- `packages/mobile/.maestro/collections/add-edit-item.yaml` — Maestro E2E test: add Luke Skywalker, edit notes, verify on detail screen, delete
+
+**Modified files:**
+- `packages/mobile/src/api/client.ts` — exported `API_BASE`; added `multipartRequest` + `apiClient.multipartPost` for photo uploads (FormData, no Content-Type header, same 401-retry logic)
+- `packages/mobile/src/services/collectionsService.ts` — added `CatalogItem`, `CreateItemPayload`, `UpdateItemPayload` interfaces; added `searchCatalog`, `createItem`, `updateItem`, `deleteItem` functions
+- `packages/mobile/app/(app)/collections/[collection].tsx` — added `+` (header-add-button) to headerRight
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — added Edit button (header-edit-button) to headerRight; switched `useEffect` to `useFocusEffect` so detail screen re-fetches after returning from edit; added auth headers to photo Image sources
+- `packages/mobile/.maestro/smoke-test.yaml` — added `- runFlow: collections/add-edit-item.yaml`
+
+### Key decisions
+
+**Two-step add flow.** The API requires `catalogId` from the shared catalog (not a free-form name), so the add screen opens with a catalog search step before showing the personal record form. Catalog search is debounced at 300 ms.
+
+**`edit/[id].tsx` route, not `[id]/edit.tsx`.** Using a literal `edit/` path segment avoids a file/directory naming conflict with the existing `[id].tsx` file — Expo Router can't have both a `[id].tsx` file and a `[id]/` directory at the same level.
+
+**`buildPayload` is collection-type-aware.** Initially sent all boolean fields (`hasInstructions`, `hasTechSpec`, `hasBackCard`) for every collection type, but the API uses `whitelist: true` validation and returned 400. Fixed by passing `collectionType` to `buildPayload` so it only includes the fields relevant to that collection's DTO.
+
+**`useFocusEffect` for detail screen refresh.** After saving edits and navigating back, the detail screen showed stale data because it only loaded on mount. Replaced `useEffect` with `useFocusEffect` so the screen re-fetches on every focus; initial load still shows spinner, re-focus silently updates.
+
+**Maestro scroll pattern.** Long forms require explicit `scrollUntilVisible` before any `tapOn: id:` targeting off-screen elements. `tapOn: "text"` does not auto-scroll. Applied `scrollUntilVisible` before tapping: add Save button, notes input, edit Save Changes button, and Remove from Collection.
+
+**Maestro keyboard dismissal before catalog result tap.** The catalog search keyboard was intercepting React Native's touch responder even though Maestro reports the tap as COMPLETED. Added `hideKeyboard` + `waitForAnimationToEnd` before `tapOn: id: catalog-result-0`. The result rows also needed `testID` on the `TouchableOpacity` (not inner `Text`) so Maestro taps the clickable ViewGroup, not the non-clickable TextView.
+
+**Photo upload.** `apiClient.multipartPost` sends FormData without a Content-Type header — React Native sets it automatically with the correct multipart boundary. Client-side validation: file must be < 10 MB and mimeType must start with `image/`. Authenticated photo URLs use `Image source={{ uri, headers: { Authorization: 'Bearer ...' } }}`.
+
+### Verification
+
+- Maestro smoke test: all 6 flows passed (login → dashboard stats → tab navigation → item detail → add/edit/delete → logout)
+- `npm run lint` — all packages clean
+- COL-52 transitioned to Done in Jira
