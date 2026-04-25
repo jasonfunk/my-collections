@@ -2,7 +2,7 @@
 confluence_page_id: "9535489"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489"
 title: "My Collections — Mobile Application Architecture"
-last_updated: "2026-04-24"
+last_updated: "2026-04-25"
 ---
 
 ## Overview
@@ -102,7 +102,7 @@ The dashboard makes two parallel API calls on mount and on pull-to-refresh:
 - `GET /collections/stats` — returns owned/wishlist counts and estimated total value per collection type. Rendered as three tappable collection cards (Star Wars/amber, Transformers/blue, He-Man/purple) and a totals row.
 - `GET /collections/recent?limit=5` — returns the 5 most recently added user items across all collections. Rendered as a "Recently Added" list with collection badge, owned/wishlist tag, and date.
 
-Each collection card shows the collection icon (36 px, from `src/components/CollectionIcon.tsx`) alongside the collection name and a subtitle ("Original Trilogy · 1977–1985", "Generation 1 · 1984–1990", "Masters of the Universe · 1981–1988"). Icons are SVG components built with `react-native-svg`, ported from the web's `collection-icons.tsx`.
+Each collection card shows a `CollectionProgressIcon` — an animated SVG ring (r=22, strokeWidth=3, SVG container 50×50) that wraps the `CollectionIcon` (36 px) via absolute positioning. The ring fills proportionally to `owned / catalogTotal` in the collection's accent color, animating from empty to the target percentage on mount (1 s, `Animated.timing`). A percentage label appears below. `useNativeDriver: false` is required because `stroke-dashoffset` is a layout property not handled by the native animation driver. Accent colors are hardcoded hex values matching `COLLECTION_CONFIG` (amber-400 / blue-400 / purple-400). The collection subtitle ("Original Trilogy · 1977–1985", etc.) renders to the right of the progress icon.
 
 The login screen shows a `FaviconIcon` (amber person figure, 64 px) centered above the app title.
 
@@ -188,6 +188,10 @@ Exports fetch and mutation functions with their types:
 - **`deleteItem(collectionType, id)`** — `DELETE /collections/<slug>/items/:id`.
 
 Note: nullable DB columns return `null` (not `undefined`) from TypeORM. Guards must use `!= null`.
+
+### `src/components/CollectionProgressIcon.tsx`
+
+Animated SVG progress ring for dashboard collection cards. Renders a 50×50 container with a `react-native-svg` `Circle` track (stroke `#2a2a2a`) and an `AnimatedCircle` progress arc. `stroke-dashoffset` starts at `CIRCUMFERENCE` (empty) and animates to `CIRCUMFERENCE * (1 - pct/100)` over 1 s using `Animated.timing`. `useNativeDriver: false` is required — SVG stroke properties are not supported by the native driver. A percentage label (`pct%`) renders below the ring in the accent color. Props: `collectionType`, `owned`, `catalogTotal`.
 
 ### `src/components/FilterSheet.tsx`
 

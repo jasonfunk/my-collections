@@ -3563,3 +3563,18 @@ Added a per-collection catalog completion indicator to the web dashboard. Each c
 - Mobile layout at 375 px: cards stack, rings render at correct size
 - `tsc --noEmit` clean on both api and web packages
 
+### Mobile continuation (2026-04-25)
+
+Extended completion rings to the mobile dashboard using `react-native-svg`.
+
+**New files:**
+- `packages/mobile/src/components/CollectionProgressIcon.tsx` — `Animated.createAnimatedComponent(Circle)` ring (r=22, strokeWidth=3, SVG 50×50); `stroke-dashoffset` animates from full circumference to `CIRCUMFERENCE * (1 - pct/100)` on mount (1 s, `Animated.timing`); `useNativeDriver: false` required (SVG layout prop); percentage label below; accent colors hardcoded to match `COLLECTION_CONFIG`
+
+**Modified files:**
+- `packages/mobile/app/(app)/index.tsx` — replaced bare `CollectionIcon` in `CollectionCard` with `CollectionProgressIcon`; passes `owned` and `catalogTotal` from the stats response (no API change needed — `catalogTotal` already in `CollectionTypeStats` from web work)
+
+### Verification (mobile)
+
+- `npm run lint` — all packages clean
+- Rings visible and animated on Android emulator for all three collection cards
+
