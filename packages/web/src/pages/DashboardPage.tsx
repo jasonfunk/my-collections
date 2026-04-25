@@ -7,7 +7,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
-import { CollectionIcon } from '../components/ui/collection-icons.js';
+import { CollectionProgressIcon } from '../components/ui/collection-progress-icon.js';
 import type { CollectionKey } from '../lib/collectionConfig.js';
 
 function formatCurrency(value: number | null): string {
@@ -20,6 +20,7 @@ interface CollectionCardProps {
   subtitle: string;
   collectionKey: CollectionKey;
   owned: number;
+  catalogTotal: number;
   wishlist: number;
   value: number | null;
   href: string;
@@ -38,7 +39,7 @@ const COUNT_BORDERS: Record<CollectionKey, string> = {
   'he-man':       'border-purple-500/50',
 };
 
-function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value, href, accent }: CollectionCardProps) {
+function CollectionCard({ title, subtitle, collectionKey, owned, catalogTotal, wishlist, value, href, accent }: CollectionCardProps) {
   const navigate = useNavigate();
   return (
     <Card
@@ -47,7 +48,7 @@ function CollectionCard({ title, subtitle, collectionKey, owned, wishlist, value
     >
       <CardHeader className="pb-2">
         <div className="flex items-center gap-3">
-          <CollectionIcon variant={collectionKey} size={40} />
+          <CollectionProgressIcon collectionKey={collectionKey} owned={owned} catalogTotal={catalogTotal} />
           <div className="min-w-0 flex-1">
             <CardTitle className="text-base font-semibold leading-none">{title}</CardTitle>
             <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
@@ -148,6 +149,7 @@ export function DashboardPage() {
                 subtitle="Original Trilogy · 1977–1985"
                 collectionKey="star-wars"
                 owned={stats!.starWars.owned}
+                catalogTotal={stats!.starWars.catalogTotal}
                 wishlist={stats!.starWars.wishlist}
                 value={stats!.starWars.estimatedTotalValue}
                 href="/collections/star-wars"
@@ -158,6 +160,7 @@ export function DashboardPage() {
                 subtitle="Generation 1 · Series 1–6 · 1984–1990"
                 collectionKey="transformers"
                 owned={stats!.transformers.owned}
+                catalogTotal={stats!.transformers.catalogTotal}
                 wishlist={stats!.transformers.wishlist}
                 value={stats!.transformers.estimatedTotalValue}
                 href="/collections/transformers"
@@ -168,6 +171,7 @@ export function DashboardPage() {
                 subtitle="Masters of the Universe · 1981–1988"
                 collectionKey="he-man"
                 owned={stats!.heman.owned}
+                catalogTotal={stats!.heman.catalogTotal}
                 wishlist={stats!.heman.wishlist}
                 value={stats!.heman.estimatedTotalValue}
                 href="/collections/he-man"

@@ -2,7 +2,7 @@
 confluence_page_id: "3833858"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3833858"
 title: "My Collections — Collections API"
-last_updated: "2026-04-10"
+last_updated: "2026-04-25"
 ---
 
 All Collections API endpoints require `Authorization: Bearer <access_token>` in the request header. Obtain tokens via the Authentication API.
@@ -92,12 +92,14 @@ Returns summary statistics across all collection types.
 
 ```json
 {
-  "starWars": { "owned": 42, "wishlist": 15, "estimatedTotalValue": 1250.00 },
-  "transformers": { "owned": 28, "wishlist": 8, "estimatedTotalValue": 875.50 },
-  "heman": { "owned": 35, "wishlist": 12, "estimatedTotalValue": null },
+  "starWars": { "owned": 42, "wishlist": 15, "estimatedTotalValue": 1250.00, "catalogTotal": 199 },
+  "transformers": { "owned": 28, "wishlist": 8, "estimatedTotalValue": 875.50, "catalogTotal": 118 },
+  "heman": { "owned": 35, "wishlist": 12, "estimatedTotalValue": null, "catalogTotal": 62 },
   "totals": { "owned": 105, "wishlist": 35, "estimatedTotalValue": 2125.50 }
 }
 ```
+
+`catalogTotal` — total number of entries in that collection's pre-seeded catalog (used to compute completion percentage on the dashboard).
 
 ---
 

@@ -14,7 +14,7 @@ import { CollectionType } from '@my-collections/shared';
 import type { CollectionStats, RecentCollectionItem } from '@my-collections/shared';
 import { apiClient } from '../../src/api/client';
 import { useAuth } from '../../src/hooks/useAuth';
-import { CollectionIcon } from '../../src/components/CollectionIcon';
+import { CollectionProgressIcon } from '../../src/components/CollectionProgressIcon';
 import { COLLECTION_CONFIG } from '../../src/config/collections';
 
 function formatValue(value: number | null): string {
@@ -138,7 +138,7 @@ function CollectionCard({
   onPress,
 }: {
   collectionType: CollectionType;
-  stats: { owned: number; wishlist: number; estimatedTotalValue: number | null };
+  stats: { owned: number; wishlist: number; estimatedTotalValue: number | null; catalogTotal: number };
   onPress: () => void;
 }) {
   const { label, color, subtitle } = COLLECTION_CONFIG[collectionType];
@@ -147,7 +147,7 @@ function CollectionCard({
       <View style={[styles.cardAccent, { backgroundColor: color }]} />
       <View style={styles.cardBody}>
         <View style={styles.cardHeader}>
-          <CollectionIcon type={collectionType} size={36} />
+          <CollectionProgressIcon collectionType={collectionType} owned={stats.owned} catalogTotal={stats.catalogTotal} />
           <View style={styles.cardTitleBlock}>
             <Text style={styles.cardLabel}>{label}</Text>
             <Text style={styles.cardSubtitle}>{subtitle}</Text>

@@ -399,7 +399,7 @@ packages/web/
 │   │   │   ├── FilterBar.tsx        ← grid/list toggle + owned/condition/line filters
 │   │   │   ├── ItemCard.tsx         ← grid card component
 │   │   │   └── ItemTable.tsx        ← table view component
-│   │   └── ui/                      ← shadcn/ui primitives (button, card, input, select, etc.)
+│   │   └── ui/                      ← shadcn/ui primitives + custom: collection-icons, collection-progress-icon
 │   ├── hooks/
 │   │   └── useAuth.ts
 │   ├── lib/

@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-04-19"
+last_updated: "2026-04-25"
 ---
 
 ## Overview
@@ -33,7 +33,7 @@ All routes are defined in `src/App.tsx`. The three collection types (star-wars, 
 | --- | --- | --- | --- |
 | `/login` | LoginPage | No | OAuth2 login form |
 | `/auth/callback` | CallbackPage | No | OAuth2 redirect callback handler |
-| `/dashboard` | DashboardPage | Yes | Collection stats overview (owned count, wishlist count, estimated value per collection) |
+| `/dashboard` | DashboardPage | Yes | Collection stats overview — owned count, catalog completion ring, wishlist count, estimated value per collection |
 | `/search` | SearchPage | Yes | Cross-collection search; filter panel with collectionType, condition, owned/wishlist, completeness |
 | `/wishlist` | WishlistPage | Yes | All wishlist items across all three collections |
 | `/collections/star-wars` | StarWarsCatalogPage | Yes | Browse the pre-populated Kenner Star Wars catalog (199 items) |
@@ -109,6 +109,11 @@ The main entry point for each collection is the catalog browse page (e.g., `/col
 - **Radix UI** — headless components (Dialog, Select, Toggle, etc.)
 - **shadcn/ui** — component patterns (Button, Badge, Card, Table, Input, Label, Textarea, Checkbox, Skeleton, Separator)
 - **Lucide React** — icon set
+
+**Shared UI components** (under `src/components/ui/`):
+
+- `CollectionIcon` — custom SVG icons for each collection (Star Wars, Transformers, He-Man)
+- `CollectionProgressIcon` — wraps `CollectionIcon` with an animated SVG progress ring; ring fills proportionally to `owned / catalogTotal` in the collection's accent color (amber/blue/purple) with a matching glow; percentage label rendered below the icon; animates from 0 on mount
 
 **Collection-specific components** (under `src/components/collections/`):
 

@@ -4,6 +4,7 @@ export interface CollectionTypeStats {
   owned: number;
   wishlist: number;
   estimatedTotalValue: number | null;
+  catalogTotal: number;
 }
 
 export interface CollectionStats {

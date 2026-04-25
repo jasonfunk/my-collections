@@ -3532,3 +3532,49 @@ Implemented the full add/edit/delete CRUD loop on mobile (COL-52).
 - Maestro smoke test: all 6 flows passed (login → dashboard stats → tab navigation → item detail → add/edit/delete → logout)
 - `npm run lint` — all packages clean
 - COL-52 transitioned to Done in Jira
+
+---
+
+## Session 18 — Dashboard completion rings (2026-04-25)
+
+### What was done
+
+Added a per-collection catalog completion indicator to the web dashboard. Each collection card now shows an animated SVG progress ring around its icon, filling proportionally to `owned / catalogTotal` in the collection's accent color.
+
+**New files:**
+- `packages/web/src/components/ui/collection-progress-icon.tsx` — `CollectionProgressIcon` component: 54×54 container, SVG ring (r=24, strokeWidth=3) rendered behind the existing `CollectionIcon` via absolute positioning, progress arc in accent color with drop-shadow glow, `stroke-dashoffset` animates from full circumference to target value on mount (1 s ease-out), percentage label below
+
+**Modified files:**
+- `packages/shared/src/types/stats.ts` — added `catalogTotal: number` to `CollectionTypeStats`
+- `packages/api/src/modules/collections/services/collections-stats.service.ts` — injected `StarWarsCatalogEntity`, `G1TransformersCatalogEntity`, `MastersCatalogEntity` repos; added three parallel `repo.count()` calls in `getStats()`; passes `catalogTotal` through `parseStatsRows()`
+- `packages/web/src/pages/DashboardPage.tsx` — replaced `CollectionIcon` with `CollectionProgressIcon` in `CollectionCard`; added `catalogTotal` prop; passes `stats!.<collection>.catalogTotal` for each card
+
+### Key decisions
+
+**Progress ring around existing icon.** Rejected arc gauge, segmented bar, and dot grid as too obtrusive. Ring wraps an element already in the card layout — no added height, no new layout section. Mobile-friendly by design.
+
+**Catalog repos already registered.** All three catalog entities were already in `TypeOrmModule.forFeature([...])` in `collections.module.ts` — the stats service could inject them with no module changes.
+
+**Hardcoded accent hex values in SVG.** Tailwind class names can't be used in SVG `stroke` attributes (Tailwind purges them). Color map in `collection-progress-icon.tsx` uses the amber-400/blue-400/purple-400 hex equivalents directly.
+
+### Verification
+
+- Playwright smoke test: dashboard loads, all three rings visible, percentages correct (1%/0%/2% with seed data)
+- Mobile layout at 375 px: cards stack, rings render at correct size
+- `tsc --noEmit` clean on both api and web packages
+
+### Mobile continuation (2026-04-25)
+
+Extended completion rings to the mobile dashboard using `react-native-svg`.
+
+**New files:**
+- `packages/mobile/src/components/CollectionProgressIcon.tsx` — `Animated.createAnimatedComponent(Circle)` ring (r=22, strokeWidth=3, SVG 50×50); `stroke-dashoffset` animates from full circumference to `CIRCUMFERENCE * (1 - pct/100)` on mount (1 s, `Animated.timing`); `useNativeDriver: false` required (SVG layout prop); percentage label below; accent colors hardcoded to match `COLLECTION_CONFIG`
+
+**Modified files:**
+- `packages/mobile/app/(app)/index.tsx` — replaced bare `CollectionIcon` in `CollectionCard` with `CollectionProgressIcon`; passes `owned` and `catalogTotal` from the stats response (no API change needed — `catalogTotal` already in `CollectionTypeStats` from web work)
+
+### Verification (mobile)
+
+- `npm run lint` — all packages clean
+- Rings visible and animated on Android emulator for all three collection cards
+
