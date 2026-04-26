@@ -6,7 +6,11 @@
     "line": "STAR_WARS",
     "figureSize": "12",
     "accessories": [
-      "Cape"
+      "Cape",
+      "Wookie Scalps",
+      "Belt",
+      "Blaster",
+      "Wing-Blast Rocket Pack"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -24,7 +28,8 @@
     "line": "STAR_WARS",
     "figureSize": "12",
     "accessories": [
-      "Cape"
+      "Cape",
+      "Lightsaber"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -42,7 +47,10 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "12",
     "accessories": [
-      "Bandolier"
+      "Bandolier",
+      "DLT-20A Blaster Rifle",
+      "E-11 Blaster Rifle",
+      "Thermal Detonator"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -76,7 +84,15 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Jedi Training Harness"
+      "Jedi Training Harness",
+      "Hoth Backpack",
+      "Asteroid Gas Mask",
+      "Luke Skywalker AT-AT Grappling Hook Belt",
+      "DLT-19 Heavy Blaster Rifle",
+      "SE-14r Light Repeating Blaster",
+      "DH-17 Blaster Pistol",
+      "A295 Blaster Rifle",
+      "DL-44 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -112,7 +128,10 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Radar Dish"
+      "Radar Dish",
+      "Turret Right",
+      "Turret Left",
+      "Cannon Base"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -130,7 +149,9 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Power Hose"
+      "Power Hose",
+      "Power Unit",
+      "Tri-Pod Laser Cannon"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -148,7 +169,15 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Hydrospanner Tool 4"
+      "Hydrospanner Tool 3",
+      "Hydrospanner Tool 8",
+      "Hydrospanner Tool 2",
+      "Hydrospanner Tool 7",
+      "Hydrospanner Tool 1",
+      "Hydrospanner Tool 6",
+      "Hydrospanner Tool 5",
+      "Hydrospanner Tool 4",
+      "Hose"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -184,7 +213,9 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Findsman Body Cloak"
+      "Findsman Body Cloak",
+      "Battle Armor",
+      "Snare Rifle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -444,7 +475,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Lightsaber (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -498,7 +530,9 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Staff",
+      "Belt"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -525,6 +559,24 @@
     "kennerItemNumber": null,
     "year": 1983,
     "releaseYear": 1983,
+    "coinIncluded": null
+  },
+  {
+    "externalId": "47008",
+    "name": "Boba Fett",
+    "category": "BASIC_FIGURE",
+    "line": "STAR_WARS",
+    "figureSize": "3.75",
+    "accessories": [
+      "E-11 Blaster Rifle (bluish black)"
+    ],
+    "isVariant": false,
+    "variantDescription": null,
+    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47010.jpg",
+    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-boba-fett/47008/",
+    "kennerItemNumber": null,
+    "year": 1979,
+    "releaseYear": 1979,
     "coinIncluded": null
   },
   {
@@ -570,7 +622,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Staff"
+      "Staff",
+      "Hood"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -588,7 +641,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cape"
+      "Cape",
+      "Lightsaber (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -852,7 +906,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Trench Coat"
+      "Trench Coat",
+      "DL-44 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -870,6 +925,7 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
+      "DLT-20A",
       "E-11 Blaster Rifle"
     ],
     "isVariant": false,
@@ -958,7 +1014,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Cape"
+      "Cape",
+      "DLT-19 Heavy Blaster Rifle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -994,7 +1051,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cape (vinyl)"
+      "Cape (vinyl)",
+      "CA-87 Blaster"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1012,7 +1070,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cape (cloth)"
+      "Cape (cloth)",
+      "CA-87 Blaster"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1066,7 +1125,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Cape"
+      "Cape",
+      "DH-17 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1084,7 +1144,8 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": "3.75",
     "accessories": [
-      "Cape"
+      "Cape",
+      "DL-18 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1102,7 +1163,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "BD-1 Vibro-Ax"
+      "BD-1 Vibro-Ax",
+      "Helmet"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1136,7 +1198,9 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Shaman Staff"
+      "Shaman Staff",
+      "Medicine Bag",
+      "Headgear"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1172,7 +1236,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Lightsaber"
+      "Lightsaber",
+      "DL-44 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1208,7 +1273,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Stormtrooper Helmet"
+      "Stormtrooper Helmet",
+      "E-11 Blaster Rifle (black)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1226,7 +1292,9 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": "3.75",
     "accessories": [
-      "Battle Poncho"
+      "Battle Poncho",
+      "Belt",
+      "DL-18 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1244,7 +1312,10 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Lightsaber (green variant)",
+      "Lightsaber (blue variant)",
+      "DL-18 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1280,7 +1351,9 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Quiver"
+      "Quiver",
+      "Hood",
+      "Bow"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1334,7 +1407,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Battle Staff"
+      "Battle Staff",
+      "Hood"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1368,7 +1442,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Defender Sporting Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1386,7 +1461,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Cape"
+      "Cape",
+      "Defender Sporting Blaster"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1404,7 +1480,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Helmet"
+      "Helmet",
+      "Shock Blade Lance"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1440,7 +1517,10 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Battle Poncho"
+      "Battle Poncho",
+      "Helmet",
+      "Poncho Belt",
+      "X-30 Lancer Target Blast Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1458,7 +1538,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Dressellian Projectile Rifle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1476,7 +1557,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Vibroblade"
+      "Vibroblade",
+      "Hood"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1566,7 +1648,8 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": "3.75",
     "accessories": [
-      "Spear"
+      "Spear",
+      "Hood"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1600,7 +1683,12 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Back Pack"
+      "Back Pack",
+      "Right Leg",
+      "Left Leg",
+      "Left Arm",
+      "Right Arm",
+      "C-3PO (torso)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1654,7 +1742,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Belt"
+      "Belt",
+      "DH-17 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1672,7 +1761,10 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Red Ball Jett Organ"
+      "Chindinkalu Flute",
+      "Red Ball Jett Organ",
+      "Microphone (Sy Snootles)",
+      "Microphone (Droopy McCool)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1690,7 +1782,9 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Axe"
+      "Axe",
+      "Battle Horn",
+      "Headgear"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1726,7 +1820,8 @@
     "line": "STAR_WARS",
     "figureSize": "3.75",
     "accessories": [
-      "Cloak"
+      "Cloak",
+      "Gaderffii Stick"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1744,7 +1839,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Communicator"
+      "Communicator",
+      "Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1762,7 +1858,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Smock"
+      "Smock",
+      "Toolbox"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1780,7 +1877,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Smock"
+      "Smock",
+      "Toolbox"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1816,7 +1914,9 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": "3.75",
     "accessories": [
-      "Quiver"
+      "Quiver",
+      "Hood",
+      "Bow"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1852,7 +1952,8 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": "3.75",
     "accessories": [
-      "Spear"
+      "Spear",
+      "Hood"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -1888,7 +1989,11 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": "3.75",
     "accessories": [
-      "Snake (version 2)"
+      "Snake (version 2)",
+      "Snake (version 1)",
+      "Cloak",
+      "Gimer Stick",
+      "Belt"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2070,7 +2175,8 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Reins"
+      "Reins",
+      "Saddle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2104,7 +2210,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Reins"
+      "Reins",
+      "Saddle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2122,7 +2229,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Reins"
+      "Reins",
+      "Saddle"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2286,7 +2394,8 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Backdrop"
+      "Backdrop",
+      "Display Base"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2304,7 +2413,10 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Cantina backdrop"
+      "Cantina backdrop",
+      "foot peg",
+      "DL-44 Blaster Pistol (bluish black)",
+      "E-11 Blaster Rifle (bluish black)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2322,7 +2434,11 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Smock"
+      "Smock",
+      "foot peg",
+      "Toolbox",
+      "DLT-19 Heavy Blaster",
+      "DH-17 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2340,7 +2456,8 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Backdrop (Part of Figure)"
+      "Backdrop (Part of Figure)",
+      "Cantina Base with Door (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2358,7 +2475,11 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "R2-D2 Adapter"
+      "Branch (Part of Figure)",
+      "Lever (Part of Figure)",
+      "R2-D2 Adapter",
+      "Cargo Box 2",
+      "Cargo Box 1"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2376,7 +2497,25 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Trash Monster"
+      "Trash Monster",
+      "Rope",
+      "First Floor with Trap Door",
+      "Ledge",
+      "Second Floor with Bridge Assembly",
+      "Third Floor",
+      "Bridge Support Column",
+      "Instrument Panel (lower)",
+      "Left Support Wall",
+      "First Floor Column",
+      "Instrument Panel (upper)",
+      "Elevator Shaft",
+      "Second Floor Column",
+      "Third Floor Column",
+      "Trash Compactor",
+      "Trash",
+      "Roof",
+      "Right Support Wall",
+      "Laser Cannon"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2394,7 +2533,11 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Display Arena Piece"
+      "Display Arena Piece",
+      "Backdrop (Garbage Compactor/Hoth)",
+      "Backdrop (Asteroid Field/Death Star)",
+      "Backdrop (Dagobah/Sandcrawler)",
+      "Backdrop (Rebel Cruiser/Bespin)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2412,7 +2555,34 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Radar Unit"
+      "Radar Unit",
+      "Antenna",
+      "Hook",
+      "Pincher Arm",
+      "Hook Arm",
+      "Hydraulic Tubing",
+      "Tank Tread",
+      "Wheel",
+      "Scoop Arm",
+      "Droid Base 4",
+      "Boom (assembled",
+      "Wheel Support",
+      "Droid Base 3",
+      "Droid Base 2",
+      "Axle",
+      "R2-D2 Base",
+      "Droid Base 1",
+      "Computer Housing",
+      "Body",
+      "Connector Pin",
+      "Drilling Arm",
+      "Droid Base 5",
+      "R2-D2 Center Leg",
+      "R2-D2 Leg",
+      "Base Stand",
+      "Leg Pod",
+      "Leg Support",
+      "R2-D2 Top"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2430,7 +2600,27 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "Spit Pole"
+      "Spit Pole",
+      "Netting",
+      "Large Platform Extension",
+      "Medium Platform Extension",
+      "Small Platform Extension",
+      "Throne",
+      "Main Platform",
+      "Elevator",
+      "3 Pole Railing",
+      "Spit",
+      "Rock",
+      "T-Cap",
+      "Fireplace",
+      "Carrier",
+      "Drum",
+      "Large Tree",
+      "5 Pole Railing",
+      "Medium Tree",
+      "Support Strut",
+      "4 Pole Railing",
+      "Small Tree"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2448,7 +2638,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Action Peg (part of Backdrop)"
+      "Action Peg (part of Backdrop)",
+      "Hoth Ice Planet Backdrop (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2466,7 +2657,12 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Command Post"
+      "Right Ice Bridge",
+      "Left Ice Bridge",
+      "Hatch Cover",
+      "Command Post",
+      "Snow Bank",
+      "Laser Cannon"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2484,7 +2680,10 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "Bowl"
+      "Bowl",
+      "Air Intake",
+      "Pipe Bowl",
+      "Pipe Holder"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2502,7 +2701,11 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": null,
     "accessories": [
-      "Hook"
+      "Battle Staff (Barada)",
+      "Headhunter Staff (Amanaman)",
+      "Hook",
+      "Branding Iron",
+      "Mast and Boom"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2520,7 +2723,11 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "BD-1 Vibro Axe (Klaatu)"
+      "BD-1 Vibro Axe (Klaatu)",
+      "Battle Staff (Nikto)",
+      "Hook",
+      "Mast and Boom",
+      "Branding Iron"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2538,7 +2745,13 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Left Tread Support (Part of Figure)"
+      "Right Tread Support (Part of Figure)",
+      "Left Tread Support (Part of Figure)",
+      "Sandcrawler Body (Part of Figure)",
+      "Jawa Sandcrawler Backdrop (Part of Figure)",
+      "Short Elevator Guide Rail (Part of Figure)",
+      "Action Pegs (part of Sandcrawler)",
+      "Long Elevator Guide Rail (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2556,7 +2769,10 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Tab"
+      "Tab",
+      "Backdrop",
+      "A295 Blaster Rifle",
+      "DH-17 Blaster Pistol"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2574,7 +2790,10 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Ice Planet Base"
+      "Ice Planet Base",
+      "Turret Base",
+      "Probot Head",
+      "Turret"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2640,7 +2859,9 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Wing"
+      "Wing",
+      "Cockpit",
+      "Pilot Seat"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2658,7 +2879,9 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "wing"
+      "wing",
+      "cockpit",
+      "pilot seat"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2758,7 +2981,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "wing"
+      "wing",
+      "cockpit"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2810,7 +3034,10 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Battery Cover"
+      "Battery Cover",
+      "MS-1 Fire-Linked Heavy Laser Cannon",
+      "Right FF-4 Medium Repeating Blaster",
+      "Left FF-4 Medium Repeating Blaster"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2880,7 +3107,8 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Right Wing"
+      "Right Wing",
+      "Left Wing"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2898,7 +3126,23 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Base (Part of Figure)"
+      "Base (Part of Figure)",
+      "Action Stand (Part of Figure)",
+      "Top Housing (Part of Figure)",
+      "Trap Door Escape Hatch (Part of Figure)",
+      "Laser Cannon Lever (Part of Figure)",
+      "Hologram Retainer (Part of Figure)",
+      "Rear Landing Strut (includes 2) (Part of Figure)",
+      "Battery Cap (Part of Figure)",
+      "Hologram (Part of Figure)",
+      "Front Landing Strut (Part of Figure)",
+      "Upper Meditation Chamber with Light and Window (Part of Figure)",
+      "Rear Housing (Part of Figure)",
+      "Action Lever (Part of Figure)",
+      "Console",
+      "Front Housing (Part of Figure)",
+      "Lower Meditation Chamber (Part of Figure)",
+      "Laser Cannon (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2916,7 +3160,9 @@
     "line": "POWER_OF_THE_FORCE",
     "figureSize": null,
     "accessories": [
-      "Log-Formed Sides"
+      "Log-Formed Sides",
+      "Ladder (Part of Figure)",
+      "Prisoner Cage"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2934,7 +3180,10 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "Harness"
+      "Harness",
+      "Lever (Part of Figure)",
+      "X-Brace (Part of Figure)",
+      "Boulder"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -2952,7 +3201,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Prisoner Immobilization Unit"
+      "Prisoner Immobilization Unit",
+      "Battery Cover"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3022,7 +3272,8 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Prisoner Immobilization Unit"
+      "Prisoner Immobilization Unit",
+      "Battery Cover"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3056,7 +3307,13 @@
     "line": "STAR_WARS",
     "figureSize": null,
     "accessories": [
-      "Radar (assembled)"
+      "Radar (assembled)",
+      "False Floor",
+      "Top Cover",
+      "Game Table",
+      "Light Barrier Ball, Rod, and String",
+      "Ramp Strut",
+      "Cannon (Part of Figure)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3106,7 +3363,9 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Thrust Nozzle (includes 2) (Part of Figure)"
+      "Thrust Nozzle (includes 2) (Part of Figure)",
+      "Laser Cannon (includes 2) (Part of Figure)",
+      "Harpoon with Anchor"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3124,7 +3383,14 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Backpack"
+      "Backpack",
+      "Gas Mask",
+      "Crew Chamber",
+      "Escape Hatch (Part of Figure)",
+      "Gunner's Seat Base",
+      "Gun Turret Cover",
+      "Cockpit Canopy",
+      "Gun Turret"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3142,7 +3408,8 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "Breast Plate (Part of Figure)"
+      "Breast Plate (Part of Figure)",
+      "Blaster"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3176,7 +3443,11 @@
     "line": "EMPIRE_STRIKES_BACK",
     "figureSize": null,
     "accessories": [
-      "boarding ramp (Part of Figure)"
+      "boarding ramp (Part of Figure)",
+      "Right Wing",
+      "Left Wing",
+      "rear hatch",
+      "Han Solo in Carbonite Block"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3210,7 +3481,11 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "Front Extension"
+      "Front Extension",
+      "Main Body Assembly",
+      "Left Action Speed Flap",
+      "Right Action Speed Flap",
+      "Upper Body Shell"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3244,6 +3519,7 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
+      "Left Wing",
       "Right Wing"
     ],
     "isVariant": false,
@@ -3296,7 +3572,12 @@
     "line": "RETURN_OF_THE_JEDI",
     "figureSize": null,
     "accessories": [
-      "Exhaust Nacelle (includes 2) (Part of Figure)"
+      "Exhaust Nacelle (includes 2) (Part of Figure)",
+      "Support Pylon (includes 8) (Part of Figure)",
+      "Disk Vectral (includes 2) (Part of Figure)",
+      "IX-4 Laser Cannon (includes 2) (Part of Figure)",
+      "ArMek SW-4 Ion Cannons (Part of Figure)",
+      "Bomb (Proton Torpedo)"
     ],
     "isVariant": false,
     "variantDescription": null,
@@ -3305,24 +3586,6 @@
     "kennerItemNumber": null,
     "year": 1983,
     "releaseYear": 1983,
-    "coinIncluded": null
-  },
-  {
-    "externalId": "47008",
-    "name": "Boba Fett",
-    "category": "BASIC_FIGURE",
-    "line": "STAR_WARS",
-    "figureSize": "3.75",
-    "accessories": [
-      "E-11 Blaster Rifle (bluish black)"
-    ],
-    "isVariant": false,
-    "variantDescription": null,
-    "catalogImageUrl": "https://www.transformerland.com/image/reference_images/47010.jpg",
-    "sourceUrl": "https://www.transformerland.com/wiki/toy-info/star-wars-original-kenner-series-basic-figures-boba-fett/47008/",
-    "kennerItemNumber": null,
-    "year": 1979,
-    "releaseYear": 1979,
     "coinIncluded": null
   },
   {

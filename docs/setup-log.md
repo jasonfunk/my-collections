@@ -3724,3 +3724,61 @@ SELECT COUNT(*) FROM masters_catalog WHERE has_armor_or_feature = true; -- 32
 ### Jira
 
 - COL-101 transitioned to Done
+
+---
+
+## Session 21 — 2026-04-26
+
+### Context
+COL-102: Accessories coverage improvement — fix `extractAccessories()` bugs in all three scrapers, re-scrape TF (443) and SW (199), re-seed in update mode.
+
+### Root cause analysis
+Two bugs identified in `extractAccessories()` (identical code across all three scrapers):
+
+1. **"In Stock - Buy It" leak** — store-status text (`In Stock`, `Buy It`, `Out of Stock`, `Pre-Order`) passed the filter and appeared as fake accessories. Fix: added these prefixes to the exclusion list.
+
+2. **Flat-sibling structure** — `$(pEl).next()` only captures the first sibling div after `<p>Set Accessories</p>`. When accessories are flat siblings (not children of a wrapper), only one is captured. Fix: switched to `$(pEl).nextUntil('p')` to collect all siblings, with wrapper/flat detection based on whether the first item has a direct `a[href*="/image/reference_images/"]` child.
+
+### Files changed
+
+- `scripts/scrape-transformers-catalog.ts` — `extractAccessories()` rewritten
+- `scripts/scrape-star-wars-catalog.ts` — same fix
+- `scripts/scrape-he-man-catalog.ts` — same fix (same bug, 19 MOTU accessory gaps)
+- `packages/api/src/modules/collections/entities/g1-transformers-catalog.entity.ts` — added missing `releaseYear` column (was in JSON + catalog-data-gaps.md as "complete" but the entity column was never added)
+- `packages/api/src/migrations/1777169107658-AddReleaseYearToG1TransformersCatalog.ts` — generated + applied
+- `packages/api/src/database/seeds/data/g1-transformers-catalog.json` — re-scraped (443 items)
+- `packages/api/src/database/seeds/data/star-wars-catalog.json` — re-scraped (190) + 12inch patch (9) + line patch (199)
+
+### Commands run
+
+```bash
+# Re-scrape
+npm run scrape:transformers   # 443/443 success
+npm run scrape:star-wars      # 190/190 success
+
+# SW patches (re-apply after fresh scrape)
+npx ts-node --project tsconfig.scripts.json scripts/patch-star-wars-12inch.ts
+# Added 9 missing TWELVE_INCH figures; total: 199
+npx ts-node --project tsconfig.scripts.json scripts/patch-star-wars-line.ts
+# Patched 199 records; POTF: 21 items coinIncluded=true
+
+# Migration (TF releaseYear column)
+cd packages/api && npm run migration:generate -- src/migrations/AddReleaseYearToG1TransformersCatalog
+npm run migration:run  # Applied successfully
+
+# Re-seed
+cd /Users/jfunk/Projects/my-collections
+npm run seed:transformers -- --update   # 443 updated, 0 inserted
+npm run seed:star-wars -- --update      # 199 updated, 0 inserted
+```
+
+### Outcome
+
+The extractor bugs were real and are now fixed, but the accessory counts didn't change because the remaining empty items are **legitimately empty** on transformerland.com:
+
+- **TF 182 empties:** Decoys (~73, named "X (purple/red/etc)"), Mini-Autobots (~12, no accessories), Combiners (~10), others the site has no data for
+- **SW 47 empties:** All non-FIGURE categories — BASIC_FIGURE (12), VEHICLE (9), MINI_RIG (8), COLLECTOR_CASE (7), DIE_CAST (5), ROLEPLAY (3), CREATURE (2), TWELVE_INCH (1). Zero empty regular FIGURE items.
+
+### Jira
+
+- COL-102 transitioned to Done
