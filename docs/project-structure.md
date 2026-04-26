@@ -90,19 +90,46 @@ Postman Collection v2.1 schema. Import into Postman alongside the environment fi
 
 ```
 scripts/
-├── scrape-star-wars-catalog.ts  ← one-time Playwright + cheerio scraper
-└── patch-star-wars-12inch.ts    ← manual patch adding 9 missing 12" figures
+├── scrape-star-wars-catalog.ts     ← Playwright + cheerio scraper (190 items, ~3.5 min)
+├── scrape-transformers-catalog.ts  ← same for G1 Transformers (443 items, ~8 min)
+├── scrape-he-man-catalog.ts        ← same for MOTU (127 items, ~2.5 min)
+├── patch-star-wars-12inch.ts       ← manual patch: 9 twelve-inch figures not on site
+├── patch-star-wars-line.ts         ← derives line/coinIncluded/releaseYear from year field
+├── patch-he-man-charactertype.ts   ← sets characterType from MOTU collector knowledge
+└── patch-he-man-enrichment.ts      ← sets miniComic, hasArmorOrFeature, featureDescription
 ```
 
-**Purpose:** One-off utility scripts for data collection and curation. These are not part of the Turborepo build pipeline and are never imported by other packages. Run individually via `ts-node --project tsconfig.scripts.json`.
+**Purpose:** One-off utility scripts for data collection and curation. These are not part of the Turborepo build pipeline and are never imported by other packages. Run individually via `ts-node --project tsconfig.scripts.json`, or via the npm scripts defined in the root `package.json`.
 
-**Run via:** `npm run scrape:star-wars` (defined in root `package.json`).
+**Pre-requisite:** `npx playwright install chromium` — downloads the Chromium browser binary (~92 MB, one-time). All scrapers use `headless: false` because transformerland.com's Cloudflare protection blocks headless Chromium. A browser window opens during each scrape run.
 
-**Pre-requisite:** `npx playwright install chromium` — downloads the Chromium browser binary used by the scraper (~92 MB, one-time). The scraper uses `headless: false` because transformerland.com's Cloudflare protection blocks headless Chromium. A browser window will briefly open during the ~3-minute run.
+**Scrapers** fetch the transformerland.com wiki index, visit each detail page, and write JSON to `packages/api/src/database/seeds/data/`. Rate-limited to ~1 req/sec. Run via:
+```bash
+npm run scrape:star-wars
+npm run scrape:transformers
+npm run scrape:he-man
+```
 
-**`scrape-star-wars-catalog.ts`** — fetches the transformerland.com Original Kenner Series index (190 items), visits each detail page, and writes `packages/api/src/database/seeds/data/star-wars-catalog.json`. Rate-limited to ~1 req/sec.
+**Re-scrape workflow:** All three scrapers share the same `extractAccessories()` logic. After modifying any extractor function, re-run **all** scrapers before committing — the fix lives in code; JSON is only updated by running the scraper.
 
-**`patch-star-wars-12inch.ts`** — idempotent one-shot script that appends 9 manually-curated twelve-inch figures missing from transformerland.com's wiki. Safe to re-run (checks existing names before inserting).
+**Patch scripts** are idempotent and safe to re-run. Always re-apply patches in order after re-scraping:
+```bash
+# Star Wars — must run both after each scrape
+npx ts-node --project tsconfig.scripts.json scripts/patch-star-wars-12inch.ts
+npx ts-node --project tsconfig.scripts.json scripts/patch-star-wars-line.ts
+
+# He-Man — must run both after each scrape
+npx ts-node --project tsconfig.scripts.json scripts/patch-he-man-charactertype.ts
+npm run patch:he-man-enrichment
+```
+
+**`patch-star-wars-12inch.ts`** — appends 9 manually-curated twelve-inch figures missing from transformerland.com.
+
+**`patch-star-wars-line.ts`** — derives `line` (STAR_WARS / ESB / ROTJ / POTF), `coinIncluded`, and `releaseYear` from the `year` field in the JSON.
+
+**`patch-he-man-charactertype.ts`** — sets `characterType` (HEROIC / EVIL / etc.) from MOTU collector knowledge; the URL-based scraper extraction misses some items.
+
+**`patch-he-man-enrichment.ts`** — sets `miniComic`, `hasArmorOrFeature`, and `featureDescription`; this data is completely absent from transformerland.com and is sourced from MOTU collector databases.
 
 ---
 
@@ -334,8 +361,13 @@ Standalone ts-node scripts that run outside NestJS DI. Each creates seed data in
 ```
 seeds/
 ├── oauth-clients.seed.ts
+├── run-star-wars-seed.ts
+├── run-transformers-seed.ts
+├── run-he-man-seed.ts
 └── data/
-    └── star-wars-catalog.json  ← 199-item scraped dataset (committed to git)
+    ├── star-wars-catalog.json         ← 199 items (190 scraped + 9 twelve-inch patch)
+    ├── g1-transformers-catalog.json   ← 443 items
+    └── he-man-catalog.json            ← 127 items (+ enrichment patches applied)
 ```
 
 `oauth-clients.seed.ts` — inserts the `web-app` and `mobile-app` OAuth client records. Run once after the AuthSchema migration:
@@ -343,7 +375,15 @@ seeds/
 npx ts-node src/database/seeds/oauth-clients.seed.ts
 ```
 
-`data/star-wars-catalog.json` — canonical Star Wars Original Kenner Series dataset (190 items scraped from transformerland.com + 9 manually curated twelve-inch figures). Used by the upcoming seed runner (COL-66) to populate `star_wars_catalog`. Committed to git as the authoritative source of record.
+Catalog seed runners support two modes. Run from repo root:
+```bash
+npm run seed:star-wars                  # insert-only (safe default)
+npm run seed:star-wars -- --update      # upsert: update existing rows too
+npm run seed:transformers -- --update
+npm run seed:he-man -- --update
+```
+
+`data/*.json` — canonical datasets for each collection. These are the ground-truth source of record, committed to git. The scraper writes the initial data; patch scripts layer on data the site doesn't carry. Re-seed with `--update` after any JSON change to propagate to the dev DB.
 
 ### `src/common/`
 Shared cross-cutting code: guards (authorization checks), interceptors (request/response transforms), pipes (input validation). Not yet populated.
