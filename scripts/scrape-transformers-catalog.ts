@@ -238,7 +238,7 @@ function extractAccessories($: cheerio.CheerioAPI): string[] {
       }
 
       // Strip trailing "(xN)" quantity
-      label = label.replace(/\s*\(\s*x\d+\s*\)\s*$/, '').trim();
+      label = label.replace(/\s*\(\s*x1\s*\)\s*$/, '').trim();
 
       if (
         label &&
