@@ -196,8 +196,8 @@
       "Ramp",
       "Chest Shield",
       "Large Body Shield",
-      "Bruticus Left Foot",
       "Bruticus Right Foot",
+      "Bruticus Left Foot",
       "Bruticus Left Fist",
       "Bruticus Right Fist",
       "Bruticus Head",
@@ -244,9 +244,9 @@
     "altMode": null,
     "accessories": [
       "Helicopter Blades (Part of Figure)",
+      "Left Side-Mounted Cannon",
       "Right Side-Mounted Cannon",
-      "Semi-Automatic Glue Gun",
-      "Left Side-Mounted Cannon"
+      "Semi-Automatic Glue Gun"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -422,7 +422,7 @@
       "Laser-Guided Sword",
       "Wings",
       "Predaking Left Fist",
-      "Particle-Beam Rifle"
+      "Particle-Beam Rifle (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -444,7 +444,7 @@
     "accessories": [
       "Diffraction Sword",
       "Predaking Left Foot",
-      "Plasma Sphere Shooter"
+      "Plasma Sphere Shooter (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -484,7 +484,7 @@
     "accessories": [
       "Thermo Sword",
       "Predaking Right Fist",
-      "Lightning Rifle"
+      "Lightning Rifle (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -528,7 +528,7 @@
     "accessories": [
       "Electro Sword",
       "Predaking Right Foot",
-      "Catalytic Carbine"
+      "Catalytic Carbine (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -548,8 +548,8 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Monstructor Connector",
       "Rear Panel",
+      "Monstructor Connector",
       "Laser Rifle"
     ],
     "releaseYear": 1989,
@@ -656,8 +656,8 @@
     "accessories": [
       "Rear Panel",
       "Monstructor Head",
-      "Solar Cannon",
-      "Dual Rifle"
+      "Dual Rifle",
+      "Solar Cannon"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -783,15 +783,15 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
+      "Defensor Right Blast Shield",
       "Defensor Left Blast Shield",
       "Defensor Hip Shield",
-      "Defensor Right Blast Shield",
       "Defensor Right Foot",
       "Defensor Left Foot",
-      "Defensor Right Fist",
       "Defensor Left Fist",
-      "Fireball Cannon",
-      "Repair Bay Arm"
+      "Defensor Right Fist",
+      "Fireball Cannon (x2)",
+      "Repair Bay Arm (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -833,12 +833,12 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
+      "Weapon Stand Base",
       "Connector",
       "Left Monster Claw (Part of Figure)",
       "Right Monster Claw (Part of Figure)",
-      "Weapon Stand Base",
-      "Triple Crusher Cannon",
-      "Tripod Rifle"
+      "Tripod Rifle",
+      "Triple Crusher Cannon"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -901,12 +901,12 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Weapon Stand Base",
       "Connector",
-      "Right Venom Laser",
+      "Weapon Stand Base",
       "Tripod Rifle",
       "Venom Lasers (combined mode) (Part of Figure)",
-      "Left Venom Laser"
+      "Left Venom Laser",
+      "Right Venom Laser"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -928,10 +928,10 @@
     "accessories": [
       "Weapon Stand Base",
       "Connector",
-      "Tripod Rifle",
       "Dual Crustation Rifles (combined mode) (Part of Figure)",
       "Left Dual Crustation Rifle",
-      "Right Dual Crustation Rifle"
+      "Right Dual Crustation Rifle",
+      "Tripod Rifle"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -955,8 +955,8 @@
       "Piranacon Chest Shield",
       "Piranacon Left Foot",
       "Piranacon Right Foot",
-      "Piranacon Left Fist",
       "Piranacon Right Fist",
+      "Piranacon Left Fist",
       "Piranacon Head",
       "Laser"
     ],
@@ -1026,8 +1026,8 @@
     "altMode": null,
     "accessories": [
       "Connector",
-      "Compressor-Air Gun",
-      "Plasma-Energy Blaster"
+      "Plasma-Energy Blaster",
+      "Compressor-Air Gun"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -1048,8 +1048,8 @@
     "altMode": null,
     "accessories": [
       "Connector",
-      "Gravito Gun",
-      "Plasma-Energy Blaster"
+      "Plasma-Energy Blaster",
+      "Gravito Gun"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -1090,10 +1090,10 @@
       "Ionizer Sword",
       "Menasor Blast Deflector",
       "Roller Car",
-      "Menasor Right Foot",
       "Menasor Left Foot",
-      "Menasor Right Fist",
+      "Menasor Right Foot",
       "Menasor Left Fist",
+      "Menasor Right Fist",
       "Menasor Head - Silver Eyes",
       "Menasor Head - Red Eyes",
       "Cyclone Gun"
@@ -1177,7 +1177,7 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Infra-Red Missile Launcher",
+      "Infra-Red Missile Launcher (x2)",
       "Light-Burst Gun"
     ],
     "releaseYear": 1987,
@@ -1198,7 +1198,7 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Rocket-Propelled Missile",
+      "Rocket-Propelled Missile (x2)",
       "X-Ray Laser Gun"
     ],
     "releaseYear": 1987,
@@ -1220,12 +1220,12 @@
     "altMode": null,
     "accessories": [
       "Computron Chest Shield",
-      "Computron Foot Stand",
-      "Computron Right Fist",
+      "Computron Foot Stand (x2)",
       "Computron Left Fist",
+      "Computron Right Fist",
       "Computron Head",
       "Acid-Pellet Gun",
-      "Artillery Gun"
+      "Artillery Gun (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -1245,8 +1245,8 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Heat-Ray Rifle",
-      "Light-Pulse Blaster"
+      "Light-Pulse Blaster (x2)",
+      "Heat-Ray Rifle"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -1326,10 +1326,10 @@
     "altMode": null,
     "accessories": [
       "Abominus Chest Shield",
-      "Abominus Right Foot",
       "Abominus Left Foot",
-      "Abominus Right Fist",
+      "Abominus Right Foot",
       "Abominus Left Fist",
+      "Abominus Right Fist",
       "Abominus Head",
       "Sonic Stun Gun"
     ],
@@ -1393,10 +1393,10 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
+      "Energy Exhaust Stack (x2)",
+      "Laser Gun (x2)",
       "Photon Bazooka",
-      "Blaster Cannon",
-      "Energy Exhaust Stack",
-      "Laser Gun"
+      "Blaster Cannon (x4)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1417,7 +1417,7 @@
     "altMode": null,
     "accessories": [
       "Rotor Blades",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1541,13 +1541,13 @@
     "altMode": null,
     "accessories": [
       "Engine Cover",
+      "Tail",
       "Foot Platform",
       "Landing Skid",
       "Helicopter Blades",
-      "Tail",
       "Laser Cannon",
-      "Side Cannon",
-      "Missile"
+      "Side Cannon (x2)",
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1689,7 +1689,7 @@
     "accessories": [
       "Twin Laser Cannon",
       "Turret Barrel",
-      "Missile"
+      "Missile (x4)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1709,10 +1709,10 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Seat Rest",
       "Side Car",
+      "Seat Rest",
       "Cannon",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1753,8 +1753,8 @@
     "altMode": null,
     "accessories": [
       "Glitch Long Arm (Part of Figure)",
-      "Glitch Short Arm (Part of Figure)",
-      "Photon Gun"
+      "Photon Gun",
+      "Glitch Short Arm (Part of Figure)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1835,8 +1835,8 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Left wing (Wingthing) (Part of Figure)",
       "Right wing (Wingthing) (Part of Figure)",
+      "Left wing (Wingthing) (Part of Figure)",
       "Photon Negator"
     ],
     "releaseYear": 1990,
@@ -1857,13 +1857,13 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Right Rear Stabilizer Fin",
       "Left Rear Stabilizer Fin",
+      "Right Rear Stabilizer Fin",
       "Seat (Part of Figure)",
       "Jet Nose",
       "Twin laser gun",
-      "Laser Cannon",
-      "Missile",
+      "Laser Cannon (x2)",
+      "Missile (x4)",
       "Scout Tank (Part of Figure)"
     ],
     "releaseYear": 1990,
@@ -1910,7 +1910,7 @@
       "Side Covers",
       "Shield/Gas Tank Cover",
       "Small cannon",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1930,11 +1930,11 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Foot Platform",
       "Steering Bar",
       "Engine Cover (Part of Figure)",
+      "Foot Platform",
       "Laser Cannon",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1954,7 +1954,7 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -1974,10 +1974,10 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Right Missile Launcher",
       "Left Missile Launcher",
+      "Right Missile Launcher",
       "Laser Gun",
-      "Missle"
+      "Missle (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2021,7 +2021,7 @@
       "Left Fist",
       "Right Fist",
       "Arc-Welder Rifle",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2043,12 +2043,12 @@
     "accessories": [
       "Left Radar Panel",
       "Right Radar Panel",
-      "Towing Platform (Part of Figure)",
       "Full Spectrum Multi-Sensor",
+      "Towing Platform (Part of Figure)",
       "Left Fist",
       "Right Fist",
-      "Missile",
-      "Twin Blaster"
+      "Missile (x2)",
+      "Twin Blaster (x2)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2094,7 +2094,7 @@
       "Spare tire",
       "Hologram Gun",
       "Poseable Machine Gun",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2114,11 +2114,11 @@
     "line": "G1_S2",
     "altMode": null,
     "accessories": [
-      "Hose Nozzle",
-      "Right Fist",
+      "Hose Nozzle (x2)",
       "Left Fist",
+      "Right Fist",
       "Extinguisher Rifle",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2140,7 +2140,7 @@
     "accessories": [
       "Gun Post",
       "Static Laser Gun",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2162,7 +2162,7 @@
     "accessories": [
       "Missile Launcher",
       "Photon Rifle",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2204,7 +2204,7 @@
     "accessories": [
       "Missile Launcher",
       "Hunting Rifle",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2224,10 +2224,10 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Missile Launcher",
       "Right Missile Launcher",
+      "Left Missile Launcher",
       "Laser Gun",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2249,7 +2249,7 @@
     "accessories": [
       "Gun Post",
       "Static Laser Gun",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2271,7 +2271,7 @@
     "accessories": [
       "Shoulder-Mounted Rocket Launcher",
       "High-Energy Particle Beam Rifle",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2293,7 +2293,7 @@
     "accessories": [
       "Rocket Launcher",
       "Laser Gun",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2314,9 +2314,9 @@
     "altMode": null,
     "accessories": [
       "Rocket Pod",
-      "Liquid Nitrogen Rifle",
       "Twin Electron Blaster",
-      "Rocket"
+      "Liquid Nitrogen Rifle",
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2339,7 +2339,7 @@
       "Left Missile Launcher",
       "Right Missile Launcher",
       "Electro-Disruptor Rifle",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2361,8 +2361,8 @@
     "accessories": [
       "Left Fist",
       "Right Fist",
-      "Rocket Booster",
-      "Rocket"
+      "Rocket Booster (x2)",
+      "Rocket (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2386,7 +2386,7 @@
       "Right Missile Launcher",
       "Missile Launcher Mount",
       "Black Beam Gun",
-      "Missile"
+      "Missile (x4)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2409,8 +2409,8 @@
       "Radar Scanner",
       "Left Fist",
       "Right Fist",
-      "Missile",
-      "Twin Blaster Weapon"
+      "Missile (x2)",
+      "Twin Blaster Weapon (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2430,12 +2430,12 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Shoulder Cannon",
-      "Left Clear Wing",
-      "Right Clear Wing",
+      "Shoulder Cannon (x2)",
       "Left Spoiler (Part of Figure)",
       "Right Spoiler (Part of Figure)",
-      "Rocket"
+      "Left Clear Wing",
+      "Right Clear Wing",
+      "Rocket (x4)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2456,26 +2456,26 @@
     "altMode": null,
     "accessories": [
       "Radar Scope",
-      "Right Side Ramp (Part of Figure)",
-      "Ramp (Part of Figure)",
       "Repair Bay Side Ramp (Part of Figure)",
       "Left Side Ramp (Part of Figure)",
       "Main Chest Ramp (Part of Figure)",
-      "Communications Door (Part of Figure)",
-      "Gasket",
-      "Grommet",
+      "Right Side Ramp (Part of Figure)",
+      "Ramp (Part of Figure)",
       "Control Center Canopy",
       "Forearm gun cover (Part of Figure)",
       "Left Laser Arm",
       "Compartment Door",
       "Right Laser Arm",
+      "Communications Door (Part of Figure)",
+      "Gasket",
+      "Grommet",
+      "Arm Double Lasers (Part of Figure)",
+      "Dual Laser Blaster",
+      "Laser",
+      "Photon Rifle",
       "Leg Double Lasers (Part of Figure)",
       "Mini-Laser Rifle",
-      "Hip Cannons (Part of Figure)",
-      "Dual Laser Blaster",
-      "Arm Double Lasers (Part of Figure)",
-      "Laser",
-      "Photon Rifle"
+      "Hip Cannons (Part of Figure)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -2496,24 +2496,24 @@
     "altMode": null,
     "accessories": [
       "Chest",
+      "Knee Cap (x2)",
+      "Tank",
+      "Shoulder Antenna",
+      "Robot Body",
       "Scamper Left Arm",
       "Scamper Right Arm",
       "Rear Tower",
       "Tank Turret",
-      "Knee Cap",
-      "Tank",
-      "Shoulder Antenna",
-      "Robot Body",
-      "Right Fist",
       "Left Fist",
+      "Right Fist",
+      "Laser Pistol",
+      "Double Barrel Cannon",
+      "Right Red Accessory Cannon",
       "Small Laser Pistol",
       "Left Black Accessory Cannon",
       "Right Black Accessory Cannon",
       "Left Red Accessory Cannon",
-      "Laser Pistol",
-      "Double Barrel Cannon",
-      "Right Red Accessory Cannon",
-      "Missile",
+      "Missile (x3)",
       "Scamper"
     ],
     "releaseYear": 1986,
@@ -2534,26 +2534,26 @@
     "line": "G1_S2",
     "altMode": null,
     "accessories": [
+      "Rocket With Claw",
+      "Track Piece K",
+      "Medium Shield (x2)",
+      "Ankle E",
+      "Track Piece J",
+      "Large Shield (x2)",
+      "Armor Half D",
+      "Track Piece I (x2)",
+      "Small Shield (x2)",
+      "Armor Half C",
+      "Ankle H",
+      "Backpack",
+      "Track Piece M",
       "Armor Half B",
       "Ankle G",
       "Rocket",
       "Track Piece L",
       "Armor Half A",
       "Ankle F",
-      "Rocket With Claw",
-      "Track Piece K",
-      "Medium Shield",
-      "Ankle E",
-      "Track Piece J",
-      "Large Shield",
-      "Armor Half D",
-      "Track Piece I",
-      "Small Shield",
-      "Armor Half C",
-      "Ankle H",
-      "Backpack",
-      "Track Piece M",
-      "Foot"
+      "Foot (x2)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2590,7 +2590,7 @@
       "Fasttrack Right Arm",
       "Elevator Platform",
       "4 Dual Photon Cannons (Part of Figure)",
-      "Fasttrack Gun",
+      "Fasttrack Gun (x2)",
       "Anti-Gravity Gun"
     ],
     "releaseYear": 1987,
@@ -2615,16 +2615,16 @@
       "Single-Disk Scanner",
       "Left Loading Ramp",
       "Right Loading Ramp",
-      "Large Tower",
-      "Battery Cover (Part of Figure)",
-      "Left Connector",
-      "Right Connector",
-      "Left Tank Tread",
       "Right Tank Tread",
       "Large Blaster Stand",
       "Full-Tilt",
       "Small Tower",
       "Small Blaster Stand",
+      "Large Tower",
+      "Battery Cover (Part of Figure)",
+      "Left Connector",
+      "Right Connector",
+      "Left Tank Tread",
       "Double Barreled Blaster",
       "Single-Barreled Blaster",
       "Laser Cannon",
@@ -2689,7 +2689,7 @@
     "altMode": null,
     "accessories": [
       "Fastlane - Spoiler (Part of Figure)",
-      "Sonic Boom Rifle",
+      "Sonic Boom Rifle (x2)",
       "Right Gravity-Rod Rifle",
       "Left Gravity-Rod Rifle"
     ],
@@ -2711,8 +2711,8 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Anti-Personnel Missile Launching Bayonet",
-      "Electro-Burst Rifle"
+      "Electro-Burst Rifle (x2)",
+      "Anti-Personnel Missile Launching Bayonet (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -2755,7 +2755,7 @@
       "Concussion Blaster Gun",
       "Rocket Launcher",
       "Battery Cover (Part of Figure)",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2800,7 +2800,7 @@
       "Landing Gear",
       "Slotted Left Fist",
       "Slotted Right Fist",
-      "Concussion Missile"
+      "Concussion Missile (x2)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2820,14 +2820,14 @@
     "line": "G1_S2",
     "altMode": null,
     "accessories": [
-      "Right Wing (Part of Figure)",
       "Left Tail Fin",
       "Right Tail Fin",
       "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
       "Landing Gear",
       "Slotted Left Fist",
       "Slotted Right Fist",
-      "Cluster Bomb"
+      "Cluster Bomb (x2)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2868,18 +2868,18 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Tail Fin",
       "Right Tail Fin",
       "Left Rudder",
       "Right Rudder",
       "Left Wing (Part of Figure)",
       "Right Wing (Part of Figure)",
-      "Missile Launcher",
+      "Left Tail Fin",
+      "Missile Launcher (x2)",
       "Landing Gear",
       "Left Fist",
       "Right Fist",
-      "Missile",
-      "Machine Gun"
+      "Machine Gun (x2)",
+      "Missile (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2899,18 +2899,18 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Rudder",
       "Right Rudder",
       "Left Wing (Part of Figure)",
       "Right Wing (Part of Figure)",
       "Left Tail Fin",
       "Right Tail Fin",
-      "Missile Launcher",
+      "Left Rudder",
+      "Missile Launcher (x2)",
       "Landing Gear",
       "Left Fist",
       "Right Fist",
-      "Machine Gun",
-      "Missile"
+      "Machine Gun (x2)",
+      "Missile (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -2930,16 +2930,16 @@
     "line": "G1_S2",
     "altMode": null,
     "accessories": [
-      "Left Tail Fin",
       "Right Tail Fin",
       "Left Wing (Part of Figure)",
       "Right Wing (Part of Figure)",
-      "Missile Launcher",
+      "Left Tail Fin",
+      "Missile Launcher (x2)",
       "Landing gear",
       "Slotted Left Fist",
       "Slotted Right Fist",
-      "Long Air-To-Air Missile",
-      "Short Air-To-Air Missile"
+      "Long Air-To-Air Missile (x2)",
+      "Short Air-To-Air Missile (x2)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -2959,18 +2959,18 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
+      "Left Rudder",
       "Right Rudder",
       "Left Wing (Part of Figure)",
       "Right Wing (Part of Figure)",
       "Left Tail Fin",
       "Right Tail Fin",
-      "Left Rudder",
-      "Rocket Launcher",
+      "Rocket Launcher (x2)",
       "Landing Gear",
       "Slotted Left Fist",
       "Slotted Right Fist",
-      "Incendiary Gun",
-      "Rocket"
+      "Incendiary Gun (x2)",
+      "Rocket (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -4317,7 +4317,7 @@
       "Right Handle",
       "Linear Blaster Gun",
       "Laser Rifle",
-      "Missile"
+      "Missile (x5)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4363,7 +4363,7 @@
       "Energo Sword",
       "Rocket Launcher",
       "Stunner Lasers",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4386,7 +4386,7 @@
       "Energo Sword",
       "Rocket Pod",
       "Electron Blaster",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4409,7 +4409,7 @@
       "Energo Sword",
       "Rocket Pod",
       "Electron Cannon",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4432,7 +4432,7 @@
       "Energo Sword",
       "Rocket Pod",
       "Electron Cannon",
-      "Rocket"
+      "Rocket (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4453,8 +4453,8 @@
     "altMode": null,
     "accessories": [
       "Thermal Sword",
-      "Missile Launcher",
-      "Missile"
+      "Missile Launcher (x2)",
+      "Missile (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -4556,7 +4556,7 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Dual Laser"
+      "Dual Laser (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -4598,7 +4598,7 @@
     "altMode": null,
     "accessories": [
       "Shoulder Cannon (Part of Figure)",
-      "Shatterblaster"
+      "Shatterblaster (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -4618,7 +4618,7 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Corrosive Acid Rainmaker Rifle"
+      "Corrosive Acid Rainmaker Rifle (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -4703,9 +4703,9 @@
     "altMode": null,
     "accessories": [
       "Seat",
-      "Left Photon Pistol",
       "Right Photon Pistol",
-      "Plasma Blaster"
+      "Plasma Blaster",
+      "Left Photon Pistol"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -4771,7 +4771,7 @@
     "accessories": [
       "Booster Fin - Left",
       "Booster Fin - Right",
-      "Gyro-Gun"
+      "Gyro-Gun (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -5039,9 +5039,6 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Telescopic Sight - Crosshairs (Part of Figure)",
-      "3-Piece Telescopic Sight",
-      "Telescopic Sight - Mid Section (Part of Figure)",
       "Telescopic Sight - Eyepiece (Part of Figure)",
       "Stock - Base (Part of Figure)",
       "Silencer - Connector (Part of Figure)",
@@ -5049,8 +5046,11 @@
       "Silencer - Long Section (Part of Figure)",
       "Stock - Top Section (Part of Figure)",
       "3-Piece Stock",
-      "2-Piece Silencer",
-      "High Density Infrared Laser Cannon"
+      "Telescopic Sight - Crosshairs (Part of Figure)",
+      "3-Piece Telescopic Sight",
+      "Telescopic Sight - Mid Section (Part of Figure)",
+      "High Density Infrared Laser Cannon",
+      "2-Piece Silencer"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -5072,21 +5072,21 @@
     "accessories": [
       "Roller (type 2)",
       "Roller (type 1)",
-      "Roller (type 3 onward)",
       "Hose",
       "Trailer Door (Part of Figure)",
+      "Roller (type 3 onward)",
       "Left Fist (type 1)",
       "Right Fist (type 1)",
       "Regular Left Fist",
       "Right Fist (type 2 onward)",
+      "Laser Blaster (type 2 onward)",
       "Bloated Gas Pump",
       "Gas Pump (type 2 onward)",
       "Bloated Nozzle",
       "Nozzle (type 2 onward)",
       "Laser Blaster (type 1)",
-      "Laser Blaster (type 2 onward)",
-      "Rocket (type 2 onward)",
-      "Rocket (type 1)"
+      "Rocket (type 1) (x4)",
+      "Rocket (type 2 onward) (x4)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -5124,7 +5124,7 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Blast Shield",
+      "Blast Shield (x2)",
       "Spoiler (Part of Figure)",
       "Photon Eliminator"
     ],
@@ -5257,7 +5257,7 @@
     "altMode": null,
     "accessories": [
       "Ramp",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5281,10 +5281,10 @@
       "Communications Dish",
       "Ramp",
       "Turret (Part of Figure)",
+      "Bazooka",
       "Left Turret Cannon",
       "Missile Launcher",
-      "Right Turret Cannon",
-      "Bazooka"
+      "Right Turret Cannon"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -5360,11 +5360,11 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Left Scrambler Gun",
-      "Laser Machine Gun",
+      "Laser Machine Gun (x2)",
       "Right Scrambler Gun",
-      "Cruise Missile",
-      "Air-To-Air Missile"
+      "Left Scrambler Gun",
+      "Cruise Missile (x2)",
+      "Air-To-Air Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -5384,8 +5384,8 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Ramp",
-      "Cannon"
+      "Ramp (x2)",
+      "Cannon (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -5441,14 +5441,14 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
+      "Short Ramp (x3)",
       "Large Ramp",
-      "Short Ramp",
+      "Mechanical Arm",
+      "Helipad",
       "Large Laser",
       "Scout Vehicle",
       "Platform",
-      "Mechanical Arm",
-      "Helipad",
-      "Small Double Laser",
+      "Small Double Laser (x2)",
       "Large Double Laser",
       "Gunner Pod"
     ],
@@ -5490,7 +5490,7 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Laser Cannon"
+      "Laser Cannon (x2)"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5539,7 +5539,7 @@
       "Long ramp",
       "Short ramp",
       "Figure Stand",
-      "Missile launcher",
+      "Missile launcher (x2)",
       "Gun",
       "Large Cannon"
     ],
@@ -5662,10 +5662,10 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Ramp",
-      "Right Side Gun",
+      "Ramp (x2)",
       "Left Side Gun",
-      "Missile"
+      "Right Side Gun",
+      "Missile (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -5794,7 +5794,7 @@
     "altMode": null,
     "accessories": [
       "Double Missile Turret",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5816,12 +5816,12 @@
     "accessories": [
       "Radar Dish",
       "Long Ramp",
-      "Short Ramp",
+      "Short Ramp (x2)",
       "Rotor blade",
       "Figure stand",
+      "Left Gun",
       "Right Gun",
-      "Front Gun",
-      "Left Gun"
+      "Front Gun"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5841,10 +5841,10 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Ramp",
+      "Ramp (x2)",
       "Dual Laser Connector (Part of Figure)",
-      "Small Laser",
-      "Large Laser",
+      "Small Laser (x2)",
+      "Large Laser (x2)",
       "Dual Laser"
     ],
     "releaseYear": 1989,
@@ -5883,9 +5883,9 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Ramp",
-      "Cannon Mount",
-      "Cannon"
+      "Ramp (x2)",
+      "Cannon Mount (x2)",
+      "Cannon (x2)"
     ],
     "releaseYear": 1990,
     "isVariant": false,
@@ -6267,7 +6267,7 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Weapon"
+      "Weapon (x2)"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -6308,8 +6308,8 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Gold Thruster Gun (type 1 only)",
-      "Silver Thruster Gun"
+      "Silver Thruster Gun (x2)",
+      "Gold Thruster Gun (type 1 only) (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6329,10 +6329,10 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Silver Thruster Gun",
       "Right Silver Thruster Gun",
       "Left Gold Thruster Gun (type 5 only)",
-      "Right Gold Thruster Gun (type 5 only)"
+      "Right Gold Thruster Gun (type 5 only)",
+      "Left Silver Thruster Gun"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6395,8 +6395,8 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Right Motion Missile",
-      "Left Motion Missile"
+      "Left Motion Missile",
+      "Right Motion Missile"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -6416,7 +6416,7 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Weapon"
+      "Weapon (x2)"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -6482,8 +6482,8 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Heat-Seeking Missile",
-      "Right Heat-Seeking Missile"
+      "Right Heat-Seeking Missile",
+      "Left Heat-Seeking Missile"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6503,8 +6503,8 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Silver Thruster Gun",
-      "Gold Thruster Gun (type 1 only)"
+      "Silver Thruster Gun (x2)",
+      "Gold Thruster Gun (type 1 only) (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6524,10 +6524,10 @@
     "line": "G1_S1",
     "altMode": null,
     "accessories": [
-      "Left Silver Thruster Gun",
-      "Right Gold Thruster Gun",
       "Right Silver Thruster Gun",
-      "Left Gold Thruster Gun"
+      "Left Gold Thruster Gun",
+      "Left Silver Thruster Gun",
+      "Right Gold Thruster Gun"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6625,10 +6625,10 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Right Gold Missile",
-      "Left Gold Missile (type 1 only)",
       "Right Silver Missile",
-      "Left Silver Missile"
+      "Left Silver Missile",
+      "Right Gold Missile",
+      "Left Gold Missile (type 1 only)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -7143,7 +7143,7 @@
     "altMode": null,
     "accessories": [
       "Neutron Blaster",
-      "Rocket"
+      "Rocket (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -7164,7 +7164,7 @@
     "altMode": null,
     "accessories": [
       "Rust Rifle",
-      "Magnetic-Guided Rocket Launcher"
+      "Magnetic-Guided Rocket Launcher (x2)"
     ],
     "releaseYear": 1984,
     "isVariant": false,
@@ -7227,16 +7227,16 @@
     "line": "G1_S2",
     "altMode": null,
     "accessories": [
+      "Left Turbo Thruster",
+      "Left Fender",
+      "Right Turbo Thruster",
+      "Armguard (x2)",
       "Right Fender",
       "Left Fender Clip",
       "Right Fender Clip",
       "Left Leg Guard",
       "Back Guard",
       "Right Leg Guard",
-      "Left Turbo Thruster",
-      "Left Fender",
-      "Right Turbo Thruster",
-      "Armguard",
       "Mounting Pod",
       "Photon Missile Launcher"
     ],
@@ -7262,7 +7262,7 @@
       "Two Focus Knobs (Part of Figure)",
       "Scope (Part of Figure)",
       "Concussion Rifle",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -7303,12 +7303,12 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Flashcube",
       "Telephoto Lens",
+      "Flashcube",
       "Opto Blaster",
       "Lens Laser",
       "Shutter Gun",
-      "Missile"
+      "Missile (x3)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -7385,17 +7385,17 @@
     "line": "G1_S3",
     "altMode": null,
     "accessories": [
-      "Missile Holder",
-      "Cab Connector",
+      "Missile Holder (x2)",
       "Chest Shield",
+      "Cab Connector (x2)",
+      "Right Large Fist",
       "Left Small Fist",
       "Right Small Fist",
       "Left Large Fist",
-      "Right Large Fist",
       "Painted large robot head",
       "Unpainted large robot head",
       "Laser Gun",
-      "Missile"
+      "Missile (x4)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
@@ -7534,8 +7534,8 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Right Laser",
-      "Left Laser"
+      "Left Laser",
+      "Right Laser"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -7614,8 +7614,8 @@
     "altMode": null,
     "accessories": [
       "Super Robot Head",
-      "Laser Rifle",
-      "Particle Beam Cannon"
+      "Laser Rifle (x2)",
+      "Particle Beam Cannon (x2)"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -7684,7 +7684,7 @@
       "Left Shoulder Wing",
       "Right Shoulder Wing",
       "Belt",
-      "Wing / Laser"
+      "Wing / Laser (x2)"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -7705,8 +7705,8 @@
     "altMode": null,
     "accessories": [
       "Belt",
-      "Electro-Stinger",
-      "Photon Rifle"
+      "Electro-Stinger (x2)",
+      "Photon Rifle (x2)"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -7837,13 +7837,13 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Engine",
+      "Engine (x2)",
       "Wing",
       "Chopper Blade 1",
       "Chopper Blade 2",
       "Left Ski",
       "Right Ski",
-      "Small laser",
+      "Small laser (x2)",
       "Tail Section"
     ],
     "releaseYear": 1989,
@@ -7932,9 +7932,9 @@
     "altMode": null,
     "accessories": [
       "Blaster Base",
+      "Left Shoulder Armor",
       "Right Shoulder Armor",
       "Helmet",
-      "Left Shoulder Armor",
       "Belt",
       "Electron Rifle",
       "Blaster"
@@ -7957,9 +7957,9 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
+      "Energy Plasma Missile (x2)",
       "Dual Electro-Static Cannon",
-      "Rifle",
-      "Energy Plasma Missile"
+      "Rifle"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8069,8 +8069,8 @@
     "altMode": null,
     "accessories": [
       "Helmet",
-      "Left Claw",
       "Right Claw",
+      "Left Claw",
       "Harpoon Gun",
       "Acetylene Torch Gun"
     ],
@@ -8117,7 +8117,7 @@
     "accessories": [
       "Visor (Part of Figure)",
       "Plow (Part of Figure)",
-      "Laser",
+      "Laser (x2)",
       "Dual Blaster"
     ],
     "releaseYear": 1989,
@@ -8208,7 +8208,7 @@
     "accessories": [
       "Skyhammer (Part of Figure)",
       "Wing Laser",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -8228,8 +8228,8 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Left Shoulder Armor",
       "Right Shoulder Armor",
+      "Left Shoulder Armor",
       "Tail",
       "Rotary Cannon"
     ],
@@ -8252,11 +8252,11 @@
     "altMode": null,
     "accessories": [
       "Electron-Sword",
-      "Shield",
       "Helmet",
+      "Shield",
       "Belt",
-      "Blaster",
-      "Harpoon Gun"
+      "Harpoon Gun",
+      "Blaster"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8276,10 +8276,10 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Left Front Wing",
-      "Right Front Wing",
       "Left Tail Wing",
       "Right Tail Wing",
+      "Left Front Wing",
+      "Right Front Wing",
       "Helmet",
       "Laser"
     ],
@@ -8347,8 +8347,8 @@
     "line": "G1_S6",
     "altMode": null,
     "accessories": [
-      "Large Laser",
-      "Small Laser"
+      "Small Laser",
+      "Large Laser (x2)"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -8371,8 +8371,8 @@
       "Rear Wheel",
       "Sidecar",
       "Small Wheel",
-      "Small Laser",
-      "Large Laser"
+      "Large Laser",
+      "Small Laser"
     ],
     "releaseYear": 1989,
     "isVariant": false,
@@ -8415,8 +8415,8 @@
     "line": "G1_S5",
     "altMode": null,
     "accessories": [
-      "Right Blaster",
-      "Left Blaster"
+      "Left Blaster",
+      "Right Blaster"
     ],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8436,7 +8436,7 @@
     "line": "G1_S4",
     "altMode": null,
     "accessories": [
-      "Hypersonic Blaster"
+      "Hypersonic Blaster (x2)"
     ],
     "releaseYear": 1987,
     "isVariant": false,
@@ -9119,9 +9119,9 @@
     "altMode": null,
     "accessories": [
       "Electron Scimitar",
-      "Gyro-Blaster Rifle",
       "Turret (Part of Figure)",
-      "Concussion Missile"
+      "Gyro-Blaster Rifle",
+      "Concussion Missile (x3)"
     ],
     "releaseYear": 1985,
     "isVariant": false,
@@ -9143,7 +9143,7 @@
     "accessories": [
       "Vibro-Axe",
       "Plasma-Pulse Gun",
-      "Missile"
+      "Missile (x2)"
     ],
     "releaseYear": 1986,
     "isVariant": false,
