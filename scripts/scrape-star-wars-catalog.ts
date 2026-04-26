@@ -173,6 +173,7 @@ function extractCatalogImage($: cheerio.CheerioAPI): string | null {
  * Extract accessories from the "Set Accessories" section.
  * Each entry reads like "DL-44 Blaster Pistol (bluish black) (x1)".
  * We strip the trailing "(xN)" quantity but keep color/variant descriptors.
+ * Handles two DOM structures: wrapper (single container div) and flat (each sibling is one item).
  */
 function extractAccessories($: cheerio.CheerioAPI): string[] {
   const accessories: string[] = [];
@@ -180,14 +181,21 @@ function extractAccessories($: cheerio.CheerioAPI): string[] {
   $('p').each((_, pEl) => {
     if ($(pEl).text().trim() !== 'Set Accessories') return;
 
-    // The accessories container is the sibling div/generic after this paragraph
-    const container = $(pEl).next();
-    container.children().each((_, child) => {
-      const $child = $(child);
+    // Collect ALL siblings until the next section heading <p>
+    const items = $(pEl).nextUntil('p');
 
-      // Each child's structure: [img] [label div] [size/sold-out div]
+    // Detect structure:
+    //   Wrapper: single div whose children are the individual accessory entries
+    //   Flat: each sibling IS one accessory entry (has a direct ref-image link)
+    const firstHasDirectImage =
+      items.length > 0 &&
+      items.first().children('a[href*="/image/reference_images/"]').length > 0;
+    const isWrapper = !firstHasDirectImage && items.length === 1;
+
+    const processItem = ($el: ReturnType<typeof $>) => {
+      // Each item's structure: [img] [label div] [size/sold-out div]
       // The label is the first non-empty div that isn't a size/store entry
-      const labelEl = $child.find('div, span').filter((_, d) => {
+      const labelEl = $el.find('div, span').filter((_, d) => {
         const t = $(d).text().trim();
         return (
           t.length > 0 &&
@@ -195,24 +203,42 @@ function extractAccessories($: cheerio.CheerioAPI): string[] {
           !t.startsWith('Sold') &&
           !t.startsWith('$') &&
           !t.startsWith('Complete') &&
-          !t.startsWith('Fig Only')
+          !t.startsWith('Fig Only') &&
+          !t.startsWith('In Stock') &&
+          !t.startsWith('In stock') &&
+          !t.startsWith('Buy It') &&
+          !t.startsWith('Buy it') &&
+          !t.startsWith('Out of Stock') &&
+          !t.startsWith('Pre-Order')
         );
       }).first();
 
       let label = labelEl.text().trim();
-
       if (!label) {
-        // Direct text content fallback
-        label = $child.clone().children('img').remove().end().text().trim();
+        label = $el.clone().children('img').remove().end().text().trim();
       }
 
       // Strip trailing "(xN)" quantity
-      label = label.replace(/\s*\(\s*x\d+\s*\)\s*$/, '').trim();
+      label = label.replace(/\s*\(\s*x1\s*\)\s*$/, '').trim();
 
-      if (label && label.length > 0 && !label.startsWith('Size:')) {
+      if (
+        label &&
+        label.length > 0 &&
+        !label.startsWith('Size:') &&
+        !label.startsWith('In Stock') &&
+        !label.startsWith('In stock') &&
+        !label.startsWith('Sold') &&
+        !label.startsWith('Buy')
+      ) {
         accessories.push(label);
       }
-    });
+    };
+
+    if (isWrapper) {
+      items.first().children().each((_, child) => processItem($(child)));
+    } else {
+      items.each((_, item) => processItem($(item)));
+    }
 
     return false; // stop after first "Set Accessories" section
   });

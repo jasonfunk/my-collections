@@ -67,6 +67,8 @@ export interface StarWarsCatalogItem {
   isVariant: boolean;
   variantDescription?: string;    // e.g., "vinyl cape", "cloth cape"
 
+  releaseYear?: number;
+
   // Figure-specific (null for vehicles/playsets)
   figureSize?: FigureSize;
   cardbackStyle?: CardbackStyle;

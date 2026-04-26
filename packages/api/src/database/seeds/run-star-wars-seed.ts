@@ -6,7 +6,8 @@
  * Safe to re-run at any time.
  *
  * Run from repo root:
- *   npm run seed:star-wars
+ *   npm run seed:star-wars              # insert new records only
+ *   npm run seed:star-wars -- --update  # also update all nullable fields on existing rows
  */
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
@@ -16,6 +17,8 @@ import { DataSource, IsNull, Not } from 'typeorm';
 import { StarWarsCatalogEntity } from '../../modules/collections/entities/star-wars-catalog.entity';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+
+const updateMode = process.argv.includes('--update');
 
 interface CatalogJsonRecord {
   externalId: string | null;
@@ -29,7 +32,9 @@ interface CatalogJsonRecord {
   catalogImageUrl: string | null;
   sourceUrl: string | null;
   kennerItemNumber: string | null;
+  coinIncluded: boolean | null;
   year: number | null;
+  releaseYear: number | null;
 }
 
 const dataSource = new DataSource({
@@ -46,45 +51,71 @@ async function seed() {
   const jsonPath = path.join(__dirname, 'data/star-wars-catalog.json');
   const records: CatalogJsonRecord[] = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 
-  // Build dedup sets in two queries — no N+1
-  const existingWithId = await repo.find({
-    select: { externalId: true },
-    where: { externalId: Not(IsNull()) },
-  });
-  const externalIdSet = new Set(existingWithId.map((r) => r.externalId as string));
+  if (updateMode) {
+    console.log('Running in --update mode (updating existing rows + inserting new ones)...');
+    let updated = 0;
+    let inserted = 0;
 
-  const existingWithoutId = await repo.find({
-    select: { name: true, category: true },
-    where: { externalId: IsNull() },
-  });
-  const nameCategSet = new Set(existingWithoutId.map((r) => `${r.name}|${r.category}`));
+    for (const { year: _year, ...record } of records) {
+      const entityData = record as Partial<StarWarsCatalogEntity>;
 
-  const toInsert: Partial<StarWarsCatalogEntity>[] = [];
-  let skipped = 0;
-
-  for (const { year: _year, ...record } of records) {
-    if (record.externalId !== null) {
-      if (externalIdSet.has(record.externalId)) {
-        skipped++;
-        continue;
-      }
-    } else {
-      if (nameCategSet.has(`${record.name}|${record.category}`)) {
-        skipped++;
-        continue;
+      if (record.externalId !== null) {
+        const result = await repo.update({ externalId: record.externalId }, entityData);
+        if ((result.affected ?? 0) > 0) {
+          updated++;
+        } else {
+          await repo.insert(entityData);
+          inserted++;
+        }
+      } else {
+        const result = await repo.update(
+          { name: record.name, category: record.category as StarWarsCatalogEntity['category'] },
+          entityData,
+        );
+        if ((result.affected ?? 0) > 0) {
+          updated++;
+        } else {
+          await repo.insert(entityData);
+          inserted++;
+        }
       }
     }
-    toInsert.push(record as Partial<StarWarsCatalogEntity>);
-  }
 
-  console.log(`Inserting ${toInsert.length} records (${skipped} already exist)...`);
+    console.log(`Done: ${updated} updated, ${inserted} inserted.`);
+  } else {
+    // Build dedup sets in two queries — no N+1
+    const existingWithId = await repo.find({
+      select: { externalId: true },
+      where: { externalId: Not(IsNull()) },
+    });
+    const externalIdSet = new Set(existingWithId.map((r) => r.externalId as string));
 
-  if (toInsert.length > 0) {
-    await repo.insert(toInsert);
+    const existingWithoutId = await repo.find({
+      select: { name: true, category: true },
+      where: { externalId: IsNull() },
+    });
+    const nameCategSet = new Set(existingWithoutId.map((r) => `${r.name}|${r.category}`));
+
+    const toInsert: Partial<StarWarsCatalogEntity>[] = [];
+    let skipped = 0;
+
+    for (const { year: _year, ...record } of records) {
+      if (record.externalId !== null) {
+        if (externalIdSet.has(record.externalId)) { skipped++; continue; }
+      } else {
+        if (nameCategSet.has(`${record.name}|${record.category}`)) { skipped++; continue; }
+      }
+      toInsert.push(record as Partial<StarWarsCatalogEntity>);
+    }
+
+    console.log(`Inserting ${toInsert.length} records (${skipped} already exist)...`);
+    if (toInsert.length > 0) {
+      await repo.insert(toInsert);
+    }
+    console.log('Seed complete.');
   }
 
   await dataSource.destroy();
-  console.log('Seed complete.');
 }
 
 seed().catch((err) => {

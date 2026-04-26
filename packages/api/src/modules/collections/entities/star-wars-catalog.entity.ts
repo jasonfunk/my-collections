@@ -59,6 +59,9 @@ export class StarWarsCatalogEntity {
   @Column({ type: 'boolean', nullable: true })
   coinIncluded!: boolean | null;
 
+  @Column({ type: 'int', nullable: true })
+  releaseYear!: number | null;
+
   // Vehicle/Playset-specific (null for basic figures)
   @Column('text', { array: true, default: '{}' })
   features!: string[];

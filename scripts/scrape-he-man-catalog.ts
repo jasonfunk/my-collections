@@ -172,7 +172,7 @@ function extractCatalogImage($: cheerio.CheerioAPI): string | null {
 
 /**
  * Extract accessories from the "Set Accessories" section.
- * Same selector/parse logic as the Star Wars scraper — site structure is identical.
+ * Handles two DOM structures: wrapper (single container div) and flat (each sibling is one item).
  */
 function extractAccessories($: cheerio.CheerioAPI): string[] {
   const accessories: string[] = [];
@@ -180,11 +180,19 @@ function extractAccessories($: cheerio.CheerioAPI): string[] {
   $('p').each((_, pEl) => {
     if ($(pEl).text().trim() !== 'Set Accessories') return;
 
-    const container = $(pEl).next();
-    container.children().each((_, child) => {
-      const $child = $(child);
+    // Collect ALL siblings until the next section heading <p>
+    const items = $(pEl).nextUntil('p');
 
-      const labelEl = $child.find('div, span').filter((_, d) => {
+    // Detect structure:
+    //   Wrapper: single div whose children are the individual accessory entries
+    //   Flat: each sibling IS one accessory entry (has a direct ref-image link)
+    const firstHasDirectImage =
+      items.length > 0 &&
+      items.first().children('a[href*="/image/reference_images/"]').length > 0;
+    const isWrapper = !firstHasDirectImage && items.length === 1;
+
+    const processItem = ($el: ReturnType<typeof $>) => {
+      const labelEl = $el.find('div, span').filter((_, d) => {
         const t = $(d).text().trim();
         return (
           t.length > 0 &&
@@ -192,23 +200,42 @@ function extractAccessories($: cheerio.CheerioAPI): string[] {
           !t.startsWith('Sold') &&
           !t.startsWith('$') &&
           !t.startsWith('Complete') &&
-          !t.startsWith('Fig Only')
+          !t.startsWith('Fig Only') &&
+          !t.startsWith('In Stock') &&
+          !t.startsWith('In stock') &&
+          !t.startsWith('Buy It') &&
+          !t.startsWith('Buy it') &&
+          !t.startsWith('Out of Stock') &&
+          !t.startsWith('Pre-Order')
         );
       }).first();
 
       let label = labelEl.text().trim();
-
       if (!label) {
-        label = $child.clone().children('img').remove().end().text().trim();
+        label = $el.clone().children('img').remove().end().text().trim();
       }
 
       // Strip trailing "(xN)" quantity
-      label = label.replace(/\s*\(\s*x\d+\s*\)\s*$/, '').trim();
+      label = label.replace(/\s*\(\s*x1\s*\)\s*$/, '').trim();
 
-      if (label && label.length > 0 && !label.startsWith('Size:')) {
+      if (
+        label &&
+        label.length > 0 &&
+        !label.startsWith('Size:') &&
+        !label.startsWith('In Stock') &&
+        !label.startsWith('In stock') &&
+        !label.startsWith('Sold') &&
+        !label.startsWith('Buy')
+      ) {
         accessories.push(label);
       }
-    });
+    };
+
+    if (isWrapper) {
+      items.first().children().each((_, child) => processItem($(child)));
+    } else {
+      items.each((_, item) => processItem($(item)));
+    }
 
     return false;
   });
@@ -231,46 +258,9 @@ function extractYear($: cheerio.CheerioAPI): number | null {
   return result;
 }
 
-/**
- * Extract mini-comic title from the info table "Mini-Comic:" row.
- * Returns null if absent.
- */
-function extractMiniComic($: cheerio.CheerioAPI): string | null {
-  let result: string | null = null;
-  $('tr').each((_, row) => {
-    const header = $(row).find('th').text().trim();
-    if (header === 'Mini-Comic:' || header === 'Mini Comic:') {
-      const value = $(row).find('td').text().trim();
-      if (value && value !== '(none)' && value !== 'None') result = value;
-      return false;
-    }
-  });
-  return result;
-}
-
-/**
- * Detect armor/action feature from the info table "Features:" or "Action Feature:" row.
- * Returns { hasArmorOrFeature, featureDescription }.
- */
-function extractFeature($: cheerio.CheerioAPI): { hasArmorOrFeature: boolean; featureDescription: string | null } {
-  let featureDescription: string | null = null;
-
-  $('tr').each((_, row) => {
-    const header = $(row).find('th').text().trim();
-    if (header === 'Features:' || header === 'Action Feature:' || header === 'Feature:') {
-      const value = $(row).find('td').text().trim();
-      if (value && value !== '(none)' && value !== 'None') {
-        featureDescription = value;
-      }
-      return false;
-    }
-  });
-
-  return {
-    hasArmorOrFeature: featureDescription !== null,
-    featureDescription,
-  };
-}
+// miniComic, hasArmorOrFeature, and featureDescription are not present on
+// transformerland.com MOTU pages. These fields are populated post-scrape
+// by scripts/patch-he-man-enrichment.ts (COL-101).
 
 // ---------------------------------------------------------------------------
 // Index page scraping
@@ -319,8 +309,6 @@ async function scrapeDetailPage(page: Page, url: string): Promise<CatalogEntry> 
   const catalogImageUrl = extractCatalogImage($);
   const accessories = extractAccessories($);
   const releaseYear = extractYear($);
-  const miniComic = extractMiniComic($);
-  const { hasArmorOrFeature, featureDescription } = extractFeature($);
 
   return {
     externalId,
@@ -333,9 +321,9 @@ async function scrapeDetailPage(page: Page, url: string): Promise<CatalogEntry> 
     variantDescription: null,
     catalogImageUrl,
     sourceUrl: url,
-    miniComic,
-    hasArmorOrFeature,
-    featureDescription,
+    miniComic: null,
+    hasArmorOrFeature: false,
+    featureDescription: null,
   };
 }
 

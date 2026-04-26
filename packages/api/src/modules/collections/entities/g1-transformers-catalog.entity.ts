@@ -23,6 +23,9 @@ export class G1TransformersCatalogEntity {
   @Column({ type: 'enum', enum: TransformersLine, nullable: true })
   line!: TransformersLine | null;
 
+  @Column({ type: 'int', nullable: true })
+  releaseYear!: number | null;
+
   @Column({ type: 'enum', enum: TransformerSize, nullable: true })
   size!: TransformerSize | null;
 
