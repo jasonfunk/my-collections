@@ -3782,3 +3782,24 @@ The extractor bugs were real and are now fixed, but the accessory counts didn't 
 ### Jira
 
 - COL-102 transitioned to Done
+
+---
+
+## Session 21 continued — 2026-04-26
+
+### Follow-up fixes (same session, after COL-102 commit)
+
+1. **Accessory quantity notation** — scrapers were stripping ALL `(xN)` suffixes. Changed regex from `/\s*\(\s*x\d+\s*\)\s*$/` to `/\s*\(\s*x1\s*\)\s*$/` in all three scrapers so `(x1)` is stripped (redundant) but `(x2)`, `(x3)`, etc. are preserved. Result: 92 TF items and 27 SW items now carry quantity info (e.g. "Blaster Cannon (x4)", "Connector Pin (x16)").
+
+2. **He-Man re-scrape** — `extractAccessories()` was fixed in COL-102 but the He-Man scraper was never re-run. Re-scraped (127 items), re-applied `patch-he-man-charactertype.ts` + `patch:he-man-enrichment`, re-seeded. Figures like He-Man now show full accessory lists (`['Power Sword', 'Battle Ax', 'Chest Armor', 'Shield']` instead of `['Battle Ax']`).
+
+3. **TF + SW re-scraped** to pick up `(x2+)` quantities now that the regex was fixed.
+
+### Commits
+
+- `c0cc7d4` — fix(catalog): preserve accessory quantities (x2+), re-scrape He-Man
+- `06bbe86` — chore(catalog): re-scrape TF and SW to capture (x2+) accessory quantities
+
+### PR
+
+- PR #29 (develop → main) merged — includes COL-101, COL-102, and follow-up fixes
