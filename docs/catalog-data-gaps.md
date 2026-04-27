@@ -2,7 +2,7 @@
 
 Reference document for the catalog enrichment effort. Updated as gaps are filled.
 
-**Last evaluated:** 2026-04-26  
+**Last evaluated:** 2026-04-27  
 **Total records:** Star Wars 199 / G1 Transformers 443 / He-Man 127
 
 ---
@@ -51,8 +51,8 @@ year <= 1979  → STAR_WARS
 
 | Field | Populated | Gap | Notes |
 |---|---|---|---|
-| `altMode` | 0/443 | 443 | Explicitly deferred; not in transformerland.com structured data. Best source: TFWiki MediaWiki API |
-| `size` | not in JSON | 443 | Field in entity + shared type but **never written to JSON**; scraper didn't attempt it |
+| `altMode` | ~223/443 | ~120 non-AM/decoy nulls | **COL-103** — TFWiki + Claude Haiku enrichment. 110 new set this session; 102 no TFWiki match (mostly Micromasters squads, Mini-Spies, variants). ~27 Action Masters (non-transforming) correctly null. |
+| `size` | 415/443 | 0 meaningful gaps | **COL-103** — derived from `sourceUrl` slug. 28 null = 27 Action Masters (correct) + 1 unclassified. |
 | `accessories` | 261/443 | 182 | Extractors fixed (COL-102). 182 gap is largely legitimate zeros: Decoys (~73, named "X (purple/red/etc)"), Mini-Autobots (~12, no accessories), Combiners (~10). Site doesn't carry accessory data for these item types. |
 | `isVariant` | 0/443 | many | Pre-rub/post-rub, color variants not captured |
 | `variantDescription` | 0/443 | many | Same |
@@ -62,6 +62,47 @@ year <= 1979  → STAR_WARS
 
 **`size` enum values:** MINI / SMALL / MEDIUM / LARGE / JUMBO  
 **`altMode` examples:** "Porsche 911", "F-15 fighter jet", "Cassette player", "Gun"
+
+### altMode gaps — 111 records still null (should transform)
+
+Excludes Action Masters (27, non-transforming by design), Decoys (73, rubber figures), and full gestalt combiners (Superion, Devastator, etc. — no individual alt mode).
+
+#### Tier A — Patchable without network (24)
+
+Mini-Spies: alt mode is literally the vehicle name in the record name. Can be set by a patch script: `Dune Buggy → Dune buggy`, `Jeep → Jeep`, `Porsche → Porsche`.
+
+Dune Buggy (Blue Autobot), Dune Buggy (Blue Decepticon), Dune Buggy (White Autobot), Dune Buggy (White Decepticon), Dune Buggy (Yellow Autobot), Dune Buggy (Yellow Decepticon), FX-1 (Blue Autobot), FX-1 (Blue Decepticon), FX-1 (White Autobot), FX-1 (White Decepticon), FX-1 (Yellow Autobot), FX-1 (Yellow Decepticon), Jeep (Blue Autobot), Jeep (Blue Decepticon), Jeep (White Autobot), Jeep (White Decepticon), Jeep (Yellow Autobot), Jeep (Yellow Decepticon), Porsche (Blue Autobot), Porsche (Blue Decepticon), Porsche (White Autobot), Porsche (White Decepticon), Porsche (Yellow Autobot), Porsche (Yellow Decepticon)
+
+#### Tier B — Individual figures; TFWiki likely has a page (39)
+
+These are named characters that should have TFWiki articles — either the lookup failed (name mismatch, missing disambiguation) or Claude returned null on sparse prose. Good candidates for a second-pass enrichment with tweaked queries.
+
+**Headmasters:** Apeface, Fangry, Horri-Bull  
+**Powermasters:** Doubledealer, Dreadwing, Getaway  
+**Pretenders:** Cloudburst, Doubleheader, Finback, Groundbreaker, Longtooth, Octopunch, Pincher, Roadgrabber, Skullgrin, Sky High, Snarler, Splashdown, Stranglehold, Waverider  
+**Targetmasters:** Landfill, Pointblank, Quake, Quickmix, Scoop  
+**Monsterbots:** Doublecross, Grotusque  
+**Sparkabots/Firecons:** Fizzle, Sparkstalker  
+**Other:** Barrage (Insecticon), Flywheels (Duocon), Razorclaw (Predacon limb), Whirl (Deluxe Vehicle), Overdrive (Omnibot), Punch / Counterpunch, Quickswitch (Six-Changer)
+
+#### Tier C — No clean TFWiki individual page expected (24)
+
+Micromaster squads and multi-packs: listed as a set, no individual page per member. Alt modes would need manual entry or a different source.
+
+**Individual Micromasters:** Ironworks, Roughstuff, Skyhopper  
+**Micromaster squads:** Air Patrol, Air Strike Patrol, Astro Squad, Battle Patrol, Battle Squad, Construction Patrol, Constructor Squad, Hot House, Hot Rod Patrol, Metro Squad, Military Patrol, Monster Truck Patrol, Off-Road Patrol, Race Car Patrol, Race Track Patrol, Sports Car Patrol  
+**Micromaster combiner bases:** Anti-Aircraft Base with Blackout and Spaceshot, Battlefield Headquarters with Full-Barrel and Overflow, Cannon Transport with Cement-Head and Terror-Tread, Missile Launcher with Retro and Surge, Tanker Truck with Pipeline and Gusher
+
+#### Tier D — Edge cases (24)
+
+Need manual lookup or are genuinely ambiguous.
+
+**Mini-cassettes (humanoid robot forms):** Eject, Frenzy, Grandslam, Raindance, Rewind, Rumble, Squawkbox  
+**Combiner limb bots (TFWiki match failed):** Birdbrain, Bristleback, Nautilator, Scattershot, Wildfly  
+**Clones (dual-pack entries):** Fastlane and Cloudraker, Pounce and Wingspan  
+**Powerdashers (mail-away):** Drill Dasher, F1 Dasher, Sky Dasher  
+**Well-known misses:** Fortress Maximus, Galvatron, Rodimus Prime  
+**Other:** Bumblebee (Red), Bumblejumper, Cliffjumper (Yellow), Goldbug, Time Warrior Watch (non-transformer toy)
 
 ---
 
