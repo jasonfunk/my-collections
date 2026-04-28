@@ -3782,3 +3782,62 @@ The extractor bugs were real and are now fixed, but the accessory counts didn't 
 ### Jira
 
 - COL-102 transitioned to Done
+
+---
+
+## Session 21 continued — 2026-04-26
+
+### Follow-up fixes (same session, after COL-102 commit)
+
+1. **Accessory quantity notation** — scrapers were stripping ALL `(xN)` suffixes. Changed regex from `/\s*\(\s*x\d+\s*\)\s*$/` to `/\s*\(\s*x1\s*\)\s*$/` in all three scrapers so `(x1)` is stripped (redundant) but `(x2)`, `(x3)`, etc. are preserved. Result: 92 TF items and 27 SW items now carry quantity info (e.g. "Blaster Cannon (x4)", "Connector Pin (x16)").
+
+2. **He-Man re-scrape** — `extractAccessories()` was fixed in COL-102 but the He-Man scraper was never re-run. Re-scraped (127 items), re-applied `patch-he-man-charactertype.ts` + `patch:he-man-enrichment`, re-seeded. Figures like He-Man now show full accessory lists (`['Power Sword', 'Battle Ax', 'Chest Armor', 'Shield']` instead of `['Battle Ax']`).
+
+3. **TF + SW re-scraped** to pick up `(x2+)` quantities now that the regex was fixed.
+
+### Commits
+
+- `c0cc7d4` — fix(catalog): preserve accessory quantities (x2+), re-scrape He-Man
+- `06bbe86` — chore(catalog): re-scrape TF and SW to capture (x2+) accessory quantities
+
+### PR
+
+- PR #29 (develop → main) merged — includes COL-101, COL-102, and follow-up fixes
+
+---
+
+## Session 22 — 2026-04-27
+
+### COL-103: G1 Transformers altMode + size enrichment
+
+**Goal:** Populate `altMode` (always null from scrape) and `size` (field existed in entity/shared type but was never written to JSON) for the 443-record `g1-transformers-catalog.json`.
+
+**Approach:**
+- Phase 1 — size: derived locally from the `sourceUrl` slug already present in each record (e.g. `transformers-g1-autobot-cars-jazz/84/` → MEDIUM). Zero network calls. 415/443 sizes set; 27 Action Masters correctly null, 1 unclassified.
+- Phase 2 — altMode: TFWiki MediaWiki API (`https://tfwiki.net/mediawiki/api.php`) fetch → Claude Haiku (`claude-haiku-4-5-20251001`) extraction. Lookup order: `{name} (G1)/toys` sub-page → `{name} (G1)` main page `==Toys==` section → full-text search. Claude receives 800-char excerpt of the toy description prose after the `{{Bp-*}}` infobox template.
+- Cassette-type Transformers (Ravage, Buzzsaw, etc.): prompt modified to request the non-cassette animal/creature form rather than "microcassette."
+- Action Masters and Decoys skipped entirely (non-transforming / rubber figures).
+- Script is idempotent: records with existing non-null altMode are skipped.
+
+**Script written:** `scripts/enrich-transformers-tfw.ts`  
+**npm script added:** `enrich:transformers-tfw` in root `package.json`  
+**Seed script updated:** `run-transformers-seed.ts` — added `size: string | null` to `CatalogJsonRecord` interface
+
+**Results:**
+- Phase 1: 415 sizes derived (prior run), 0 new this session (already complete)
+- Phase 2: 110 new altModes enriched; 213 already set (skipped); 102 no TFWiki match; 18 Claude returned null
+- Total altModes now set: ~323/443; null remaining: ~120 (breakdown in `docs/catalog-data-gaps.md`)
+- One pre-existing bad value fixed manually: Ramhorn `"rhinoceros to microcassette"` → `"Rhinoceros"`
+
+**Re-seed:** `npm run seed:transformers -- --update` → 443 updated, 0 inserted.
+
+**altMode gap tracking added to `docs/catalog-data-gaps.md`** — 111 records that should transform but still have null altMode, organized into 4 tiers by resolution strategy (Tier A: Mini-Spies patchable from name; Tier B: individual figures for TFWiki retry; Tier C: Micromaster squads/multi-packs; Tier D: edge cases).
+
+### Key decisions
+
+- Switched from regex-based wikitext parsing to Claude Haiku API after regex hit a ceiling on TFWiki's deliberately humorous/non-standard prose. One-time enrichment makes the API cost negligible (<$0.50 total).
+- Size derived from URL slug rather than TFWiki `subgroup` field — faster, no network, and the slug categories map cleanly to the 5 size classes.
+
+### Jira
+
+- COL-103 → Done

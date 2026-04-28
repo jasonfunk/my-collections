@@ -16,6 +16,7 @@
     "patch:he-man-enrichment": "ts-node --project tsconfig.scripts.json scripts/patch-he-man-enrichment.ts",
     "seed:he-man": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-he-man-seed.ts",
     "scrape:transformers": "ts-node --project tsconfig.scripts.json scripts/scrape-transformers-catalog.ts",
+    "enrich:transformers-tfw": "ts-node --project tsconfig.scripts.json scripts/enrich-transformers-tfw.ts",
     "seed:transformers": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-transformers-seed.ts"
   },
   "devDependencies": {

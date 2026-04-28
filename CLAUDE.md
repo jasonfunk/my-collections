@@ -159,6 +159,8 @@ See [docs/project-structure.md](docs/project-structure.md) for full details. Sum
 - **Maestro `extendedWaitUntil` uses exact text matching:** `visible: "items"` will NOT match the text "2 items" on screen — it must be the full exact string. Use `visible: "2 items"`. `assertVisible` is more lenient (substring), but `extendedWaitUntil` is strict.
 - **Maestro back navigation on Android:** The Stack header back button on Android is an arrow icon with no text label. `tapOn: "PreviousScreenTitle"` will fail. Use `pressKey: Back` to trigger Android system back navigation instead.
 - **Atlassian MCP cloud ID:** Use `c27d03df-ec97-431d-b4ba-76bf0e31ca34`. If it fails, call `getAccessibleAtlassianResources` to get the current authoritative ID.
+- **CWD drift in Bash tool:** `cd packages/api` in one Bash call persists to all subsequent calls in the session. Catalog seed scripts are defined in the **root** `package.json` — if CWD has drifted to `packages/api/`, `npm run seed:*` fails with "Missing script". Migration scripts are defined in `packages/api/package.json` and require CWD to be `packages/api/`. To avoid confusion, always use an explicit absolute-path `cd` before switching contexts: `cd /Users/jfunk/Projects/my-collections && npm run seed:...`.
+- **Re-run all scrapers after extractor fixes:** All three catalog scrapers share the same `extractAccessories()` implementation (copy-pasted). Fixing that function in the source files does NOT update the JSON data — the scraper must be re-run. Always re-run every affected scraper immediately after an extractor fix and re-apply any patch scripts before committing, otherwise the bug fix exists in code but not in data.
 
 ## Session Close Checklist
 

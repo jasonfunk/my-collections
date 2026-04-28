@@ -4,7 +4,7 @@
     "name": "Air Raid",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "F-15 Eagle",
     "accessories": [
       "Torque Rifle"
     ],
@@ -17,14 +17,15 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1114",
     "name": "Fireflight",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "F-4 Phantom II",
     "accessories": [
       "Photon Displacer Gun"
     ],
@@ -37,14 +38,15 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1120",
     "name": "Silverbolt",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Concorde SST jet liner",
     "accessories": [
       "Ramp",
       "Superion Blast Shield",
@@ -65,14 +67,15 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1102",
     "name": "Skydive",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "F-16 Fighting Falcon fighter jet",
     "accessories": [
       "Nega-Gun"
     ],
@@ -85,14 +88,15 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1108",
     "name": "Slingshot",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Sea Harrier jumpjet",
     "accessories": [
       "Neutron Rifle"
     ],
@@ -105,7 +109,8 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1131",
@@ -123,14 +128,15 @@
     "combinerTeam": "Aerialbots (Superion, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1370",
     "name": "Blast Off",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Space Shuttle",
     "accessories": [
       "Left Dual Sonic Cannon",
       "Right Dual Sonic Cannon",
@@ -145,14 +151,15 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1379",
     "name": "Brawl",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Tank",
     "accessories": [
       "Twin Sonic Cannon",
       "Electron Gun"
@@ -166,7 +173,8 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1416",
@@ -184,14 +192,15 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1404",
     "name": "Onslaught",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "SWAT-deco'd BTR-90 armored personnel carrier",
     "accessories": [
       "Ramp",
       "Chest Shield",
@@ -213,14 +222,15 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1387",
     "name": "Swindle",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Jeep",
     "accessories": [
       "Scatter Blaster",
       "Gyro-Gun"
@@ -234,14 +244,15 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1395",
     "name": "Vortex",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Helicopter",
     "accessories": [
       "Helicopter Blades (Part of Figure)",
       "Left Side-Mounted Cannon",
@@ -257,14 +268,15 @@
     "combinerTeam": "Combaticons (Bruticus, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "795",
     "name": "Bonecrusher",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "bulldozer resembling a Caterpillar D9G",
     "accessories": [
       "Target Shooter/Left Forearm",
       "Devastator Left Fist",
@@ -280,14 +292,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "832",
     "name": "Devastator",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Combiner robot",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -298,14 +311,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "801",
     "name": "Hook",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Nissan Diesel Unic K-160B truck",
     "accessories": [
       "Devastator Head",
       "Laser",
@@ -320,14 +334,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "813",
     "name": "Long Haul",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Hitachi DH321 mining dump truck",
     "accessories": [
       "Wing",
       "Missile Mount",
@@ -342,14 +357,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "807",
     "name": "Mixmaster",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Cement mixer",
     "accessories": [
       "Laser Pistol",
       "Magna Laser",
@@ -365,14 +381,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "819",
     "name": "Scavenger",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Komatsu PC200-1 excavator",
     "accessories": [
       "Target Shooter/Right Forearm",
       "Devastator Right Fist",
@@ -388,14 +405,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "825",
     "name": "Scrapper",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "wheeled payloader",
     "accessories": [
       "Super Wing",
       "Canopy (Part of Figure)",
@@ -410,14 +428,15 @@
     "combinerTeam": "Constructicons (Devastator, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "1427",
     "name": "Divebomb",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "eagle",
     "accessories": [
       "Laser-Guided Sword",
       "Wings",
@@ -433,14 +452,15 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1441",
     "name": "Headstrong",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "rhinoceros",
     "accessories": [
       "Diffraction Sword",
       "Predaking Left Foot",
@@ -455,7 +475,8 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1488",
@@ -473,14 +494,15 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1453",
     "name": "Rampage",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Robotic tiger",
     "accessories": [
       "Thermo Sword",
       "Predaking Right Fist",
@@ -495,7 +517,8 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1477",
@@ -517,14 +540,15 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1465",
     "name": "Tantrum",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "buffalo",
     "accessories": [
       "Electro Sword",
       "Predaking Right Foot",
@@ -539,7 +563,8 @@
     "combinerTeam": "Predacons (Predaking)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3169",
@@ -561,7 +586,8 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3178",
@@ -583,14 +609,15 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3187",
     "name": "Icepick",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "clawed bipedal monster-thing",
     "accessories": [
       "Rear Panel",
       "Monstructor Foot",
@@ -605,7 +632,8 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3223",
@@ -623,14 +651,15 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "3196",
     "name": "Scowl",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "bipedal kinda-werewolf-ish monster-thing",
     "accessories": [
       "Rear Panel",
       "Monstructor Foot",
@@ -645,14 +674,15 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3205",
     "name": "Slog",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "bipedal horned monster-thing",
     "accessories": [
       "Rear Panel",
       "Monstructor Head",
@@ -668,7 +698,8 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3214",
@@ -690,14 +721,15 @@
     "combinerTeam": "Pretender Monsters (Monstructor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1187",
     "name": "Blades",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Rescue helicopter",
     "accessories": [
       "Left Twin Launcher",
       "Right Twin Launcher",
@@ -712,7 +744,8 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1232",
@@ -730,14 +763,15 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1196",
     "name": "First Aid",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Datsun Vanette C120 ambulance",
     "accessories": [
       "Connector",
       "Dual Barrelled Decrystallizer",
@@ -752,14 +786,15 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1204",
     "name": "Groove",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Honda Goldwing GL1200 police motorcycle",
     "accessories": [
       "Left Twin Vaporator",
       "Right Twin Vaporator",
@@ -774,14 +809,15 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1221",
     "name": "Hot Spot",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Mitsubishi Fuso Great fire engine",
     "accessories": [
       "Defensor Right Blast Shield",
       "Defensor Left Blast Shield",
@@ -802,14 +838,15 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1213",
     "name": "Streetwise",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Nissan 300ZX Turbo police car",
     "accessories": [
       "Connector",
       "Double Mounted Air-Compressor Cannon",
@@ -824,7 +861,8 @@
     "combinerTeam": "Protectobots (Defensor, G1)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2709",
@@ -849,14 +887,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2716",
     "name": "Overbite",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "shark",
     "accessories": [
       "Weapon Stand Base",
       "Connector",
@@ -874,7 +913,8 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2757",
@@ -892,14 +932,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "2723",
     "name": "Seawing",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "manta ray",
     "accessories": [
       "Connector",
       "Weapon Stand Base",
@@ -917,14 +958,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2731",
     "name": "Skalor",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "coelacanth",
     "accessories": [
       "Weapon Stand Base",
       "Connector",
@@ -942,14 +984,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2747",
     "name": "Snaptrap",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "land tortoise",
     "accessories": [
       "Sword",
       "Piranacon Chest Shield",
@@ -969,14 +1012,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2739",
     "name": "Tentakil",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "squid",
     "accessories": [
       "Connector",
       "Weapon Stand Base",
@@ -994,14 +1038,15 @@
     "combinerTeam": "Seacons (Piranacon)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1509",
     "name": "Breakdown",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Sports car",
     "accessories": [
       "Connector",
       "Plasma-Energy Blaster",
@@ -1016,14 +1061,15 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1517",
     "name": "Dead End",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Sports car",
     "accessories": [
       "Connector",
       "Plasma-Energy Blaster",
@@ -1038,14 +1084,15 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1533",
     "name": "Drag Strip",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Tyrrell P34 Six-Wheeler race car",
     "accessories": [
       "Connector",
       "Plasma-Energy Blaster",
@@ -1060,7 +1107,8 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1551",
@@ -1078,14 +1126,15 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1541",
     "name": "Motormaster",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Kenworth K100 Aerodyne sleeper truck",
     "accessories": [
       "Ionizer Sword",
       "Menasor Blast Deflector",
@@ -1107,14 +1156,15 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1525",
     "name": "Wildrider",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Sports car",
     "accessories": [
       "Plasma-Energy Blaster",
       "Scattershot Gun"
@@ -1128,14 +1178,15 @@
     "combinerTeam": "Stunticons (Menasor)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1792",
     "name": "Afterburner",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic motorcycle",
     "accessories": [
       "Missiles",
       "Pulse Cannon",
@@ -1150,7 +1201,8 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1836",
@@ -1168,14 +1220,15 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1809",
     "name": "Lightspeed",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "sleek Cybertronic car",
     "accessories": [
       "Infra-Red Missile Launcher (x2)",
       "Light-Burst Gun"
@@ -1189,14 +1242,15 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1801",
     "name": "Nosecone",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic drill-tank",
     "accessories": [
       "Rocket-Propelled Missile (x2)",
       "X-Ray Laser Gun"
@@ -1210,7 +1264,8 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1825",
@@ -1236,14 +1291,15 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1817",
     "name": "Strafe",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic rocket plane",
     "accessories": [
       "Light-Pulse Blaster (x2)",
       "Heat-Ray Rifle"
@@ -1257,7 +1313,8 @@
     "combinerTeam": "Technobots (Computron)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2133",
@@ -1275,14 +1332,15 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "2092",
     "name": "Blot",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "long-armed",
     "accessories": [
       "Laser Mount",
       "Slime Gun"
@@ -1296,14 +1354,15 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2100",
     "name": "Cutthroat",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "hawk monster thing",
     "accessories": [
       "Double-Barreled Magnetizer"
     ],
@@ -1316,14 +1375,15 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2123",
     "name": "Hun-Gurrr",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Quadrupedal two-headed dragon",
     "accessories": [
       "Abominus Chest Shield",
       "Abominus Left Foot",
@@ -1342,14 +1402,15 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2107",
     "name": "Rippersnapper",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "weird upright bipedal shark creature",
     "accessories": [
       "Cyclone Gun",
       "Twin Missile Launcher"
@@ -1363,14 +1424,15 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2115",
     "name": "Sinnertwin",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Two-headed dragon",
     "accessories": [
       "Flame Cannon",
       "Rocket Grenade Launcher"
@@ -1384,7 +1446,8 @@
     "combinerTeam": "Terrorcons (Abominus)",
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "3314",
@@ -1407,7 +1470,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3391",
@@ -1428,7 +1492,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3532",
@@ -1451,7 +1516,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3258",
@@ -1471,7 +1537,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3265",
@@ -1491,7 +1558,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3539",
@@ -1511,7 +1579,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3272",
@@ -1531,7 +1600,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3330",
@@ -1558,7 +1628,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3279",
@@ -1578,7 +1649,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3286",
@@ -1598,7 +1670,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3293",
@@ -1618,7 +1691,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3300",
@@ -1638,7 +1712,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3562",
@@ -1658,7 +1733,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3307",
@@ -1678,7 +1754,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3569",
@@ -1700,7 +1777,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3517",
@@ -1723,7 +1801,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3363",
@@ -1743,7 +1822,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3370",
@@ -1765,7 +1845,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3584",
@@ -1786,7 +1867,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3377",
@@ -1806,7 +1888,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3384",
@@ -1826,7 +1909,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3591",
@@ -1848,7 +1932,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3546",
@@ -1875,7 +1960,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3613",
@@ -1895,7 +1981,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3348",
@@ -1921,7 +2008,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3598",
@@ -1945,7 +2033,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "3404",
@@ -1965,14 +2054,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "1",
     "name": "Bluestreak",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Nissan 280ZX",
     "accessories": [
       "Left Missile Launcher",
       "Right Missile Launcher",
@@ -1988,14 +2078,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "975",
     "name": "Blurr",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Cybertronic hovercar",
     "accessories": [
       "Hood / Shield (Part of Figure)",
       "Electro-Laser"
@@ -2009,14 +2100,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "430",
     "name": "Grapple",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Orange crane",
     "accessories": [
       "Left Fist",
       "Right Fist",
@@ -2032,14 +2124,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "444",
     "name": "Hoist",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Toyota Hi-Lux pickup",
     "accessories": [
       "Left Radar Panel",
       "Right Radar Panel",
@@ -2059,14 +2152,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "987",
     "name": "Hot Rod",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "futuristic race car",
     "accessories": [
       "Long Photon Laser",
       "Short Photon Laser"
@@ -2080,14 +2174,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "51",
     "name": "Hound",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Jeep",
     "accessories": [
       "Missile Launcher",
       "Gas Can",
@@ -2105,14 +2200,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "462",
     "name": "Inferno",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Fire ladder truck",
     "accessories": [
       "Hose Nozzle (x2)",
       "Left Fist",
@@ -2129,14 +2225,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "71",
     "name": "Ironhide",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Nissan Sunny-Vanette Coach SGL",
     "accessories": [
       "Gun Post",
       "Static Laser Gun",
@@ -2151,14 +2248,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "84",
     "name": "Jazz",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Martini Racing Porsche 935",
     "accessories": [
       "Missile Launcher",
       "Photon Rifle",
@@ -2173,14 +2271,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "999",
     "name": "Kup",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Cybertronian pickup truck",
     "accessories": [
       "Musket Laser"
     ],
@@ -2193,14 +2292,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "137",
     "name": "Mirage",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Ligier JS11",
     "accessories": [
       "Missile Launcher",
       "Hunting Rifle",
@@ -2215,14 +2315,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "177",
     "name": "Prowl",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Nissan 280ZX",
     "accessories": [
       "Right Missile Launcher",
       "Left Missile Launcher",
@@ -2238,14 +2339,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "191",
     "name": "Ratchet",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Nissan Cherry Vanette SGL Coach",
     "accessories": [
       "Gun Post",
       "Static Laser Gun",
@@ -2260,14 +2362,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "492",
     "name": "Red Alert",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Lamborghini",
     "accessories": [
       "Shoulder-Mounted Rocket Launcher",
       "High-Energy Particle Beam Rifle",
@@ -2282,14 +2385,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "204",
     "name": "Sideswipe",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "New Countach LP500S",
     "accessories": [
       "Rocket Launcher",
       "Laser Gun",
@@ -2304,14 +2408,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "519",
     "name": "Skids",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Honda City Turbo",
     "accessories": [
       "Rocket Pod",
       "Twin Electron Blaster",
@@ -2327,14 +2432,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "505",
     "name": "Smokescreen",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Datsun 280ZX Turbo",
     "accessories": [
       "Left Missile Launcher",
       "Right Missile Launcher",
@@ -2350,14 +2456,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "219",
     "name": "Sunstreaker",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Lamborghini Countach LP500S",
     "accessories": [
       "Left Fist",
       "Right Fist",
@@ -2373,14 +2480,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "533",
     "name": "Tracks",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Chevrolet Corvette \"C3\" model year 1980-1982",
     "accessories": [
       "Left Missile Launcher",
       "Right Missile Launcher",
@@ -2397,14 +2505,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "233",
     "name": "Trailbreaker",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Toyota 4WD Hi-Lux camper truck",
     "accessories": [
       "Radar Scanner",
       "Left Fist",
@@ -2421,14 +2530,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "248",
     "name": "Wheeljack",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Lancia Stratos Turbo",
     "accessories": [
       "Shoulder Cannon (x2)",
       "Left Spoiler (Part of Figure)",
@@ -2446,7 +2556,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "1660",
@@ -2486,14 +2597,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1010",
     "name": "Metroplex",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "City",
     "accessories": [
       "Chest",
       "Knee Cap (x2)",
@@ -2525,14 +2637,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "548",
     "name": "Omega Supreme",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Rocket base, rocket, and Cybertronian tank",
     "accessories": [
       "Rocket With Claw",
       "Track Piece K",
@@ -2564,14 +2677,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1968",
     "name": "Scorponok",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Robotic scorpion",
     "accessories": [
       "Radar Dish 2",
       "Radar Dish 1",
@@ -2602,14 +2716,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1329",
     "name": "Trypticon",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Dinosaur",
     "accessories": [
       "Double-Disk Scanner",
       "Single-Disk Scanner",
@@ -2639,14 +2754,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1356",
     "name": "Runabout",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Lotus Turbo Esprit sports car",
     "accessories": [
       "Friction Rifle"
     ],
@@ -2659,14 +2775,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1363",
     "name": "Runamuck",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Pontiac Firebird",
     "accessories": [
       "High-Energy Particle Beam Rifle"
     ],
@@ -2679,7 +2796,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1597",
@@ -2702,7 +2820,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1891",
@@ -2723,14 +2842,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "420",
     "name": "Blaster",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Ghetto blaster boombox",
     "accessories": [
       "Electro-Scrambler Gun"
     ],
@@ -2743,14 +2863,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "361",
     "name": "Soundwave",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Microcassette recorder",
     "accessories": [
       "Concussion Blaster Gun",
       "Rocket Launcher",
@@ -2766,14 +2887,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1300",
     "name": "Cyclonus",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Cybertronian fighter craft",
     "accessories": [
       "Oxidating Laser"
     ],
@@ -2786,14 +2908,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "727",
     "name": "Dirge",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "modified F-15 fighter jet",
     "accessories": [
       "Right Wing (Part of Figure)",
       "Left Wing (Part of Figure)",
@@ -2811,14 +2934,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "743",
     "name": "Ramjet",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "F-15 Eagle",
     "accessories": [
       "Left Tail Fin",
       "Right Tail Fin",
@@ -2838,14 +2962,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1311",
     "name": "Scourge",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "soap a Cybertronian hovercraft",
     "accessories": [
       "Disintegrator Ray",
       "Laser Blaster"
@@ -2859,14 +2984,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "339",
     "name": "Skywarp",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "F-15 Eagle",
     "accessories": [
       "Right Tail Fin",
       "Left Rudder",
@@ -2890,14 +3016,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "375",
     "name": "Starscream",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "F-15 Eagle fighter jet",
     "accessories": [
       "Right Rudder",
       "Left Wing (Part of Figure)",
@@ -2921,14 +3048,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "761",
     "name": "Thrust",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "F-15 Eagle with VTOL fans",
     "accessories": [
       "Right Tail Fin",
       "Left Wing (Part of Figure)",
@@ -2950,14 +3078,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "397",
     "name": "Thundercracker",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "F-15 Eagle fighter jet",
     "accessories": [
       "Left Rudder",
       "Right Rudder",
@@ -2981,7 +3110,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "13050",
@@ -2999,7 +3129,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15381",
@@ -3017,7 +3148,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13041",
@@ -3035,7 +3167,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13049",
@@ -3053,7 +3186,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15380",
@@ -3071,7 +3205,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13035",
@@ -3089,7 +3224,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13053",
@@ -3107,7 +3243,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15384",
@@ -3125,7 +3262,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13056",
@@ -3143,7 +3281,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15387",
@@ -3161,7 +3300,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13036",
@@ -3179,7 +3319,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13038",
@@ -3197,7 +3338,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13040",
@@ -3215,7 +3357,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13060",
@@ -3233,7 +3376,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15391",
@@ -3251,7 +3395,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13062",
@@ -3269,7 +3414,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15393",
@@ -3287,7 +3433,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13021",
@@ -3305,7 +3452,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13013",
@@ -3323,7 +3471,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13033",
@@ -3341,7 +3490,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13054",
@@ -3359,7 +3509,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15385",
@@ -3377,7 +3528,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13029",
@@ -3395,7 +3547,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13039",
@@ -3413,7 +3566,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13026",
@@ -3431,7 +3585,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13019",
@@ -3449,7 +3604,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13025",
@@ -3467,7 +3623,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13051",
@@ -3485,7 +3642,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15382",
@@ -3503,7 +3661,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13057",
@@ -3521,7 +3680,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15388",
@@ -3539,7 +3699,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13044",
@@ -3557,7 +3718,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15375",
@@ -3575,7 +3737,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13032",
@@ -3593,7 +3756,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13058",
@@ -3611,7 +3775,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15389",
@@ -3629,7 +3794,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13043",
@@ -3647,7 +3813,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13042",
@@ -3665,7 +3832,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13031",
@@ -3683,7 +3851,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13018",
@@ -3701,7 +3870,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13061",
@@ -3719,7 +3889,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15392",
@@ -3737,7 +3908,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13028",
@@ -3755,7 +3927,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13064",
@@ -3773,7 +3946,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15395",
@@ -3791,7 +3965,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13055",
@@ -3809,7 +3984,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15386",
@@ -3827,7 +4003,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13059",
@@ -3845,7 +4022,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15390",
@@ -3863,7 +4041,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13063",
@@ -3881,7 +4060,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15394",
@@ -3899,7 +4079,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13052",
@@ -3917,7 +4098,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15383",
@@ -3935,7 +4117,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13030",
@@ -3953,7 +4136,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13024",
@@ -3971,7 +4155,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13045",
@@ -3989,7 +4174,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15376",
@@ -4007,7 +4193,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13017",
@@ -4025,7 +4212,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13016",
@@ -4043,7 +4231,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13020",
@@ -4061,7 +4250,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13014",
@@ -4079,7 +4269,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13048",
@@ -4097,7 +4288,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15379",
@@ -4115,7 +4307,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13047",
@@ -4133,7 +4326,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15378",
@@ -4151,7 +4345,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13023",
@@ -4169,7 +4364,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13015",
@@ -4187,7 +4383,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13046",
@@ -4205,7 +4402,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "15377",
@@ -4223,7 +4421,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13027",
@@ -4241,7 +4440,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13022",
@@ -4259,7 +4459,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13034",
@@ -4277,7 +4478,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "13037",
@@ -4295,14 +4497,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "578",
     "name": "Roadbuster",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Cybertronic jeep",
     "accessories": [
       "Infrared Range Finder",
       "Antenna",
@@ -4328,7 +4531,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "602",
@@ -4351,14 +4555,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "671",
     "name": "Grimlock",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Tyrannosaurus rex",
     "accessories": [
       "Energo Sword",
       "Rocket Launcher",
@@ -4374,14 +4579,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "616",
     "name": "Slag",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Triceratops",
     "accessories": [
       "Energo Sword",
       "Rocket Pod",
@@ -4397,14 +4603,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "630",
     "name": "Sludge",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Brontosaurus",
     "accessories": [
       "Energo Sword",
       "Rocket Pod",
@@ -4420,14 +4627,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "644",
     "name": "Snarl",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Stegosaurus",
     "accessories": [
       "Energo Sword",
       "Rocket Pod",
@@ -4443,14 +4651,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "658",
     "name": "Swoop",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Pteranodon",
     "accessories": [
       "Thermal Sword",
       "Missile Launcher (x2)",
@@ -4465,14 +4674,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1904",
     "name": "Battletrap",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Helicopter and Truck",
     "accessories": [
       "Double-Barreled Assault Missile Launcher"
     ],
@@ -4485,7 +4695,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1917",
@@ -4505,7 +4716,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1996",
@@ -4526,14 +4738,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1610",
     "name": "Brainstorm",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic fighter craft",
     "accessories": [
       "Right High Energy Photon Pulse Cannon",
       "Left High Energy Photon Pulse Cannon"
@@ -4547,14 +4760,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1623",
     "name": "Chromedome",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Mazda MX-81 Aria 2-door Hatchback",
     "accessories": [
       "Dual Laser (x2)"
     ],
@@ -4567,7 +4781,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2487",
@@ -4588,14 +4803,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1635",
     "name": "Hardhead",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronian self-propelled artillery gun",
     "accessories": [
       "Shoulder Cannon (Part of Figure)",
       "Shatterblaster (x2)"
@@ -4609,14 +4825,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1648",
     "name": "Highbrow",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Helicopter",
     "accessories": [
       "Corrosive Acid Rainmaker Rifle (x2)"
     ],
@@ -4629,7 +4846,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2500",
@@ -4650,14 +4868,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2159",
     "name": "Hosehead",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Fire truck",
     "accessories": [
       "Seat",
       "Right Laser Pistol",
@@ -4673,14 +4892,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1930",
     "name": "Mindwipe",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "bat",
     "accessories": [
       "Viper Pistol"
     ],
@@ -4693,14 +4913,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2174",
     "name": "Nightbeat",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Porsche 959",
     "accessories": [
       "Seat",
       "Right Photon Pistol",
@@ -4716,14 +4937,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2189",
     "name": "Siren",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "A70 Toyota Supra",
     "accessories": [
       "Seat/Helmet",
       "Left Sonic-Screamer Pistol",
@@ -4739,14 +4961,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1942",
     "name": "Skullcruncher",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Robotic alligator",
     "accessories": [
       "Tail / Laser  (Part of Figure)",
       "Ray Gun"
@@ -4760,14 +4983,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2009",
     "name": "Snapdragon",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic jet and reptile",
     "accessories": [
       "Booster Fin - Left",
       "Booster Fin - Right",
@@ -4782,14 +5006,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2513",
     "name": "Squeezeplay",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Bipedal crab monster",
     "accessories": [
       "Tail",
       "Overrider Rifle"
@@ -4803,14 +5028,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1955",
     "name": "Weirdwolf",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Robotic wolf",
     "accessories": [
       "Tail / Thermal Sword",
       "Photon Pistol"
@@ -4824,7 +5050,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "889",
@@ -4845,14 +5072,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "856",
     "name": "Bombshell",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "rhinoceros beetle",
     "accessories": [
       "Twin Ion Impulse Blaster"
     ],
@@ -4865,14 +5093,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "901",
     "name": "Chop Shop",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Stag beetle",
     "accessories": [
       "Vibro Spear",
       "Photon Cannon"
@@ -4886,14 +5115,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "867",
     "name": "Kickback",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "grasshopper",
     "accessories": [
       "Electrothermic Blast Tube"
     ],
@@ -4906,14 +5136,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "913",
     "name": "Ransack",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Robotic locust",
     "accessories": [
       "Reflector Shield",
       "Concussion Blaster Gun"
@@ -4927,14 +5158,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "878",
     "name": "Shrapnel",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "stag beetle",
     "accessories": [
       "Gamma Ray Detonator"
     ],
@@ -4947,14 +5179,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "925",
     "name": "Venom",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Purple insect",
     "accessories": [
       "Battle Axe",
       "Electric Blaster Gun"
@@ -4968,14 +5201,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "685",
     "name": "Topspin",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "some kind of Cybertronic pontoon-fronted",
     "accessories": [
       "Particle Beam Rifle"
     ],
@@ -4988,14 +5222,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "696",
     "name": "Twin Twist",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Cybertronic twin-drill tank",
     "accessories": [
       "Semi-Automatic Cannon-Rifle"
     ],
@@ -5008,7 +5243,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1287",
@@ -5030,14 +5266,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "289",
     "name": "Megatron",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Walther P-38 pistol",
     "accessories": [
       "Telescopic Sight - Eyepiece (Part of Figure)",
       "Stock - Base (Part of Figure)",
@@ -5061,14 +5298,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "158",
     "name": "Optimus Prime",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
     "accessories": [
       "Roller (type 2)",
       "Roller (type 1)",
@@ -5097,7 +5335,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "189112",
@@ -5115,7 +5354,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "961",
@@ -5137,14 +5377,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "65927",
     "name": "Bumblebee",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Volkswagen Type 1",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5155,14 +5396,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "65934",
     "name": "Grimlock",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Tyrannosaurus rex",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5173,14 +5415,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "65941",
     "name": "Jazz",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Martini Racing Porsche 935/76",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5191,14 +5434,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "65948",
     "name": "Starscream",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "F-15 Eagle fighter jet",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5209,7 +5453,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3416",
@@ -5229,7 +5474,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2526",
@@ -5247,14 +5493,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3071",
     "name": "Airwave",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Grumman F-14D Tomcat fighter jet",
     "accessories": [
       "Ramp",
       "Missile (x2)"
@@ -5268,7 +5515,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3672",
@@ -5295,7 +5543,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3448",
@@ -5315,7 +5564,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2810",
@@ -5333,7 +5583,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3636",
@@ -5351,7 +5602,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3500",
@@ -5375,7 +5627,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3656",
@@ -5396,7 +5649,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3424",
@@ -5414,7 +5668,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3646",
@@ -5432,14 +5687,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2826",
     "name": "Countdown",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "fanciful moon rover",
     "accessories": [
       "Short Ramp (x3)",
       "Large Ramp",
@@ -5461,14 +5717,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2893",
     "name": "Erector",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Semi truck with crane trailer",
     "accessories": [
       "Crane Arm"
     ],
@@ -5481,14 +5738,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3101",
     "name": "Flattop",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "F4 Phantom fighter jet",
     "accessories": [
       "Laser Cannon (x2)"
     ],
@@ -5501,14 +5759,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3084",
     "name": "Greasepit",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Chevrolet K10 pick-up truck",
     "accessories": [
       "Ramp",
       "Missile Launcher Stand (Part of Figure)",
@@ -5527,14 +5786,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2848",
     "name": "Groundshaker",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Fighter jet",
     "accessories": [
       "Long ramp",
       "Short ramp",
@@ -5552,7 +5812,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2865",
@@ -5573,7 +5834,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3432",
@@ -5591,7 +5853,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2878",
@@ -5614,7 +5877,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3459",
@@ -5632,7 +5896,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3620",
@@ -5653,7 +5918,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3469",
@@ -5676,7 +5942,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3440",
@@ -5694,7 +5961,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2204",
@@ -5712,14 +5980,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2899",
     "name": "Overload",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Freightliner COE with car carrier trailer",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5730,7 +5999,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2212",
@@ -5748,7 +6018,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3628",
@@ -5766,14 +6037,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2818",
     "name": "Rescue Patrol",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Rescue vehicles",
     "accessories": [],
     "releaseYear": 1989,
     "isVariant": false,
@@ -5784,7 +6056,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3108",
@@ -5805,7 +6078,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3036",
@@ -5832,14 +6106,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3055",
     "name": "Skystalker",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Porsche 959 sports car",
     "accessories": [
       "Ramp (x2)",
       "Dual Laser Connector (Part of Figure)",
@@ -5856,7 +6131,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3028",
@@ -5874,7 +6150,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "3485",
@@ -5896,14 +6173,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "707",
     "name": "Beachcomber",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "1982 M1040 Chenowth \"Hellfire\" Fast",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -5914,14 +6192,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "15",
     "name": "Brawn",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Jeep",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -5932,14 +6211,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "19",
     "name": "Bumblebee",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Volkswagen Type 1",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -5950,7 +6230,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "35728",
@@ -5968,7 +6249,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "23",
@@ -5986,14 +6268,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "32",
     "name": "Cliffjumper",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Porsche 924 Carrera GT",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6004,7 +6287,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "35740",
@@ -6022,14 +6306,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "711",
     "name": "Cosmos",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Flying saucer",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -6040,14 +6325,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "47",
     "name": "Gears",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "pickup truck of indeterminable model",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6058,14 +6344,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1162",
     "name": "Hubcap",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Porsche 924",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6076,14 +6363,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "67",
     "name": "Huffer",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Minivan",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6094,14 +6382,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1166",
     "name": "Outback",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "off-road SUV",
     "accessories": [
       "Mortar Cannon"
     ],
@@ -6114,14 +6403,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1171",
     "name": "Pipes",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Semi truck",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6132,14 +6422,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "715",
     "name": "Powerglide",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "A-10 Thunderbolt II",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -6150,14 +6441,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "719",
     "name": "Seaspray",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Hovercraft",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -6168,14 +6460,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1175",
     "name": "Swerve",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "pickup truck of indeterminable model",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6186,14 +6479,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1179",
     "name": "Tailgate",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Pontiac Firebird Trans Am",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6204,14 +6498,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "723",
     "name": "Warpath",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "General Motors M551A1 Sheridan ARAAV",
     "accessories": [],
     "releaseYear": 1985,
     "isVariant": false,
@@ -6222,14 +6517,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1183",
     "name": "Wheelie",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Minicar",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -6240,14 +6536,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "264",
     "name": "Windcharger",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Race car",
     "accessories": [],
     "releaseYear": 1984,
     "isVariant": false,
@@ -6258,14 +6555,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2461",
     "name": "Beastbox",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Robotic gorilla",
     "accessories": [
       "Weapon (x2)"
     ],
@@ -6278,14 +6576,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "268",
     "name": "Buzzsaw",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Robotic condor",
     "accessories": [
       "Right Laser Cannon",
       "Left Laser Cannon"
@@ -6299,7 +6598,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1060",
@@ -6320,7 +6620,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "275",
@@ -6343,7 +6644,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2143",
@@ -6365,14 +6667,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "282",
     "name": "Laserbeak",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Condor",
     "accessories": [
       "Right Laser Cannon",
       "Left Laser Cannon"
@@ -6386,14 +6689,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1877",
     "name": "Overkill",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "ceratosaur",
     "accessories": [
       "Left Motion Missile",
       "Right Motion Missile"
@@ -6407,7 +6711,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2151",
@@ -6427,14 +6732,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1066",
     "name": "Ramhorn",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Rhinoceros",
     "accessories": [
       "Right Gold Missile (type 1 only)",
       "Left Gold Missile",
@@ -6450,14 +6756,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1323",
     "name": "Ratbat",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "robot bat",
     "accessories": [
       "Right Gold Missile (type 1 only)",
       "Left Gold Missile (type 1 only)",
@@ -6473,14 +6780,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "308",
     "name": "Ravage",
     "faction": "DECEPTICON",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Jaguar",
     "accessories": [
       "Right Heat-Seeking Missile",
       "Left Heat-Seeking Missile"
@@ -6494,7 +6802,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1073",
@@ -6515,7 +6824,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "332",
@@ -6538,14 +6848,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2158",
     "name": "Slamdance",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Humanoid robot",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -6556,14 +6867,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1884",
     "name": "Slugfest",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Robotic Stegosaurus",
     "accessories": [
       "Right Vibro Cannon",
       "Left Vibro Cannon"
@@ -6577,7 +6889,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2474",
@@ -6595,14 +6908,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "2467",
     "name": "Squawktalk",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Eagle",
     "accessories": [
       "Right Weapon",
       "Left Weapon"
@@ -6616,14 +6930,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1079",
     "name": "Steeljaw",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "robotic lion",
     "accessories": [
       "Right Silver Missile",
       "Left Silver Missile",
@@ -6639,7 +6954,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "119",
@@ -6657,7 +6973,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "120",
@@ -6675,7 +6992,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "121",
@@ -6693,7 +7011,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "122",
@@ -6711,7 +7030,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "123",
@@ -6729,7 +7049,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "124",
@@ -6747,7 +7068,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34954",
@@ -6765,7 +7087,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34955",
@@ -6783,7 +7106,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34956",
@@ -6801,7 +7125,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34957",
@@ -6819,7 +7144,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34958",
@@ -6837,7 +7163,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "34959",
@@ -6855,7 +7182,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "125",
@@ -6873,7 +7201,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "126",
@@ -6891,7 +7220,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "127",
@@ -6909,7 +7239,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "128",
@@ -6927,7 +7258,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "129",
@@ -6945,7 +7277,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "130",
@@ -6963,7 +7296,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "131",
@@ -6981,7 +7315,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "132",
@@ -6999,7 +7334,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "133",
@@ -7017,7 +7353,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "134",
@@ -7035,7 +7372,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "135",
@@ -7053,7 +7391,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "136",
@@ -7071,7 +7410,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MINI"
   },
   {
     "externalId": "1689",
@@ -7091,7 +7431,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1700",
@@ -7113,14 +7454,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1713",
     "name": "Repugnus",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Insect",
     "accessories": [
       "Venom Laser"
     ],
@@ -7133,14 +7475,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "25",
     "name": "Camshaft",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Mazda RX-7 Series 2",
     "accessories": [
       "Neutron Blaster",
       "Rocket (x2)"
@@ -7154,14 +7497,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "36",
     "name": "Downshift",
     "faction": "AUTOBOT",
     "line": "G1_S1",
-    "altMode": null,
+    "altMode": "Race car",
     "accessories": [
       "Rust Rifle",
       "Magnetic-Guided Rocket Launcher (x2)"
@@ -7175,7 +7519,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "150",
@@ -7197,14 +7542,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "1497",
     "name": "Gnaw",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Shark",
     "accessories": [
       "Tail",
       "Maceration Laser"
@@ -7218,14 +7564,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "97",
     "name": "Jetfire",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Jet",
     "accessories": [
       "Left Turbo Thruster",
       "Left Fender",
@@ -7249,14 +7596,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "477",
     "name": "Perceptor",
     "faction": "AUTOBOT",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "functional microscope",
     "accessories": [
       "Missile Launcher",
       "Two Focus Knobs (Part of Figure)",
@@ -7273,7 +7621,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "1585",
@@ -7294,14 +7643,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "MEDIUM"
   },
   {
     "externalId": "315",
     "name": "Reflector",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Camera",
     "accessories": [
       "Telephoto Lens",
       "Flashcube",
@@ -7319,14 +7669,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "781",
     "name": "Shockwave",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Mazda RX-8",
     "accessories": [
       "Battery Cover (Part of Figure)",
       "Barrel"
@@ -7340,14 +7691,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1086",
     "name": "Sky Lynx",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "space shuttle",
     "accessories": [],
     "releaseYear": 1986,
     "isVariant": false,
@@ -7358,7 +7710,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "24992",
@@ -7376,14 +7729,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": null
   },
   {
     "externalId": "1039",
     "name": "Ultra Magnus",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
     "accessories": [
       "Missile Holder (x2)",
       "Chest Shield",
@@ -7406,14 +7760,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "JUMBO"
   },
   {
     "externalId": "1150",
     "name": "Wreck-Gar",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Cybertronic junk motorcycle",
     "accessories": [
       "Armor Axe",
       "Front Wheel (Part of Figure)",
@@ -7428,7 +7783,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "43",
@@ -7446,7 +7802,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "45",
@@ -7464,7 +7821,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "217",
@@ -7482,14 +7840,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": true,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2534",
     "name": "Darkwing",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Panavia Tornado GR1 fighter jet",
     "accessories": [
       "Right Laser",
       "Left Laser"
@@ -7503,7 +7862,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2561",
@@ -7525,14 +7885,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2547",
     "name": "Dreadwind",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "General Dynamics F-16 Fighting Falcon jet",
     "accessories": [
       "Left Laser",
       "Right Laser"
@@ -7546,7 +7907,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2560",
@@ -7564,7 +7926,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2220",
@@ -7584,14 +7947,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2232",
     "name": "Joyride",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Baja buggy",
     "accessories": [
       "Laser"
     ],
@@ -7604,14 +7968,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2256",
     "name": "Optimus Prime",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
     "accessories": [
       "Super Robot Head",
       "Laser Rifle (x2)",
@@ -7626,14 +7991,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2244",
     "name": "Slapdash",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Formula-1-style race car",
     "accessories": [
       "Engine",
       "Rear Spoiler",
@@ -7648,14 +8014,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3115",
     "name": "Bludgeon",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Quad-tread tank",
     "accessories": [
       "Helmet",
       "Laser Rifle",
@@ -7671,14 +8038,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2576",
     "name": "Bomb-Burst",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Cybertronic jet",
     "accessories": [
       "Battle Axe",
       "Left Shoulder Wing",
@@ -7695,14 +8063,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2593",
     "name": "Bugly",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Cybertronian hoverjet",
     "accessories": [
       "Belt",
       "Electro-Stinger (x2)",
@@ -7717,14 +8086,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2905",
     "name": "Bumblebee",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Volkswagen Type 1",
     "accessories": [
       "Helmet",
       "Laser",
@@ -7739,14 +8109,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2607",
     "name": "Carnivac",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "wolf",
     "accessories": [
       "Left Shoulder Armor",
       "Right Shoulder Armor",
@@ -7762,14 +8133,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2271",
     "name": "Catilla",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Saber-toothed cat",
     "accessories": [
       "Helmet",
       "Tail",
@@ -7784,14 +8156,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2285",
     "name": "Chainclaw",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "bear",
     "accessories": [
       "Helmet",
       "Energy Blaster"
@@ -7805,7 +8178,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2298",
@@ -7828,14 +8202,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2982",
     "name": "Crossblades",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Cybertronic dragster",
     "accessories": [
       "Engine (x2)",
       "Wing",
@@ -7855,7 +8230,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2919",
@@ -7878,7 +8254,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2637",
@@ -7900,14 +8277,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2931",
     "name": "Grimlock",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Tyrannosaurus rex",
     "accessories": [
       "Helmet",
       "Laser/Tail",
@@ -7922,7 +8300,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2313",
@@ -7948,14 +8327,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2331",
     "name": "Gunrunner",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "hypersonic jet",
     "accessories": [
       "Energy Plasma Missile (x2)",
       "Dual Electro-Static Cannon",
@@ -7970,14 +8350,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2651",
     "name": "Iguanus",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Cybertronic motorcycle",
     "accessories": [
       "Wheel",
       "Belt",
@@ -7992,14 +8373,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2945",
     "name": "Jazz",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Martini Racing Porsche 935",
     "accessories": [
       "Helmet",
       "Laser",
@@ -8014,14 +8396,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2345",
     "name": "Landmine",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Cybertronic all terrain vehicle",
     "accessories": [
       "Laser Saber",
       "Helmet",
@@ -8037,7 +8420,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2959",
@@ -8059,7 +8443,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3127",
@@ -8083,7 +8468,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2970",
@@ -8106,14 +8492,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3244",
     "name": "Roadblock",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Armored Personnel Carrier",
     "accessories": [
       "Visor (Part of Figure)",
       "Plow (Part of Figure)",
@@ -8129,7 +8516,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2665",
@@ -8151,7 +8539,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2694",
@@ -8174,7 +8563,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2360",
@@ -8197,14 +8587,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3014",
     "name": "Skyhammer",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Cybertronic car",
     "accessories": [
       "Skyhammer (Part of Figure)",
       "Wing Laser",
@@ -8219,7 +8610,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2622",
@@ -8242,7 +8634,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2375",
@@ -8267,14 +8660,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3140",
     "name": "Starscream",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "F-15 Eagle fighter jet",
     "accessories": [
       "Left Tail Wing",
       "Right Tail Wing",
@@ -8292,7 +8686,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3157",
@@ -8315,14 +8710,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2679",
     "name": "Submarauder",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "cybertronic submarine thing that's vague",
     "accessories": [
       "Sword",
       "Shield",
@@ -8338,14 +8734,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "3231",
     "name": "Thunderwing",
     "faction": "DECEPTICON",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "rather simple Cybertronic shuttlecraft",
     "accessories": [
       "Small Laser",
       "Large Laser (x2)"
@@ -8359,14 +8756,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2999",
     "name": "Vroom",
     "faction": "AUTOBOT",
     "line": "G1_S6",
-    "altMode": null,
+    "altMode": "Cybertronic motorcycle",
     "accessories": [
       "Rear Wheel",
       "Sidecar",
@@ -8383,7 +8781,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2392",
@@ -8406,7 +8805,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2407",
@@ -8427,14 +8827,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2023",
     "name": "Sixshot",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "robot, ramming-tank, starfighter, jet-propelled laser pistol, armored carrier, wolf-",
     "accessories": [
       "Hypersonic Blaster (x2)"
     ],
@@ -8447,14 +8848,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2475",
     "name": "Cindersaur",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Bipedal horn-nosed lizard",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8465,7 +8867,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2419",
@@ -8483,14 +8886,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2479",
     "name": "Flamefeather",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Bipedal bird-monster",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8501,14 +8905,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2423",
     "name": "Guzzle",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Challenger 1 tank",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8519,14 +8924,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2427",
     "name": "Sizzle",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "mostly monochromatic robot",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8537,7 +8943,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2483",
@@ -8555,14 +8962,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1724",
     "name": "Blurr",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic hovercar",
     "accessories": [
       "Shield"
     ],
@@ -8575,14 +8983,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1736",
     "name": "Crosshairs",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic off-road-van-buggy-sorta-kinda-thing",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8593,14 +9002,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2034",
     "name": "Cyclonus",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronian fighter craft",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8611,14 +9021,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1747",
     "name": "Hot Rod",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Futuristic race car",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8629,14 +9040,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1758",
     "name": "Kup",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronian pickup truck",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8647,7 +9059,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2431",
@@ -8665,14 +9078,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2045",
     "name": "Misfire",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronian jet fighter",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8683,14 +9097,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2779",
     "name": "Needlenose",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "General Dynamics F-16XL",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8701,7 +9116,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1769",
@@ -8721,7 +9137,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2785",
@@ -8741,7 +9158,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2437",
@@ -8759,7 +9177,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2443",
@@ -8777,14 +9196,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2056",
     "name": "Scourge",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "soap a Cybertronian hovercraft",
     "accessories": [
       "Rocket Booster"
     ],
@@ -8797,14 +9217,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2068",
     "name": "Slugslinger",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronian twin-cockpit space fighter",
     "accessories": [
       "Caliburst's Blaster"
     ],
@@ -8817,14 +9238,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2792",
     "name": "Spinister",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "AH-64 Apache attack helicopter",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8835,14 +9257,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1781",
     "name": "Sureshot",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic buggy",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8853,14 +9276,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "2080",
     "name": "Triggerhappy",
     "faction": "DECEPTICON",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Cybertronic fighter craft",
     "accessories": [
       "Blowpipe's Blaster"
     ],
@@ -8873,14 +9297,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1853",
     "name": "Chase",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Ferrari Testarossa sports car",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8891,14 +9316,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1857",
     "name": "Freeway",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Chevrolet Corvette",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8909,7 +9335,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1861",
@@ -8927,14 +9354,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1865",
     "name": "Rollbar",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Jeep CJ-7",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8945,14 +9373,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1869",
     "name": "Searchlight",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Ford RS200 rally car",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8963,14 +9392,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "1873",
     "name": "Wideload",
     "faction": "AUTOBOT",
     "line": "G1_S4",
-    "altMode": null,
+    "altMode": "Dump truck",
     "accessories": [],
     "releaseYear": 1987,
     "isVariant": false,
@@ -8981,14 +9411,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2449",
     "name": "Backstreet",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Porsche 962-based Le Mans racing car",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -8999,14 +9430,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2798",
     "name": "Crankcase",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "four-wheel-drive off-road vehicle",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -9017,14 +9449,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2453",
     "name": "Dogfight",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Grumman X-29 fighter jet",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -9035,14 +9468,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2457",
     "name": "Override",
     "faction": "AUTOBOT",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "somewhat abstracted blue",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -9053,14 +9487,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2802",
     "name": "Ruckus",
     "faction": "DECEPTICON",
     "line": "G1_S5",
-    "altMode": null,
+    "altMode": "Baja buggy",
     "accessories": [],
     "releaseYear": 1988,
     "isVariant": false,
@@ -9071,7 +9506,8 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "2806",
@@ -9089,14 +9525,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "SMALL"
   },
   {
     "externalId": "937",
     "name": "Astrotrain",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "JNR Class D51",
     "accessories": [
       "Ionic Displacer Rifle"
     ],
@@ -9109,14 +9546,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "948",
     "name": "Blitzwing",
     "faction": "DECEPTICON",
     "line": "G1_S2",
-    "altMode": null,
+    "altMode": "Jet and Tank",
     "accessories": [
       "Electron Scimitar",
       "Turret (Part of Figure)",
@@ -9132,14 +9570,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1251",
     "name": "Broadside",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Aircraft carrier and fighter jet",
     "accessories": [
       "Vibro-Axe",
       "Plasma-Pulse Gun",
@@ -9154,14 +9593,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1571",
     "name": "Octane",
     "faction": "DECEPTICON",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Truck and jet",
     "accessories": [
       "Tail Rudder",
       "Tanker Top (Part of Figure)",
@@ -9176,14 +9616,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1264",
     "name": "Sandstorm",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Sand rail dune buggy or helicopter",
     "accessories": [
       "Sandblaster Gun"
     ],
@@ -9196,14 +9637,15 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   },
   {
     "externalId": "1275",
     "name": "Springer",
     "faction": "AUTOBOT",
     "line": "G1_S3",
-    "altMode": null,
+    "altMode": "Armored car and helicopter",
     "accessories": [
       "Light Saber",
       "Laser"
@@ -9217,6 +9659,7 @@
     "combinerTeam": null,
     "isGiftSet": false,
     "isMailaway": false,
-    "japaneseRelease": false
+    "japaneseRelease": false,
+    "size": "LARGE"
   }
 ]
