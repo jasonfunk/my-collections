@@ -37,6 +37,7 @@ export interface G1TransformersCatalogItem {
   releaseYear?: number;            // e.g., 1984
   size?: TransformerSize;
   altMode?: string;               // e.g., "Porsche 911", "F-15 fighter jet"
+  subgroup?: string;              // e.g., "Headmaster", "Dinobot", "Cassette"
   accessories: string[];          // what should come with it
   catalogImageUrl?: string;
   sourceUrl?: string;

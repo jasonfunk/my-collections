@@ -234,6 +234,9 @@ export function TransformersCatalogDetailPage() {
                 Catalog Info
               </h2>
               <div className="space-y-2">
+                {catalogItem.subgroup && (
+                  <DetailRow label="Subgroup" value={catalogItem.subgroup} />
+                )}
                 {catalogItem.releaseYear && (
                   <DetailRow label="Year" value={catalogItem.releaseYear} />
                 )}

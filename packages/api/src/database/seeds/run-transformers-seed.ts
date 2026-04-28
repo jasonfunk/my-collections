@@ -24,6 +24,7 @@ interface CatalogJsonRecord {
   faction: string | null;
   line: string | null;
   altMode: string | null;
+  subgroup: string | null;
   size: string | null;
   accessories: string[];
   releaseYear: number | null;
