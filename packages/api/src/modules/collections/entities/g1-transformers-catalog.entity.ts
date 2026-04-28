@@ -32,6 +32,9 @@ export class G1TransformersCatalogEntity {
   @Column({ type: 'varchar', nullable: true })
   altMode!: string | null;
 
+  @Column({ type: 'varchar', nullable: true })
+  subgroup!: string | null;
+
   @Column('text', { array: true, default: '{}' })
   accessories!: string[];
 

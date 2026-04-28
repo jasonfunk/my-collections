@@ -1,7 +1,8 @@
 appId: com.mycollections.app
 ---
 # Assumes dashboard is the active screen (post-login, post-navigation/tabs).
-# Navigates via the Dashboard Star Wars card — same path confirmed working in stats.yaml.
+
+# ── Star Wars item detail ─────────────────────────────────────────────────────
 
 - tapOn:
     text: "Star Wars"
@@ -11,25 +12,51 @@ appId: com.mycollections.app
     visible: "2 items"
     timeout: 20000
 
-# Tap the first item row by name
 - tapOn: "2-1B / Two-Onebee"
 - waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "Condition"
     timeout: 10000
 
-# Verify key detail sections rendered
 - assertVisible: "Condition"
 - assertVisible: "Details"
 
-# Go back to browse screen via Android back button
 - pressKey: Back
 - waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "2 items"
     timeout: 10000
 
-# Return to dashboard
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 10000
+
+# ── Transformers item detail (Catalog Info section) ───────────────────────────
+
+- tapOn:
+    text: "Transformers"
+    index: 0
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "2 items"
+    timeout: 20000
+
+- tapOn: "Afterburner"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Catalog Info"
+    timeout: 10000
+
+- assertVisible: "Catalog Info"
+- assertVisible: "Technobot"
+- assertVisible: "Cybertronic motorcycle"
+- assertVisible: "Condition"
+- assertVisible: "Details"
+
+- pressKey: Back
+- waitForAnimationToEnd
+
 - tapOn: "Dashboard"
 - extendedWaitUntil:
     visible: "Sign Out"
