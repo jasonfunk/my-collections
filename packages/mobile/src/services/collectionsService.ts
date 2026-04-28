@@ -49,8 +49,22 @@ export interface DetailItem {
   catalog?: {
     name: string;
     accessories?: string[];
-    category?: string;
+    // Star Wars
+    category?: string | null;
+    // Transformers
+    faction?: string | null;
     line?: string | null;
+    releaseYear?: number | null;
+    size?: string | null;
+    altMode?: string | null;
+    subgroup?: string | null;
+    combinerTeam?: string | null;
+    isCombiner?: boolean;
+    isVariant?: boolean;
+    variantDescription?: string | null;
+    japaneseRelease?: boolean;
+    isGiftSet?: boolean;
+    isMailaway?: boolean;
   };
   isOwned: boolean;
   wishlistPriority?: string | null;

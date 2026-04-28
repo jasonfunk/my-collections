@@ -59,6 +59,28 @@ const PRIORITY_COLORS: Record<string, string> = {
   LOW: '#6b7280',
 };
 
+const TF_FACTION_LABELS: Record<string, string> = {
+  AUTOBOT: 'Autobot',
+  DECEPTICON: 'Decepticon',
+};
+
+const TF_LINE_LABELS: Record<string, string> = {
+  G1_S1: 'Series 1 (1984)',
+  G1_S2: 'Series 2 (1985)',
+  G1_S3: 'Series 3 (1986)',
+  G1_S4: 'Series 4 (1987)',
+  G1_S5: 'Series 5 (1988)',
+  G1_S6: 'Series 6 (1989–90)',
+};
+
+const TF_SIZE_LABELS: Record<string, string> = {
+  MINI: 'Mini',
+  SMALL: 'Small',
+  MEDIUM: 'Medium',
+  LARGE: 'Large',
+  JUMBO: 'Jumbo',
+};
+
 function formatMoney(value: number): string {
   return `$${value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -182,6 +204,42 @@ export default function ItemDetailScreen() {
             )}
           </View>
         </View>
+
+        {/* ── Catalog Info (Transformers) ── */}
+        {collectionType === CollectionType.TRANSFORMERS && item.catalog && (
+          <>
+            <SectionHeader title="Catalog Info" />
+            <View style={styles.card}>
+              {item.catalog.subgroup != null && (
+                <DetailRow label="Subgroup" value={item.catalog.subgroup} />
+              )}
+              {item.catalog.releaseYear != null && (
+                <DetailRow label="Year" value={String(item.catalog.releaseYear)} />
+              )}
+              {item.catalog.altMode != null && (
+                <DetailRow label="Alt Mode" value={item.catalog.altMode} />
+              )}
+              {item.catalog.faction != null && (
+                <DetailRow label="Faction" value={TF_FACTION_LABELS[item.catalog.faction] ?? item.catalog.faction} />
+              )}
+              {item.catalog.line != null && (
+                <DetailRow label="Series" value={TF_LINE_LABELS[item.catalog.line] ?? item.catalog.line} />
+              )}
+              {item.catalog.size != null && (
+                <DetailRow label="Size" value={TF_SIZE_LABELS[item.catalog.size] ?? item.catalog.size} />
+              )}
+              {item.catalog.combinerTeam != null && (
+                <DetailRow label="Combiner Team" value={item.catalog.combinerTeam} />
+              )}
+              {item.catalog.variantDescription != null && (
+                <DetailRow label="Variant" value={item.catalog.variantDescription} />
+              )}
+              {item.catalog.japaneseRelease === true && (
+                <DetailRow label="Japanese Release" value="Yes" />
+              )}
+            </View>
+          </>
+        )}
 
         {/* ── Condition ── */}
         <SectionHeader title="Condition" />
