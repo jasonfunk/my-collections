@@ -51,6 +51,8 @@ export interface DetailItem {
     accessories?: string[];
     // Star Wars
     category?: string | null;
+    figureSize?: string | null;
+    coinIncluded?: boolean | null;
     // Transformers
     faction?: string | null;
     line?: string | null;

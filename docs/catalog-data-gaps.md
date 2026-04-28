@@ -2,7 +2,7 @@
 
 Reference document for the catalog enrichment effort. Updated as gaps are filled.
 
-**Last evaluated:** 2026-04-27  
+**Last evaluated:** 2026-04-27 (COL-103/COL-104)  
 **Total records:** Star Wars 199 / G1 Transformers 443 / He-Man 127
 
 ---
@@ -11,33 +11,21 @@ Reference document for the catalog enrichment effort. Updated as gaps are filled
 
 ### Complete fields ✓
 - `name`, `category`, `figureSize` (correct nulls for non-figures), `accessories` (partial), `catalogImageUrl` (partial), `externalId` (partial), `isVariant` (partial)
-- `year` — 100% populated in JSON; not persisted to DB (no `releaseYear` column)
+- `releaseYear` — entity column added (migration `1776200000000`); 100% populated in JSON and DB ✓ (COL-104)
+- `line` — entity column present; 199/199 derived from `releaseYear` via patch script ✓ (COL-104)
+- `coinIncluded` — entity column present; 21/199 = true (all POTF items) via patch script ✓ (COL-104)
 
 ### Gaps
 
 | Field | Populated | Gap | Notes |
 |---|---|---|---|
-| `line` | 0/199 | 199 | Derivable from `year` in JSON |
 | `kennerItemNumber` | 0/199 | 199 | transformerland.com "ID:" row is empty for SW items — site limitation |
-| `coinIncluded` | 0/199 | ~17 | Only POTF figures; derivable from `line == POWER_OF_THE_FORCE` |
-| `cardbackStyle` | 0/199 | 199 | Not on transformerland.com; requires RebelScum.com or catalog scans |
+| `cardbackStyle` | 0/199 | 199 | Not on transformerland.com; requires RebelScum.com or catalog scans — **evaluate page structure before scraping** |
 | `features` | 0/199 | ~29 | Vehicle/playset feature descriptions; not attempted |
 | `accessories` | 152/199 | 47 | Extractors fixed (COL-102). 47 empties are all legitimate zeros: BASIC_FIGURE (12), VEHICLE (9), MINI_RIG (8), COLLECTOR_CASE (7), DIE_CAST (5), ROLEPLAY (3), CREATURE (2), TWELVE_INCH (1). Zero empty regular FIGURE items. |
 | `catalogImageUrl` | 190/199 | 9 | The 9 twelve-inch patch figures (no transformerland.com entry) |
 | `externalId` | 190/199 | 9 | Same 9 patch figures |
-| `isVariant` | 1/199 | many | Known variants not captured: vinyl cape Jawa, double-telescoping sabers, etc. |
-| `releaseYear` | N/A | — | Entity column missing (parity gap vs. TF + HM which both have it) |
-
-**Line derivation logic:**
-
-```
-year <= 1979  → STAR_WARS
-1980–1982     → EMPIRE_STRIKES_BACK
-1983–1984     → RETURN_OF_THE_JEDI
-1985          → POWER_OF_THE_FORCE
-```
-
-**POTF figures (coinIncluded = true):** ~17 items with `line == POWER_OF_THE_FORCE`
+| `isVariant` | 1/199 | many | Known variants not captured: vinyl cape Jawa, double-telescoping sabers, etc. — next session: evaluate RebelScum.com |
 
 ---
 
@@ -67,11 +55,9 @@ year <= 1979  → STAR_WARS
 
 Excludes Action Masters (27, non-transforming by design), Decoys (73, rubber figures), and full gestalt combiners (Superion, Devastator, etc. — no individual alt mode).
 
-#### Tier A — Patchable without network (24)
+#### Tier A — Patchable without network ✓ RESOLVED (COL-103/104)
 
-Mini-Spies: alt mode is literally the vehicle name in the record name. Can be set by a patch script: `Dune Buggy → Dune buggy`, `Jeep → Jeep`, `Porsche → Porsche`.
-
-Dune Buggy (Blue Autobot), Dune Buggy (Blue Decepticon), Dune Buggy (White Autobot), Dune Buggy (White Decepticon), Dune Buggy (Yellow Autobot), Dune Buggy (Yellow Decepticon), FX-1 (Blue Autobot), FX-1 (Blue Decepticon), FX-1 (White Autobot), FX-1 (White Decepticon), FX-1 (Yellow Autobot), FX-1 (Yellow Decepticon), Jeep (Blue Autobot), Jeep (Blue Decepticon), Jeep (White Autobot), Jeep (White Decepticon), Jeep (Yellow Autobot), Jeep (Yellow Decepticon), Porsche (Blue Autobot), Porsche (Blue Decepticon), Porsche (White Autobot), Porsche (White Decepticon), Porsche (Yellow Autobot), Porsche (Yellow Decepticon)
+Mini-Spies: 24 records patched via `scripts/patch-transformers-mini-spy-altmode.ts`. altMode derived from name prefix: `Dune Buggy → Dune buggy`, `FX-1 → FX-1`, `Jeep → Jeep`, `Porsche → Porsche`. All 24 updated in JSON + DB.
 
 #### Tier B — Individual figures; TFWiki likely has a page (39)
 
@@ -127,14 +113,15 @@ Need manual lookup or are genuinely ambiguous.
 
 ## Fill Strategy by Tier
 
-### Tier 1 — Patch scripts, no scraping (fast)
+### Tier 1 — Patch scripts, no scraping ✓ COMPLETE
 
-| Task | What | File |
+| Task | What | Status |
 |---|---|---|
-| SW `line` derivation | Patch JSON using `year` field already present | `scripts/patch-star-wars-line.ts` |
-| SW `coinIncluded` | Set true for all POTF items as part of same patch | Same script |
-| SW `releaseYear` column | Add to entity, migration, shared type | Migration + entity + shared type |
-| Seed upsert mode | Add `--update` flag to seed runners | `run-star-wars-seed.ts` etc. |
+| SW `line` derivation | Derived from `year` via `scripts/patch-star-wars-line.ts` | ✓ Done (COL-104) |
+| SW `coinIncluded` | 21 POTF records set to true via same script | ✓ Done (COL-104) |
+| SW `releaseYear` column | Entity column + migration `1776200000000` | ✓ Done (prior session) |
+| Seed upsert mode | `--update` flag on all three seed runners | ✓ Done |
+| TF Mini-Spy `altMode` | 24 records set via `scripts/patch-transformers-mini-spy-altmode.ts` | ✓ Done (COL-104) |
 
 ### Tier 2 — Re-scrape with enhanced extractors
 

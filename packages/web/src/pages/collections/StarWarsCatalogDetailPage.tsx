@@ -229,6 +229,9 @@ export function StarWarsCatalogDetailPage() {
                 Catalog Info
               </h2>
               <div className="space-y-2">
+                {catalogItem.releaseYear && (
+                  <DetailRow label="Year" value={String(catalogItem.releaseYear)} />
+                )}
                 {catalogItem.figureSize && (
                   <DetailRow label="Figure size" value={FIGURE_SIZE_LABELS[catalogItem.figureSize] ?? catalogItem.figureSize} />
                 )}

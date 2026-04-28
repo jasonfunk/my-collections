@@ -18,6 +18,9 @@ appId: com.mycollections.app
     visible: "Condition"
     timeout: 10000
 
+- assertVisible: "Catalog Info"
+- assertVisible: "Empire Strikes Back (1980–82)"
+- assertVisible: "1981"
 - assertVisible: "Condition"
 - assertVisible: "Details"
 

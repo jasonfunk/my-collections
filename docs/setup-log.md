@@ -3841,3 +3841,62 @@ The extractor bugs were real and are now fixed, but the accessory counts didn't 
 ### Jira
 
 - COL-103 → Done
+
+---
+
+## 2026-04-28 — COL-103 follow-up: Mini-Spy altMode patch + COL-104: Star Wars catalog enrichment
+
+### Task 1: Mini-Spy altMode patch
+
+**Script created:** `scripts/patch-transformers-mini-spy-altmode.ts`  
+Follows the same pattern as `patch-transformers-subgroup.ts`. For each record with `subgroup === 'Mini-Spy' && altMode === null`, derives `altMode` from the vehicle name prefix:
+- `Dune Buggy (...)` → `Dune buggy`
+- `FX-1 (...)` → `FX-1`
+- `Jeep (...)` → `Jeep`
+- `Porsche (...)` → `Porsche`
+
+**Added to package.json:** `patch:transformers-mini-spy-altmode`
+
+**Results:** 24 records updated, 419 skipped.
+
+**Re-seeded:** `npm run seed:transformers -- --update` → 443 updated, 0 inserted.
+
+### Task 2: Star Wars enrichment (COL-104)
+
+**Investigation finding:** `docs/catalog-data-gaps.md` was stale — `releaseYear`, `line`, and `coinIncluded` entity columns already existed (migration `1776200000000-AddReleaseYearToStarWarsCatalog.ts` from a prior session). No new migration needed. What was actually missing: the `coinIncluded` values (all null) and display on web/mobile.
+
+**Patch script:** `scripts/patch-star-wars-line.ts` (pre-existing from COL-100, unchanged).
+- 199 records: `line` re-derived from `releaseYear` using Kenner year → line mapping
+- 21 POTF records: `coinIncluded = true`
+- Line distribution: STAR_WARS 51 / EMPIRE_STRIKES_BACK 71 / RETURN_OF_THE_JEDI 56 / POWER_OF_THE_FORCE 21
+
+**Re-seeded:** `npm run seed:star-wars -- --update` → 199 updated, 0 inserted.
+
+**Added `patch:star-wars-line` to package.json** (was missing, script existed but had no npm alias).
+
+**Web display** (`StarWarsCatalogDetailPage.tsx`): Added `releaseYear` as first row of the Catalog Info section ("Year" label). Line was already shown in the header.
+
+**Mobile display** (`[id].tsx`): Added Star Wars Catalog Info section with Year, Line, Figure Size, Coin Included, and Variant fields. Added `SW_LINE_LABELS` and `SW_FIGURE_SIZE_LABELS` constants. Updated `collectionsService.ts` `DetailItem.catalog` to include `figureSize` and `coinIncluded` (were missing from the local type but present in the API response).
+
+**Maestro test updated** (`item-detail.yaml`): Added Star Wars Catalog Info assertions — checks for "Catalog Info", "Empire Strikes Back (1980–82)", and "1981" on 2-1B detail screen.
+
+**Docs updated:** `docs/catalog-data-gaps.md` — stale entries corrected; Tier 1 marked complete; Mini-Spy Tier A marked resolved.
+
+### Smoke tests
+
+**Playwright (web):** Full flow passed — Star Wars Year 1981 on 2-1B; Coin Included ✓ Yes on Amanaman (POTF); Alt Mode "Dune buggy" on Dune Buggy (Blue Autobot). Zero console errors.
+
+**Maestro (Android):** Full smoke-test.yaml passed including updated Star Wars Catalog Info assertions.
+
+**Lint:** All packages clean.
+
+### Key decisions
+
+- The `patch-star-wars-line.ts` script already existed from COL-100. Added it to package.json as `patch:star-wars-line` so it's runnable by convention.
+- `catalog-data-gaps.md` was significantly stale (described entity columns as missing that already existed). Updated to reflect current reality.
+- `coinIncluded` for non-POTF figures left as `null` (not `false`) — the field is only meaningful for POTF; null signals "not applicable" rather than "no coin".
+- Deferred: `cardbackStyle`, `kennerItemNumber`, variant data from RebelScum.com — evaluate page structure before choosing scraper vs. Claude Haiku extraction.
+
+### Jira
+
+- COL-104 → Done
