@@ -3900,3 +3900,35 @@ Follows the same pattern as `patch-transformers-subgroup.ts`. For each record wi
 ### Jira
 
 - COL-104 → Done
+
+---
+
+## Session — 2026-04-29 (COL-105 partial)
+
+### Goal
+
+COL-105: Populate `catalogImageUrl` for the 9 Star Wars twelve-inch patch figures.
+
+### What was done
+
+**Enrichment approach — Wookieepedia MediaWiki API:**
+- Wrote `scripts/enrich-star-wars-12inch-images.ts` to look up Wookieepedia character article thumbnails via `action=query&prop=pageimages`.
+- Used Claude Haiku vision (`claude-haiku-4-5-20251001`) to evaluate candidate images and confirm correct character.
+- Found URLs for all 9 figures via main character articles (R2-D2, Chewbacca, Luke Skywalker, etc.).
+
+**Problem discovered:**
+- Wookieepedia CDN thumbnail URLs (`/revision/latest/scale-to-width-down/NNN?cb=...`) 404 when loaded as cross-origin browser subresources from non-wikia domains.
+- Stripping the suffix to get base URLs (e.g. `https://static.wikia.nocookie.net/starwars/images/.../R2-D2-TROSOCE.png`) does work in-browser.
+- However, the images themselves are character art/renders (comic art, promotional renders) — **not product photos of the actual toys**. Not appropriate for a toy catalog.
+
+**Decision:** Deferred COL-105. The 9 twelve-inch patch figures remain with `catalogImageUrl: null`. Need a source with actual toy photography — RebelScum.com figure guide, eBay listings, or vintage Kenner catalog scans. Documented in `docs/catalog-data-gaps.md`.
+
+**Side fix committed:** Added `referrerPolicy="no-referrer"` to all catalog `<img>` tags (3 card components + 3 detail pages). Required for Wookieepedia base CDN URLs to load cross-origin without Referer-based blocking. Also future-proofs any future external image sources with similar restrictions.
+
+**Scripts left in place** (committed, for future use):
+- `scripts/enrich-star-wars-12inch-images.ts` — Wookieepedia API lookup
+- `scripts/patch-star-wars-12inch-images.ts` — patches TWELVE_INCH category only, uses clean base CDN URLs
+
+### Jira
+
+- COL-105 — in progress, deferred (images found are character art, not toy photos)
