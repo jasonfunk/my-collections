@@ -23,7 +23,7 @@ Reference document for the catalog enrichment effort. Updated as gaps are filled
 | `cardbackStyle` | 0/199 | 199 | Not on transformerland.com; requires RebelScum.com or catalog scans — **evaluate page structure before scraping** |
 | `features` | 0/199 | ~29 | Vehicle/playset feature descriptions; not attempted |
 | `accessories` | 152/199 | 47 | Extractors fixed (COL-102). 47 empties are all legitimate zeros: BASIC_FIGURE (12), VEHICLE (9), MINI_RIG (8), COLLECTOR_CASE (7), DIE_CAST (5), ROLEPLAY (3), CREATURE (2), TWELVE_INCH (1). Zero empty regular FIGURE items. |
-| `catalogImageUrl` | 190/199 | 9 | The 9 twelve-inch patch figures (no transformerland.com entry) |
+| `catalogImageUrl` | 190/199 | 9 | The 9 twelve-inch patch figures. **COL-105 deferred** — Wookieepedia API returns character art/renders, not product photos. Need a source with actual toy photography (e.g., RebelScum.com, eBay, vintage catalog scans). |
 | `externalId` | 190/199 | 9 | Same 9 patch figures |
 | `isVariant` | 1/199 | many | Known variants not captured: vinyl cape Jawa, double-telescoping sabers, etc. — next session: evaluate RebelScum.com |
 

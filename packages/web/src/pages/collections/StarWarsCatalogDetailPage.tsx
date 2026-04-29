@@ -136,6 +136,7 @@ export function StarWarsCatalogDetailPage() {
                   className="w-full object-cover object-top"
                   style={{ maxHeight: 320 }}
                   loading="lazy"
+                  referrerPolicy="no-referrer"
                 />
               </div>
             )}

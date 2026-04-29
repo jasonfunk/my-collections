@@ -20,7 +20,9 @@
     "patch:transformers-subgroup": "ts-node --project tsconfig.scripts.json scripts/patch-transformers-subgroup.ts",
     "patch:transformers-mini-spy-altmode": "ts-node --project tsconfig.scripts.json scripts/patch-transformers-mini-spy-altmode.ts",
     "seed:transformers": "ts-node --project packages/api/tsconfig.json packages/api/src/database/seeds/run-transformers-seed.ts",
-    "patch:star-wars-line": "ts-node --project tsconfig.scripts.json scripts/patch-star-wars-line.ts"
+    "patch:star-wars-line": "ts-node --project tsconfig.scripts.json scripts/patch-star-wars-line.ts",
+    "enrich:star-wars-12inch-images": "ts-node --project tsconfig.scripts.json scripts/enrich-star-wars-12inch-images.ts",
+    "patch:star-wars-12inch-images": "ts-node --project tsconfig.scripts.json scripts/patch-star-wars-12inch-images.ts"
   },
   "devDependencies": {
     "@nestjs/platform-express": "^11.1.18",
