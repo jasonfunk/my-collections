@@ -64,3 +64,38 @@ appId: com.mycollections.app
 - extendedWaitUntil:
     visible: "Sign Out"
     timeout: 10000
+
+# ── He-Man item detail (Catalog Info section) ─────────────────────────────────
+
+- tapOn:
+    text: "He-Man"
+    index: 0
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "19 items"
+    timeout: 20000
+
+- scrollUntilVisible:
+    element:
+      text: "Man-E-Faces"
+    direction: DOWN
+    timeout: 10000
+- tapOn: "Man-E-Faces"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Catalog Info"
+    timeout: 10000
+
+- assertVisible: "Catalog Info"
+- assertVisible: "Heroic Warrior"
+- assertVisible: "The Masks of Power"
+- assertVisible: "Condition"
+- assertVisible: "Details"
+
+- pressKey: Back
+- waitForAnimationToEnd
+
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 10000

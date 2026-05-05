@@ -94,6 +94,21 @@ const SW_FIGURE_SIZE_LABELS: Record<string, string> = {
   MINI: 'Mini',
 };
 
+const MASTERS_LINE_LABELS: Record<string, string> = {
+  ORIGINAL: 'Original (1981–88)',
+  POP: 'Princess of Power',
+  GOLDEN_BOOKS: 'Golden Books',
+  MINI: 'Mini Figures',
+};
+
+const MASTERS_CHARACTER_LABELS: Record<string, string> = {
+  HEROIC: 'Heroic Warrior',
+  EVIL: 'Evil Warrior',
+  HEROIC_ALLY: 'Heroic Ally',
+  EVIL_ALLY: 'Evil Ally',
+  NEUTRAL: 'Neutral',
+};
+
 function formatMoney(value: number): string {
   return `$${value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -270,6 +285,36 @@ export default function ItemDetailScreen() {
               )}
               {item.catalog.coinIncluded === true && (
                 <BoolRow label="Coin Included" value={true} />
+              )}
+              {item.catalog.isVariant === true && item.catalog.variantDescription != null && (
+                <DetailRow label="Variant" value={item.catalog.variantDescription} />
+              )}
+            </View>
+          </>
+        )}
+
+        {/* ── Catalog Info (He-Man / Masters) ── */}
+        {collectionType === CollectionType.HE_MAN && item.catalog && (
+          <>
+            <SectionHeader title="Catalog Info" />
+            <View style={styles.card}>
+              {item.catalog.releaseYear != null && (
+                <DetailRow label="Year" value={String(item.catalog.releaseYear)} />
+              )}
+              {item.catalog.line != null && (
+                <DetailRow label="Line" value={MASTERS_LINE_LABELS[item.catalog.line] ?? item.catalog.line} />
+              )}
+              {item.catalog.characterType != null && (
+                <DetailRow label="Character Type" value={MASTERS_CHARACTER_LABELS[item.catalog.characterType] ?? item.catalog.characterType} />
+              )}
+              {item.catalog.miniComic != null && (
+                <DetailRow label="Mini-Comic" value={item.catalog.miniComic} />
+              )}
+              {item.catalog.hasArmorOrFeature === true && (
+                <DetailRow
+                  label="Action Feature"
+                  value={item.catalog.featureDescription ?? 'Yes'}
+                />
               )}
               {item.catalog.isVariant === true && item.catalog.variantDescription != null && (
                 <DetailRow label="Variant" value={item.catalog.variantDescription} />

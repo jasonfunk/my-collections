@@ -3932,3 +3932,57 @@ COL-105: Populate `catalogImageUrl` for the 9 Star Wars twelve-inch patch figure
 ### Jira
 
 - COL-105 — in progress, deferred (images found are character art, not toy photos)
+
+---
+
+## Session — 2026-05-05
+
+### He-Man Catalog Info section — mobile parity fix
+
+**Goal:** Close the parity gap between web and mobile item detail screens. The web's `MastersCatalogDetailPage` showed Release Year, Line, Character Type, Mini-Comic, and Action Feature for He-Man items. The mobile detail screen had Catalog Info sections for Transformers and Star Wars but nothing for He-Man.
+
+### Root cause
+
+The gap was introduced during COL-104 (Star Wars Catalog Info added to mobile) — He-Man was not addressed in the same session.
+
+### What was done
+
+**`packages/mobile/src/services/collectionsService.ts`**
+Added four He-Man fields to `DetailItem.catalog` type (they already flowed through from the API — only the type declaration was missing):
+- `characterType?: string | null`
+- `miniComic?: string | null`
+- `hasArmorOrFeature?: boolean | null`
+- `featureDescription?: string | null`
+
+**`packages/mobile/app/(app)/collections/[collection]/[id].tsx`**
+Added two label constant maps after `SW_FIGURE_SIZE_LABELS`:
+- `MASTERS_LINE_LABELS` — keys are the enum string values (`ORIGINAL`, `POP`, `GOLDEN_BOOKS`, `MINI`); matches web's `collectionConfig.ts`
+- `MASTERS_CHARACTER_LABELS` — keys are the enum string values (`HEROIC`, `EVIL`, `HEROIC_ALLY`, `EVIL_ALLY`, `NEUTRAL`); note `HEROIC_WARRIOR = 'HEROIC'` and `PRINCESS_OF_POWER = 'POP'` in the shared enum
+
+Added He-Man Catalog Info block (after the Star Wars block, before Condition): shows Year, Line, Character Type, Mini-Comic, Action Feature (with `featureDescription` or "Yes" fallback), and Variant — all conditional on non-null values.
+
+**`packages/mobile/.maestro/collections/item-detail.yaml`**
+Added a third Catalog Info test section (He-Man, after Transformers). Navigates to He-Man collection (19 total items), scrolls to Man-E-Faces (characterType=HEROIC, miniComic="The Masks of Power", releaseYear=1983), and asserts "Catalog Info", "Heroic Warrior", and "The Masks of Power" are visible.
+
+**`docs/catalog-data-gaps.md`**
+Added mobile Catalog Info display entry to He-Man "Complete fields" list. Updated "Last evaluated" date.
+
+### Commands run
+
+```bash
+npm run lint          # all packages clean
+# Maestro (full smoke test — emulator + servers already running)
+JAVA_HOME=/Users/jfunk/.gradle/jdks/eclipse_adoptium-17-aarch64-os_x.2/jdk-17.0.18+8/Contents/Home \
+~/.maestro/bin/maestro test packages/mobile/.maestro/smoke-test.yaml
+# All flows passed including new He-Man section
+```
+
+### Key decisions
+
+- Used `scrollUntilVisible` before tapping Man-E-Faces — required because the item is below the fold in a 19-item list (per established Maestro pattern for this repo).
+- Item count assertion uses "19 items" (total user items: 17 owned + 2 wishlist), not "17 items" — the list screen shows all items unfiltered.
+- `MastersCharacterType` enum uses short string values (`HEROIC`/`EVIL`) not the member name — label keys must match the stored DB string values, not the TypeScript enum member names.
+
+### Outcome
+
+Mobile detail pages now show Catalog Info for all three collections. Smoke test passes end-to-end.

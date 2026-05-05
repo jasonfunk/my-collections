@@ -2,7 +2,7 @@
 
 Reference document for the catalog enrichment effort. Updated as gaps are filled.
 
-**Last evaluated:** 2026-04-27 (COL-103/COL-104)  
+**Last evaluated:** 2026-05-05 (mobile He-Man Catalog Info parity)  
 **Total records:** Star Wars 199 / G1 Transformers 443 / He-Man 127
 
 ---
@@ -100,6 +100,7 @@ Need manual lookup or are genuinely ambiguous.
 - `miniComic` — 65/127 ✓ (COL-101; patch script; remaining 22 are European exclusives, mail-away, very late/movie figures — legitimately null)
 - `hasArmorOrFeature` — 32 figures true ✓ (COL-101)
 - `featureDescription` — 32/32 populated ✓ (COL-101)
+- **Mobile Catalog Info display** — Year, Line, Character Type, Mini-Comic, Action Feature, Variant ✓ (2026-05-05; matches web)
 
 ### Gaps
 

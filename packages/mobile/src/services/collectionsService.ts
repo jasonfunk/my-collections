@@ -67,6 +67,11 @@ export interface DetailItem {
     japaneseRelease?: boolean;
     isGiftSet?: boolean;
     isMailaway?: boolean;
+    // He-Man / Masters
+    characterType?: string | null;
+    miniComic?: string | null;
+    hasArmorOrFeature?: boolean | null;
+    featureDescription?: string | null;
   };
   isOwned: boolean;
   wishlistPriority?: string | null;
