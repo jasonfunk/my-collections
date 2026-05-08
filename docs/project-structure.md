@@ -519,8 +519,16 @@ packages/mobile/
 │       │       ├── add.tsx              # Add item — two-step: catalog search → personal record form
 │       │       └── edit/
 │       │           └── [id].tsx         # Edit item — pre-populated form + delete
-│       ├── wishlist.tsx        # Wishlist tab
-│       └── search.tsx          # Search tab
+│       ├── wishlist/           # Wishlist tab — own Stack so back button returns here
+│       │   ├── _layout.tsx              # Stack navigator (dark header)
+│       │   ├── index.tsx                # Wishlist screen — grouped by collection, priority badges, pull-to-refresh
+│       │   └── [collection]/
+│       │       └── [id].tsx             # Re-exports ItemDetailScreen
+│       └── search/             # Search tab — own Stack so back button returns here
+│           ├── _layout.tsx              # Stack navigator (dark header)
+│           ├── index.tsx                # Search screen — debounced cross-collection search
+│           └── [collection]/
+│               └── [id].tsx             # Re-exports ItemDetailScreen
 ├── src/
 │   ├── api/
 │   │   └── client.ts           # Typed fetch wrapper — 401-retry, token injection, multipartPost, exports API_BASE
@@ -537,6 +545,8 @@ packages/mobile/
 │   │   └── collections.ts      # COLLECTION_CONFIG + SLUG_TO_COLLECTION reverse map
 │   ├── hooks/
 │   │   └── useAuth.ts          # useAuth() hook over AuthContext
+│   ├── screens/
+│   │   └── ItemDetailScreen.tsx  # Shared item detail component — used by collections, wishlist, and search stacks
 │   └── services/
 │       └── collectionsService.ts  # fetchItems, fetchItemDetail, searchCatalog, createItem, updateItem, deleteItem
 ├── .maestro/                   # Maestro UI smoke tests
