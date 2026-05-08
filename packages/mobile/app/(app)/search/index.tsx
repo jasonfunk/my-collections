@@ -11,10 +11,10 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { CollectionType } from '@my-collections/shared';
-import { COLLECTION_CONFIG } from '../../src/config/collections';
-import { BrowseItem, fetchItems } from '../../src/services/collectionsService';
+import { COLLECTION_CONFIG } from '../../../src/config/collections';
+import { BrowseItem, fetchItems } from '../../../src/services/collectionsService';
 
 interface SearchSection {
   collectionType: CollectionType;
@@ -27,7 +27,7 @@ function ResultRow({ item, slug }: { item: BrowseItem; slug: string }) {
     <TouchableOpacity
       style={styles.row}
       activeOpacity={0.75}
-      onPress={() => router.push(`/(app)/collections/${slug}/${item.id}`)}
+      onPress={() => router.push(`/(app)/search/${slug}/${item.id}`)}
     >
       <View style={styles.thumb}>
         {item.catalog?.catalogImageUrl ? (
@@ -98,6 +98,7 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      <Stack.Screen options={{ headerShown: false }} />
       {/* Search input */}
       <View style={styles.inputRow}>
         <View style={styles.inputWrap}>

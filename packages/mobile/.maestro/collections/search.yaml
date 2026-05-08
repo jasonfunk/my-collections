@@ -33,6 +33,9 @@ appId: com.mycollections.app
 - waitForAnimationToEnd
 
 - tapOn: "Dashboard"
-- extendedWaitUntil:
-    visible: "Sign Out"
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Sign Out"
+    direction: UP
     timeout: 10000
