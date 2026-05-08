@@ -4072,3 +4072,46 @@ npm run lint --workspace=packages/mobile # clean
 
 ### Outcome
 Both mobile tabs fully implemented and tested. Wishlist shows items grouped by collection with priority badges; Search shows debounced cross-collection search of user's items. API `GET /items?search=` endpoint added. Both Maestro flows green. COL-107 + COL-108 → Done.
+
+---
+
+## Session 2026-05-07 — Back navigation fix for Wishlist and Search tabs
+
+### Problem
+Tapping an item from the Wishlist or Search tab and then pressing back was broken in two ways:
+1. First tap: no back button appeared on the item detail screen
+2. Second tap: back button appeared but returned to the *first* detail screen, not to Wishlist/Search
+
+Root cause: both tabs were flat screens with no Stack navigator of their own. `router.push` from either tab hijacked the Collections tab's Stack, so back navigated within that stack instead of returning to the originating tab.
+
+### Solution: per-tab Stack layout
+
+Converted `wishlist.tsx` and `search.tsx` flat files into proper Stack-based tab directories matching the Collections tab pattern.
+
+**Files created/modified:**
+- `packages/mobile/app/(app)/wishlist/_layout.tsx` — new Stack navigator (dark header style)
+- `packages/mobile/app/(app)/wishlist/index.tsx` — moved from `wishlist.tsx`; navigation updated to `/(app)/wishlist/${slug}/${item.id}`; added `<Stack.Screen options={{ headerShown: false }} />` to suppress default "index" header
+- `packages/mobile/app/(app)/wishlist/[collection]/[id].tsx` — re-exports from shared screen
+- `packages/mobile/app/(app)/search/_layout.tsx` — new Stack navigator
+- `packages/mobile/app/(app)/search/index.tsx` — moved from `search.tsx`; navigation updated; added `Stack.Screen headerShown: false`
+- `packages/mobile/app/(app)/search/[collection]/[id].tsx` — re-exports from shared screen
+- `packages/mobile/src/screens/ItemDetailScreen.tsx` — full item detail component extracted here (from `collections/[collection]/[id].tsx`) with relative imports pointing to `../services/`, `../config/`, `../api/`, `../auth/`
+- `packages/mobile/app/(app)/collections/[collection]/[id].tsx` — replaced with one-line re-export of `ItemDetailScreen`
+- Deleted: `packages/mobile/app/(app)/wishlist.tsx`, `packages/mobile/app/(app)/search.tsx`
+
+**Why bracket-path re-exports don't work:** TypeScript cannot resolve module paths containing literal `[brackets]`, so `export { default } from '../../../collections/[collection]/[id]'` fails at compile time. Extracting the component to `src/screens/` sidesteps the issue entirely and improves separation of concerns.
+
+**"index" header bug:** The new Stack showed "index" as the header title on the Wishlist and Search index screens (default filename-based title). Fixed by adding `<Stack.Screen options={{ headerShown: false }} />` inside each index component — they have their own custom headers (the "Wishlist" label and search input).
+
+**Maestro test fix:** After the back-button fix, pressing Back from item detail returns to the wishlist/search index screen. Then tapping Dashboard switches tabs — but the dashboard may be scrolled down, causing the final `assertVisible: "Sign Out"` to fail. Fixed both yaml files to use `scrollUntilVisible: direction: UP` instead.
+
+### Commands run
+```bash
+npm run lint                  # all packages clean
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/wishlist.yaml  # PASSED
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/search.yaml    # PASSED
+git commit  # fix(mobile): give wishlist and search tabs their own Stack for correct back navigation
+```
+
+### Outcome
+Back button works correctly from both Wishlist and Search tabs. Item detail shows a back arrow on first tap; pressing it returns to the originating tab's index screen. COL-107 and COL-108 were already Done; no new Jira tickets created for this bug fix (discovered as part of the same feature work).
