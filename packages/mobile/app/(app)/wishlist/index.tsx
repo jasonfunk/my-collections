@@ -10,10 +10,10 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { CollectionType } from '@my-collections/shared';
-import { COLLECTION_CONFIG } from '../../src/config/collections';
-import { fetchWishlist, WishlistItem } from '../../src/services/collectionsService';
+import { COLLECTION_CONFIG } from '../../../src/config/collections';
+import { fetchWishlist, WishlistItem } from '../../../src/services/collectionsService';
 
 const PRIORITY_COLORS: Record<string, string> = {
   HIGH: '#f59e0b',
@@ -42,7 +42,7 @@ function ItemRow({ item, slug }: { item: WishlistItem; slug: string }) {
     <TouchableOpacity
       style={styles.row}
       activeOpacity={0.75}
-      onPress={() => router.push(`/(app)/collections/${slug}/${item.id}`)}
+      onPress={() => router.push(`/(app)/wishlist/${slug}/${item.id}`)}
     >
       <View style={styles.thumb}>
         {item.catalog?.catalogImageUrl ? (
@@ -104,6 +104,7 @@ export default function WishlistScreen() {
   if (loading) {
     return (
       <View style={styles.centered}>
+        <Stack.Screen options={{ headerShown: false }} />
         <ActivityIndicator size="large" color="#6366f1" />
       </View>
     );
@@ -111,6 +112,7 @@ export default function WishlistScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.header}>
         <Text style={styles.title}>Wishlist</Text>
         {totalItems > 0 && <Text style={styles.count}>{totalItems}</Text>}
