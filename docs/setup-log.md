@@ -3986,3 +3986,42 @@ JAVA_HOME=/Users/jfunk/.gradle/jdks/eclipse_adoptium-17-aarch64-os_x.2/jdk-17.0.
 ### Outcome
 
 Mobile detail pages now show Catalog Info for all three collections. Smoke test passes end-to-end.
+
+---
+
+## Session — 2026-05-08 (COL-112: Web Dashboard Recently Added)
+
+### Goal
+Add a "Recently Added" section to the web dashboard, matching the mobile dashboard's existing feature.
+
+### What was done
+
+**No new API endpoint needed** — `GET /collections/recent?limit=N` already existed and was used by mobile.
+
+**Shared type changes** (`packages/shared/src/types/stats.ts`):
+- Added `catalogId: string` to `RecentCollectionItem` (needed for correct detail-page navigation — the catalog detail pages use catalog IDs, not user item IDs)
+- Added `imageUrl?: string` to `RecentCollectionItem`
+
+**API service changes** (`packages/api/src/modules/collections/services/collections-stats.service.ts`):
+- Extended the three `getRecentItems()` queries to also select `catalog.id`, `catalog.catalogImageUrl`, and `item.photoUrls`
+- Mapped `imageUrl` as `catalog.catalogImageUrl ?? photoUrls[0]` (catalog image takes priority; user photo is fallback)
+- Mapped `catalogId` from `item.catalog.id`
+
+**Web dashboard changes** (`packages/web/src/pages/DashboardPage.tsx`):
+- Added `recentQuery` (second parallel `useQuery` for `/collections/recent?limit=10`)
+- Added `RECENT_COLLECTION_META` lookup mapping `CollectionType` → `{ label, route, color }`
+- Added `formatRelativeDate()` using `Intl.RelativeTimeFormat` (no extra library needed)
+- Added `RecentItemRow` component: catalog thumbnail (40×40), item name, collection label (collection-colored), condition badge, relative date — all clickable
+- Navigation uses `catalogId` to land on the correct catalog detail page
+- Skeleton loading state (5 rows), graceful error, empty-state message
+
+**Key debugging catch**: first navigation attempt used `item.id` (user item ID) which caused a 404 on catalog detail pages. Fixed by adding `catalogId` to the type + service and switching the navigate target. Second catch: thumbnails were empty because `photoUrls` is always empty for this user — switched to `catalog.catalogImageUrl` as primary source.
+
+### Commands run
+```bash
+npm run build --workspace=packages/shared   # after each shared type change
+npm run lint                                # clean
+```
+
+### Outcome
+Web dashboard now shows a "Recently Added" section below Collection Totals with catalog thumbnails, condition badges, relative dates, and correct navigation. Smoke test passes end-to-end. COL-112 → Done.

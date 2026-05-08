@@ -111,7 +111,7 @@ export class CollectionsStatsService {
       this.swRepo
         .createQueryBuilder('item')
         .innerJoin('item.catalog', 'catalog')
-        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'item.photoUrls', 'catalog.id', 'catalog.name', 'catalog.catalogImageUrl'])
         .where('item.userId = :userId', { userId })
         .orderBy('item.createdAt', 'DESC')
         .take(limit)
@@ -119,7 +119,7 @@ export class CollectionsStatsService {
       this.tfRepo
         .createQueryBuilder('item')
         .innerJoin('item.catalog', 'catalog')
-        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'item.photoUrls', 'catalog.id', 'catalog.name', 'catalog.catalogImageUrl'])
         .where('item.userId = :userId', { userId })
         .orderBy('item.createdAt', 'DESC')
         .take(limit)
@@ -127,7 +127,7 @@ export class CollectionsStatsService {
       this.hmRepo
         .createQueryBuilder('item')
         .innerJoin('item.catalog', 'catalog')
-        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'catalog.name'])
+        .select(['item.id', 'item.isOwned', 'item.condition', 'item.createdAt', 'item.photoUrls', 'catalog.id', 'catalog.name', 'catalog.catalogImageUrl'])
         .where('item.userId = :userId', { userId })
         .orderBy('item.createdAt', 'DESC')
         .take(limit)
@@ -137,26 +137,32 @@ export class CollectionsStatsService {
     const all: RecentCollectionItem[] = [
       ...swItems.map((item) => ({
         id: item.id,
+        catalogId: item.catalog.id,
         name: item.catalog.name,
         collectionType: CollectionType.STAR_WARS,
         isOwned: item.isOwned,
         condition: item.condition ?? undefined,
+        imageUrl: item.catalog.catalogImageUrl ?? item.photoUrls?.[0] ?? undefined,
         createdAt: item.createdAt.toISOString(),
       })),
       ...tfItems.map((item) => ({
         id: item.id,
+        catalogId: item.catalog.id,
         name: item.catalog.name,
         collectionType: CollectionType.TRANSFORMERS,
         isOwned: item.isOwned,
         condition: item.condition ?? undefined,
+        imageUrl: item.catalog.catalogImageUrl ?? item.photoUrls?.[0] ?? undefined,
         createdAt: item.createdAt.toISOString(),
       })),
       ...hmItems.map((item) => ({
         id: item.id,
+        catalogId: item.catalog.id,
         name: item.catalog.name,
         collectionType: CollectionType.HE_MAN,
         isOwned: item.isOwned,
         condition: item.condition ?? undefined,
+        imageUrl: item.catalog.catalogImageUrl ?? item.photoUrls?.[0] ?? undefined,
         createdAt: item.createdAt.toISOString(),
       })),
     ];

@@ -20,9 +20,11 @@ export interface CollectionStats {
 
 export interface RecentCollectionItem {
   id: string;
+  catalogId: string;
   name: string;
   collectionType: CollectionType;
   isOwned: boolean;
   condition?: string;
+  imageUrl?: string;
   createdAt: string;
 }
