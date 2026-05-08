@@ -36,9 +36,18 @@ export type UpdateItemPayload = Omit<CreateItemPayload, 'catalogId'>;
 export interface BrowseItem {
   id: string;
   catalogId: string;
-  catalog?: { name: string };
+  catalog?: { name: string; catalogImageUrl?: string | null };
   isOwned: boolean;
   condition?: string | null;
+  estimatedValue?: number | null;
+  createdAt: string;
+}
+
+export interface WishlistItem {
+  id: string;
+  catalogId: string;
+  catalog?: { name: string; catalogImageUrl?: string | null };
+  wishlistPriority?: string | null;
   estimatedValue?: number | null;
   createdAt: string;
 }
@@ -106,6 +115,12 @@ const ITEM_PATHS: Record<CollectionType, string> = {
   [CollectionType.HE_MAN]: '/collections/he-man/items',
 };
 
+const WISHLIST_PATHS: Record<CollectionType, string> = {
+  [CollectionType.STAR_WARS]: '/collections/star-wars/wishlist',
+  [CollectionType.TRANSFORMERS]: '/collections/transformers/wishlist',
+  [CollectionType.HE_MAN]: '/collections/he-man/wishlist',
+};
+
 const CATALOG_PATHS: Record<CollectionType, string> = {
   [CollectionType.STAR_WARS]: '/collections/star-wars/catalog',
   [CollectionType.TRANSFORMERS]: '/collections/transformers/catalog',
@@ -116,9 +131,20 @@ export async function fetchItems(
   collectionType: CollectionType,
   page = 1,
   limit = 50,
+  search?: string,
 ): Promise<PaginatedResponse<BrowseItem>> {
-  const path = `${ITEM_PATHS[collectionType]}?page=${page}&limit=${limit}`;
-  return apiClient.get<PaginatedResponse<BrowseItem>>(path);
+  const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+  if (search) params.set('search', search);
+  return apiClient.get<PaginatedResponse<BrowseItem>>(`${ITEM_PATHS[collectionType]}?${params.toString()}`);
+}
+
+export async function fetchWishlist(
+  collectionType: CollectionType,
+  limit = 100,
+): Promise<PaginatedResponse<WishlistItem>> {
+  return apiClient.get<PaginatedResponse<WishlistItem>>(
+    `${WISHLIST_PATHS[collectionType]}?limit=${limit}`,
+  );
 }
 
 export async function fetchItemDetail(

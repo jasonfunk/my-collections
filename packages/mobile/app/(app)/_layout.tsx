@@ -1,5 +1,5 @@
 import { Redirect, Tabs } from 'expo-router';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../src/hooks/useAuth';
 
@@ -54,6 +54,9 @@ export default function AppLayout() {
           tabBarIcon: ({ color, size }) => (
             <TabIcon name="heart-outline" color={color} size={size} />
           ),
+          tabBarButton: (props) => (
+            <TouchableOpacity {...(props as TouchableOpacityProps)} testID="tab-wishlist" activeOpacity={1} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -62,6 +65,9 @@ export default function AppLayout() {
           title: 'Search',
           tabBarIcon: ({ color, size }) => (
             <TabIcon name="search-outline" color={color} size={size} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity {...(props as TouchableOpacityProps)} testID="tab-search" activeOpacity={1} />
           ),
         }}
       />

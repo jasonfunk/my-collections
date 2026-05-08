@@ -4025,3 +4025,50 @@ npm run lint                                # clean
 
 ### Outcome
 Web dashboard now shows a "Recently Added" section below Collection Totals with catalog thumbnails, condition badges, relative dates, and correct navigation. Smoke test passes end-to-end. COL-112 → Done.
+
+---
+
+## Session — 2026-05-07 (COL-107 + COL-108: Mobile Wishlist + Global Search)
+
+### What was done
+
+Implemented both placeholder mobile screens to achieve full feature parity with the web.
+
+**COL-107 — Mobile Wishlist screen** (`packages/mobile/app/(app)/wishlist.tsx`):
+- Added `WishlistItem` interface and `fetchWishlist()` to `collectionsService.ts` — calls the dedicated `/collections/{slug}/wishlist` endpoint (not `fetchItems`) to get `wishlistPriority` per item
+- Rewrote `wishlist.tsx` from scratch: `useFocusEffect` for data refresh on tab focus, `Promise.all` across all three collections, `SectionList` grouped by collection, priority badges (HIGH `#f59e0b` / MEDIUM `#94a3b8` / LOW `#6b7280`), 40×40 thumbnails, pull-to-refresh, empty state
+- Navigation: `router.push(`/(app)/collections/${slug}/${item.id}`)` — uses user item ID (not catalog ID) so `fetchItemDetail` succeeds
+
+**COL-108 — Mobile Global Search screen** (`packages/mobile/app/(app)/search.tsx`):
+- Rewrote `search.tsx`: 300ms debounced TextInput, `Promise.all` across all three collections using `fetchItems(collectionType, 1, 50, query)` (user items search, not catalog search — gives user item IDs for navigation), results grouped by collection in `SectionList`, Android ✕ clear button, `keyboardShouldPersistTaps="handled"`
+- Added `search?: string` param to `fetchItems()` and updated `BrowseItem.catalog` to include `catalogImageUrl`
+- Added `BrowseItemsQueryDto` extending `PaginationQueryDto` with optional `search: string`; updated all three item services (`findAll`) to apply `catalog.name ILIKE :search` when provided; updated all three controllers to use `BrowseItemsQueryDto` on `GET /items`
+
+**Tab bar testIDs** (`packages/mobile/app/(app)/_layout.tsx`):
+- Added `tabBarButton` with `testID="tab-wishlist"` and `testID="tab-search"` to Wishlist and Search tabs — makes Maestro targeting stable regardless of how many "Wishlist" text badges appear in the dashboard's Recently Added section
+- Type cast via `(props as TouchableOpacityProps)` to avoid TS null/undefined mismatch on tab bar prop types
+
+**Maestro tests**:
+- `packages/mobile/.maestro/collections/wishlist.yaml` — taps `id: "tab-wishlist"`, waits for He-Man section header, scrolls to Battle Cat, taps → asserts Catalog Info and Battle Cat visible on detail screen, returns to Dashboard
+- `packages/mobile/.maestro/collections/search.yaml` — taps `id: "tab-search"`, erases existing text, types "Hordak", hides keyboard, waits for result, taps result at `index: 1` (skip TextInput match), asserts Catalog Info + Hordak on detail screen
+- Both flows added to `smoke-test.yaml`
+
+### Key debugging catches
+
+1. **Wishlist navigation used `item.catalogId` instead of `item.id`** — `fetchItemDetail` calls `GET /items/:id` which expects a user item ID; passing a catalog ID returns 404 ("Failed to load item"). Fixed by using `item.id`.
+2. **`searchCatalog` returns catalog IDs, not user item IDs** — original plan used catalog search, but the detail screen needs user item IDs. Switched to `fetchItems` with `search` param so results carry user item IDs directly.
+3. **Tab "Wishlist" text index** — Initially used `index: 1`, but the Recently Added section now shows two "Wishlist" status badges (Barrage + Battle Cat), making the tab the third occurrence. Fixed permanently with `testID` on the tab button.
+4. **`assertVisible: "He-Man"` on detail screen** — He-Man text doesn't appear on Battle Cat's or Hordak's detail pages. Changed to `assertVisible: "Battle Cat"` and `assertVisible: "Hordak"` respectively.
+5. **Search TextInput retains state between runs** — `tapOn` + `inputText` appended to existing "Hordak" → "HordakHordak" → no results. Added `eraseText: 50` after focusing the input.
+6. **`tapOn: "Hordak"` hit the TextInput, not the result row** — TextInput value "Hordak" and result row "Hordak" both accessible; tap hit index 0 (TextInput) and didn't navigate. Fixed with `index: 1`.
+
+### Commands run
+```bash
+npm run lint --workspace=packages/api    # clean
+npm run lint --workspace=packages/mobile # clean
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/wishlist.yaml  # PASSED
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/search.yaml    # PASSED
+```
+
+### Outcome
+Both mobile tabs fully implemented and tested. Wishlist shows items grouped by collection with priority badges; Search shows debounced cross-collection search of user's items. API `GET /items?search=` endpoint added. Both Maestro flows green. COL-107 + COL-108 → Done.

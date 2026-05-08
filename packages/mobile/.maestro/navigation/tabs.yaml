@@ -11,10 +11,9 @@ appId: com.mycollections.app
     visible: "Star Wars"
     timeout: 10000
 
-# "Wishlist" text appears on item rows too — use index: 1 to hit the tab bar
+# Wishlist tab has testID="tab-wishlist" to avoid ambiguity with "Wishlist" status badges on dashboard rows
 - tapOn:
-    text: "Wishlist"
-    index: 1
+    id: "tab-wishlist"
 - waitForAnimationToEnd
 - extendedWaitUntil:
     visible: "Items you're hunting for — coming soon."

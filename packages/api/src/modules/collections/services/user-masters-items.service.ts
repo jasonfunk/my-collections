@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginatedResponse } from '@my-collections/shared';
+import { BrowseItemsQueryDto } from '../../../common/dto/browse-items-query.dto';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { User } from '../../auth/entities/user.entity';
 import { MastersCatalogEntity } from '../entities/masters-catalog.entity';
@@ -21,12 +22,14 @@ export class UserMastersItemsService {
     private readonly catalogRepo: Repository<MastersCatalogEntity>,
   ) {}
 
-  async findAll(userId: string, pagination: PaginationQueryDto): Promise<PaginatedResponse<UserMastersItemEntity>> {
-    const { page = 1, limit = 20 } = pagination;
-    const [data, total] = await this.repo
+  async findAll(userId: string, query: BrowseItemsQueryDto): Promise<PaginatedResponse<UserMastersItemEntity>> {
+    const { page = 1, limit = 20, search } = query;
+    const qb = this.repo
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.catalog', 'catalog')
-      .where('item.userId = :userId', { userId })
+      .where('item.userId = :userId', { userId });
+    if (search) qb.andWhere('catalog.name ILIKE :search', { search: `%${search}%` });
+    const [data, total] = await qb
       .orderBy('catalog.name', 'ASC')
       .skip((page - 1) * limit)
       .take(limit)
