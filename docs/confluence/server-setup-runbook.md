@@ -2,29 +2,107 @@
 confluence_page_id: "6356993"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993"
 title: "My Collections — Server Setup Runbook"
-last_updated: "2026-04-11"
+last_updated: "2026-05-05"
 ---
 
-This runbook has two phases. **Steps 1–3** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 4–7** are done remotely over SSH after the monitor is unplugged.
+This runbook has three phases. **Step 0** is done on your existing development machine before the Mac Mini arrives. **Steps 1–2** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 3–6** are done remotely over SSH after the monitor is unplugged.
 
-## Step 1 — Pre-flight: Source Repo Changes
+## Step 0 — Pre-Arrival Checklist
 
-Make these changes in the local development environment before touching the Mac Mini. Commit to `main` before any production deploy.
+All of these steps are done on your development machine or in web dashboards — no Mac Mini required. Completing them before the hardware arrives means Day 1 is physical setup only.
 
-### 1a. Update OAuth Redirect URIs
+### 0a. Purchase a Static IP from Your ISP
 
-Open `packages/api/src/database/seeds/oauth-clients.seed.ts` and replace the placeholder production URI with the actual Dreamhost frontend domain:
+A static IP is recommended before doing anything else — it is the foundation the rest of the network configuration depends on.
+
+**Why it matters:** The Cloudflare Tunnel makes outbound connections and handles dynamic IP changes gracefully, but a static IP provides:
+
+- A stable WAN address with no reconnection gaps when your home IP rotates
+- Confirmation that your connection is not behind CGNAT (Carrier-Grade NAT). Some residential ISPs assign you a private IP behind a shared NAT pool — the tunnel still works, but you have no real routable public IP. A static IP guarantees you have one.
+- A known IP for logging and allow-listing if you ever need emergency fallback access
+
+**Steps:**
+
+1. Log in to your ISP account portal or call support — ask for a "static IP add-on"
+2. Pricing varies: $5–$20/month is typical for residential; some ISPs bundle it with a business tier
+3. Once provisioned (usually same day), note the assigned IP address
+4. Verify it is active — from any device behind your router: `curl ifconfig.me` — it should return the static IP
+
+> **Note:** You typically do not need to reconfigure your router. The ISP either locks the DHCP lease to your static IP, or instructs you to configure PPPoE/static on the router's WAN interface. Follow their specific provisioning instructions.
+
+### 0b. Create Cloudflare Account and Migrate DNS
+
+**Add the domain to Cloudflare:**
+
+1. Sign up at cloudflare.com — free plan is sufficient
+2. Click **Add a Site** → enter `houseoffunk.net`
+3. Select the **Free plan** → Continue
+4. Cloudflare scans and imports existing Dreamhost DNS records — review them carefully:
+   - Keep all **A records** pointing to Dreamhost's servers (Cloudflare proxies; it does not host your files)
+   - Keep all **MX records** for email — these must survive the migration intact
+   - Remove any records that no longer apply
+5. Add the record for the React SPA (the `api` and `ssh` CNAMEs are created automatically later):
+
+| Name | Type | Value | Proxy |
+|---|---|---|---|
+| `collections` | CNAME | `houseoffunk.net` | Orange cloud ON |
+
+6. Cloudflare displays two nameserver addresses — note them (e.g. `ada.ns.cloudflare.com`, `bart.ns.cloudflare.com`)
+
+**Change nameservers at GoDaddy:**
+
+7. Log in to GoDaddy → **My Products** → find `houseoffunk.net` → click **DNS**
+8. Find the **Nameservers** section → click **Change** → select **Enter my own nameservers (advanced)**
+9. Replace GoDaddy's (or Dreamhost's) nameservers with Cloudflare's two nameservers
+10. Save. GoDaddy may warn that changing nameservers will affect your domain — this is expected. Dreamhost still hosts your files; Cloudflare takes over DNS resolution.
+11. Propagation typically takes 30 minutes to 4 hours. Verify at dnschecker.org — look for `houseoffunk.net` NS records pointing to Cloudflare.
+
+### 0c. Set Up Dreamhost Subdomains
+
+The React SPA and its staging counterpart are deployed as static files to Dreamhost shared hosting.
+
+1. Log in to Dreamhost panel → **Manage Websites** → **Add a Website**
+2. Add `collections.houseoffunk.net` — Dreamhost assigns it to your shared hosting server
+3. Repeat for `stage.houseoffunk.net` — same process
+4. Note the hosting directories created (e.g. `~/collections.houseoffunk.net/` and `~/stage.houseoffunk.net/`) — these are where React builds are deployed
+
+Also add the CNAME record for the staging subdomain in Cloudflare DNS:
+
+| Name | Type | Value | Proxy |
+|---|---|---|---|
+| `stage` | CNAME | `houseoffunk.net` | Orange cloud ON |
+
+Once DNS propagates, both subdomains resolve through Cloudflare to Dreamhost. Cloudflare provides HTTPS automatically — no SSL certificate configuration required in Dreamhost.
+
+### 0d. Configure Cloudflare Access Application for SSH
+
+Create the Access policy now so it is ready when the tunnel is wired up in Step 3.
+
+1. In Cloudflare dashboard → **Zero Trust** (left sidebar) → **Access** → **Applications** → **Add an Application**
+2. Select **Self-hosted**
+3. Configure:
+   - Application name: `Mac Mini SSH`
+   - Session duration: 24 hours
+   - Application domain: `ssh.houseoffunk.net`
+4. Add a policy:
+   - Policy name: `Owner`
+   - Action: Allow
+   - Include rule: **Emails** → `jfunk@houseoffunk.net`
+5. Authentication method: **One-time PIN** — Cloudflare emails you a code; no external identity provider required
+6. Save the application
+
+### 0e. Update Source Code: CORS and OAuth Redirect URIs
+
+Make these changes on the `develop` branch before the Mac Mini arrives. Commit and merge to `main` so the production server pulls correct code on day one.
+
+**Update OAuth redirect URIs** (`packages/api/src/database/seeds/oauth-clients.seed.ts`):
 
 ```plaintext
 Find:    https://mycollections.example.com/auth/callback
-Replace: https://collections.yourdomain.com/auth/callback
+Replace: https://collections.houseoffunk.net/auth/callback
 ```
 
-The OAuth PKCE flow does an exact string match between the `redirect_uri` the client sends and what is registered in the database. A mismatch causes authorization to fail with a cryptic error. Fix this before running seeds on the production database.
-
-### 1b. Restrict CORS to Frontend Origin
-
-Open `packages/api/src/main.ts` and update the CORS setup. The current wide-open configuration allows any website to make authenticated requests from a user's browser.
+**Restrict CORS to frontend origin** (`packages/api/src/main.ts`):
 
 ```typescript
 // Replace:
@@ -37,26 +115,85 @@ app.enableCors({
 });
 ```
 
-Add `ALLOWED_ORIGIN=https://collections.yourdomain.com` to `packages/api/.env.example`.
+Add to `packages/api/.env.example`:
 
-### 1c. Commit and Merge
+```plaintext
+ALLOWED_ORIGIN=https://collections.houseoffunk.net
+```
+
+**Commit and merge:**
 
 ```shell
 git add packages/api/src/database/seeds/oauth-clients.seed.ts
 git add packages/api/src/main.ts
 git add packages/api/.env.example
-git commit -m "fix: restrict CORS and update production OAuth redirect URIs"
+git commit -m "fix: restrict CORS and update production OAuth redirect URIs for houseoffunk.net"
 git push origin develop
 # Open a PR and merge to main
 ```
 
-## Step 2 — Initial Mac Mini Setup (Monitor Attached)
+### 0f. Deploy the React SPA to Dreamhost
 
-Do all of Step 2 while the Mac Mini is connected to a monitor, keyboard, and mouse. This is the only time physical access is needed.
+Once `collections.houseoffunk.net` is active in Dreamhost and DNS has propagated, deploy a build to validate the full static hosting path before the Mac Mini arrives.
+
+```shell
+# From repo root — build the web package
+npm run build --workspace=packages/web
+
+# Deploy via rsync to Dreamhost shared hosting
+rsync -avz packages/web/dist/ username@yourdreamhostserver.dreamhost.com:~/collections.houseoffunk.net/
+```
+
+Navigate to `https://collections.houseoffunk.net` — you should see the React app served over HTTPS. API calls will fail until the Mac Mini is running, but the static hosting path is confirmed end-to-end.
+
+### 0g. Prepare Production Secrets and SSH Keys
+
+**Generate production JWT secrets:**
+
+```shell
+# Run each separately — these must be two different values
+openssl rand -hex 64   # JWT_ACCESS_SECRET
+openssl rand -hex 64   # JWT_REFRESH_SECRET
+```
+
+Save these to a password manager. They go into the production `.env` file during Step 5.
+
+**Generate an Ed25519 SSH key pair for the Mac Mini:**
+
+```shell
+ssh-keygen -t ed25519 -C "mac-mini-server" -f ~/.ssh/mac_mini_ed25519
+```
+
+Save the public key (`~/.ssh/mac_mini_ed25519.pub`) somewhere accessible — it gets copied into `~/.ssh/authorized_keys` on the Mac Mini during Step 1.
+
+**Install cloudflared on your dev machine:**
+
+```shell
+brew install cloudflare/cloudflare/cloudflared
+```
+
+Add the SSH ProxyCommand to `~/.ssh/config` on your dev machine:
+
+```
+Host ssh.houseoffunk.net
+    ProxyCommand cloudflared access ssh --hostname %h
+    User <mac-mini-username>
+    IdentityFile ~/.ssh/mac_mini_ed25519
+```
+
+This is what makes `ssh ssh.houseoffunk.net` work transparently through the Cloudflare Access gate.
+
+---
+
+## Step 1 — Initial Mac Mini Setup (Monitor Attached)
+
+Do all of Step 1 while the Mac Mini is connected to a monitor, keyboard, and mouse. This is the only time physical access is needed.
 
 ### First Boot and macOS Setup
 
-Complete the macOS setup assistant. Create the server user account, connect to Ethernet (preferred over Wi-Fi for a server), and skip non-essential steps. Configure the router to assign a static local IP to the Mac Mini via DHCP reservation using its MAC address.
+Complete the macOS setup assistant. Create the server user account, connect to Ethernet (preferred over Wi-Fi for a server), and skip non-essential steps.
+
+Configure the router to assign a static local IP to the Mac Mini via DHCP reservation using its MAC address — find the MAC address in **System Settings → Network → Ethernet → Details → Hardware**.
 
 ### Energy and Power Settings
 
@@ -76,31 +213,52 @@ FileVault must be OFF for auto-login to work. FileVault encrypts the disk and re
 
 Open **System Settings → General → Software Update → Automatic Updates (i)** and configure:
 
-- Download new updates when available → ON (awareness is fine)
+- Download new updates when available → ON
 - Install macOS updates → **OFF** (automatic OS updates can trigger unexpected reboots)
 - Install application updates from the App Store → **OFF**
 - Install Security Responses and system files → ON (low-risk security patches are fine)
+
+### Hardened SSH Configuration
+
+Before enabling Remote Login, harden the SSH daemon. In Terminal:
+
+```shell
+sudo nano /etc/ssh/sshd_config
+```
+
+Set or confirm these values:
+
+```
+PasswordAuthentication no
+PermitRootLogin no
+AllowUsers <your-username>
+```
+
+Save and close. SSH connections will require key authentication — no password brute-forcing is possible even if port 22 were ever reachable.
 
 ### Remote Access (SSH and Screen Sharing)
 
 Open **System Settings → General → Sharing** and enable:
 
 - Remote Login (SSH) → ON
-- Screen Sharing (VNC) → ON — allows GUI access from another Mac via Finder → Connect to Server → vnc://mini.local
+- Screen Sharing (VNC) → ON — allows GUI access from another Mac via Finder → Connect to Server → `vnc://mini.local`
 
-Set a memorable hostname: **System Settings → General → Sharing → Local Hostname** → change to something short like `mini`. This makes SSH cleaner: `ssh username@mini.local`.
+**Install the SSH public key** generated in Step 0g:
+
+```shell
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+echo "ssh-ed25519 AAAA... mac-mini-server" >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+```
+
+Replace the `echo` content with the actual contents of `~/.ssh/mac_mini_ed25519.pub` from your dev machine.
+
+Set a memorable hostname: **System Settings → General → Sharing → Local Hostname** → change to `mini`. This makes local SSH cleaner: `ssh username@mini.local`.
 
 ### Install Homebrew
 
-Open Terminal and run the Homebrew installer:
-
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-Follow the prompts. At the end the installer prints commands to add Homebrew to PATH — run those commands, then verify:
-
-```shell
 source ~/.zprofile
 brew --version
 ```
@@ -109,14 +267,16 @@ brew --version
 
 Before unplugging the real monitor, plug a dummy HDMI plug into the Mac Mini's HDMI port. These cost $8–15 (search "HDMI dummy plug" or "HDMI headless ghost display emulator") and tell macOS that a display is connected, preventing GPU acceleration from being disabled and other display-dependent weirdness in headless mode.
 
-## Step 3 — Verify SSH and Go Headless
+---
 
-Still with the monitor connected, test SSH from another machine on the local network:
+## Step 2 — Verify SSH and Go Headless
+
+Still with the monitor connected, test SSH and key authentication from another machine on the local network:
 
 ```shell
-ssh username@mini.local
-# or by local IP:
-ssh username@192.168.x.x
+ssh -i ~/.ssh/mac_mini_ed25519 username@mini.local
+hostname
+uptime
 ```
 
 Once SSH is confirmed working, unplug the monitor (the dummy HDMI plug stays in), then the keyboard and mouse. The Mac Mini is now headless. Verify from the other machine:
@@ -129,32 +289,30 @@ uptime      # Should show running time
 
 All remaining steps are done via SSH.
 
-## Step 4 — Set Up Cloudflare Tunnel
+---
 
-The Cloudflare Tunnel routes public traffic to the Mac Mini without opening any ports on the home router. SSL is handled by Cloudflare automatically.
+## Step 3 — Set Up Cloudflare Tunnel
 
-### 4a. Create a Cloudflare Account
+The Cloudflare Tunnel routes all public traffic to the Mac Mini without opening any ports on the home router. SSL is handled by Cloudflare automatically. **The home router has zero open inbound ports at any point in this setup.**
 
-Sign up at cloudflare.com (free). Then add the domain — either transfer DNS management to Cloudflare (recommended, see Infrastructure Overview for the trade-offs) or keep Dreamhost DNS and add a CNAME manually after creating the tunnel.
-
-### 4b. Install and Authenticate cloudflared
+### 3a. Install and Authenticate cloudflared
 
 ```shell
 brew install cloudflare/cloudflare/cloudflared
 cloudflared tunnel login
 ```
 
-The login command prints a URL. Open it in a browser, select the domain, and authorize. This writes a certificate to `~/.cloudflared/cert.pem`.
+The login command prints a URL. Open it in a browser, select `houseoffunk.net`, and authorize. This writes a certificate to `~/.cloudflared/cert.pem`.
 
-### 4c. Create the Tunnel
+### 3b. Create the Tunnel
 
 ```shell
 cloudflared tunnel create my-collections
 ```
 
-Note the tunnel ID printed in the output — it is needed for the config file and DNS setup.
+Note the tunnel ID printed in the output — it is needed for the config file and DNS records.
 
-### 4d. Create the Config File
+### 3c. Create the Config File
 
 ```shell
 nano ~/.cloudflared/config.yml
@@ -165,39 +323,40 @@ tunnel: <tunnel-id>
 credentials-file: /Users/<username>/.cloudflared/<tunnel-id>.json
 
 ingress:
-  # Optional: expose SSH through Cloudflare (add before the 404 catch-all)
-  # - hostname: ssh.yourdomain.com
-  #   service: ssh://localhost:22
-  - hostname: api.yourdomain.com
+  - hostname: ssh.houseoffunk.net
+    service: ssh://localhost:22
+  - hostname: api.houseoffunk.net
     service: http://localhost:3000
+  - hostname: stage-api.houseoffunk.net
+    service: http://localhost:3001
   - service: http_status:404
 ```
 
 The final `http_status:404` catch-all rule is required by cloudflared — it handles any request that does not match a hostname rule. Omitting it causes the tunnel to fail to start.
 
-### 4e. Configure DNS
+The `stage-api` entry routes the staging API subdomain to port 3001, where the staging pm2 process will listen. It can be added now (before the staging setup in Step 5) without any side effects — the tunnel will return 502 for that hostname until the staging API is running.
 
-If using Cloudflare-managed DNS (Option A from the Infrastructure Overview):
+### 3d. Configure DNS
 
 ```shell
-cloudflared tunnel route dns my-collections api.yourdomain.com
-# If exposing SSH:
-cloudflared tunnel route dns my-collections ssh.yourdomain.com
+cloudflared tunnel route dns my-collections api.houseoffunk.net
+cloudflared tunnel route dns my-collections ssh.houseoffunk.net
+cloudflared tunnel route dns my-collections stage-api.houseoffunk.net
 ```
 
-If keeping Dreamhost DNS (Option B): add a CNAME record in the Dreamhost panel manually — Name: `api`, Type: `CNAME`, Value: `<tunnel-id>.cfargotunnel.com`.
+These commands create CNAME records in Cloudflare DNS pointing each subdomain to `<tunnel-id>.cfargotunnel.com`. The records are created with the orange cloud (Cloudflare proxy) ON automatically.
 
-### 4f. Test Manually
+### 3e. Test Manually
 
 ```shell
 # Start the tunnel manually to test (Ctrl+C to stop when done)
 cloudflared tunnel run my-collections
 
 # From a separate terminal or local machine:
-curl -I https://api.yourdomain.com
+curl -I https://api.houseoffunk.net
 ```
 
-### 4g. Install as a System Service
+### 3f. Install as a System Service
 
 ```shell
 sudo cloudflared service install
@@ -207,9 +366,29 @@ sudo launchctl start com.cloudflare.cloudflared
 sudo launchctl list | grep cloudflared
 ```
 
-The `sudo` here installs cloudflared as a LaunchDaemon — a system-level service that starts before any user logs in. This ensures the tunnel is available immediately after a reboot, before the auto-login process completes.
+Installing with `sudo` creates a LaunchDaemon — a system-level service that starts before any user logs in. This ensures the tunnel is available immediately after a reboot, before the auto-login process completes.
 
-## Step 5 — Install GitHub Actions Self-Hosted Runner
+### 3g. Verify SSH via Cloudflare Access
+
+On your dev machine (not the Mac Mini), test the full SSH tunnel:
+
+```shell
+ssh ssh.houseoffunk.net
+```
+
+`cloudflared` intercepts the connection, opens a browser tab, Cloudflare sends a one-time PIN to `jfunk@houseoffunk.net`, you enter the PIN, and the SSH connection completes using the Ed25519 key. Subsequent connections within the 24-hour session window skip the PIN.
+
+If the browser does not open automatically:
+
+```shell
+cloudflared access ssh --hostname ssh.houseoffunk.net
+```
+
+> **Security model summary:** The home router has zero open inbound ports. Port 22 on the Mac Mini is only reachable through the Cloudflare Tunnel after the Access policy is satisfied (email OTP). macOS `sshd` requires key authentication — passwords are disabled. An attacker would need to compromise your email account, your Cloudflare session, AND your private SSH key.
+
+---
+
+## Step 4 — Install GitHub Actions Self-Hosted Runner
 
 The self-hosted runner polls GitHub over outbound HTTPS. No SSH credentials or open ports are required for CI/CD.
 
@@ -230,13 +409,17 @@ Go to **GitHub → Settings → Actions → Runners** — the runner should appe
 
 Deploy jobs in workflow files must use `runs-on: self-hosted` to run on this machine. Test and lint jobs can continue using `runs-on: ubuntu-latest` on GitHub-hosted runners.
 
-## Step 6 — Hand Off to Claude Code
+Once the runner is online, the API deploy workflow (`deploy-api.yml`) triggers automatically on every push to `main` that touches `packages/api/` or `packages/shared/`. See the [CI/CD Runbook](ci-cd-runbook.md) for full pipeline documentation, the web deploy setup, and the GitHub secrets inventory.
+
+---
+
+## Step 5 — Hand Off to Claude Code
 
 The machine is physically configured and network-connected. The application install — Node.js, PostgreSQL, pm2, production .env, migrations, and seeds — is mechanical but detailed. Claude Code drives this well.
 
 ```shell
-# SSH into the Mac Mini
-ssh username@mini.local
+# SSH into the Mac Mini via Cloudflare Access tunnel
+ssh ssh.houseoffunk.net
 
 # Clone the repo
 mkdir -p ~/Sites && cd ~/Sites
@@ -251,19 +434,95 @@ claude
 
 Open the session with: _"Read devops/CLAUDE.md and walk me through setting up this server from scratch. Check the Server Inventory checklist and start from the first uncompleted item."_ Claude Code will guide through Node.js, PostgreSQL, pm2, the .env file, migrations, and OAuth client seeds — explaining each step and logging to devops/setup-log.md.
 
-## Step 7 — Post-Deploy Smoke Test
+### Staging Environment Setup
+
+After production is verified, set up the staging environment on the same machine. Run the following from the Mac Mini (via SSH or in the Claude Code session):
+
+**Create the staging database:**
+
+```shell
+psql -U postgres -c "CREATE DATABASE my_collections_stage;"
+# Grant the app user access:
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE my_collections_stage TO my_collections;"
+```
+
+**Clone the repo to the staging directory on the develop branch:**
+
+```shell
+cd ~/Sites
+git clone https://github.com/<you>/my-collections.git my-collections-stage
+cd my-collections-stage
+git checkout develop
+```
+
+**Create the staging `.env`:**
+
+```shell
+nano packages/api/.env
+```
+
+```
+PORT=3001
+DATABASE_URL=postgresql://my_collections:<password>@localhost:5432/my_collections_stage
+JWT_ACCESS_SECRET=<openssl rand -hex 64 — unique value, different from production>
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=<openssl rand -hex 64 — different from JWT_ACCESS_SECRET>
+JWT_REFRESH_EXPIRES_IN=30d
+REGISTRATION_ENABLED=true
+ALLOWED_ORIGIN=https://stage.houseoffunk.net
+```
+
+**Install, build, and run migrations:**
+
+```shell
+cd ~/Sites/my-collections-stage
+npm ci
+npm run build -- --filter=@my-collections/api
+cd packages/api
+npm run migration:run
+```
+
+**Seed OAuth clients (with staging redirect URIs):**
+
+```shell
+# From ~/Sites/my-collections-stage:
+npm run seed:oauth-clients
+```
+
+The seed script uses `ALLOWED_ORIGIN` from `.env` to set redirect URIs — staging redirects will point to `https://stage.houseoffunk.net/auth/callback`.
+
+**Start the staging API as a pm2 process:**
+
+```shell
+cd ~/Sites/my-collections-stage/packages/api
+pm2 start dist/main.js --name my-collections-api-stage
+pm2 save
+```
+
+**Verify:**
+
+```shell
+curl -s https://stage-api.houseoffunk.net/health/ready | jq .
+# Expected: { "status": "ready", "db": "ok" }
+```
+
+The staging environment is now live. Pushes to the `develop` branch automatically deploy to it via the `deploy-api-stage.yml` and `deploy-web-stage.yml` workflows.
+
+---
+
+## Step 6 — Post-Deploy Smoke Test
 
 ### Test the API Directly
 
 ```shell
 # Health readiness probe — should return 200 with { "status": "ready", "db": "ok" }
-curl -s https://api.yourdomain.com/health/ready | jq .
+curl -s https://api.houseoffunk.net/health/ready | jq .
 
 # Swagger docs — should return 200
-curl -s -o /dev/null -w "%{http_code}" https://api.yourdomain.com/api/docs
+curl -s -o /dev/null -w "%{http_code}" https://api.houseoffunk.net/api/docs
 
 # Auth endpoint — should return 400 validation error, not 502 or 404
-curl -s -X POST https://api.yourdomain.com/auth/register \
+curl -s -X POST https://api.houseoffunk.net/auth/register \
   -H "Content-Type: application/json" \
   -d '{}' | jq .
 ```
@@ -272,10 +531,9 @@ curl -s -X POST https://api.yourdomain.com/auth/register \
 
 ### Test the OAuth Flow from the Web Frontend
 
-- Deploy the React build to Dreamhost shared hosting
-- Navigate to https://yourdomain.com — should redirect to /login
+- Navigate to `https://collections.houseoffunk.net` — should redirect to `/login`
 - Log in with the account created during setup — should land on dashboard with no console errors
-- Sign out — should return to /login
+- Sign out — should return to `/login`
 
 ### Reboot Test
 
@@ -284,13 +542,13 @@ The definitive headless validation — confirm everything comes back after a col
 ```shell
 sudo reboot
 
-# Wait ~60 seconds, then SSH back in:
-ssh username@mini.local
+# Wait ~60 seconds, then SSH back in (Cloudflare Access OTP prompt again):
+ssh ssh.houseoffunk.net
 
-pm2 status                                              # my-collections-api should be online
-sudo launchctl list | grep cloudflared                  # tunnel service running
-sudo launchctl list | grep actions                      # runner service running
-curl -s https://api.yourdomain.com/health/ready | jq .  # { "status": "ready", "db": "ok" }
+pm2 status                                                # my-collections-api should be online
+sudo launchctl list | grep cloudflared                    # tunnel service running
+sudo launchctl list | grep actions                        # runner service running
+curl -s https://api.houseoffunk.net/health/ready | jq .   # { "status": "ready", "db": "ok" }
 ```
 
 If all four checks pass after the reboot, the Mac Mini is fully headless-ready and production-ready. Append the session to `devops/setup-log.md` before closing.

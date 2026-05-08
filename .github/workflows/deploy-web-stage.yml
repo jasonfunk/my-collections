@@ -1,0 +1,48 @@
+name: Deploy Web (Staging)
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'packages/web/**'
+      - 'packages/shared/**'
+
+concurrency:
+  group: deploy-web-stage
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to Dreamhost (staging)
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build -- --filter=@my-collections/web
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+
+      - name: Deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DREAMHOST_SSH_KEY }}
+          DREAMHOST_HOST: ${{ vars.DREAMHOST_HOST }}
+          DREAMHOST_USER: ${{ vars.DREAMHOST_USER }}
+          DREAMHOST_DIR: ${{ vars.DREAMHOST_DIR }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DREAMHOST_HOST" >> ~/.ssh/known_hosts
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            packages/web/dist/ \
+            "$DREAMHOST_USER@$DREAMHOST_HOST:$DREAMHOST_DIR"

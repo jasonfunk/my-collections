@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-04-11"
+last_updated: "2026-05-05"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -25,18 +25,28 @@ The M4 Mac Mini draws approximately 6–10 W at idle and 30–40 W under load. R
 Internet
     │
     ▼
-Cloudflare Edge        api.yourdomain.com DNS → Cloudflare IPs (home IP never exposed)
+Cloudflare Edge
+    │  api.houseoffunk.net / stage-api.houseoffunk.net DNS → Cloudflare IPs (home IP never exposed)
     │  SSL terminated at Cloudflare (free, automatic, no certbot)
     │
     │  outbound persistent tunnel — zero open inbound ports on home router
     ▼
 cloudflared daemon     Mac Mini  (launchd system daemon, starts before login)
     │
-    ▼
-localhost:3000         NestJS API  (pm2 process: my-collections-api)
+    ├──▶ localhost:3000    NestJS API  (pm2: my-collections-api)       ← api.houseoffunk.net
+    │         │
+    │         └──▶ my_collections db
     │
-    ▼
-localhost:5432         PostgreSQL 16  (Homebrew service: postgresql@16)
+    └──▶ localhost:3001    NestJS API  (pm2: my-collections-api-stage) ← stage-api.houseoffunk.net
+              │
+              └──▶ my_collections_stage db
+
+Both pm2 processes share: localhost:5432  PostgreSQL 16  (Homebrew: postgresql@16)
+
+
+Dreamhost shared hosting
+    ├── ~/collections.houseoffunk.net/   React SPA (production)  ← collections.houseoffunk.net
+    └── ~/stage.houseoffunk.net/         React SPA (staging)     ← stage.houseoffunk.net
 
 
 GitHub.com
@@ -45,17 +55,31 @@ GitHub.com
     ▼
 actions-runner         Mac Mini  (launchd user agent)
     │  direct filesystem access
-    ▼
-~/Sites/my-collections/   git pull → npm build → pm2 restart
+    ├──▶ ~/Sites/my-collections/        main branch  → pm2 restart my-collections-api
+    └──▶ ~/Sites/my-collections-stage/  develop branch → pm2 restart my-collections-api-stage
 ```
 
 ## Design Decisions
 
 ### Cloudflare Tunnel — Zero Open Inbound Ports
 
-Rather than opening ports 80 and 443 on the home router (which exposes the home IP in DNS and attracts automated scanning), the Mac Mini runs the `cloudflared` daemon. This makes a persistent outbound connection to Cloudflare's edge. Incoming requests for `api.yourdomain.com` arrive at Cloudflare, travel through the tunnel, and reach `localhost:3000` on the Mac Mini. SSL is provided by Cloudflare automatically — no certbot, no Let's Encrypt renewal management, no nginx SSL configuration.
+Rather than opening ports 80 and 443 on the home router (which exposes the home IP in DNS and attracts automated scanning), the Mac Mini runs the `cloudflared` daemon. This makes a persistent outbound connection to Cloudflare's edge. Incoming requests for `api.houseoffunk.net` arrive at Cloudflare, travel through the tunnel, and reach `localhost:3000` on the Mac Mini. SSL is provided by Cloudflare automatically — no certbot, no Let's Encrypt renewal management, no nginx SSL configuration.
 
-The DNS record for api.yourdomain.com resolves to Cloudflare's IP addresses, not the home IP. This provides DDoS mitigation and hides the home network's location from the public internet.
+The DNS record for api.houseoffunk.net resolves to Cloudflare's IP addresses, not the home IP. This provides DDoS mitigation and hides the home network's location from the public internet.
+
+### TLS and Encryption
+
+Every leg of the request path is encrypted:
+
+| Leg | Protocol | Notes |
+| --- | --- | --- |
+| User → Cloudflare edge | TLS (HTTPS) | Cloudflare's edge certificate. Automatic, no configuration required. |
+| Cloudflare edge → cloudflared | TLS (QUIC or H2) | Inherent to the Cloudflare Tunnel protocol — `cloudflared` connects to `*.argotunnel.com` over TLS. Not configurable; always on. |
+| cloudflared → localhost:3000 | HTTP (loopback) | Intentional. This hop never leaves the Mac Mini — it is loopback-only. Adding TLS here would encrypt memory-to-memory traffic on the same process boundary, providing no meaningful security improvement. |
+
+The result is that no user data traverses any network segment unencrypted. The loopback HTTP hop is an internal implementation detail of the tunnel, not a network exposure.
+
+If a future requirement calls for TLS on the final hop (e.g., compliance mandates no plaintext anywhere, even in process), the right approach is a [Cloudflare Origin CA certificate](https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/) — free, 15-year validity, trusted by `cloudflared` without any `noTLSVerify` flags.
 
 ### GitHub Actions Self-Hosted Runner
 
@@ -80,7 +104,9 @@ The Cloudflare Tunnel CNAME can be wired up in two ways. Option A is recommended
 
 ## Environment Variables
 
-All required in `~/Sites/my-collections/packages/api/.env` on the Mac Mini. This file must never be committed to git.
+Each environment has its own `.env` file on the Mac Mini. Neither file is ever committed to git.
+
+**Production** — `~/Sites/my-collections/packages/api/.env`
 
 | Variable | Value / How to Generate |
 | --- | --- |
@@ -91,4 +117,17 @@ All required in `~/Sites/my-collections/packages/api/.env` on the Mac Mini. This
 | `JWT_REFRESH_SECRET` | openssl rand -hex 64 — must be a different value from JWT_ACCESS_SECRET |
 | `JWT_REFRESH_EXPIRES_IN` | 30d |
 | `REGISTRATION_ENABLED` | false — lock registration after creating your account |
-| `ALLOWED_ORIGIN` | https://yourdomain.com — the Dreamhost-hosted frontend URL |
+| `ALLOWED_ORIGIN` | https://collections.houseoffunk.net |
+
+**Staging** — `~/Sites/my-collections-stage/packages/api/.env`
+
+| Variable | Value / How to Generate |
+| --- | --- |
+| `PORT` | 3001 |
+| `DATABASE_URL` | postgresql://my_collections:\<password\>@localhost:5432/my_collections_stage |
+| `JWT_ACCESS_SECRET` | openssl rand -hex 64 — different value from production |
+| `JWT_ACCESS_EXPIRES_IN` | 15m |
+| `JWT_REFRESH_SECRET` | openssl rand -hex 64 — different from staging JWT_ACCESS_SECRET |
+| `JWT_REFRESH_EXPIRES_IN` | 30d |
+| `REGISTRATION_ENABLED` | true — staging can allow test accounts |
+| `ALLOWED_ORIGIN` | https://stage.houseoffunk.net |

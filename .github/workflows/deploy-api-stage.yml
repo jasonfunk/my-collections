@@ -1,0 +1,38 @@
+name: Deploy API (Staging)
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'packages/api/**'
+      - 'packages/shared/**'
+
+concurrency:
+  group: deploy-api-stage
+  # Do not cancel in-progress deploys — a mid-deploy cancellation (e.g. after
+  # migrations run but before pm2 restarts) leaves the API in a broken state.
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Mac Mini (staging)
+    runs-on: self-hosted
+    environment: staging
+    steps:
+      - name: Pull latest code
+        run: git -C ~/Sites/my-collections-stage pull origin develop
+
+      - name: Install dependencies
+        working-directory: ~/Sites/my-collections-stage
+        run: npm ci
+
+      - name: Build
+        working-directory: ~/Sites/my-collections-stage
+        run: npm run build -- --filter=@my-collections/api
+
+      - name: Run migrations
+        working-directory: ~/Sites/my-collections-stage/packages/api
+        run: npm run migration:run
+
+      - name: Restart API
+        run: pm2 restart my-collections-api-stage
