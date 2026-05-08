@@ -1,0 +1,34 @@
+appId: com.mycollections.app
+---
+# Assumes dashboard is the active screen (post-login).
+
+- tapOn:
+    id: "tab-wishlist"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "He-Man"
+    timeout: 20000
+
+- assertVisible: "Wishlist"
+
+- scrollUntilVisible:
+    element:
+      text: "Battle Cat"
+    direction: DOWN
+    timeout: 10000
+
+- tapOn: "Battle Cat"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Catalog Info"
+    timeout: 10000
+
+- assertVisible: "Battle Cat"
+
+- pressKey: Back
+- waitForAnimationToEnd
+
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 10000

@@ -81,6 +81,34 @@ const TF_SIZE_LABELS: Record<string, string> = {
   JUMBO: 'Jumbo',
 };
 
+const SW_LINE_LABELS: Record<string, string> = {
+  STAR_WARS: 'Star Wars (1977–79)',
+  EMPIRE_STRIKES_BACK: 'Empire Strikes Back (1980–82)',
+  RETURN_OF_THE_JEDI: 'Return of the Jedi (1983–84)',
+  POWER_OF_THE_FORCE: 'Power of the Force (1984–85)',
+};
+
+const SW_FIGURE_SIZE_LABELS: Record<string, string> = {
+  '3.75': '3¾ inch',
+  '12': '12 inch',
+  MINI: 'Mini',
+};
+
+const MASTERS_LINE_LABELS: Record<string, string> = {
+  ORIGINAL: 'Original (1981–88)',
+  POP: 'Princess of Power',
+  GOLDEN_BOOKS: 'Golden Books',
+  MINI: 'Mini Figures',
+};
+
+const MASTERS_CHARACTER_LABELS: Record<string, string> = {
+  HEROIC: 'Heroic Warrior',
+  EVIL: 'Evil Warrior',
+  HEROIC_ALLY: 'Heroic Ally',
+  EVIL_ALLY: 'Evil Ally',
+  NEUTRAL: 'Neutral',
+};
+
 function formatMoney(value: number): string {
   return `$${value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -236,6 +264,60 @@ export default function ItemDetailScreen() {
               )}
               {item.catalog.japaneseRelease === true && (
                 <DetailRow label="Japanese Release" value="Yes" />
+              )}
+            </View>
+          </>
+        )}
+
+        {/* ── Catalog Info (Star Wars) ── */}
+        {collectionType === CollectionType.STAR_WARS && item.catalog && (
+          <>
+            <SectionHeader title="Catalog Info" />
+            <View style={styles.card}>
+              {item.catalog.releaseYear != null && (
+                <DetailRow label="Year" value={String(item.catalog.releaseYear)} />
+              )}
+              {item.catalog.line != null && (
+                <DetailRow label="Line" value={SW_LINE_LABELS[item.catalog.line] ?? item.catalog.line} />
+              )}
+              {item.catalog.figureSize != null && (
+                <DetailRow label="Figure Size" value={SW_FIGURE_SIZE_LABELS[item.catalog.figureSize] ?? item.catalog.figureSize} />
+              )}
+              {item.catalog.coinIncluded === true && (
+                <BoolRow label="Coin Included" value={true} />
+              )}
+              {item.catalog.isVariant === true && item.catalog.variantDescription != null && (
+                <DetailRow label="Variant" value={item.catalog.variantDescription} />
+              )}
+            </View>
+          </>
+        )}
+
+        {/* ── Catalog Info (He-Man / Masters) ── */}
+        {collectionType === CollectionType.HE_MAN && item.catalog && (
+          <>
+            <SectionHeader title="Catalog Info" />
+            <View style={styles.card}>
+              {item.catalog.releaseYear != null && (
+                <DetailRow label="Year" value={String(item.catalog.releaseYear)} />
+              )}
+              {item.catalog.line != null && (
+                <DetailRow label="Line" value={MASTERS_LINE_LABELS[item.catalog.line] ?? item.catalog.line} />
+              )}
+              {item.catalog.characterType != null && (
+                <DetailRow label="Character Type" value={MASTERS_CHARACTER_LABELS[item.catalog.characterType] ?? item.catalog.characterType} />
+              )}
+              {item.catalog.miniComic != null && (
+                <DetailRow label="Mini-Comic" value={item.catalog.miniComic} />
+              )}
+              {item.catalog.hasArmorOrFeature === true && (
+                <DetailRow
+                  label="Action Feature"
+                  value={item.catalog.featureDescription ?? 'Yes'}
+                />
+              )}
+              {item.catalog.isVariant === true && item.catalog.variantDescription != null && (
+                <DetailRow label="Variant" value={item.catalog.variantDescription} />
               )}
             </View>
           </>

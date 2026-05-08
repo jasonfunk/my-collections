@@ -1,0 +1,38 @@
+appId: com.mycollections.app
+---
+# Assumes dashboard is the active screen (post-login).
+
+- tapOn:
+    id: "tab-search"
+- waitForAnimationToEnd
+
+- tapOn:
+    text: "Search all collections…"
+- eraseText: 50
+- inputText: "Hordak"
+- hideKeyboard
+- waitForAnimationToEnd
+
+- extendedWaitUntil:
+    visible: "Hordak"
+    timeout: 15000
+
+- assertVisible: "He-Man"
+
+- tapOn:
+    text: "Hordak"
+    index: 1
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Catalog Info"
+    timeout: 10000
+
+- assertVisible: "Hordak"
+
+- pressKey: Back
+- waitForAnimationToEnd
+
+- tapOn: "Dashboard"
+- extendedWaitUntil:
+    visible: "Sign Out"
+    timeout: 10000

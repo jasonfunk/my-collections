@@ -5,4 +5,6 @@ appId: com.mycollections.app
 - runFlow: navigation/tabs.yaml
 - runFlow: collections/item-detail.yaml
 - runFlow: collections/add-edit-item.yaml
+- runFlow: collections/wishlist.yaml
+- runFlow: collections/search.yaml
 - runFlow: auth/logout.yaml

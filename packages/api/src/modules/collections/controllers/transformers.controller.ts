@@ -12,6 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BrowseItemsQueryDto } from '../../../common/dto/browse-items-query.dto';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { AccessTokenPayload } from '../../auth/services/token.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
@@ -63,12 +64,12 @@ export class TransformersController {
   }
 
   @Get('items')
-  @ApiOperation({ summary: "List the user's G1 Transformers personal records (owned + wishlist)" })
+  @ApiOperation({ summary: "List the user's G1 Transformers personal records (owned + wishlist), with optional name search" })
   listItems(
     @CurrentUser() user: AccessTokenPayload,
-    @Query() pagination: PaginationQueryDto,
+    @Query() query: BrowseItemsQueryDto,
   ) {
-    return this.itemsService.findAll(user.sub, pagination);
+    return this.itemsService.findAll(user.sub, query);
   }
 
   @Get('items/:id')

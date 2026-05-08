@@ -27,13 +27,19 @@ my-collections/
 ```
 
 ### `.github/workflows/`
-GitHub Actions CI/CD workflow definitions. Three files:
+GitHub Actions CI/CD workflow definitions. Seven files:
 
 | File | Trigger | Purpose |
 |---|---|---|
 | `ci.yml` | PR to `main` or `develop` | Runs lint and tests in parallel. Both must pass before a PR can merge. |
 | `build.yml` | Push to `main` (i.e., after a merge) | Verifies the full monorepo builds successfully after every merge. |
 | `audit.yml` | PR + weekly Monday schedule | Runs `npm audit --audit-level=critical --omit=dev`. Fails only on critical-severity vulnerabilities in non-dev dependencies. |
+| `deploy-web.yml` | Push to `main` touching `packages/web/**` or `packages/shared/**` | Builds the React SPA and rsyncs `dist/` to `~/collections.houseoffunk.net/` on Dreamhost. Uses `production` GitHub Environment for `VITE_API_BASE_URL` and `DREAMHOST_DIR`. |
+| `deploy-api.yml` | Push to `main` touching `packages/api/**` or `packages/shared/**` | Self-hosted runner on Mac Mini. Pulls, builds, migrates, and restarts `my-collections-api` pm2 process. Uses `production` GitHub Environment. |
+| `deploy-web-stage.yml` | Push to `develop` touching `packages/web/**` or `packages/shared/**` | Same as `deploy-web.yml` but targets `staging` GitHub Environment — deploys to `~/stage.houseoffunk.net/` on Dreamhost. |
+| `deploy-api-stage.yml` | Push to `develop` touching `packages/api/**` or `packages/shared/**` | Same as `deploy-api.yml` but targets `staging` GitHub Environment — works in `~/Sites/my-collections-stage/`, restarts `my-collections-api-stage` pm2 process. |
+
+See `docs/confluence/ci-cd-runbook.md` for the full deploy pipeline documentation, one-time setup steps, and GitHub secrets inventory.
 
 ### `docker-compose.yml`
 Defines the local development database service. Run `docker compose up -d` from the repo root to start a PostgreSQL 16 container on port 5432. Data is persisted in the `postgres_data` named volume — survives `docker compose down` but is wiped by `docker compose down -v`.
@@ -156,7 +162,8 @@ docs/
     ├── masters-of-the-universe.md
     ├── web-application-architecture.md
     ├── infrastructure-overview.md
-    └── server-setup-runbook.md
+    ├── server-setup-runbook.md
+    └── ci-cd-runbook.md
 ```
 
 ### `docs/overview.md`

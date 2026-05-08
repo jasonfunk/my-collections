@@ -18,8 +18,10 @@ Local markdown copies of all My Collections Confluence pages. Edit here first, t
 | [masters-of-the-universe.md](masters-of-the-universe.md) | `4358146` | [/spaces/SD/pages/4358146](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/4358146) | 2026-04-10 |
 | [web-application-architecture.md](web-application-architecture.md) | `3899393` | [/spaces/SD/pages/3899393](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393) | 2026-04-10 |
 | [mobile-architecture.md](mobile-architecture.md) | `9535489` | [/spaces/SD/pages/9535489](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489) | 2026-04-19 |
-| [infrastructure-overview.md](infrastructure-overview.md) | `6324226` | [/spaces/SD/pages/6324226](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226) | 2026-04-11 |
-| [server-setup-runbook.md](server-setup-runbook.md) | `6356993` | [/spaces/SD/pages/6356993](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993) | 2026-04-11 |
+| [infrastructure-overview.md](infrastructure-overview.md) | `6324226` | [/spaces/SD/pages/6324226](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226) | 2026-05-05 |
+| [server-setup-runbook.md](server-setup-runbook.md) | `6356993` | [/spaces/SD/pages/6356993](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993) | 2026-05-05 |
+| [ci-cd-runbook.md](ci-cd-runbook.md) | `15237122` | [/spaces/SD/pages/15237122](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15237122) | 2026-05-05 |
+| [security-operations-hardening.md](security-operations-hardening.md) | `15499266` | [/spaces/SD/pages/15499266](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15499266) | 2026-05-05 |
 
 ## Workflow
 
@@ -51,4 +53,6 @@ Local markdown copies of all My Collections Confluence pages. Edit here first, t
 | CI/CD workflow changes | `project-architecture.md` |
 | DB schema changes (new tables/columns) | `project-architecture.md` |
 | Infrastructure changes | `infrastructure-overview.md` + `server-setup-runbook.md` |
+| CI/CD workflow changes (new workflow, trigger, secrets) | `ci-cd-runbook.md` |
+| Security or operations hardening implemented (rate limiting, backups, etc.) | `security-operations-hardening.md` |
 | Style guide changes | `documentation-style-guide.md` |

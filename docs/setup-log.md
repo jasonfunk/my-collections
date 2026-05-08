@@ -3841,3 +3841,234 @@ The extractor bugs were real and are now fixed, but the accessory counts didn't 
 ### Jira
 
 - COL-103 → Done
+
+---
+
+## 2026-04-28 — COL-103 follow-up: Mini-Spy altMode patch + COL-104: Star Wars catalog enrichment
+
+### Task 1: Mini-Spy altMode patch
+
+**Script created:** `scripts/patch-transformers-mini-spy-altmode.ts`  
+Follows the same pattern as `patch-transformers-subgroup.ts`. For each record with `subgroup === 'Mini-Spy' && altMode === null`, derives `altMode` from the vehicle name prefix:
+- `Dune Buggy (...)` → `Dune buggy`
+- `FX-1 (...)` → `FX-1`
+- `Jeep (...)` → `Jeep`
+- `Porsche (...)` → `Porsche`
+
+**Added to package.json:** `patch:transformers-mini-spy-altmode`
+
+**Results:** 24 records updated, 419 skipped.
+
+**Re-seeded:** `npm run seed:transformers -- --update` → 443 updated, 0 inserted.
+
+### Task 2: Star Wars enrichment (COL-104)
+
+**Investigation finding:** `docs/catalog-data-gaps.md` was stale — `releaseYear`, `line`, and `coinIncluded` entity columns already existed (migration `1776200000000-AddReleaseYearToStarWarsCatalog.ts` from a prior session). No new migration needed. What was actually missing: the `coinIncluded` values (all null) and display on web/mobile.
+
+**Patch script:** `scripts/patch-star-wars-line.ts` (pre-existing from COL-100, unchanged).
+- 199 records: `line` re-derived from `releaseYear` using Kenner year → line mapping
+- 21 POTF records: `coinIncluded = true`
+- Line distribution: STAR_WARS 51 / EMPIRE_STRIKES_BACK 71 / RETURN_OF_THE_JEDI 56 / POWER_OF_THE_FORCE 21
+
+**Re-seeded:** `npm run seed:star-wars -- --update` → 199 updated, 0 inserted.
+
+**Added `patch:star-wars-line` to package.json** (was missing, script existed but had no npm alias).
+
+**Web display** (`StarWarsCatalogDetailPage.tsx`): Added `releaseYear` as first row of the Catalog Info section ("Year" label). Line was already shown in the header.
+
+**Mobile display** (`[id].tsx`): Added Star Wars Catalog Info section with Year, Line, Figure Size, Coin Included, and Variant fields. Added `SW_LINE_LABELS` and `SW_FIGURE_SIZE_LABELS` constants. Updated `collectionsService.ts` `DetailItem.catalog` to include `figureSize` and `coinIncluded` (were missing from the local type but present in the API response).
+
+**Maestro test updated** (`item-detail.yaml`): Added Star Wars Catalog Info assertions — checks for "Catalog Info", "Empire Strikes Back (1980–82)", and "1981" on 2-1B detail screen.
+
+**Docs updated:** `docs/catalog-data-gaps.md` — stale entries corrected; Tier 1 marked complete; Mini-Spy Tier A marked resolved.
+
+### Smoke tests
+
+**Playwright (web):** Full flow passed — Star Wars Year 1981 on 2-1B; Coin Included ✓ Yes on Amanaman (POTF); Alt Mode "Dune buggy" on Dune Buggy (Blue Autobot). Zero console errors.
+
+**Maestro (Android):** Full smoke-test.yaml passed including updated Star Wars Catalog Info assertions.
+
+**Lint:** All packages clean.
+
+### Key decisions
+
+- The `patch-star-wars-line.ts` script already existed from COL-100. Added it to package.json as `patch:star-wars-line` so it's runnable by convention.
+- `catalog-data-gaps.md` was significantly stale (described entity columns as missing that already existed). Updated to reflect current reality.
+- `coinIncluded` for non-POTF figures left as `null` (not `false`) — the field is only meaningful for POTF; null signals "not applicable" rather than "no coin".
+- Deferred: `cardbackStyle`, `kennerItemNumber`, variant data from RebelScum.com — evaluate page structure before choosing scraper vs. Claude Haiku extraction.
+
+### Jira
+
+- COL-104 → Done
+
+---
+
+## Session — 2026-04-29 (COL-105 partial)
+
+### Goal
+
+COL-105: Populate `catalogImageUrl` for the 9 Star Wars twelve-inch patch figures.
+
+### What was done
+
+**Enrichment approach — Wookieepedia MediaWiki API:**
+- Wrote `scripts/enrich-star-wars-12inch-images.ts` to look up Wookieepedia character article thumbnails via `action=query&prop=pageimages`.
+- Used Claude Haiku vision (`claude-haiku-4-5-20251001`) to evaluate candidate images and confirm correct character.
+- Found URLs for all 9 figures via main character articles (R2-D2, Chewbacca, Luke Skywalker, etc.).
+
+**Problem discovered:**
+- Wookieepedia CDN thumbnail URLs (`/revision/latest/scale-to-width-down/NNN?cb=...`) 404 when loaded as cross-origin browser subresources from non-wikia domains.
+- Stripping the suffix to get base URLs (e.g. `https://static.wikia.nocookie.net/starwars/images/.../R2-D2-TROSOCE.png`) does work in-browser.
+- However, the images themselves are character art/renders (comic art, promotional renders) — **not product photos of the actual toys**. Not appropriate for a toy catalog.
+
+**Decision:** Deferred COL-105. The 9 twelve-inch patch figures remain with `catalogImageUrl: null`. Need a source with actual toy photography — RebelScum.com figure guide, eBay listings, or vintage Kenner catalog scans. Documented in `docs/catalog-data-gaps.md`.
+
+**Side fix committed:** Added `referrerPolicy="no-referrer"` to all catalog `<img>` tags (3 card components + 3 detail pages). Required for Wookieepedia base CDN URLs to load cross-origin without Referer-based blocking. Also future-proofs any future external image sources with similar restrictions.
+
+**Scripts left in place** (committed, for future use):
+- `scripts/enrich-star-wars-12inch-images.ts` — Wookieepedia API lookup
+- `scripts/patch-star-wars-12inch-images.ts` — patches TWELVE_INCH category only, uses clean base CDN URLs
+
+### Jira
+
+- COL-105 — in progress, deferred (images found are character art, not toy photos)
+
+---
+
+## Session — 2026-05-05
+
+### He-Man Catalog Info section — mobile parity fix
+
+**Goal:** Close the parity gap between web and mobile item detail screens. The web's `MastersCatalogDetailPage` showed Release Year, Line, Character Type, Mini-Comic, and Action Feature for He-Man items. The mobile detail screen had Catalog Info sections for Transformers and Star Wars but nothing for He-Man.
+
+### Root cause
+
+The gap was introduced during COL-104 (Star Wars Catalog Info added to mobile) — He-Man was not addressed in the same session.
+
+### What was done
+
+**`packages/mobile/src/services/collectionsService.ts`**
+Added four He-Man fields to `DetailItem.catalog` type (they already flowed through from the API — only the type declaration was missing):
+- `characterType?: string | null`
+- `miniComic?: string | null`
+- `hasArmorOrFeature?: boolean | null`
+- `featureDescription?: string | null`
+
+**`packages/mobile/app/(app)/collections/[collection]/[id].tsx`**
+Added two label constant maps after `SW_FIGURE_SIZE_LABELS`:
+- `MASTERS_LINE_LABELS` — keys are the enum string values (`ORIGINAL`, `POP`, `GOLDEN_BOOKS`, `MINI`); matches web's `collectionConfig.ts`
+- `MASTERS_CHARACTER_LABELS` — keys are the enum string values (`HEROIC`, `EVIL`, `HEROIC_ALLY`, `EVIL_ALLY`, `NEUTRAL`); note `HEROIC_WARRIOR = 'HEROIC'` and `PRINCESS_OF_POWER = 'POP'` in the shared enum
+
+Added He-Man Catalog Info block (after the Star Wars block, before Condition): shows Year, Line, Character Type, Mini-Comic, Action Feature (with `featureDescription` or "Yes" fallback), and Variant — all conditional on non-null values.
+
+**`packages/mobile/.maestro/collections/item-detail.yaml`**
+Added a third Catalog Info test section (He-Man, after Transformers). Navigates to He-Man collection (19 total items), scrolls to Man-E-Faces (characterType=HEROIC, miniComic="The Masks of Power", releaseYear=1983), and asserts "Catalog Info", "Heroic Warrior", and "The Masks of Power" are visible.
+
+**`docs/catalog-data-gaps.md`**
+Added mobile Catalog Info display entry to He-Man "Complete fields" list. Updated "Last evaluated" date.
+
+### Commands run
+
+```bash
+npm run lint          # all packages clean
+# Maestro (full smoke test — emulator + servers already running)
+JAVA_HOME=/Users/jfunk/.gradle/jdks/eclipse_adoptium-17-aarch64-os_x.2/jdk-17.0.18+8/Contents/Home \
+~/.maestro/bin/maestro test packages/mobile/.maestro/smoke-test.yaml
+# All flows passed including new He-Man section
+```
+
+### Key decisions
+
+- Used `scrollUntilVisible` before tapping Man-E-Faces — required because the item is below the fold in a 19-item list (per established Maestro pattern for this repo).
+- Item count assertion uses "19 items" (total user items: 17 owned + 2 wishlist), not "17 items" — the list screen shows all items unfiltered.
+- `MastersCharacterType` enum uses short string values (`HEROIC`/`EVIL`) not the member name — label keys must match the stored DB string values, not the TypeScript enum member names.
+
+### Outcome
+
+Mobile detail pages now show Catalog Info for all three collections. Smoke test passes end-to-end.
+
+---
+
+## Session — 2026-05-08 (COL-112: Web Dashboard Recently Added)
+
+### Goal
+Add a "Recently Added" section to the web dashboard, matching the mobile dashboard's existing feature.
+
+### What was done
+
+**No new API endpoint needed** — `GET /collections/recent?limit=N` already existed and was used by mobile.
+
+**Shared type changes** (`packages/shared/src/types/stats.ts`):
+- Added `catalogId: string` to `RecentCollectionItem` (needed for correct detail-page navigation — the catalog detail pages use catalog IDs, not user item IDs)
+- Added `imageUrl?: string` to `RecentCollectionItem`
+
+**API service changes** (`packages/api/src/modules/collections/services/collections-stats.service.ts`):
+- Extended the three `getRecentItems()` queries to also select `catalog.id`, `catalog.catalogImageUrl`, and `item.photoUrls`
+- Mapped `imageUrl` as `catalog.catalogImageUrl ?? photoUrls[0]` (catalog image takes priority; user photo is fallback)
+- Mapped `catalogId` from `item.catalog.id`
+
+**Web dashboard changes** (`packages/web/src/pages/DashboardPage.tsx`):
+- Added `recentQuery` (second parallel `useQuery` for `/collections/recent?limit=10`)
+- Added `RECENT_COLLECTION_META` lookup mapping `CollectionType` → `{ label, route, color }`
+- Added `formatRelativeDate()` using `Intl.RelativeTimeFormat` (no extra library needed)
+- Added `RecentItemRow` component: catalog thumbnail (40×40), item name, collection label (collection-colored), condition badge, relative date — all clickable
+- Navigation uses `catalogId` to land on the correct catalog detail page
+- Skeleton loading state (5 rows), graceful error, empty-state message
+
+**Key debugging catch**: first navigation attempt used `item.id` (user item ID) which caused a 404 on catalog detail pages. Fixed by adding `catalogId` to the type + service and switching the navigate target. Second catch: thumbnails were empty because `photoUrls` is always empty for this user — switched to `catalog.catalogImageUrl` as primary source.
+
+### Commands run
+```bash
+npm run build --workspace=packages/shared   # after each shared type change
+npm run lint                                # clean
+```
+
+### Outcome
+Web dashboard now shows a "Recently Added" section below Collection Totals with catalog thumbnails, condition badges, relative dates, and correct navigation. Smoke test passes end-to-end. COL-112 → Done.
+
+---
+
+## Session — 2026-05-07 (COL-107 + COL-108: Mobile Wishlist + Global Search)
+
+### What was done
+
+Implemented both placeholder mobile screens to achieve full feature parity with the web.
+
+**COL-107 — Mobile Wishlist screen** (`packages/mobile/app/(app)/wishlist.tsx`):
+- Added `WishlistItem` interface and `fetchWishlist()` to `collectionsService.ts` — calls the dedicated `/collections/{slug}/wishlist` endpoint (not `fetchItems`) to get `wishlistPriority` per item
+- Rewrote `wishlist.tsx` from scratch: `useFocusEffect` for data refresh on tab focus, `Promise.all` across all three collections, `SectionList` grouped by collection, priority badges (HIGH `#f59e0b` / MEDIUM `#94a3b8` / LOW `#6b7280`), 40×40 thumbnails, pull-to-refresh, empty state
+- Navigation: `router.push(`/(app)/collections/${slug}/${item.id}`)` — uses user item ID (not catalog ID) so `fetchItemDetail` succeeds
+
+**COL-108 — Mobile Global Search screen** (`packages/mobile/app/(app)/search.tsx`):
+- Rewrote `search.tsx`: 300ms debounced TextInput, `Promise.all` across all three collections using `fetchItems(collectionType, 1, 50, query)` (user items search, not catalog search — gives user item IDs for navigation), results grouped by collection in `SectionList`, Android ✕ clear button, `keyboardShouldPersistTaps="handled"`
+- Added `search?: string` param to `fetchItems()` and updated `BrowseItem.catalog` to include `catalogImageUrl`
+- Added `BrowseItemsQueryDto` extending `PaginationQueryDto` with optional `search: string`; updated all three item services (`findAll`) to apply `catalog.name ILIKE :search` when provided; updated all three controllers to use `BrowseItemsQueryDto` on `GET /items`
+
+**Tab bar testIDs** (`packages/mobile/app/(app)/_layout.tsx`):
+- Added `tabBarButton` with `testID="tab-wishlist"` and `testID="tab-search"` to Wishlist and Search tabs — makes Maestro targeting stable regardless of how many "Wishlist" text badges appear in the dashboard's Recently Added section
+- Type cast via `(props as TouchableOpacityProps)` to avoid TS null/undefined mismatch on tab bar prop types
+
+**Maestro tests**:
+- `packages/mobile/.maestro/collections/wishlist.yaml` — taps `id: "tab-wishlist"`, waits for He-Man section header, scrolls to Battle Cat, taps → asserts Catalog Info and Battle Cat visible on detail screen, returns to Dashboard
+- `packages/mobile/.maestro/collections/search.yaml` — taps `id: "tab-search"`, erases existing text, types "Hordak", hides keyboard, waits for result, taps result at `index: 1` (skip TextInput match), asserts Catalog Info + Hordak on detail screen
+- Both flows added to `smoke-test.yaml`
+
+### Key debugging catches
+
+1. **Wishlist navigation used `item.catalogId` instead of `item.id`** — `fetchItemDetail` calls `GET /items/:id` which expects a user item ID; passing a catalog ID returns 404 ("Failed to load item"). Fixed by using `item.id`.
+2. **`searchCatalog` returns catalog IDs, not user item IDs** — original plan used catalog search, but the detail screen needs user item IDs. Switched to `fetchItems` with `search` param so results carry user item IDs directly.
+3. **Tab "Wishlist" text index** — Initially used `index: 1`, but the Recently Added section now shows two "Wishlist" status badges (Barrage + Battle Cat), making the tab the third occurrence. Fixed permanently with `testID` on the tab button.
+4. **`assertVisible: "He-Man"` on detail screen** — He-Man text doesn't appear on Battle Cat's or Hordak's detail pages. Changed to `assertVisible: "Battle Cat"` and `assertVisible: "Hordak"` respectively.
+5. **Search TextInput retains state between runs** — `tapOn` + `inputText` appended to existing "Hordak" → "HordakHordak" → no results. Added `eraseText: 50` after focusing the input.
+6. **`tapOn: "Hordak"` hit the TextInput, not the result row** — TextInput value "Hordak" and result row "Hordak" both accessible; tap hit index 0 (TextInput) and didn't navigate. Fixed with `index: 1`.
+
+### Commands run
+```bash
+npm run lint --workspace=packages/api    # clean
+npm run lint --workspace=packages/mobile # clean
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/wishlist.yaml  # PASSED
+~/.maestro/bin/maestro test packages/mobile/.maestro/collections/search.yaml    # PASSED
+```
+
+### Outcome
+Both mobile tabs fully implemented and tested. Wishlist shows items grouped by collection with priority badges; Search shows debounced cross-collection search of user's items. API `GET /items?search=` endpoint added. Both Maestro flows green. COL-107 + COL-108 → Done.

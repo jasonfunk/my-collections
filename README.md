@@ -147,7 +147,8 @@ npm run migration:revert                                     # Revert last migra
 ```
 my-collections/
 ├── .github/
-│   └── workflows/        # CI/CD: ci.yml, build.yml, audit.yml
+│   └── workflows/        # CI/CD: ci.yml, build.yml, audit.yml, deploy-web.yml, deploy-api.yml,
+│                         #         deploy-web-stage.yml, deploy-api-stage.yml
 ├── docs/
 │   ├── overview.md       # Project goals and rationale
 │   ├── dev-sequence.md   # Phased development roadmap
@@ -227,15 +228,19 @@ API integration tests require the database to be running (`docker compose up -d`
 
 ## CI/CD
 
-Three GitHub Actions workflows run automatically:
+Seven GitHub Actions workflows run automatically:
 
 | Workflow | Trigger | What it does |
 |---|---|---|
 | `ci.yml` | PRs to `main` / `develop` | Lint + test all packages |
 | `build.yml` | Push to `main` | Full build verification |
 | `audit.yml` | PRs + weekly (Monday) | `npm audit --audit-level=critical` |
+| `deploy-web.yml` | Push to `main` touching `packages/web/**` or `packages/shared/**` | Builds React SPA and rsyncs `dist/` to `collections.houseoffunk.net` on Dreamhost (`production` environment) |
+| `deploy-api.yml` | Push to `main` touching `packages/api/**` or `packages/shared/**` | Pulls, builds, migrates, and restarts pm2 on the Mac Mini (`production` environment) |
+| `deploy-web-stage.yml` | Push to `develop` touching `packages/web/**` or `packages/shared/**` | Same as `deploy-web.yml` — deploys to `stage.houseoffunk.net` (`staging` environment) |
+| `deploy-api-stage.yml` | Push to `develop` touching `packages/api/**` or `packages/shared/**` | Same as `deploy-api.yml` — targets `~/Sites/my-collections-stage/` and `my-collections-api-stage` pm2 process (`staging` environment) |
 
-Branch protection on `main`: all CI checks must pass before merge.
+Branch protection on `main`: all CI checks must pass before merge. See [`docs/confluence/ci-cd-runbook.md`](docs/confluence/ci-cd-runbook.md) for the deploy key setup and GitHub secrets inventory.
 
 ---
 

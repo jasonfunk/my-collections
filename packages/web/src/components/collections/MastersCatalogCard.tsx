@@ -46,6 +46,7 @@ export function MastersCatalogCard({ catalogItem, userItem }: MastersCatalogCard
             alt={catalogItem.name}
             className="h-full w-full rounded-t-lg object-cover object-top"
             loading="lazy"
+            referrerPolicy="no-referrer"
           />
         ) : (
           <span className="text-3xl font-bold opacity-40">{initials}</span>

@@ -1,18 +1,64 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { SearchIcon } from 'lucide-react';
-import type { CollectionStats, UserProfile } from '@my-collections/shared';
+import type { CollectionStats, RecentCollectionItem, UserProfile } from '@my-collections/shared';
+import { CollectionType } from '@my-collections/shared';
 import { apiClient } from '../api/client.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
 import { CollectionProgressIcon } from '../components/ui/collection-progress-icon.js';
+import { ConditionBadge } from '../components/collections/ConditionBadge.js';
 import type { CollectionKey } from '../lib/collectionConfig.js';
 
 function formatCurrency(value: number | null): string {
   if (value === null) return '—';
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+}
+
+function formatRelativeDate(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const diffDays = Math.floor(diffMs / 86_400_000);
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+  if (diffDays === 0) return 'today';
+  if (diffDays < 7) return rtf.format(-diffDays, 'day');
+  if (diffDays < 30) return rtf.format(-Math.floor(diffDays / 7), 'week');
+  return rtf.format(-Math.floor(diffDays / 30), 'month');
+}
+
+const RECENT_COLLECTION_META: Record<CollectionType, { label: string; route: string; color: string }> = {
+  [CollectionType.STAR_WARS]:    { label: 'Star Wars',    route: 'star-wars',    color: 'text-amber-400'  },
+  [CollectionType.TRANSFORMERS]: { label: 'Transformers', route: 'transformers', color: 'text-blue-400'   },
+  [CollectionType.HE_MAN]:       { label: 'He-Man',       route: 'he-man',       color: 'text-purple-400' },
+};
+
+function RecentItemRow({ item }: { item: RecentCollectionItem }) {
+  const navigate = useNavigate();
+  const meta = RECENT_COLLECTION_META[item.collectionType];
+  return (
+    <button
+      type="button"
+      onClick={() => navigate(`/collections/${meta.route}/${item.catalogId}`)}
+      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md bg-muted">
+        {item.imageUrl ? (
+          <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+        ) : (
+          <div className="h-full w-full" />
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium">{item.name}</p>
+        <p className={`text-xs ${meta.color}`}>{meta.label}</p>
+      </div>
+      <div className="flex shrink-0 flex-col items-end gap-1">
+        {item.condition && <ConditionBadge grade={item.condition} />}
+        <span className="text-xs text-muted-foreground">{formatRelativeDate(item.createdAt)}</span>
+      </div>
+    </button>
+  );
 }
 
 interface CollectionCardProps {
@@ -92,6 +138,11 @@ export function DashboardPage() {
   const statsQuery = useQuery({
     queryKey: ['collection-stats'],
     queryFn: () => apiClient.get<CollectionStats>('/collections/stats'),
+  });
+
+  const recentQuery = useQuery({
+    queryKey: ['collection-recent'],
+    queryFn: () => apiClient.get<RecentCollectionItem[]>('/collections/recent?limit=10'),
   });
 
   const profileQuery = useQuery({
@@ -205,6 +256,43 @@ export function DashboardPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Recently Added */}
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-base font-medium">Recently Added</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            {recentQuery.isPending ? (
+              <div className="divide-y">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-3 px-4 py-3">
+                    <Skeleton className="h-10 w-10 rounded-md" />
+                    <div className="flex-1 space-y-1.5">
+                      <Skeleton className="h-3.5 w-48" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                  </div>
+                ))}
+              </div>
+            ) : recentQuery.isError ? (
+              <p className="px-4 py-6 text-center text-sm text-muted-foreground">
+                Could not load recent items.
+              </p>
+            ) : recentQuery.data?.length === 0 ? (
+              <p className="px-4 py-6 text-center text-sm text-muted-foreground">
+                No items added yet. Start by adding to a collection.
+              </p>
+            ) : (
+              <div className="divide-y">
+                {recentQuery.data?.map((item) => (
+                  <RecentItemRow key={item.id} item={item} />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

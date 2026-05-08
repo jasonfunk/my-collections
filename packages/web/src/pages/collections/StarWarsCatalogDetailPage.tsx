@@ -136,6 +136,7 @@ export function StarWarsCatalogDetailPage() {
                   className="w-full object-cover object-top"
                   style={{ maxHeight: 320 }}
                   loading="lazy"
+                  referrerPolicy="no-referrer"
                 />
               </div>
             )}
@@ -229,6 +230,9 @@ export function StarWarsCatalogDetailPage() {
                 Catalog Info
               </h2>
               <div className="space-y-2">
+                {catalogItem.releaseYear && (
+                  <DetailRow label="Year" value={String(catalogItem.releaseYear)} />
+                )}
                 {catalogItem.figureSize && (
                   <DetailRow label="Figure size" value={FIGURE_SIZE_LABELS[catalogItem.figureSize] ?? catalogItem.figureSize} />
                 )}
