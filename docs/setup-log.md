@@ -4115,3 +4115,31 @@ git commit  # fix(mobile): give wishlist and search tabs their own Stack for cor
 
 ### Outcome
 Back button works correctly from both Wishlist and Search tabs. Item detail shows a back arrow on first tap; pressing it returns to the originating tab's index screen. COL-107 and COL-108 were already Done; no new Jira tickets created for this bug fix (discovered as part of the same feature work).
+
+---
+
+## Session 2026-05-07 — COL-117 security headers test + COL-105 transition
+
+### What was done
+
+**COL-105 — Catalog images (12-inch Star Wars):** Verified that `packages/api/src/database/seeds/data/star-wars-catalog.json` already contains `catalogImageUrl` for all 9 previously-null twelve-inch figures (R2-D2, Chewbacca, Luke Skywalker, Princess Leia, Obi-Wan Kenobi, Han Solo, Jawa, Stormtrooper, Boba Fett ESB). The `scripts/patch-star-wars-12inch-images.ts` script had already been run in a prior session. Transitioned COL-105 → Done.
+
+**COL-117 — HTTP security headers:** Confirmed `app.use(helmet())` was already present in `packages/api/src/main.ts` (line 36) from a prior session. Added the missing test:
+
+- **New file:** `packages/api/src/modules/health/health.controller.spec.ts`
+  - Creates a minimal test app using `HealthController` + a mock `DataSource` (needed for constructor injection even though the liveness endpoint doesn't use it)
+  - Applies `app.use(helmet())` in the test setup — mirrors `main.ts`; confirms middleware wiring, not just the import
+  - Asserts five headers: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-DNS-Prefetch-Control: off`, `Strict-Transport-Security` (matches `/max-age=/`), `Content-Security-Policy` (defined)
+
+**Import gotcha:** `import * as request from 'supertest'` causes a TS2349 error ("not callable") because supertest exports a default. Must use `import request from 'supertest'` — same as `auth.controller.spec.ts`.
+
+### Commands run
+```bash
+npm run test --workspace=packages/api -- --testPathPattern=health.controller  # PASSED
+npm run lint --workspace=packages/api                                          # clean
+git commit  # test(api): verify helmet security headers are set on all responses (COL-117)
+git push origin develop
+```
+
+### Outcome
+COL-105 and COL-117 → Done. Security headers test added to the API test suite.
