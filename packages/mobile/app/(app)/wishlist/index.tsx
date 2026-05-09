@@ -14,6 +14,7 @@ import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { CollectionType } from '@my-collections/shared';
 import { COLLECTION_CONFIG } from '../../../src/config/collections';
 import { fetchWishlist, WishlistItem } from '../../../src/services/collectionsService';
+import { resolveCatalogImageUrl } from '../../../src/api/client';
 
 const PRIORITY_COLORS: Record<string, string> = {
   HIGH: '#f59e0b',
@@ -47,7 +48,7 @@ function ItemRow({ item, slug }: { item: WishlistItem; slug: string }) {
       <View style={styles.thumb}>
         {item.catalog?.catalogImageUrl ? (
           <Image
-            source={{ uri: item.catalog.catalogImageUrl }}
+            source={{ uri: resolveCatalogImageUrl(item.catalog.catalogImageUrl) }}
             style={styles.thumbImg}
             referrerPolicy="no-referrer"
           />
