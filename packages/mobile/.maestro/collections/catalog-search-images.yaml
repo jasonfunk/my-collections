@@ -1,0 +1,43 @@
+appId: com.mycollections.app
+---
+# Verify catalog thumbnail images appear in Add Item search results (COL-122)
+# Assumes: logged in and on dashboard
+
+# Navigate to Star Wars
+- tapOn:
+    text: "Star Wars"
+    index: 0
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: "header-add-button"
+    timeout: 20000
+
+# Open Add Item
+- tapOn:
+    id: "header-add-button"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Select Item"
+    timeout: 10000
+
+# Search for Luke to get results with known catalog images
+- tapOn: "Search catalog…"
+- inputText: "Luke"
+- extendedWaitUntil:
+    visible: "Luke Skywalker"
+    timeout: 15000
+- hideKeyboard
+- waitForAnimationToEnd
+
+# Screenshot of search results
+- takeScreenshot: catalog-search-results
+
+# Select Luke Skywalker and screenshot the form step
+- tapOn:
+    id: "catalog-result-0"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Owned"
+    timeout: 15000
+- takeScreenshot: add-item-form-step

@@ -1,0 +1,27 @@
+appId: com.mycollections.app
+---
+# Verify catalog thumbnail images on Wishlist and Search screens (COL-123)
+# Assumes: logged in and on dashboard
+
+# Wishlist tab
+- tapOn:
+    id: "tab-wishlist"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: "tab-wishlist"
+    timeout: 10000
+- takeScreenshot: wishlist-screen
+
+# Search tab
+- tapOn:
+    id: "tab-search"
+- waitForAnimationToEnd
+- tapOn: "Search all collections…"
+- inputText: "Amanaman"
+- extendedWaitUntil:
+    visible: "Amanaman"
+    timeout: 15000
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: search-screen

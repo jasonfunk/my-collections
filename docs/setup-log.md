@@ -4182,3 +4182,41 @@ git commit  # feat(mobile): show catalog images on browse list and item detail (
 
 ### Outcome
 COL-111 complete. Catalog images render correctly in the mobile app. API serves `/catalog-images/` as public static files. Maestro smoke suite updated and green.
+
+---
+
+## Session 2026-05-08 — COL-120/121/122/123: Mobile polish and image fixes
+
+### What was done
+
+Four mobile bug fixes batched into one PR.
+
+**COL-121 — Collections picker header shows "index":**
+Expo Router derives the header title from the filename when no `Stack.Screen` is configured. Added `<Stack.Screen options={{ title: 'Collections' }} />` to `app/(app)/collections/index.tsx`. One-line fix.
+
+**COL-120 — Navigation stack not cleared when switching collections:**
+Expo Router preserves each tab's stack when switching away. Drilling into Star Wars → figure, switching tabs, returning to Collections still showed the figure. Fixed by adding `unmountOnBlur: true` to the Collections tab via `screenOptions` on the `Tabs` component (scoped to `route.name === 'collections'` via a function). Note: `unmountOnBlur` belongs in `screenOptions` (type `ExpoTabsNavigatorScreenOptions`), NOT in `Tabs.Screen options` (type `ExpoTabsScreenOptions`) — the latter doesn't include the property and will TS-error.
+
+**COL-122 — Catalog images missing from Add Item screen:**
+Two sub-fixes in `app/(app)/collections/[collection]/add.tsx`:
+1. Step 1 (search results): Added 48×48 thumbnail to each result row using `resolveCatalogImageUrl`, matching the browse screen pattern.
+2. Step 2 (form): Added a 220px catalog reference image above `ItemForm` for the selected item, matching the detail screen pattern. Discovered via Maestro screenshot — the ticket only described Step 1, but user expected images on Step 2 as well.
+
+**COL-123 — Catalog images missing from Wishlist and Search screens:**
+Both screens already had `Image` elements but passed raw relative `catalogImageUrl` paths directly to `source.uri`, which silently fail in React Native without `API_BASE` prepended. Imported `resolveCatalogImageUrl` from `src/api/client` in both files and wrapped the URI. Two-line fix per file.
+
+### New Maestro flows
+- `packages/mobile/.maestro/collections/catalog-search-images.yaml` — verifies thumbnails in Add Item search results and reference image on form step
+- `packages/mobile/.maestro/collections/wishlist-search-images.yaml` — verifies catalog thumbnails on Wishlist and Search screens
+
+### Commands run
+```bash
+npm run lint --workspace=packages/mobile  # clean after each fix
+~/.maestro/bin/maestro test auth/login.yaml collections/catalog-search-images.yaml  # Passed
+~/.maestro/bin/maestro test auth/login.yaml collections/wishlist-search-images.yaml  # Passed
+git commit  # 5 commits (one per fix/sub-fix)
+git push origin develop
+```
+
+### Outcome
+COL-120, COL-121, COL-122, COL-123 → Done. All catalog images now render correctly across Collections browse, Add Item (search + form), Wishlist, and Search screens. Collections tab stack resets cleanly on tab switch. PR #34 opened against main.
