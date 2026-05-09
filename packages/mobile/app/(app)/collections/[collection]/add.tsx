@@ -4,6 +4,7 @@ import {
   Alert,
   BackHandler,
   FlatList,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -25,7 +26,7 @@ import {
 } from '../../../../src/services/collectionsService';
 import { SLUG_TO_COLLECTION } from '../../../../src/config/collections';
 import { ItemForm, defaultFormState, buildPayload, type FormState } from '../../../../src/components/ItemForm';
-import { apiClient } from '../../../../src/api/client';
+import { apiClient, resolveCatalogImageUrl } from '../../../../src/api/client';
 
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 const DEBOUNCE_MS = 300;
@@ -217,7 +218,16 @@ export default function AddItemScreen() {
                 onPress={() => handleSelectCatalog(item)}
                 activeOpacity={0.7}
               >
-                <View>
+                <View style={styles.thumb}>
+                  {item.catalogImageUrl != null && (
+                    <Image
+                      source={{ uri: resolveCatalogImageUrl(item.catalogImageUrl) }}
+                      style={styles.thumbImg}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </View>
+                <View style={styles.resultText}>
                   <Text style={styles.resultName}>{item.name}</Text>
                   {item.accessories.length > 0 && (
                     <Text style={styles.resultAccessories}>{item.accessories.length} accessories</Text>
@@ -294,11 +304,23 @@ const styles = StyleSheet.create({
   searchSpinner: { marginLeft: 10 },
   listContent: { padding: 16 },
   resultRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#1a1a1a',
     borderRadius: 10,
     padding: 14,
     marginBottom: 8,
   },
+  thumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 6,
+    backgroundColor: '#2a2a2a',
+    overflow: 'hidden',
+    marginRight: 12,
+  },
+  thumbImg: { width: 48, height: 48, resizeMode: 'cover' },
+  resultText: { flex: 1 },
   resultName: { fontSize: 15, color: '#fff', fontWeight: '500' },
   resultAccessories: { fontSize: 12, color: '#888', marginTop: 3 },
 
