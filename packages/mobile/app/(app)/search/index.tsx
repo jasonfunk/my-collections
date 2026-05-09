@@ -15,6 +15,7 @@ import { Stack, useRouter } from 'expo-router';
 import { CollectionType } from '@my-collections/shared';
 import { COLLECTION_CONFIG } from '../../../src/config/collections';
 import { BrowseItem, fetchItems } from '../../../src/services/collectionsService';
+import { resolveCatalogImageUrl } from '../../../src/api/client';
 
 interface SearchSection {
   collectionType: CollectionType;
@@ -31,7 +32,7 @@ function ResultRow({ item, slug }: { item: BrowseItem; slug: string }) {
     >
       <View style={styles.thumb}>
         {item.catalog?.catalogImageUrl ? (
-          <Image source={{ uri: item.catalog.catalogImageUrl }} style={styles.thumbImg} />
+          <Image source={{ uri: resolveCatalogImageUrl(item.catalog.catalogImageUrl) }} style={styles.thumbImg} />
         ) : null}
       </View>
       <Text style={styles.rowName} numberOfLines={1}>
