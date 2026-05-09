@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { CollectionType } from '@my-collections/shared';
 import { CollectionIcon } from '../../../src/components/CollectionIcon';
 import { COLLECTION_CONFIG } from '../../../src/config/collections';
@@ -16,6 +16,7 @@ export default function CollectionsScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
+      <Stack.Screen options={{ title: 'Collections' }} />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Collections</Text>
         {COLLECTION_TYPES.map(type => {
