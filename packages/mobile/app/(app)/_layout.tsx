@@ -22,12 +22,13 @@ export default function AppLayout() {
 
   return (
     <Tabs
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: { backgroundColor: '#0f0f0f', borderTopColor: '#222' },
         tabBarActiveTintColor: '#6366f1',
         tabBarInactiveTintColor: '#666',
-      }}
+        unmountOnBlur: route.name === 'collections',
+      })}
     >
       <Tabs.Screen
         name="index"
