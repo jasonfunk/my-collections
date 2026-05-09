@@ -251,6 +251,15 @@ export default function AddItemScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView contentContainerStyle={styles.formContent} keyboardShouldPersistTaps="handled">
+          {selectedCatalog?.catalogImageUrl != null && (
+            <View style={styles.catalogImageCard}>
+              <Image
+                source={{ uri: resolveCatalogImageUrl(selectedCatalog.catalogImageUrl) }}
+                style={styles.catalogImage}
+                referrerPolicy="no-referrer"
+              />
+            </View>
+          )}
           <ItemForm
             collectionType={collectionType as CollectionType}
             accessoryOptions={selectedCatalog?.accessories ?? []}
@@ -324,6 +333,18 @@ const styles = StyleSheet.create({
   resultName: { fontSize: 15, color: '#fff', fontWeight: '500' },
   resultAccessories: { fontSize: 12, color: '#888', marginTop: 3 },
 
+  catalogImageCard: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+    alignItems: 'center',
+  },
+  catalogImage: {
+    width: '100%',
+    height: 220,
+    resizeMode: 'contain',
+  },
   formContent: { padding: 16, paddingBottom: 32 },
   submitBtn: {
     backgroundColor: '#6366f1',
