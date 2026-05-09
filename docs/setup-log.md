@@ -4143,3 +4143,42 @@ git push origin develop
 
 ### Outcome
 COL-105 and COL-117 → Done. Security headers test added to the API test suite.
+
+---
+
+## Session 2026-05-08 — COL-111: catalog images on mobile browse and detail screens
+
+### What was done
+
+**COL-111 — Show catalog images on mobile browse list and item detail:**
+
+Root cause of blank images: `catalogImageUrl` values stored in the DB are relative paths (`/catalog-images/star-wars/47741.jpg`). On web, Vite serves `packages/web/public/` at the root. On mobile, React Native's `Image` component receives a relative path and silently fails — there is no equivalent static server.
+
+**Changes made:**
+
+- **`packages/api/src/main.ts`** — Added `express.static` middleware to serve `/catalog-images/` from `packages/web/public/catalog-images/`. Catalog images are public reference data (not user uploads), so no auth guard needed. `express` is already available as a transitive dep via `@nestjs/platform-express`.
+
+- **`packages/mobile/src/api/client.ts`** — Added `resolveCatalogImageUrl(url)` helper. Prepends `API_BASE` to relative paths (`/catalog-images/...`); passes absolute URLs through unchanged (future-proof for CDN migration). Co-located with `API_BASE` so the dependency is obvious.
+
+- **`packages/mobile/src/services/collectionsService.ts`** — Added `catalogImageUrl?: string | null` to `DetailItem.catalog`. The API was already returning this field; the type was just missing it.
+
+- **`packages/mobile/app/(app)/collections/[collection].tsx`** — `ItemRow` now renders a 48×48 thumbnail on the left. Uses `resolveCatalogImageUrl` to build the absolute URL. Empty dark square when image absent.
+
+- **`packages/mobile/src/screens/ItemDetailScreen.tsx`** — "Reference" section with 220px catalog image (`resizeMode: contain`) above the Status Header card. Uses `resolveCatalogImageUrl`.
+
+- **Maestro smoke tests** — Updated for new layout:
+  - `navigation/tabs.yaml`: replaced stale "coming soon" placeholder assertions with actual screen content (`"Wishlist"` title, `"Type to search across all collections"` empty state)
+  - `collections/item-detail.yaml`: added `scrollUntilVisible: direction: DOWN` before each `assertVisible: "Details"` in all three collection flows (Star Wars, Transformers, He-Man) — the 220px Reference image pushes Details off-screen
+  - `collections/add-edit-item.yaml`: added `scrollUntilVisible` before asserting the Notes text — same reason
+
+### Commands run
+```bash
+curl http://localhost:3000/catalog-images/star-wars/47741.jpg  # 200 OK after API restart
+npm run lint --workspace=packages/api     # clean
+npm run lint --workspace=packages/mobile  # clean
+~/.maestro/bin/maestro test ...           # 4/4 Passed
+git commit  # feat(mobile): show catalog images on browse list and item detail (COL-111)
+```
+
+### Outcome
+COL-111 complete. Catalog images render correctly in the mobile app. API serves `/catalog-images/` as public static files. Maestro smoke suite updated and green.
