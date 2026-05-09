@@ -57,6 +57,7 @@ export interface DetailItem {
   catalogId: string;
   catalog?: {
     name: string;
+    catalogImageUrl?: string | null;
     accessories?: string[];
     // Star Wars
     category?: string | null;

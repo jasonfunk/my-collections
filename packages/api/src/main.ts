@@ -1,10 +1,12 @@
 import 'reflect-metadata';
+import { join } from 'node:path';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ClassSerializerInterceptor, Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import express from 'express';
 import { WinstonModule } from 'nest-winston';
 import { format, transports } from 'winston';
 import { AppModule } from './app.module.js';
@@ -80,6 +82,11 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);
   }
+
+  // Serve catalog reference images — public static data, no auth required.
+  // Files live in packages/web/public/catalog-images/ (Vite serves them on web;
+  // this makes them reachable for the mobile app via API_BASE).
+  app.use('/catalog-images', express.static(join(__dirname, '../../web/public/catalog-images')));
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);

@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { CollectionType } from '@my-collections/shared';
 import { type DetailItem, fetchItemDetail } from '../services/collectionsService';
 import { SLUG_TO_COLLECTION } from '../config/collections';
-import { API_BASE } from '../api/client';
+import { API_BASE, resolveCatalogImageUrl } from '../api/client';
 import { getAccessToken } from '../auth/tokenStorage';
 
 const CONDITION_LABELS: Record<string, string> = {
@@ -211,6 +211,20 @@ export default function ItemDetailScreen() {
         }}
       />
       <ScrollView contentContainerStyle={styles.content}>
+
+        {/* ── Catalog Reference Image ── */}
+        {item.catalog?.catalogImageUrl != null && (
+          <>
+            <SectionHeader title="Reference" />
+            <View style={styles.catalogImageCard}>
+              <Image
+                source={{ uri: resolveCatalogImageUrl(item.catalog.catalogImageUrl) }}
+                style={styles.catalogImage}
+                referrerPolicy="no-referrer"
+              />
+            </View>
+          </>
+        )}
 
         {/* ── Status Header ── */}
         <View style={styles.card}>
@@ -487,6 +501,19 @@ const styles = StyleSheet.create({
   notes: { fontSize: 14, color: '#ccc', lineHeight: 20 },
 
   errorText: { fontSize: 14, color: '#ef4444', textAlign: 'center', padding: 16 },
+
+  catalogImageCard: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  catalogImage: {
+    width: '100%',
+    height: 220,
+    resizeMode: 'contain',
+  },
 
   photoScroll: { marginBottom: 8 },
   photo: {
