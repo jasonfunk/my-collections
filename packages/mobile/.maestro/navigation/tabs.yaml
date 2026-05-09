@@ -16,13 +16,13 @@ appId: com.mycollections.app
     id: "tab-wishlist"
 - waitForAnimationToEnd
 - extendedWaitUntil:
-    visible: "Items you're hunting for — coming soon."
+    visible: "Wishlist"
     timeout: 5000
 
 - tapOn: "Search"
 - waitForAnimationToEnd
 - extendedWaitUntil:
-    visible: "Search across all collections — coming soon."
+    visible: "Type to search across all collections"
     timeout: 5000
 
 - tapOn: "Dashboard"

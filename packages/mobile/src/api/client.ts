@@ -2,6 +2,12 @@ import { getAccessToken } from '../auth/tokenStorage';
 
 export const API_BASE = process.env.EXPO_PUBLIC_API_BASE_URL ?? '';
 
+export function resolveCatalogImageUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `${API_BASE}${url}`;
+}
+
 type RefreshFn = () => Promise<void>;
 type LogoutFn = () => void;
 

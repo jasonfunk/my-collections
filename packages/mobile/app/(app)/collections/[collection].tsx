@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   RefreshControl,
   StyleSheet,
   Text,
@@ -12,6 +13,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { type BrowseFilters, FilterSheet } from '../../../src/components/FilterSheet';
+import { resolveCatalogImageUrl } from '../../../src/api/client';
 import { type BrowseItem, fetchItems } from '../../../src/services/collectionsService';
 import { COLLECTION_CONFIG, SLUG_TO_COLLECTION } from '../../../src/config/collections';
 
@@ -169,6 +171,15 @@ export default function CollectionBrowseScreen() {
 function ItemRow({ item, onPress }: { item: BrowseItem; onPress: () => void }) {
   return (
     <TouchableOpacity style={styles.row} activeOpacity={0.7} onPress={onPress}>
+      <View style={styles.thumb}>
+        {item.catalog?.catalogImageUrl != null && (
+          <Image
+            source={{ uri: resolveCatalogImageUrl(item.catalog.catalogImageUrl) }}
+            style={styles.thumbImg}
+            referrerPolicy="no-referrer"
+          />
+        )}
+      </View>
       <View style={styles.rowMain}>
         <Text style={styles.rowName} numberOfLines={1}>
           {item.catalog?.name ?? '—'}
@@ -221,9 +232,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#1a1a1a',
     borderRadius: 10,
-    padding: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     marginBottom: 8,
   },
+  thumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 6,
+    backgroundColor: '#2a2a2a',
+    overflow: 'hidden',
+    marginRight: 12,
+  },
+  thumbImg: { width: 48, height: 48, resizeMode: 'cover' },
   rowMain: { flex: 1, marginRight: 12 },
   rowName: { fontSize: 15, color: '#fff', marginBottom: 3 },
   rowCondition: { fontSize: 11, color: '#888' },

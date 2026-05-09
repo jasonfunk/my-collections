@@ -22,6 +22,11 @@ appId: com.mycollections.app
 - assertVisible: "Empire Strikes Back (1980–82)"
 - assertVisible: "1981"
 - assertVisible: "Condition"
+- scrollUntilVisible:
+    element:
+      text: "Details"
+    direction: DOWN
+    timeout: 5000
 - assertVisible: "Details"
 
 - pressKey: Back
@@ -55,6 +60,11 @@ appId: com.mycollections.app
 - assertVisible: "Technobot"
 - assertVisible: "Cybertronic motorcycle"
 - assertVisible: "Condition"
+- scrollUntilVisible:
+    element:
+      text: "Details"
+    direction: DOWN
+    timeout: 5000
 - assertVisible: "Details"
 
 - pressKey: Back
@@ -90,6 +100,11 @@ appId: com.mycollections.app
 - assertVisible: "Heroic Warrior"
 - assertVisible: "The Masks of Power"
 - assertVisible: "Condition"
+- scrollUntilVisible:
+    element:
+      text: "Details"
+    direction: DOWN
+    timeout: 5000
 - assertVisible: "Details"
 
 - pressKey: Back

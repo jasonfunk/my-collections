@@ -281,6 +281,7 @@ packages/api/
 │   │   │   └── (other controllers, services, entities)
 │   │   ├── health/             ← liveness + readiness endpoints (no auth)
 │   │   │   ├── health.controller.ts
+│   │   │   ├── health.controller.spec.ts  ← integration tests: helmet security headers
 │   │   │   └── health.module.ts
 │   │   └── users/              ← user profile module
 │   │       ├── users.module.ts

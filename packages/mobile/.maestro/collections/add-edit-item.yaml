@@ -81,9 +81,11 @@ appId: com.mycollections.app
     id: "edit-item-save"
 - waitForAnimationToEnd
 
-# Verify notes visible on detail screen
-- extendedWaitUntil:
-    visible: "Added by Maestro test"
+# Verify notes visible on detail screen (scroll needed — Reference image pushes Notes below fold)
+- scrollUntilVisible:
+    element:
+      text: "Added by Maestro test"
+    direction: DOWN
     timeout: 10000
 - assertVisible: "Added by Maestro test"
 

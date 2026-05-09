@@ -2,7 +2,7 @@
 confluence_page_id: "9535489"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489"
 title: "My Collections — Mobile Application Architecture"
-last_updated: "2026-04-25"
+last_updated: "2026-05-08"
 ---
 
 ## Overview
@@ -30,8 +30,12 @@ Expo Router maps files in `app/` to routes. Route groups (folder names in parent
 | `app/(app)/collections/[collection]/[id].tsx` | `/collections/:slug/:id` | Item detail screen — condition, accessories, acquisition info, notes, photos. Re-fetches on focus. |
 | `app/(app)/collections/[collection]/add.tsx` | `/collections/:slug/add` | Two-step Add screen: Step 1 catalog search, Step 2 personal record form. |
 | `app/(app)/collections/[collection]/edit/[id].tsx` | `/collections/:slug/edit/:id` | Edit screen — pre-populated form, save + delete. Uses literal `edit/` segment to avoid naming conflict with `[id].tsx`. |
-| `app/(app)/wishlist.tsx` | `/wishlist` | Wishlist tab. |
-| `app/(app)/search.tsx` | `/search` | Search tab. |
+| `app/(app)/wishlist/_layout.tsx` | (wishlist stack) | Stack navigator for wishlist drill-down. |
+| `app/(app)/wishlist/index.tsx` | `/wishlist` | Wishlist screen — all wishlist items across collections. |
+| `app/(app)/wishlist/[collection]/[id].tsx` | `/wishlist/:slug/:id` | Item detail re-export (wishlist entry point). |
+| `app/(app)/search/_layout.tsx` | (search stack) | Stack navigator for search drill-down. |
+| `app/(app)/search/index.tsx` | `/search` | Global search screen — search across all collections. |
+| `app/(app)/search/[collection]/[id].tsx` | `/search/:slug/:id` | Item detail re-export (search entry point). |
 
 ### Key Expo Router concepts
 
@@ -72,6 +76,7 @@ Clear tokens from memory and SecureStore, reset `user` to `null` (triggers redir
 Typed `fetch` wrapper. Key behaviours:
 
 - Reads `EXPO_PUBLIC_API_BASE_URL` at module load time. Exports `API_BASE` constant — used by `ItemForm` to build authenticated photo URIs.
+- Exports `resolveCatalogImageUrl(url)` — prepends `API_BASE` to relative paths (`/catalog-images/...`); passes absolute URLs through unchanged. Used by the browse list and item detail screen to resolve catalog image URLs returned by the API.
 - Injects `Authorization: Bearer <token>` on every request using the in-memory access token.
 - On 401: attempts one silent token refresh, deduplicating concurrent refresh calls via a shared promise, then retries the original request. If refresh fails, calls `logout()`.
 - Exports `apiClient.get<T>()`, `.post<T>()`, `.patch<T>()`, `.delete()`, `.multipartPost<T>()`.
@@ -119,7 +124,7 @@ Shown when the Collections tab is tapped. Three tappable cards — one per colle
 Per-collection item list. The `collection` route parameter is a slug (`star-wars`, `transformers`, `he-man`); `SLUG_TO_COLLECTION` maps it to a `CollectionType` for the API call.
 
 - **Data:** `collectionsService.fetchItems(collectionType)` → `GET /collections/<slug>/items?page=1&limit=50`
-- **List:** `FlatList` with `RefreshControl` (pull-to-refresh). Each row shows catalog name, condition grade (if present), estimated value (if present), and an owned/wishlist badge.
+- **List:** `FlatList` with `RefreshControl` (pull-to-refresh). Each row shows a 48×48 catalog reference thumbnail (dark placeholder when absent), catalog name, condition grade (if present), estimated value (if present), and an owned/wishlist badge.
 - **Filter:** Filter button in the Stack header (Ionicons `options-outline`, indigo dot when active) opens `FilterSheet`. Filtering is client-side — `isOwned` boolean drives owned/wishlist split.
 - **Add:** `+` button (`testID="header-add-button"`) in the Stack header navigates to `/(app)/collections/<slug>/add`.
 - **Navigation:** Tapping a row pushes `/(app)/collections/<slug>/<id>` (item detail screen).
@@ -129,6 +134,7 @@ Per-collection item list. The `collection` route parameter is a slug (`star-wars
 
 Full read-only detail view for a single user item. Fetches via `collectionsService.fetchItemDetail` → `GET /collections/<slug>/items/:id`. Renders a `ScrollView` with labelled card sections:
 
+- **Reference** — 220px catalog reference image (`resizeMode: contain`). Section hidden if the catalog entry has no image. URL resolved via `resolveCatalogImageUrl` (prepends `API_BASE` to the relative path served by the NestJS `express.static` middleware at `/catalog-images/`).
 - **Status header** — catalog name (large), Owned/Wishlist badge, wishlist priority chip (High/Medium/Low) if on wishlist.
 - **Condition** — figure grade (human label e.g. "C9 · Near Mint"), packaging condition, completeness.
 - **Details** — collection-specific fields branched on `SLUG_TO_COLLECTION[slug]`:
@@ -180,8 +186,8 @@ Single source of truth for collection display config. `COLLECTION_CONFIG` maps `
 
 Exports fetch and mutation functions with their types:
 
-- **`BrowseItem` / `fetchItems(collectionType, page, limit)`** — lightweight list shape (`id`, `catalog?.name`, `isOwned`, `condition?: string | null`, `estimatedValue?: number | null`). Used by the browse screen.
-- **`DetailItem` / `fetchItemDetail(collectionType, id)`** — full item shape. Superset covering all three collection types; collection-specific fields are optional. Used by the detail and edit screens.
+- **`BrowseItem` / `fetchItems(collectionType, page, limit)`** — lightweight list shape (`id`, `catalog?.name`, `catalog?.catalogImageUrl?`, `isOwned`, `condition?: string | null`, `estimatedValue?: number | null`). Used by the browse screen.
+- **`DetailItem` / `fetchItemDetail(collectionType, id)`** — full item shape. Superset covering all three collection types; collection-specific fields are optional. `catalog` includes `catalogImageUrl?: string | null`. Used by the detail and edit screens.
 - **`CatalogItem` / `searchCatalog(collectionType, query, limit?)`** — calls `GET /collections/<slug>/catalog?search=q&limit=20`. Returns `{ id, name, accessories[], catalogImageUrl? }`. The `id` is used as `catalogId` in create payloads — never taken from a text input.
 - **`CreateItemPayload` / `createItem(collectionType, dto)`** — `POST /collections/<slug>/items`. Requires `catalogId` + `isOwned`; all other fields optional.
 - **`UpdateItemPayload` / `updateItem(collectionType, id, dto)`** — `PATCH /collections/<slug>/items/:id`. Same fields as `CreateItemPayload` minus `catalogId`.
@@ -229,8 +235,8 @@ Individual test flows:
 | `auth/login.yaml` | Clear state → launch → login → assert dashboard (cold start ~30s for PKCE + 2 API calls) |
 | `auth/logout.yaml` | Tap Sign Out → assert login screen |
 | `dashboard/stats.yaml` | Assert 3 collection cards + Totals; tap Star Wars card → assert browse loads; return to Dashboard |
-| `navigation/tabs.yaml` | Cycle all four tabs; assert placeholder content on Wishlist/Search |
-| `collections/item-detail.yaml` | Dashboard → Star Wars browse → tap item → assert Condition + Details sections → back |
+| `navigation/tabs.yaml` | Cycle all four tabs; assert Wishlist title and Search empty state |
+| `collections/item-detail.yaml` | Dashboard → Star Wars browse → tap item → assert Reference image + Condition + Details sections → back; repeats for Transformers and He-Man items |
 | `collections/add-edit-item.yaml` | Star Wars browse → add Luke Skywalker → edit notes → assert note on detail screen → delete → assert count restored → return to Dashboard |
 
 ## Known Quirks
