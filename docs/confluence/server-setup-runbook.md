@@ -82,20 +82,22 @@ Once DNS propagates, both subdomains resolve through Cloudflare to Dreamhost. Cl
 
 ### 0d. Configure Cloudflare Access Application for SSH
 
-Create the Access policy now so it is ready when the tunnel is wired up in Step 3.
+Create the Access application now so it is ready when the tunnel is wired up in Step 3.
 
-1. In Cloudflare dashboard → **Zero Trust** (left sidebar) → **Access** → **Applications** → **Add an Application**
-2. Select **Self-hosted**
-3. Configure:
-   - Application name: `Mac Mini SSH`
-   - Session duration: 24 hours
-   - Application domain: `mini.houseoffunk.net`
-4. Add a policy:
-   - Policy name: `Owner`
-   - Action: Allow
-   - Include rule: **Emails** → `jfunk@houseoffunk.net`
-5. Authentication method: **One-time PIN** — Cloudflare emails you a code; no external identity provider required
+1. In the Cloudflare dashboard → **Zero Trust** → **Access controls** → **Applications** → **Create new application**
+2. Select **Self-hosted and private**
+3. Configure the application:
+   - **Application name:** `Mac Mini SSH`
+   - **Application domain:** select `houseoffunk.net` from the dropdown, enter subdomain `mini`
+   - **Session duration:** 24 hours
+4. Under **Identity providers**, enable **One-time PIN** — Cloudflare emails a code to authenticate; no external identity provider (Google, GitHub, etc.) required
+5. Create a new policy:
+   - **Policy name:** `Owner`
+   - **Action:** Allow
+   - **Include rule:** Selector = **Emails** → Value = `jfunk@houseoffunk.net`
 6. Save the application
+
+> **What this does:** Cloudflare Access acts as an authentication gate in front of `mini.houseoffunk.net`. When `cloudflared` on your dev machine proxies an SSH connection, it first validates an Access token — prompting you to authenticate via OTP if you don't have a valid session. Only then does the connection reach port 22 on the Mac Mini.
 
 ### 0e. Update Source Code: CORS and OAuth Redirect URIs
 
