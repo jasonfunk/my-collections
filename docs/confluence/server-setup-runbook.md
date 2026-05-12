@@ -172,17 +172,29 @@ git push origin develop
 
 ### 0f. Deploy the React SPA to Dreamhost
 
-Once `collections.houseoffunk.net` is active in Dreamhost and DNS has propagated, deploy a build to validate the full static hosting path before the Mac Mini arrives.
+> **Status: DONE.** Both `stage.houseoffunk.net` and `collections.houseoffunk.net` are live. CI/CD (`deploy-web-stage.yml`) verified working on first run.
+
+The Dreamhost server hostname is `pdx1-shared-a1-13.dreamhost.com` and the web server IP is `69.163.182.190`. The `stage` and `collections` Cloudflare DNS records are A records pointing to this IP (gray cloud — DNS only). Dreamhost provisioned Let's Encrypt certificates automatically once DNS resolved correctly.
+
+**One-time manual deploy (already done — kept for reference):**
 
 ```shell
-# From repo root — build the web package
-npm run build --workspace=packages/web
+# Staging — build with staging API URL baked in
+VITE_API_BASE_URL=https://stage-api.houseoffunk.net npm run build --workspace=packages/web
+rsync -avz --delete \
+  -e "ssh -i ~/.ssh/dreamhost_deploy" \
+  packages/web/dist/ \
+  jfunkshell@pdx1-shared-a1-13.dreamhost.com:~/stage.houseoffunk.net/
 
-# Deploy via rsync to Dreamhost shared hosting
-rsync -avz packages/web/dist/ username@yourdreamhostserver.dreamhost.com:~/collections.houseoffunk.net/
+# Production — rebuild with production API URL
+VITE_API_BASE_URL=https://api.houseoffunk.net npm run build --workspace=packages/web
+rsync -avz --delete \
+  -e "ssh -i ~/.ssh/dreamhost_deploy" \
+  packages/web/dist/ \
+  jfunkshell@pdx1-shared-a1-13.dreamhost.com:~/collections.houseoffunk.net/
 ```
 
-Navigate to `https://collections.houseoffunk.net` — you should see the React app served over HTTPS. API calls will fail until the Mac Mini is running, but the static hosting path is confirmed end-to-end.
+After the initial deploy, all future deploys are handled automatically by GitHub Actions — no manual rsync needed. API calls return errors until the Mac Mini is running, but the static hosting path is confirmed end-to-end.
 
 ### 0g. Prepare Production Secrets and SSH Keys
 
