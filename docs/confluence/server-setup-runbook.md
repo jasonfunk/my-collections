@@ -198,6 +198,10 @@ After the initial deploy, all future deploys are handled automatically by GitHub
 
 ### 0g. Prepare Production Secrets and SSH Keys
 
+> **Status: DONE.** JWT secrets generated and saved to 1Password (`JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`). Ed25519 key pair created at `~/.ssh/mac_mini_ed25519`; public key saved to 1Password for Step 1. cloudflared 2026.3.0 installed. `~/.ssh/config` configured with ProxyCommand block for `mini.houseoffunk.net`.
+>
+> **Pending (fill in during Step 1 — macOS setup):** Replace `<mac-mini-username-TBD>` in `~/.ssh/config` with the actual Mac Mini username chosen during macOS Setup Assistant.
+
 **Generate production JWT secrets:**
 
 ```shell
