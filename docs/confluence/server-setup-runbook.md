@@ -82,22 +82,56 @@ Once DNS propagates, both subdomains resolve through Cloudflare to Dreamhost. Cl
 
 ### 0d. Configure Cloudflare Access Application for SSH
 
-Create the Access application now so it is ready when the tunnel is wired up in Step 3.
+> **Status: DONE.**
 
-1. In the Cloudflare dashboard → **Zero Trust** → **Access controls** → **Applications** → **Create new application**
-2. Select **Self-hosted and private**
-3. Configure the application:
-   - **Application name:** `Mac Mini SSH`
-   - **Application domain:** select `houseoffunk.net` from the dropdown, enter subdomain `mini`
-   - **Session duration:** 24 hours
-4. Under **Identity providers**, enable **One-time PIN** — Cloudflare emails a code to authenticate; no external identity provider (Google, GitHub, etc.) required
-5. Create a new policy:
-   - **Policy name:** `Owner`
-   - **Action:** Allow
-   - **Include rule:** Selector = **Emails** → Value = `jfunk@houseoffunk.net`
-6. Save the application
+Cloudflare Access is an identity-aware authentication proxy that gates access to private resources — no VPN required. It sits in front of `mini.houseoffunk.net` and enforces identity verification before any connection reaches port 22 on the Mac Mini. Port 22 is never directly exposed to the internet; the Cloudflare Tunnel is the only path in, and Access guards that path.
 
-> **What this does:** Cloudflare Access acts as an authentication gate in front of `mini.houseoffunk.net`. When `cloudflared` on your dev machine proxies an SSH connection, it first validates an Access token — prompting you to authenticate via OTP if you don't have a valid session. Only then does the connection reach port 22 on the Mac Mini.
+In the Cloudflare dashboard → **Zero Trust** → **Access controls** → **Applications** → **Create new application** → **Self-hosted and private**. The form is a single scrolling page:
+
+**Destinations (top of page)**
+
+| Field | Value |
+| --- | --- |
+| Subdomain | `mini` |
+| Domain | `houseoffunk.net` (select from dropdown) |
+| Path | *(leave blank)* |
+
+**Browser-based RDP/SSH/VNC sessions toggle** — leave **OFF**. This option renders a terminal inside a browser tab. We're using native SSH from the terminal via the `cloudflared` ProxyCommand instead — lower latency and no dependency on a browser.
+
+**Access policies (scroll down)**
+
+Click the **Builder** tab. Add a rule:
+
+| Field | Value |
+| --- | --- |
+| Action | Allow |
+| Rule selector | Emails |
+| Value | `jfunk@houseoffunk.net` |
+
+**Application name and session (further down, same page)**
+
+| Field | Value |
+| --- | --- |
+| Application name | `Mac Mini SSH` |
+| Session duration | 24 hours |
+| Identity provider | Enable **One-time PIN** — Cloudflare emails a 6-digit code; no external IdP (Google, GitHub, Okta) required |
+
+Save the application.
+
+**How the OTP flow works end-to-end:**
+
+```
+ssh mini.houseoffunk.net
+  → cloudflared (on dev machine) checks for a valid Access token
+  → no valid token: opens a browser tab to Cloudflare Access
+  → Cloudflare emails a one-time PIN to jfunk@houseoffunk.net
+  → enter the PIN in the browser
+  → Cloudflare issues a 24-hour session token (stored locally by cloudflared)
+  → SSH connection proceeds to port 22 on the Mac Mini
+  → sshd requires the Ed25519 private key — password auth is disabled
+```
+
+Within the 24-hour session window, subsequent `ssh mini.houseoffunk.net` commands skip the OTP prompt entirely — cloudflared presents the cached token silently. After 24 hours (or if the token is revoked), the OTP prompt appears again.
 
 ### 0e. Update Source Code: CORS and OAuth Redirect URIs
 
