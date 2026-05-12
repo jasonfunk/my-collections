@@ -2,7 +2,7 @@
 confluence_page_id: "15237122"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15237122"
 title: "My Collections — CI/CD Runbook"
-last_updated: "2026-05-05"
+last_updated: "2026-05-11"
 ---
 
 Four GitHub Actions pipelines deploy this project to two environments. They trigger independently based on which branch was pushed and which packages changed.
@@ -30,8 +30,8 @@ Rather than duplicating secrets with a `-STAGE` suffix, workflows use [GitHub En
 | Name | Type | Value |
 |---|---|---|
 | `DREAMHOST_SSH_KEY` | Secret | Ed25519 private key for Dreamhost deploy (see setup below) |
-| `DREAMHOST_HOST` | Variable | Dreamhost server hostname (e.g. `nova.dreamhost.com`) |
-| `DREAMHOST_USER` | Variable | Dreamhost shell username |
+| `DREAMHOST_HOST` | Variable | Dreamhost server hostname — found in Dreamhost panel → Users → Manage Users → click the shell user (e.g. `nova.dreamhost.com`). This is the actual server hostname, **not** `ssh.houseoffunk.net` — that DNS record is a separate convenience alias unrelated to CI/CD. |
+| `DREAMHOST_USER` | Variable | Dreamhost shell username — `jfunkshell` |
 
 ### `production` environment variables
 

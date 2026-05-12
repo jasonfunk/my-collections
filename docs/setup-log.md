@@ -4220,3 +4220,45 @@ git push origin develop
 
 ### Outcome
 COL-120, COL-121, COL-122, COL-123 → Done. All catalog images now render correctly across Collections browse, Add Item (search + form), Wishlist, and Search screens. Collections tab stack resets cleanly on tab switch. PR #34 opened against main.
+
+---
+
+## Session — 2026-05-11
+
+### Context
+Pre-arrival checklist progress for Mac Mini server deployment. No code changes — infrastructure setup and documentation updates.
+
+---
+
+### Deployment infrastructure progress
+
+#### Static IP (Step 0a)
+Static IP add-on ordered from ISP. Not yet provisioned — confirm the assigned IP before beginning Cloudflare Tunnel setup (Step 3).
+
+#### Cloudflare DNS migration (Step 0b) — DONE
+- Created a Cloudflare account and added `houseoffunk.net` (free plan)
+- Cloudflare imported existing DNS records from Dreamhost
+- Changed nameservers at GoDaddy from Dreamhost's to Cloudflare's two nameservers
+- DNS propagated successfully — `houseoffunk.net` NS records now resolve to Cloudflare
+
+#### Dreamhost subdomains (Step 0c) — DONE
+- Created `collections.houseoffunk.net` in Dreamhost panel (production React SPA target)
+- Created `stage.houseoffunk.net` in Dreamhost panel (staging React SPA target)
+- Corresponding CNAME records added in Cloudflare DNS (orange cloud ON for both)
+- SFTP/SSH shell username for both: **`jfunkshell`** (used as `DREAMHOST_USER` in GitHub Actions)
+
+#### DNS naming decision
+`ssh.houseoffunk.net` pre-exists in DNS, pointing to Dreamhost's shared hosting SSH servers. This subdomain cannot be repurposed for the Cloudflare Access tunnel to the Mac Mini. The Mac Mini SSH tunnel will use **`mini.houseoffunk.net`** instead. This hostname is referenced throughout the Server Setup Runbook and Infrastructure Overview pages going forward.
+
+### Documentation updated
+- `docs/confluence/server-setup-runbook.md` — replaced all `ssh.houseoffunk.net` (Mac Mini tunnel) with `mini.houseoffunk.net`; added status callouts to Steps 0a, 0b, 0c
+- `docs/confluence/infrastructure-overview.md` — added `mini.houseoffunk.net` to architecture diagram and DNS table; noted Option A (Cloudflare DNS) is complete
+- `docs/confluence/ci-cd-runbook.md` — documented `jfunkshell` as the concrete `DREAMHOST_USER` value; clarified `DREAMHOST_HOST` is the Dreamhost server hostname, not `ssh.houseoffunk.net`
+- All three pages pushed to Confluence
+
+### Remaining pre-arrival steps
+- **0a** — Confirm static IP once provisioned
+- **0d** — Create Cloudflare Access Application for `mini.houseoffunk.net` (SSH gate with OTP)
+- **0e** — Update source code: CORS origins + OAuth redirect URIs
+- **0f** — Deploy React SPA to Dreamhost (validate static hosting path before Mac Mini arrives)
+- **0g** — Generate production JWT secrets + Ed25519 SSH key pair for Mac Mini
