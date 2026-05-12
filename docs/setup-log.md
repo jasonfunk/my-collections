@@ -4262,3 +4262,54 @@ Static IP add-on ordered from ISP. Not yet provisioned — confirm the assigned 
 - **0e** — Update source code: CORS origins + OAuth redirect URIs
 - **0f** — Deploy React SPA to Dreamhost (validate static hosting path before Mac Mini arrives)
 - **0g** — Generate production JWT secrets + Ed25519 SSH key pair for Mac Mini
+
+---
+
+## 2026-05-12
+
+### Step 0d — Cloudflare Zero Trust Access Application — DONE
+- Created Cloudflare Zero Trust Access application for `mini.houseoffunk.net`
+- Application type: Self-hosted and private
+- Destinations: Subdomain `mini`, Domain `houseoffunk.net`
+- Access policy: Emails → `jfunk@houseoffunk.net`, Action: Allow
+- Session duration: 24 hours; Identity provider: One-time PIN
+- Browser-based SSH toggle left OFF (using native SSH via cloudflared ProxyCommand)
+
+### Step 0e — CORS and OAuth Redirect URIs — DONE
+- CORS already implemented in `packages/api/src/main.ts` — uses `ALLOWED_ORIGINS` env var (comma-separated), no code change needed
+- Updated `packages/api/src/database/seeds/oauth-clients.seed.ts`: replaced `mycollections.example.com` placeholder with `collections.houseoffunk.net` in web-app redirectUris
+- Updated `packages/api/.env.example`: documented production and staging `ALLOWED_ORIGINS` values in comments
+- PR #36 opened on `develop`, reviewed, and merged to `main`
+
+### Step 0f — Deploy React SPA to Dreamhost — DONE
+
+#### Dreamhost deploy SSH key
+- Generated Ed25519 deploy key: `~/.ssh/dreamhost_deploy` (separate from Mac Mini key)
+- Added public key to Dreamhost server manually via SSH (panel UI for SSH keys was not findable)
+- Dreamhost server hostname: `pdx1-shared-a1-13.dreamhost.com`; web server IP: `69.163.182.190`
+
+#### GitHub Actions CI/CD wired up
+- Repository secret added: `DREAMHOST_SSH_KEY` (private key for rsync deploys)
+- Repository variables added: `DREAMHOST_HOST=pdx1-shared-a1-13.dreamhost.com`, `DREAMHOST_USER=jfunkshell`
+- GitHub environments created:
+  - `production`: `VITE_API_BASE_URL=https://api.houseoffunk.net`, `DREAMHOST_DIR=~/collections.houseoffunk.net/`
+  - `staging`: `VITE_API_BASE_URL=https://stage-api.houseoffunk.net`, `DREAMHOST_DIR=~/stage.houseoffunk.net/`
+
+#### DNS troubleshooting
+- Initial "Site Not Found": Cloudflare `collections`/`stage` CNAMEs pointed to `houseoffunk.net` which had wrong IP (`69.163.181.31` — a different Dreamhost server)
+- 522 timeout: switched to A records pointing to `69.163.176.23` (SSH/MySQL server — wrong IP for web)
+- Resolution: correct web server IP is `69.163.182.190`; set both `collections` and `stage` as A records pointing there with gray cloud (DNS only)
+- Dreamhost provisioned Let's Encrypt certs for both subdomains once DNS resolved correctly
+
+#### Manual deploys completed
+- Staging: built with `VITE_API_BASE_URL=https://stage-api.houseoffunk.net`, rsynced to `~/stage.houseoffunk.net/`
+- Production: built with `VITE_API_BASE_URL=https://api.houseoffunk.net`, rsynced to `~/collections.houseoffunk.net/`
+- Both sites live and serving the React SPA over HTTPS (login page visible; API calls fail as expected — Mac Mini not yet running)
+
+#### CI/CD verified
+- Pushed trivial change to `develop` → `deploy-web-stage.yml` triggered and completed successfully
+- Production CI/CD (`deploy-web.yml`) is structurally identical; will fire automatically on next `main` push touching `packages/web/`
+
+### Remaining pre-arrival steps
+- **0a** — Confirm static IP once provisioned
+- **0g** — Generate production JWT secrets + Ed25519 SSH key pair for Mac Mini
