@@ -7,6 +7,8 @@ last_updated: "2026-05-12"
 
 This runbook has three phases. **Step 0** is done on your existing development machine before the Mac Mini arrives. **Steps 1–2** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 3–6** are done remotely over SSH after the monitor is unplugged.
 
+**DNS and connectivity note:** During Steps 1–2, SSH uses `mini.local` — macOS advertises itself over mDNS/Bonjour on the local network automatically, no router configuration required. The `mini.houseoffunk.net` hostname does not exist yet; it is created in Step 3 when the Cloudflare Tunnel is set up. No router port forwarding is required at any point in this runbook.
+
 ## Step 0 — Pre-Arrival Checklist
 
 All of these steps are done on your development machine or in web dashboards — no Mac Mini required. Completing them before the hardware arrives means Day 1 is physical setup only.
@@ -325,7 +327,7 @@ Before unplugging the real monitor, plug a dummy HDMI plug into the Mac Mini's H
 
 ## Step 2 — Verify SSH and Go Headless
 
-Still with the monitor connected, test SSH and key authentication from another machine on the local network:
+Still with the monitor connected, test SSH and key authentication from another machine on the local network. Use `mini.local` — this is the mDNS/Bonjour name macOS advertises automatically on the LAN. The `mini.houseoffunk.net` tunnel hostname does not exist until Step 3.
 
 ```shell
 ssh -i ~/.ssh/mac_mini_ed25519 username@mini.local
@@ -348,6 +350,8 @@ All remaining steps are done via SSH.
 ## Step 3 — Set Up Cloudflare Tunnel
 
 The Cloudflare Tunnel routes all public traffic to the Mac Mini without opening any ports on the home router. SSL is handled by Cloudflare automatically. **The home router has zero open inbound ports at any point in this setup.**
+
+> **This is when `mini.houseoffunk.net` comes alive.** Step 3d runs `cloudflared tunnel route dns`, which creates the CNAME record in Cloudflare DNS. Before that command completes, `mini.houseoffunk.net` does not resolve. All SSH prior to this point uses `mini.local` (local network only).
 
 ### 3a. Install and Authenticate cloudflared
 
