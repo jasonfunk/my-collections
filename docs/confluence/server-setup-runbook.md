@@ -135,41 +135,37 @@ Within the 24-hour session window, subsequent `ssh mini.houseoffunk.net` command
 
 ### 0e. Update Source Code: CORS and OAuth Redirect URIs
 
+> **Status: DONE.**
+
 Make these changes on the `develop` branch before the Mac Mini arrives. Commit and merge to `main` so the production server pulls correct code on day one.
 
-**Update OAuth redirect URIs** (`packages/api/src/database/seeds/oauth-clients.seed.ts`):
+**CORS (`packages/api/src/main.ts`)** — already implemented. The API uses an `ALLOWED_ORIGINS` environment variable (comma-separated list) with `credentials: true`. In production, set `ALLOWED_ORIGINS=https://collections.houseoffunk.net` in the server `.env`. No code change needed.
 
-```plaintext
-Find:    https://mycollections.example.com/auth/callback
-Replace: https://collections.houseoffunk.net/auth/callback
-```
-
-**Restrict CORS to frontend origin** (`packages/api/src/main.ts`):
+**OAuth redirect URIs (`packages/api/src/database/seeds/oauth-clients.seed.ts`)** — updated: replaced the `mycollections.example.com` placeholder with the production URL:
 
 ```typescript
-// Replace:
-app.enableCors();
-
-// With:
-app.enableCors({
-  origin: process.env.ALLOWED_ORIGIN,
-  credentials: true,
-});
+redirectUris: [
+  'http://localhost:5173/auth/callback',
+  'https://collections.houseoffunk.net/auth/callback',
+],
 ```
 
-Add to `packages/api/.env.example`:
+The seed runs once on the Mac Mini after the initial database migration (Step 5). The production redirect URI must exactly match what the web app sends in the OAuth `redirect_uri` parameter — any mismatch returns a 400 error.
+
+**`.env.example`** — production and staging CORS values documented in comments:
 
 ```plaintext
-ALLOWED_ORIGIN=https://collections.houseoffunk.net
+# Production value: https://collections.houseoffunk.net
+# Staging value:    https://stage.houseoffunk.net
+ALLOWED_ORIGINS=http://localhost:5173
 ```
 
 **Commit and merge:**
 
 ```shell
 git add packages/api/src/database/seeds/oauth-clients.seed.ts
-git add packages/api/src/main.ts
 git add packages/api/.env.example
-git commit -m "fix: restrict CORS and update production OAuth redirect URIs for houseoffunk.net"
+git commit -m "fix: update production OAuth redirect URI to collections.houseoffunk.net"
 git push origin develop
 # Open a PR and merge to main
 ```
