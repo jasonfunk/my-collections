@@ -13,7 +13,7 @@ All of these steps are done on your development machine or in web dashboards —
 
 ### 0a. Purchase a Static IP from Your ISP
 
-> **Status: Ordered — awaiting provisioning.** Confirm the assigned IP before proceeding to Step 3.
+> **Status: DONE.** Static IP provisioned: `209.206.82.27`. Confirmed not behind CGNAT — this is a real routable public IP.
 
 A static IP is recommended before doing anything else — it is the foundation the rest of the network configuration depends on.
 
