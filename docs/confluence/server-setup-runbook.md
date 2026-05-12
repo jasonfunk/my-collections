@@ -2,7 +2,7 @@
 confluence_page_id: "6356993"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993"
 title: "My Collections — Server Setup Runbook"
-last_updated: "2026-05-05"
+last_updated: "2026-05-11"
 ---
 
 This runbook has three phases. **Step 0** is done on your existing development machine before the Mac Mini arrives. **Steps 1–2** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 3–6** are done remotely over SSH after the monitor is unplugged.
@@ -12,6 +12,8 @@ This runbook has three phases. **Step 0** is done on your existing development m
 All of these steps are done on your development machine or in web dashboards — no Mac Mini required. Completing them before the hardware arrives means Day 1 is physical setup only.
 
 ### 0a. Purchase a Static IP from Your ISP
+
+> **Status: Ordered — awaiting provisioning.** Confirm the assigned IP before proceeding to Step 3.
 
 A static IP is recommended before doing anything else — it is the foundation the rest of the network configuration depends on.
 
@@ -31,6 +33,8 @@ A static IP is recommended before doing anything else — it is the foundation t
 > **Note:** You typically do not need to reconfigure your router. The ISP either locks the DHCP lease to your static IP, or instructs you to configure PPPoE/static on the router's WAN interface. Follow their specific provisioning instructions.
 
 ### 0b. Create Cloudflare Account and Migrate DNS
+
+> **Status: DONE.** Cloudflare account created, `houseoffunk.net` added, GoDaddy nameservers updated to Cloudflare, DNS propagated.
 
 **Add the domain to Cloudflare:**
 
@@ -59,6 +63,8 @@ A static IP is recommended before doing anything else — it is the foundation t
 
 ### 0c. Set Up Dreamhost Subdomains
 
+> **Status: DONE.** `collections.houseoffunk.net` and `stage.houseoffunk.net` created in Dreamhost. SFTP/SSH shell username: `jfunkshell` (both subdomains share the same user).
+
 The React SPA and its staging counterpart are deployed as static files to Dreamhost shared hosting.
 
 1. Log in to Dreamhost panel → **Manage Websites** → **Add a Website**
@@ -76,58 +82,90 @@ Once DNS propagates, both subdomains resolve through Cloudflare to Dreamhost. Cl
 
 ### 0d. Configure Cloudflare Access Application for SSH
 
-Create the Access policy now so it is ready when the tunnel is wired up in Step 3.
+> **Status: DONE.**
 
-1. In Cloudflare dashboard → **Zero Trust** (left sidebar) → **Access** → **Applications** → **Add an Application**
-2. Select **Self-hosted**
-3. Configure:
-   - Application name: `Mac Mini SSH`
-   - Session duration: 24 hours
-   - Application domain: `ssh.houseoffunk.net`
-4. Add a policy:
-   - Policy name: `Owner`
-   - Action: Allow
-   - Include rule: **Emails** → `jfunk@houseoffunk.net`
-5. Authentication method: **One-time PIN** — Cloudflare emails you a code; no external identity provider required
-6. Save the application
+Cloudflare Access is an identity-aware authentication proxy that gates access to private resources — no VPN required. It sits in front of `mini.houseoffunk.net` and enforces identity verification before any connection reaches port 22 on the Mac Mini. Port 22 is never directly exposed to the internet; the Cloudflare Tunnel is the only path in, and Access guards that path.
+
+In the Cloudflare dashboard → **Zero Trust** → **Access controls** → **Applications** → **Create new application** → **Self-hosted and private**. The form is a single scrolling page:
+
+**Destinations (top of page)**
+
+| Field | Value |
+| --- | --- |
+| Subdomain | `mini` |
+| Domain | `houseoffunk.net` (select from dropdown) |
+| Path | *(leave blank)* |
+
+**Browser-based RDP/SSH/VNC sessions toggle** — leave **OFF**. This option renders a terminal inside a browser tab. We're using native SSH from the terminal via the `cloudflared` ProxyCommand instead — lower latency and no dependency on a browser.
+
+**Access policies (scroll down)**
+
+Click the **Builder** tab. Add a rule:
+
+| Field | Value |
+| --- | --- |
+| Action | Allow |
+| Rule selector | Emails |
+| Value | `jfunk@houseoffunk.net` |
+
+**Application name and session (further down, same page)**
+
+| Field | Value |
+| --- | --- |
+| Application name | `Mac Mini SSH` |
+| Session duration | 24 hours |
+| Identity provider | Enable **One-time PIN** — Cloudflare emails a 6-digit code; no external IdP (Google, GitHub, Okta) required |
+
+Save the application.
+
+**How the OTP flow works end-to-end:**
+
+```
+ssh mini.houseoffunk.net
+  → cloudflared (on dev machine) checks for a valid Access token
+  → no valid token: opens a browser tab to Cloudflare Access
+  → Cloudflare emails a one-time PIN to jfunk@houseoffunk.net
+  → enter the PIN in the browser
+  → Cloudflare issues a 24-hour session token (stored locally by cloudflared)
+  → SSH connection proceeds to port 22 on the Mac Mini
+  → sshd requires the Ed25519 private key — password auth is disabled
+```
+
+Within the 24-hour session window, subsequent `ssh mini.houseoffunk.net` commands skip the OTP prompt entirely — cloudflared presents the cached token silently. After 24 hours (or if the token is revoked), the OTP prompt appears again.
 
 ### 0e. Update Source Code: CORS and OAuth Redirect URIs
 
+> **Status: DONE.**
+
 Make these changes on the `develop` branch before the Mac Mini arrives. Commit and merge to `main` so the production server pulls correct code on day one.
 
-**Update OAuth redirect URIs** (`packages/api/src/database/seeds/oauth-clients.seed.ts`):
+**CORS (`packages/api/src/main.ts`)** — already implemented. The API uses an `ALLOWED_ORIGINS` environment variable (comma-separated list) with `credentials: true`. In production, set `ALLOWED_ORIGINS=https://collections.houseoffunk.net` in the server `.env`. No code change needed.
 
-```plaintext
-Find:    https://mycollections.example.com/auth/callback
-Replace: https://collections.houseoffunk.net/auth/callback
-```
-
-**Restrict CORS to frontend origin** (`packages/api/src/main.ts`):
+**OAuth redirect URIs (`packages/api/src/database/seeds/oauth-clients.seed.ts`)** — updated: replaced the `mycollections.example.com` placeholder with the production URL:
 
 ```typescript
-// Replace:
-app.enableCors();
-
-// With:
-app.enableCors({
-  origin: process.env.ALLOWED_ORIGIN,
-  credentials: true,
-});
+redirectUris: [
+  'http://localhost:5173/auth/callback',
+  'https://collections.houseoffunk.net/auth/callback',
+],
 ```
 
-Add to `packages/api/.env.example`:
+The seed runs once on the Mac Mini after the initial database migration (Step 5). The production redirect URI must exactly match what the web app sends in the OAuth `redirect_uri` parameter — any mismatch returns a 400 error.
+
+**`.env.example`** — production and staging CORS values documented in comments:
 
 ```plaintext
-ALLOWED_ORIGIN=https://collections.houseoffunk.net
+# Production value: https://collections.houseoffunk.net
+# Staging value:    https://stage.houseoffunk.net
+ALLOWED_ORIGINS=http://localhost:5173
 ```
 
 **Commit and merge:**
 
 ```shell
 git add packages/api/src/database/seeds/oauth-clients.seed.ts
-git add packages/api/src/main.ts
 git add packages/api/.env.example
-git commit -m "fix: restrict CORS and update production OAuth redirect URIs for houseoffunk.net"
+git commit -m "fix: update production OAuth redirect URI to collections.houseoffunk.net"
 git push origin develop
 # Open a PR and merge to main
 ```
@@ -175,13 +213,13 @@ brew install cloudflare/cloudflare/cloudflared
 Add the SSH ProxyCommand to `~/.ssh/config` on your dev machine:
 
 ```
-Host ssh.houseoffunk.net
+Host mini.houseoffunk.net
     ProxyCommand cloudflared access ssh --hostname %h
     User <mac-mini-username>
     IdentityFile ~/.ssh/mac_mini_ed25519
 ```
 
-This is what makes `ssh ssh.houseoffunk.net` work transparently through the Cloudflare Access gate.
+This is what makes `ssh mini.houseoffunk.net` work transparently through the Cloudflare Access gate.
 
 ---
 
@@ -323,7 +361,7 @@ tunnel: <tunnel-id>
 credentials-file: /Users/<username>/.cloudflared/<tunnel-id>.json
 
 ingress:
-  - hostname: ssh.houseoffunk.net
+  - hostname: mini.houseoffunk.net
     service: ssh://localhost:22
   - hostname: api.houseoffunk.net
     service: http://localhost:3000
@@ -340,7 +378,7 @@ The `stage-api` entry routes the staging API subdomain to port 3001, where the s
 
 ```shell
 cloudflared tunnel route dns my-collections api.houseoffunk.net
-cloudflared tunnel route dns my-collections ssh.houseoffunk.net
+cloudflared tunnel route dns my-collections mini.houseoffunk.net
 cloudflared tunnel route dns my-collections stage-api.houseoffunk.net
 ```
 
@@ -373,7 +411,7 @@ Installing with `sudo` creates a LaunchDaemon — a system-level service that st
 On your dev machine (not the Mac Mini), test the full SSH tunnel:
 
 ```shell
-ssh ssh.houseoffunk.net
+ssh mini.houseoffunk.net
 ```
 
 `cloudflared` intercepts the connection, opens a browser tab, Cloudflare sends a one-time PIN to `jfunk@houseoffunk.net`, you enter the PIN, and the SSH connection completes using the Ed25519 key. Subsequent connections within the 24-hour session window skip the PIN.
@@ -381,10 +419,10 @@ ssh ssh.houseoffunk.net
 If the browser does not open automatically:
 
 ```shell
-cloudflared access ssh --hostname ssh.houseoffunk.net
+cloudflared access ssh --hostname mini.houseoffunk.net
 ```
 
-> **Security model summary:** The home router has zero open inbound ports. Port 22 on the Mac Mini is only reachable through the Cloudflare Tunnel after the Access policy is satisfied (email OTP). macOS `sshd` requires key authentication — passwords are disabled. An attacker would need to compromise your email account, your Cloudflare session, AND your private SSH key.
+> **Security model summary:** The home router has zero open inbound ports. Port 22 on the Mac Mini is only reachable through the Cloudflare Tunnel (`mini.houseoffunk.net`) after the Access policy is satisfied (email OTP). macOS `sshd` requires key authentication — passwords are disabled. An attacker would need to compromise your email account, your Cloudflare session, AND your private SSH key. Note: `ssh.houseoffunk.net` is a separate DNS record pointing to Dreamhost's shared hosting servers — it is unrelated to this tunnel.
 
 ---
 
@@ -419,7 +457,7 @@ The machine is physically configured and network-connected. The application inst
 
 ```shell
 # SSH into the Mac Mini via Cloudflare Access tunnel
-ssh ssh.houseoffunk.net
+ssh mini.houseoffunk.net
 
 # Clone the repo
 mkdir -p ~/Sites && cd ~/Sites
@@ -543,7 +581,7 @@ The definitive headless validation — confirm everything comes back after a col
 sudo reboot
 
 # Wait ~60 seconds, then SSH back in (Cloudflare Access OTP prompt again):
-ssh ssh.houseoffunk.net
+ssh mini.houseoffunk.net
 
 pm2 status                                                # my-collections-api should be online
 sudo launchctl list | grep cloudflared                    # tunnel service running

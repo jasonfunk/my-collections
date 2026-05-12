@@ -29,7 +29,7 @@ const clients = [
     name: 'My Collections Web App',
     redirectUris: [
       'http://localhost:5173/auth/callback',
-      'https://mycollections.example.com/auth/callback',
+      'https://collections.houseoffunk.net/auth/callback',
     ],
     allowedScopes: ['collections:read', 'collections:write', 'profile'],
   },

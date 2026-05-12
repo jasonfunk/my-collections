@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-05"
+last_updated: "2026-05-11"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -26,12 +26,14 @@ Internet
     │
     ▼
 Cloudflare Edge
-    │  api.houseoffunk.net / stage-api.houseoffunk.net DNS → Cloudflare IPs (home IP never exposed)
+    │  api.houseoffunk.net / stage-api.houseoffunk.net / mini.houseoffunk.net DNS → Cloudflare IPs (home IP never exposed)
     │  SSL terminated at Cloudflare (free, automatic, no certbot)
     │
     │  outbound persistent tunnel — zero open inbound ports on home router
     ▼
 cloudflared daemon     Mac Mini  (launchd system daemon, starts before login)
+    │
+    ├──▶ localhost:22     SSH daemon (macOS sshd)                      ← mini.houseoffunk.net  [Cloudflare Access: OTP gate]
     │
     ├──▶ localhost:3000    NestJS API  (pm2: my-collections-api)       ← api.houseoffunk.net
     │         │
@@ -95,12 +97,25 @@ FileVault must remain OFF. FileVault encrypts the disk and requires a password b
 
 ## DNS Configuration Options
 
+> **Option A has been implemented.** GoDaddy nameservers now point to Cloudflare. All DNS for `houseoffunk.net` is managed in the Cloudflare dashboard.
+
 The Cloudflare Tunnel CNAME can be wired up in two ways. Option A is recommended for full Cloudflare proxy benefits.
 
 | Option | How | Trade-offs |
 | --- | --- | --- |
-| **A — Move DNS to Cloudflare** | Change nameservers at domain registrar to Cloudflare's. Cloudflare manages all DNS records. | Full orange-cloud proxy protection. cloudflared tunnel route dns creates CNAMEs automatically. Requires DNS migration. |
+| **A — Move DNS to Cloudflare** ✅ | Change nameservers at domain registrar to Cloudflare's. Cloudflare manages all DNS records. | Full orange-cloud proxy protection. cloudflared tunnel route dns creates CNAMEs automatically. Requires DNS migration. |
 | **B — CNAME at Dreamhost** | Keep Dreamhost DNS. Add CNAME manually: api → `<tunnel-id>.cfargotunnel.com` | No DNS migration required. Reduced Cloudflare proxy benefits. CNAME must be added manually per subdomain. |
+
+**Active DNS records in Cloudflare (as of 2026-05-11):**
+
+| Name | Type | Value | Proxy | Purpose |
+| --- | --- | --- | --- | --- |
+| `collections` | CNAME | `houseoffunk.net` | Orange cloud ON | React SPA (production) → Dreamhost |
+| `stage` | CNAME | `houseoffunk.net` | Orange cloud ON | React SPA (staging) → Dreamhost |
+| `ssh` | A/CNAME | Dreamhost servers | — | Pre-existing Dreamhost SSH access (unrelated to Mac Mini) |
+| `api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (production) — created in Step 3d |
+| `stage-api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (staging) — created in Step 3d |
+| `mini` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | Mac Mini SSH via Cloudflare Access — created in Step 3d |
 
 ## Environment Variables
 
