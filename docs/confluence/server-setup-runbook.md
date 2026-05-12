@@ -2,7 +2,7 @@
 confluence_page_id: "6356993"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993"
 title: "My Collections — Server Setup Runbook"
-last_updated: "2026-05-11"
+last_updated: "2026-05-12"
 ---
 
 This runbook has three phases. **Step 0** is done on your existing development machine before the Mac Mini arrives. **Steps 1–2** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 3–6** are done remotely over SSH after the monitor is unplugged.
