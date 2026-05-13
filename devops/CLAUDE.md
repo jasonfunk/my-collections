@@ -329,13 +329,21 @@ pm2 restart my-collections-api               # Restart the API process
 cd ~/Sites/my-collections
 git pull origin main
 npm ci
-npm run build
+npm run build -- --filter=@my-collections/api   # mobile build requires react-native-web (not installed on server)
 pm2 restart my-collections-api
 
 # --- Database ---
-psql $DATABASE_URL                                       # Connect as the app user
-npm run migration:run --workspace=packages/api           # Run pending migrations
-npm run migration:show --workspace=packages/api          # List migration status
+psql $DATABASE_URL                                          # Connect as the app user
+cd ~/Sites/my-collections/packages/api && npm run migration:run    # Run pending migrations (must cd to packages/api)
+cd ~/Sites/my-collections/packages/api && npm run migration:show   # List migration status
+
+# --- Seeds (run from repo root) ---
+cd ~/Sites/my-collections
+npm run seed:star-wars       # catalog seeds use absolute __dirname path — CWD doesn't matter
+npm run seed:transformers
+npm run seed:he-man
+# OAuth clients seed: CWD matters (uses plain dotenv.config())
+cd ~/Sites/my-collections/packages/api && npx ts-node --project tsconfig.json src/database/seeds/oauth-clients.seed.ts
 
 # --- Homebrew services (PostgreSQL, cloudflared) ---
 brew services list                             # All managed services + status
@@ -359,6 +367,45 @@ launchctl list | grep actions                 # Check runner service status (no 
 launchctl list                                 # All user-space services
 sudo launchctl list                            # All system-space services
 ```
+
+---
+
+## Known Gotchas (lessons from Session 1 — 2026-05-13)
+
+### pm2 `cwd` must be `packages/api/`, not repo root
+`ConfigModule.forRoot({ isGlobal: true })` in NestJS reads `.env` from the process CWD.
+The `.env` lives at `packages/api/.env`. If pm2 runs with `cwd` pointing at the repo root,
+NestJS silently starts without any env vars — no error, just immediate crash-restart loop.
+`ecosystem.config.js` is committed to the repo with `cwd: \`${__dirname}/packages/api\``.
+
+### Build filter required on server: `--filter=@my-collections/api`
+`npm run build` without a filter also tries to build `@my-collections/mobile`, which runs
+`expo export`. The server doesn't have `react-native-web` installed, so the mobile build fails
+and Turborepo marks the whole pipeline as failed. Always use the filter.
+
+### `ts-node` is not globally installed — use `npx ts-node`
+`ts-node` is a workspace devDependency, not a global. `ts-node ...` gives `command not found`.
+Use `npx ts-node --project packages/api/tsconfig.json <seed-path>`.
+
+### oauth-clients seed CWD matters
+`oauth-clients.seed.ts` calls `dotenv.config()` with no path — reads `.env` from CWD.
+Must run from `packages/api/`. The catalog seeds (`run-star-wars-seed.ts`, etc.) use
+`dotenv.config({ path: path.resolve(__dirname, '../../../.env') })` — they work from anywhere.
+
+### SSH commands need `source ~/.zprofile`
+Non-interactive SSH sessions don't source `~/.zprofile`. Both nvm (Node/npm) and the
+PostgreSQL 16 bin path are set there. Any command that needs `node`, `npm`, `psql`, or
+`brew services` must prefix with `source ~/.zprofile &&` or the command will not be found.
+
+### New users are created with `isApproved: false`
+Migration `UserIsApprovedDefaultFalse` changed the DB default. After registering any account,
+approve it manually: `psql $DATABASE_URL -c "UPDATE users SET \"isApproved\" = true WHERE email = '...';"`.
+
+### Web frontend: raw `fetch` calls in `AuthContext.tsx` bypass `API_ORIGIN`
+`apiClient` in `client.ts` correctly prefixes `VITE_API_BASE_URL`. But `AuthContext.tsx`
+made direct `fetch('/api/...')` calls that resolved relative to the frontend origin in
+production. Fixed in PR #39 (2026-05-13) — all auth fetches now use `${API_ORIGIN}/api/...`.
+If you see login failing against a deployed API, check for hardcoded `/api/` paths.
 
 ---
 
