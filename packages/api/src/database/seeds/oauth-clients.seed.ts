@@ -30,6 +30,7 @@ const clients = [
     redirectUris: [
       'http://localhost:5173/auth/callback',
       'https://collections.houseoffunk.net/auth/callback',
+      'https://stage.houseoffunk.net/auth/callback',
     ],
     allowedScopes: ['collections:read', 'collections:write', 'profile'],
   },
