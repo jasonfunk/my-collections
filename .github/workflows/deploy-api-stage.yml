@@ -24,13 +24,13 @@ jobs:
         run: git -C ~/Sites/my-collections-stage pull origin develop
 
       - name: Install dependencies
-        run: cd ~/Sites/my-collections-stage && npm ci
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage && npm ci
 
       - name: Build
-        run: cd ~/Sites/my-collections-stage && npm run build -- --filter=@my-collections/api
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage && npm run build -- --filter=@my-collections/api
 
       - name: Run migrations
-        run: cd ~/Sites/my-collections-stage/packages/api && npm run migration:run
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage/packages/api && npm run migration:run
 
       - name: Restart API
-        run: pm2 restart my-collections-api-stage
+        run: . $HOME/.nvm/nvm.sh && pm2 restart my-collections-api-stage
