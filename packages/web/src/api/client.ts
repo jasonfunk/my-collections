@@ -1,8 +1,9 @@
 /**
  * Typed API client wrapping native fetch.
  *
- * - Base URL: VITE_API_BASE_URL env var (empty in dev → Vite proxy handles /api)
- *   In production set VITE_API_BASE_URL=https://api.example.com
+ * - Base URL: VITE_API_BASE_URL env var
+ *   Dev: leave unset → API_BASE defaults to '/api', Vite proxy strips the prefix and forwards to localhost:3000
+ *   Prod: set to the API origin (e.g. https://api.example.com) → API_BASE is that origin, paths appended directly
  * - Injects Authorization: Bearer <accessToken> on every request
  * - On 401: attempts one silent token refresh, then retries
  * - If refresh also fails, calls the registered logout handler
@@ -11,7 +12,9 @@
  * to avoid a circular import dependency.
  */
 
-export const API_ORIGIN = import.meta.env.VITE_API_BASE_URL ?? '';
+// Dev: VITE_API_BASE_URL is unset → '/api' matches the Vite proxy mount, which strips the prefix.
+// Prod: VITE_API_BASE_URL is the full API origin → paths are appended directly (no /api prefix on the server).
+export const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api';
 
 import { getAccessToken } from '../auth/tokenStorage.js';
 
@@ -51,7 +54,7 @@ async function request<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_ORIGIN}/api${path}`, {
+  const response = await fetch(`${API_BASE}${path}`, {
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -89,7 +92,7 @@ export async function uploadFile(path: string, file: File): Promise<{ url: strin
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${API_ORIGIN}/api${path}`, {
+  const response = await fetch(`${API_BASE}${path}`, {
     method: 'POST',
     // No Content-Type header — browser sets it automatically with multipart boundary
     headers: token ? { Authorization: `Bearer ${token}` } : {},
