@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { API_ORIGIN } from '@/api/client.js';
+import { API_BASE } from '@/api/client.js';
 import { getAccessToken } from '@/auth/tokenStorage.js';
 
 interface Props {
@@ -28,7 +28,7 @@ export function AuthenticatedImage({ src, alt, className, fallback }: Props) {
     let objectUrl: string | null = null;
     const token = getAccessToken();
 
-    fetch(`${API_ORIGIN}/api${src}`, {
+    fetch(`${API_BASE}${src}`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then((res) => {
