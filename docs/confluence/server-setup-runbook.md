@@ -7,13 +7,15 @@ last_updated: "2026-05-12"
 
 This runbook has three phases. **Step 0** is done on your existing development machine before the Mac Mini arrives. **Steps 1–2** require a monitor, keyboard, and mouse physically connected to the Mac Mini. **Steps 3–6** are done remotely over SSH after the monitor is unplugged.
 
+**DNS and connectivity note:** During Steps 1–2, SSH uses `mini.local` — macOS advertises itself over mDNS/Bonjour on the local network automatically, no router configuration required. The `mini.houseoffunk.net` hostname does not exist yet; it is created in Step 3 when the Cloudflare Tunnel is set up. No router port forwarding is required at any point in this runbook.
+
 ## Step 0 — Pre-Arrival Checklist
 
 All of these steps are done on your development machine or in web dashboards — no Mac Mini required. Completing them before the hardware arrives means Day 1 is physical setup only.
 
 ### 0a. Purchase a Static IP from Your ISP
 
-> **Status: Ordered — awaiting provisioning.** Confirm the assigned IP before proceeding to Step 3.
+> **Status: DONE.** Static IP provisioned: `209.206.82.27`. Confirmed not behind CGNAT — this is a real routable public IP.
 
 A static IP is recommended before doing anything else — it is the foundation the rest of the network configuration depends on.
 
@@ -174,7 +176,7 @@ git push origin develop
 
 > **Status: DONE.** Both `stage.houseoffunk.net` and `collections.houseoffunk.net` are live. CI/CD (`deploy-web-stage.yml`) verified working on first run.
 
-The Dreamhost server hostname is `pdx1-shared-a1-13.dreamhost.com` and the web server IP is `69.163.182.190`. The `stage` and `collections` Cloudflare DNS records are A records pointing to this IP (gray cloud — DNS only). Dreamhost provisioned Let's Encrypt certificates automatically once DNS resolved correctly.
+The `collections` and `stage` Cloudflare DNS records are A records with gray cloud (DNS only) — Dreamhost shared hosting is not compatible with Cloudflare proxy mode. `collections.houseoffunk.net` → `75.119.200.159`; `stage.houseoffunk.net` → `69.163.181.31` (different Dreamhost servers). Dreamhost provisioned Let's Encrypt certificates automatically once DNS resolved correctly.
 
 **One-time manual deploy (already done — kept for reference):**
 
@@ -197,6 +199,8 @@ rsync -avz --delete \
 After the initial deploy, all future deploys are handled automatically by GitHub Actions — no manual rsync needed. API calls return errors until the Mac Mini is running, but the static hosting path is confirmed end-to-end.
 
 ### 0g. Prepare Production Secrets and SSH Keys
+
+> **Status: DONE.** JWT secrets generated and saved to 1Password (`JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`). Ed25519 key pair created at `~/.ssh/mac_mini_ed25519`; public key saved to 1Password for Step 1. cloudflared 2026.3.0 installed. `~/.ssh/config` configured with ProxyCommand block for `mini.houseoffunk.net` (username: `jfunk`).
 
 **Generate production JWT secrets:**
 
@@ -281,7 +285,7 @@ Set or confirm these values:
 ```
 PasswordAuthentication no
 PermitRootLogin no
-AllowUsers <your-username>
+AllowUsers jfunk
 ```
 
 Save and close. SSH connections will require key authentication — no password brute-forcing is possible even if port 22 were ever reachable.
@@ -309,9 +313,18 @@ Set a memorable hostname: **System Settings → General → Sharing → Local Ho
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+macOS does not create `~/.zprofile` by default. After the installer finishes, it prints the commands to add Homebrew to PATH — run them explicitly:
+
+```shell
+echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 source ~/.zprofile
 brew --version
 ```
+
+`~/.zprofile` runs for all login shells (including SSH sessions). launchd daemons do not source it — their PATH is set in the launchd plist automatically by `brew services` and `sudo cloudflared service install`.
 
 ### Connect the Dummy HDMI Plug
 
@@ -321,10 +334,10 @@ Before unplugging the real monitor, plug a dummy HDMI plug into the Mac Mini's H
 
 ## Step 2 — Verify SSH and Go Headless
 
-Still with the monitor connected, test SSH and key authentication from another machine on the local network:
+Still with the monitor connected, test SSH and key authentication from another machine on the local network. Use `mini.local` — this is the mDNS/Bonjour name macOS advertises automatically on the LAN. The `mini.houseoffunk.net` tunnel hostname does not exist until Step 3.
 
 ```shell
-ssh -i ~/.ssh/mac_mini_ed25519 username@mini.local
+ssh -i ~/.ssh/mac_mini_ed25519 jfunk@mini.local
 hostname
 uptime
 ```
@@ -332,7 +345,7 @@ uptime
 Once SSH is confirmed working, unplug the monitor (the dummy HDMI plug stays in), then the keyboard and mouse. The Mac Mini is now headless. Verify from the other machine:
 
 ```shell
-ssh username@mini.local
+ssh jfunk@mini.local
 hostname    # Mac Mini hostname
 uptime      # Should show running time
 ```
@@ -343,7 +356,11 @@ All remaining steps are done via SSH.
 
 ## Step 3 — Set Up Cloudflare Tunnel
 
+> **Status: DONE.** Tunnel `my-collections` running as a LaunchDaemon. DNS routes created for `api`, `mini`, and `stage-api` subdomains. SSH via `ssh mini.houseoffunk.net` confirmed working with Cloudflare Access OTP. Known issue: `cloudflared service install` does not embed `--config` in the plist — manual patch required (see 3f).
+
 The Cloudflare Tunnel routes all public traffic to the Mac Mini without opening any ports on the home router. SSL is handled by Cloudflare automatically. **The home router has zero open inbound ports at any point in this setup.**
+
+> **This is when `mini.houseoffunk.net` comes alive.** Step 3d runs `cloudflared tunnel route dns`, which creates the CNAME record in Cloudflare DNS. Before that command completes, `mini.houseoffunk.net` does not resolve. All SSH prior to this point uses `mini.local` (local network only).
 
 ### 3a. Install and Authenticate cloudflared
 
@@ -370,7 +387,7 @@ nano ~/.cloudflared/config.yml
 
 ```yaml
 tunnel: <tunnel-id>
-credentials-file: /Users/<username>/.cloudflared/<tunnel-id>.json
+credentials-file: /Users/jfunk/.cloudflared/<tunnel-id>.json
 
 ingress:
   - hostname: mini.houseoffunk.net
@@ -410,11 +427,57 @@ curl -I https://api.houseoffunk.net
 
 ```shell
 sudo cloudflared service install
+sudo launchctl unload /Library/LaunchDaemons/com.cloudflare.cloudflared.plist
+```
+
+> **Known issue:** `cloudflared service install` does not embed the `--config` path in the generated plist. The LaunchDaemon runs as root, so without an explicit path it looks for config in `/var/root/.cloudflared/` instead of `/Users/jfunk/.cloudflared/`. The plist must be patched manually before starting the service.
+
+Overwrite the plist with the correct `ProgramArguments`:
+
+```shell
+sudo tee /Library/LaunchDaemons/com.cloudflare.cloudflared.plist > /dev/null << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.cloudflare.cloudflared</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>/opt/homebrew/bin/cloudflared</string>
+            <string>--config</string>
+            <string>/Users/jfunk/.cloudflared/config.yml</string>
+            <string>tunnel</string>
+            <string>run</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardOutPath</key>
+        <string>/Library/Logs/com.cloudflare.cloudflared.out.log</string>
+        <key>StandardErrorPath</key>
+        <string>/Library/Logs/com.cloudflare.cloudflared.err.log</string>
+        <key>KeepAlive</key>
+        <dict>
+            <key>SuccessfulExit</key>
+            <false/>
+        </dict>
+        <key>ThrottleInterval</key>
+        <integer>5</integer>
+    </dict>
+</plist>
+EOF
+```
+
+```shell
+sudo launchctl load /Library/LaunchDaemons/com.cloudflare.cloudflared.plist
 sudo launchctl start com.cloudflare.cloudflared
 
-# Verify it is running:
+# Verify it is running and using the correct config:
 sudo launchctl list | grep cloudflared
+tail -5 /Library/Logs/com.cloudflare.cloudflared.err.log
 ```
+
+The log should show `Settings: map[config:/Users/jfunk/.cloudflared/config.yml ...]` and four registered tunnel connections.
 
 Installing with `sudo` creates a LaunchDaemon — a system-level service that starts before any user logs in. This ensures the tunnel is available immediately after a reboot, before the auto-login process completes.
 
@@ -440,6 +503,8 @@ cloudflared access ssh --hostname mini.houseoffunk.net
 
 ## Step 4 — Install GitHub Actions Self-Hosted Runner
 
+> **Status: DONE.** Runner `mini` online and Idle — tags: `self-hosted`, `macOS`, `ARM64`. Installed as a LaunchAgent (no sudo). Known issue: `sudo launchctl list` will not show it — use `launchctl list | grep actions`.
+
 The self-hosted runner polls GitHub over outbound HTTPS. No SSH credentials or open ports are required for CI/CD.
 
 - In the GitHub repo, go to **Settings → Actions → Runners → New self-hosted runner**
@@ -448,12 +513,14 @@ The self-hosted runner polls GitHub over outbound HTTPS. No SSH credentials or o
 
 ```shell
 # After ./config.sh completes, install as a launchd service:
-sudo ./svc.sh install
-sudo ./svc.sh start
+./svc.sh install
+./svc.sh start
 
-# Verify:
-sudo launchctl list | grep actions
+# Verify (no sudo — runner is a LaunchAgent, not a LaunchDaemon):
+launchctl list | grep actions
 ```
+
+> **Note:** Unlike cloudflared, the Actions runner installs as a user-level LaunchAgent and must be installed without `sudo`. It starts when the auto-login session begins. `sudo launchctl list` will not show it — use `launchctl list` as the regular user.
 
 Go to **GitHub → Settings → Actions → Runners** — the runner should appear as **Online**.
 
@@ -597,7 +664,7 @@ ssh mini.houseoffunk.net
 
 pm2 status                                                # my-collections-api should be online
 sudo launchctl list | grep cloudflared                    # tunnel service running
-sudo launchctl list | grep actions                        # runner service running
+launchctl list | grep actions                             # runner service running
 curl -s https://api.houseoffunk.net/health/ready | jq .   # { "status": "ready", "db": "ok" }
 ```
 

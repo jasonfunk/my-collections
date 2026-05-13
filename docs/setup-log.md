@@ -4310,6 +4310,55 @@ Static IP add-on ordered from ISP. Not yet provisioned — confirm the assigned 
 - Pushed trivial change to `develop` → `deploy-web-stage.yml` triggered and completed successfully
 - Production CI/CD (`deploy-web.yml`) is structurally identical; will fire automatically on next `main` push touching `packages/web/`
 
-### Remaining pre-arrival steps
-- **0a** — Confirm static IP once provisioned
-- **0g** — Generate production JWT secrets + Ed25519 SSH key pair for Mac Mini
+### Step 0g — Production Secrets and SSH Keys — DONE
+
+#### JWT secrets
+Generated two separate 512-bit hex secrets with `openssl rand -hex 64`:
+- `JWT_ACCESS_SECRET` — saved to 1Password
+- `JWT_REFRESH_SECRET` — saved to 1Password (different value from ACCESS_SECRET)
+
+Values are not recorded here or anywhere in the repo. They go into the production `.env` during Step 5 (app setup on the Mac Mini).
+
+#### Mac Mini SSH key pair
+Generated an Ed25519 key pair:
+```bash
+ssh-keygen -t ed25519 -C "mac-mini-server" -f ~/.ssh/mac_mini_ed25519 -N ""
+```
+- Private key: `~/.ssh/mac_mini_ed25519`
+- Public key: `~/.ssh/mac_mini_ed25519.pub` — saved to 1Password for Step 1
+- No passphrase: Cloudflare Access OTP + SSH key is already two-factor auth; a passphrase would add a third layer but also friction for every connection
+
+The public key contents must be pasted into `~/.ssh/authorized_keys` on the Mac Mini during Step 1.
+
+#### cloudflared installed
+```bash
+brew install cloudflare/cloudflare/cloudflared
+cloudflared version 2026.3.0 (built 2026-03-06T12:53:40Z)
+```
+
+#### ~/.ssh/config created
+New file created at `~/.ssh/config` with the Mac Mini ProxyCommand block:
+```
+Host mini.houseoffunk.net
+    ProxyCommand cloudflared access ssh --hostname %h
+    User <mac-mini-username-TBD>
+    IdentityFile ~/.ssh/mac_mini_ed25519
+```
+
+**Pending — fill in during Step 1 (macOS setup):** Replace `<mac-mini-username-TBD>` with the actual username chosen during macOS Setup Assistant. This is the only unknown blocking a fully functional `ssh mini.houseoffunk.net` command.
+
+---
+
+### All pre-arrival steps complete
+
+| Step | Status |
+|------|--------|
+| 0a — Static IP | DONE (`209.206.82.27`) |
+| 0b — Cloudflare DNS migration | DONE |
+| 0c — Dreamhost subdomains | DONE |
+| 0d — Cloudflare Access Application (SSH gate) | DONE |
+| 0e — CORS + OAuth redirect URIs | DONE |
+| 0f — React SPA deployed to Dreamhost | DONE |
+| 0g — JWT secrets + SSH key + cloudflared | DONE |
+
+Mac Mini arrival → begin at Step 1 (monitor attached). First task: run macOS Setup Assistant and note the username — update `~/.ssh/config` immediately after.
