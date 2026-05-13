@@ -6,6 +6,7 @@ on:
     paths:
       - 'packages/api/**'
       - 'packages/shared/**'
+  workflow_dispatch:
 
 concurrency:
   group: deploy-api-stage
@@ -23,16 +24,13 @@ jobs:
         run: git -C ~/Sites/my-collections-stage pull origin develop
 
       - name: Install dependencies
-        working-directory: ~/Sites/my-collections-stage
-        run: npm ci
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage && npm ci
 
       - name: Build
-        working-directory: ~/Sites/my-collections-stage
-        run: npm run build -- --filter=@my-collections/api
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage && npm run build -- --filter=@my-collections/api
 
       - name: Run migrations
-        working-directory: ~/Sites/my-collections-stage/packages/api
-        run: npm run migration:run
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections-stage/packages/api && npm run migration:run
 
       - name: Restart API
-        run: pm2 restart my-collections-api-stage
+        run: . $HOME/.nvm/nvm.sh && pm2 restart my-collections-api-stage
