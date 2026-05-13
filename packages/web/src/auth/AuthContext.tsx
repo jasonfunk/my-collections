@@ -16,7 +16,7 @@ import {
   setTokens,
   clearTokens,
 } from './tokenStorage.js';
-import { registerAuthCallbacks } from '../api/client.js';
+import { registerAuthCallbacks, API_ORIGIN } from '../api/client.js';
 
 const CLIENT_ID = 'web-app';
 const REDIRECT_URI = `${window.location.origin}/auth/callback`;
@@ -52,12 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     // Fire-and-forget: tell the server to revoke the token and clear the httpOnly cookie.
     // The browser sends the cookie automatically — no body needed.
-    fetch('/api/auth/revoke', { method: 'POST' }).catch(() => undefined);
+    fetch(`${API_ORIGIN}/api/auth/revoke`, { method: 'POST' }).catch(() => undefined);
   }, []);
 
   const refreshTokens = useCallback(async () => {
     // No body required — the browser sends the httpOnly refresh-token cookie automatically.
-    const response = await fetch('/api/auth/token', {
+    const response = await fetch(`${API_ORIGIN}/api/auth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -79,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchUserProfile = useCallback(async (): Promise<UserProfile> => {
     const { getAccessToken } = await import('./tokenStorage.js');
     const token = getAccessToken();
-    const response = await fetch('/api/users/me', {
+    const response = await fetch(`${API_ORIGIN}/api/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error('Failed to fetch user profile');
@@ -133,14 +133,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         scope: SCOPES.join(' '),
         state,
       });
-      const authorizeResponse = await fetch(`/api/auth/authorize?${authorizeParams}`);
+      const authorizeResponse = await fetch(`${API_ORIGIN}/api/auth/authorize?${authorizeParams}`);
       if (!authorizeResponse.ok) {
         throw new Error('Authorization server error');
       }
       const session = await authorizeResponse.json();
 
       // Step 3: Submit credentials → receive redirect URL containing auth code
-      const loginResponse = await fetch('/api/auth/login', {
+      const loginResponse = await fetch(`${API_ORIGIN}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -176,7 +176,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Step 5: Exchange code + verifier for token pair.
       // The server returns the access token in the body; the refresh token is
       // set as an httpOnly cookie and is never accessible to JavaScript.
-      const tokenResponse = await fetch('/api/auth/token', {
+      const tokenResponse = await fetch(`${API_ORIGIN}/api/auth/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
