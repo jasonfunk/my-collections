@@ -356,6 +356,8 @@ All remaining steps are done via SSH.
 
 ## Step 3 — Set Up Cloudflare Tunnel
 
+> **Status: DONE.** Tunnel `my-collections` running as a LaunchDaemon. DNS routes created for `api`, `mini`, and `stage-api` subdomains. SSH via `ssh mini.houseoffunk.net` confirmed working with Cloudflare Access OTP. Known issue: `cloudflared service install` does not embed `--config` in the plist — manual patch required (see 3f).
+
 The Cloudflare Tunnel routes all public traffic to the Mac Mini without opening any ports on the home router. SSL is handled by Cloudflare automatically. **The home router has zero open inbound ports at any point in this setup.**
 
 > **This is when `mini.houseoffunk.net` comes alive.** Step 3d runs `cloudflared tunnel route dns`, which creates the CNAME record in Cloudflare DNS. Before that command completes, `mini.houseoffunk.net` does not resolve. All SSH prior to this point uses `mini.local` (local network only).
@@ -425,11 +427,57 @@ curl -I https://api.houseoffunk.net
 
 ```shell
 sudo cloudflared service install
+sudo launchctl unload /Library/LaunchDaemons/com.cloudflare.cloudflared.plist
+```
+
+> **Known issue:** `cloudflared service install` does not embed the `--config` path in the generated plist. The LaunchDaemon runs as root, so without an explicit path it looks for config in `/var/root/.cloudflared/` instead of `/Users/jfunk/.cloudflared/`. The plist must be patched manually before starting the service.
+
+Overwrite the plist with the correct `ProgramArguments`:
+
+```shell
+sudo tee /Library/LaunchDaemons/com.cloudflare.cloudflared.plist > /dev/null << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.cloudflare.cloudflared</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>/opt/homebrew/bin/cloudflared</string>
+            <string>--config</string>
+            <string>/Users/jfunk/.cloudflared/config.yml</string>
+            <string>tunnel</string>
+            <string>run</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardOutPath</key>
+        <string>/Library/Logs/com.cloudflare.cloudflared.out.log</string>
+        <key>StandardErrorPath</key>
+        <string>/Library/Logs/com.cloudflare.cloudflared.err.log</string>
+        <key>KeepAlive</key>
+        <dict>
+            <key>SuccessfulExit</key>
+            <false/>
+        </dict>
+        <key>ThrottleInterval</key>
+        <integer>5</integer>
+    </dict>
+</plist>
+EOF
+```
+
+```shell
+sudo launchctl load /Library/LaunchDaemons/com.cloudflare.cloudflared.plist
 sudo launchctl start com.cloudflare.cloudflared
 
-# Verify it is running:
+# Verify it is running and using the correct config:
 sudo launchctl list | grep cloudflared
+tail -5 /Library/Logs/com.cloudflare.cloudflared.err.log
 ```
+
+The log should show `Settings: map[config:/Users/jfunk/.cloudflared/config.yml ...]` and four registered tunnel connections.
 
 Installing with `sudo` creates a LaunchDaemon — a system-level service that starts before any user logs in. This ensures the tunnel is available immediately after a reboot, before the auto-login process completes.
 
@@ -455,6 +503,8 @@ cloudflared access ssh --hostname mini.houseoffunk.net
 
 ## Step 4 — Install GitHub Actions Self-Hosted Runner
 
+> **Status: DONE.** Runner `mini` online and Idle — tags: `self-hosted`, `macOS`, `ARM64`. Installed as a LaunchAgent (no sudo). Known issue: `sudo launchctl list` will not show it — use `launchctl list | grep actions`.
+
 The self-hosted runner polls GitHub over outbound HTTPS. No SSH credentials or open ports are required for CI/CD.
 
 - In the GitHub repo, go to **Settings → Actions → Runners → New self-hosted runner**
@@ -463,12 +513,14 @@ The self-hosted runner polls GitHub over outbound HTTPS. No SSH credentials or o
 
 ```shell
 # After ./config.sh completes, install as a launchd service:
-sudo ./svc.sh install
-sudo ./svc.sh start
+./svc.sh install
+./svc.sh start
 
-# Verify:
-sudo launchctl list | grep actions
+# Verify (no sudo — runner is a LaunchAgent, not a LaunchDaemon):
+launchctl list | grep actions
 ```
+
+> **Note:** Unlike cloudflared, the Actions runner installs as a user-level LaunchAgent and must be installed without `sudo`. It starts when the auto-login session begins. `sudo launchctl list` will not show it — use `launchctl list` as the regular user.
 
 Go to **GitHub → Settings → Actions → Runners** — the runner should appear as **Online**.
 
@@ -612,7 +664,7 @@ ssh mini.houseoffunk.net
 
 pm2 status                                                # my-collections-api should be online
 sudo launchctl list | grep cloudflared                    # tunnel service running
-sudo launchctl list | grep actions                        # runner service running
+launchctl list | grep actions                             # runner service running
 curl -s https://api.houseoffunk.net/health/ready | jq .   # { "status": "ready", "db": "ok" }
 ```
 

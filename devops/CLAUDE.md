@@ -71,25 +71,25 @@ Claude instances — will read it to understand the current state without re-exa
 This is the canonical record of what is installed and configured on this machine.
 
 ### System (configure with monitor attached before going headless)
-- [ ] macOS fully updated (System Settings → General → Software Update)
-- [ ] Hostname set (System Settings → General → Sharing → Local Hostname)
-- [ ] Remote Login (SSH) enabled (System Settings → General → Sharing → Remote Login)
-- [ ] Screen Sharing (VNC) enabled (System Settings → General → Sharing → Screen Sharing)
-- [ ] Energy Saver: "Prevent automatic sleeping" enabled (System Settings → Energy)
-- [ ] Energy Saver: "Wake for network access" enabled
-- [ ] Energy Saver: "Start up automatically after a power failure" enabled
-- [ ] Auto-login configured for the server user (System Settings → Users & Groups → Login Options)
-- [ ] FileVault: confirmed OFF (FileVault blocks auto-login after power loss — leave disabled)
+- [x] macOS fully updated (System Settings → General → Software Update)
+- [x] Hostname set (System Settings → General → Sharing → Local Hostname)
+- [x] Remote Login (SSH) enabled (System Settings → General → Sharing → Remote Login)
+- [x] Screen Sharing (VNC) enabled (System Settings → General → Sharing → Screen Sharing)
+- [x] Energy Saver: "Prevent automatic sleeping" enabled (System Settings → Energy)
+- [x] Energy Saver: "Wake for network access" enabled
+- [x] Energy Saver: "Start up automatically after a power failure" enabled
+- [x] Auto-login configured for the server user (System Settings → Users & Groups → Login Options)
+- [x] FileVault: confirmed OFF (FileVault blocks auto-login after power loss — leave disabled)
 - [ ] macOS Firewall enabled (System Settings → Network → Firewall)
-- [ ] macOS software updates set to "Download new updates when available" but NOT auto-install
-- [ ] Dummy HDMI plug connected (prevents GPU/display weirdness in headless mode)
-- [ ] Homebrew installed (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`)
-- [ ] Homebrew added to PATH in `~/.zprofile`
+- [x] macOS software updates set to "Download new updates when available" but NOT auto-install
+- [x] Dummy HDMI plug connected (prevents GPU/display weirdness in headless mode)
+- [x] Homebrew installed (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`)
+- [x] Homebrew added to PATH in `~/.zprofile`
 
 ### SSH Hardening (after confirming SSH works)
-- [ ] SSH key-based auth confirmed working from another machine
-- [ ] SSH password auth disabled (`PasswordAuthentication no` in `/etc/ssh/sshd_config`)
-- [ ] SSH config reloaded (`sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist && sudo launchctl load /System/Library/LaunchDaemons/ssh.plist`)
+- [x] SSH key-based auth confirmed working from another machine
+- [x] SSH password auth disabled (`PasswordAuthentication no` in `/etc/ssh/sshd_config`)
+- [x] SSH config reloaded (`sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist && sudo launchctl load /System/Library/LaunchDaemons/ssh.plist`)
 
 ### Node.js
 - [ ] nvm installed (`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`)
@@ -124,30 +124,30 @@ This is the canonical record of what is installed and configured on this machine
 - [ ] Reboot tested: confirmed API comes back up without manual intervention
 
 ### Cloudflare Tunnel
-- [ ] Cloudflare account created (free tier)
-- [ ] Domain added to Cloudflare OR Dreamhost DNS CNAME configured (see DNS Options below)
-- [ ] cloudflared installed (`brew install cloudflare/cloudflare/cloudflared`)
-- [ ] cloudflared authenticated to Cloudflare account (`cloudflared tunnel login`)
-- [ ] Tunnel created (`cloudflared tunnel create my-collections`)
-- [ ] Tunnel config file created at `~/.cloudflared/config.yml`
-- [ ] DNS route configured (`cloudflared tunnel route dns my-collections api.yourdomain.com`)
-- [ ] Tunnel tested manually (`cloudflared tunnel run my-collections`)
-- [ ] cloudflared installed as a launchd service (`sudo cloudflared service install`)
-- [ ] Service confirmed running (`sudo launchctl list | grep cloudflared`)
-- [ ] API reachable at `https://api.yourdomain.com`
+- [x] Cloudflare account created (free tier)
+- [x] Domain added to Cloudflare OR Dreamhost DNS CNAME configured (see DNS Options below)
+- [x] cloudflared installed (`brew install cloudflare/cloudflare/cloudflared`)
+- [x] cloudflared authenticated to Cloudflare account (`cloudflared tunnel login`)
+- [x] Tunnel created (`cloudflared tunnel create my-collections`)
+- [x] Tunnel config file created at `~/.cloudflared/config.yml`
+- [x] DNS route configured (`cloudflared tunnel route dns my-collections api.yourdomain.com`)
+- [x] Tunnel tested manually (`cloudflared tunnel run my-collections`)
+- [x] cloudflared installed as a launchd service (`sudo cloudflared service install`)
+- [x] Service confirmed running (`sudo launchctl list | grep cloudflared`)
+- [ ] API reachable at `https://api.houseoffunk.net` — pending application install (Step 5)
 
 ### Cloudflare Tunnel — SSH Access (optional but recommended for remote access)
-- [ ] Second tunnel route configured for SSH (`cloudflared tunnel route dns my-collections ssh.yourdomain.com`)
-- [ ] SSH ingress rule added to `~/.cloudflared/config.yml`
-- [ ] cloudflared installed on **client machine** too (needed to use `cloudflared access ssh`)
-- [ ] Remote SSH confirmed: `cloudflared access ssh --hostname ssh.yourdomain.com`
+- [x] Second tunnel route configured for SSH (`cloudflared tunnel route dns my-collections mini.houseoffunk.net`)
+- [x] SSH ingress rule added to `~/.cloudflared/config.yml`
+- [x] cloudflared installed on **client machine** too (needed to use `cloudflared access ssh`)
+- [x] Remote SSH confirmed: `ssh mini.houseoffunk.net` (via Cloudflare Access OTP)
 
 ### GitHub Actions Self-Hosted Runner
-- [ ] Runner downloaded from GitHub (repo → Settings → Actions → Runners → New self-hosted runner → macOS)
-- [ ] Runner installed at `~/actions-runner/`
-- [ ] Runner configured with repo URL and registration token
-- [ ] Runner installed as a launchd service (`sudo ./svc.sh install && sudo ./svc.sh start`)
-- [ ] Runner visible as **Online** in GitHub → Settings → Actions → Runners
+- [x] Runner downloaded from GitHub (repo → Settings → Actions → Runners → New self-hosted runner → macOS)
+- [x] Runner installed at `~/actions-runner/`
+- [x] Runner configured with repo URL and registration token
+- [x] Runner installed as a launchd service (`./svc.sh install && ./svc.sh start` — no sudo; LaunchAgent)
+- [x] Runner visible as **Online** in GitHub → Settings → Actions → Runners
 
 ---
 
@@ -228,13 +228,15 @@ This file must never be committed to git. Create it manually on the machine.
 | Variable | Value / How to generate |
 |---|---|
 | `PORT` | `3000` |
+| `NODE_ENV` | `production` — disables Swagger docs; enables prod-format JSON logging |
 | `DATABASE_URL` | `postgresql://my_collections:<password>@localhost:5432/my_collections` |
 | `JWT_ACCESS_SECRET` | `openssl rand -hex 64` — generate a new value, never reuse |
 | `JWT_ACCESS_EXPIRES_IN` | `15m` |
 | `JWT_REFRESH_SECRET` | `openssl rand -hex 64` — **different** from access secret |
 | `JWT_REFRESH_EXPIRES_IN` | `30d` |
-| `REGISTRATION_ENABLED` | `false` — lock registration after creating your account |
-| `ALLOWED_ORIGIN` | `https://yourdomain.com` — your Dreamhost frontend URL |
+| `COOKIE_SECRET` | `openssl rand -hex 32` — signs the httpOnly refresh-token cookie |
+| `REGISTRATION_ENABLED` | `true` during initial setup; set `false` after creating your account |
+| `ALLOWED_ORIGINS` | `https://collections.houseoffunk.net` — comma-separated list of allowed frontend origins |
 
 **Why two JWT secrets?** If an attacker obtains one, they cannot forge tokens signed by the other.
 Two independent secrets = two independent blast radiuses.
@@ -246,8 +248,11 @@ setup, then lock registration so no one else can sign up.
 
 ## Pre-Production Code Changes
 
+> **Status: DONE.** All changes below are committed to `main`. Verify before cloning if
+> returning to this section from a future session.
+
 These changes must be made in the **source repo** and committed to `main` before running
-seeds or doing a production deploy. Verify they are done before starting machine setup.
+seeds or doing a production deploy.
 
 ### 1. CORS — restrict to your frontend origin
 
@@ -344,7 +349,7 @@ cloudflared tunnel list                        # List tunnels + last seen
 cloudflared tunnel info my-collections        # Tunnel details
 
 # --- GitHub Actions runner ---
-sudo launchctl list | grep actions            # Check runner service status
+launchctl list | grep actions                 # Check runner service status (no sudo — LaunchAgent)
 # Logs: ~/actions-runner/_diag/
 
 # --- launchd (macOS service manager) ---
