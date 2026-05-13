@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-11"
+last_updated: "2026-05-12"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -110,12 +110,14 @@ The Cloudflare Tunnel CNAME can be wired up in two ways. Option A is recommended
 
 | Name | Type | Value | Proxy | Purpose |
 | --- | --- | --- | --- | --- |
-| `collections` | CNAME | `houseoffunk.net` | Orange cloud ON | React SPA (production) → Dreamhost |
-| `stage` | CNAME | `houseoffunk.net` | Orange cloud ON | React SPA (staging) → Dreamhost |
+| `collections` | A | `75.119.200.159` | Gray cloud (DNS only) | React SPA (production) → Dreamhost web server |
+| `stage` | A | `69.163.181.31` | Gray cloud (DNS only) | React SPA (staging) → Dreamhost web server |
 | `ssh` | A/CNAME | Dreamhost servers | — | Pre-existing Dreamhost SSH access (unrelated to Mac Mini) |
 | `api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (production) — created in Step 3d |
 | `stage-api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (staging) — created in Step 3d |
 | `mini` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | Mac Mini SSH via Cloudflare Access — created in Step 3d |
+
+> **Why gray cloud for the Dreamhost records?** Dreamhost shared hosting is not compatible with Cloudflare's reverse proxy mode — enabling the orange cloud causes 522 timeouts. Traffic for `collections` and `stage` goes directly from the client to their respective Dreamhost web servers. Cloudflare still acts as authoritative DNS (nameservers point to Cloudflare) but does not proxy or cache this traffic. Let's Encrypt certificates for these subdomains are auto-provisioned by Dreamhost when the A record resolves correctly.
 
 ## Environment Variables
 

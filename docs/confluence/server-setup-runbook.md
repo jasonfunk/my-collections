@@ -176,7 +176,7 @@ git push origin develop
 
 > **Status: DONE.** Both `stage.houseoffunk.net` and `collections.houseoffunk.net` are live. CI/CD (`deploy-web-stage.yml`) verified working on first run.
 
-The Dreamhost server hostname is `pdx1-shared-a1-13.dreamhost.com` and the web server IP is `69.163.182.190`. The `stage` and `collections` Cloudflare DNS records are A records pointing to this IP (gray cloud — DNS only). Dreamhost provisioned Let's Encrypt certificates automatically once DNS resolved correctly.
+The `collections` and `stage` Cloudflare DNS records are A records with gray cloud (DNS only) — Dreamhost shared hosting is not compatible with Cloudflare proxy mode. `collections.houseoffunk.net` → `75.119.200.159`; `stage.houseoffunk.net` → `69.163.181.31` (different Dreamhost servers). Dreamhost provisioned Let's Encrypt certificates automatically once DNS resolved correctly.
 
 **One-time manual deploy (already done — kept for reference):**
 
@@ -200,9 +200,7 @@ After the initial deploy, all future deploys are handled automatically by GitHub
 
 ### 0g. Prepare Production Secrets and SSH Keys
 
-> **Status: DONE.** JWT secrets generated and saved to 1Password (`JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`). Ed25519 key pair created at `~/.ssh/mac_mini_ed25519`; public key saved to 1Password for Step 1. cloudflared 2026.3.0 installed. `~/.ssh/config` configured with ProxyCommand block for `mini.houseoffunk.net`.
->
-> **Pending (fill in during Step 1 — macOS setup):** Replace `<mac-mini-username-TBD>` in `~/.ssh/config` with the actual Mac Mini username chosen during macOS Setup Assistant.
+> **Status: DONE.** JWT secrets generated and saved to 1Password (`JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`). Ed25519 key pair created at `~/.ssh/mac_mini_ed25519`; public key saved to 1Password for Step 1. cloudflared 2026.3.0 installed. `~/.ssh/config` configured with ProxyCommand block for `mini.houseoffunk.net` (username: `jfunk`).
 
 **Generate production JWT secrets:**
 
@@ -287,7 +285,7 @@ Set or confirm these values:
 ```
 PasswordAuthentication no
 PermitRootLogin no
-AllowUsers <your-username>
+AllowUsers jfunk
 ```
 
 Save and close. SSH connections will require key authentication — no password brute-forcing is possible even if port 22 were ever reachable.
@@ -315,9 +313,18 @@ Set a memorable hostname: **System Settings → General → Sharing → Local Ho
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+macOS does not create `~/.zprofile` by default. After the installer finishes, it prints the commands to add Homebrew to PATH — run them explicitly:
+
+```shell
+echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 source ~/.zprofile
 brew --version
 ```
+
+`~/.zprofile` runs for all login shells (including SSH sessions). launchd daemons do not source it — their PATH is set in the launchd plist automatically by `brew services` and `sudo cloudflared service install`.
 
 ### Connect the Dummy HDMI Plug
 
@@ -330,7 +337,7 @@ Before unplugging the real monitor, plug a dummy HDMI plug into the Mac Mini's H
 Still with the monitor connected, test SSH and key authentication from another machine on the local network. Use `mini.local` — this is the mDNS/Bonjour name macOS advertises automatically on the LAN. The `mini.houseoffunk.net` tunnel hostname does not exist until Step 3.
 
 ```shell
-ssh -i ~/.ssh/mac_mini_ed25519 username@mini.local
+ssh -i ~/.ssh/mac_mini_ed25519 jfunk@mini.local
 hostname
 uptime
 ```
@@ -338,7 +345,7 @@ uptime
 Once SSH is confirmed working, unplug the monitor (the dummy HDMI plug stays in), then the keyboard and mouse. The Mac Mini is now headless. Verify from the other machine:
 
 ```shell
-ssh username@mini.local
+ssh jfunk@mini.local
 hostname    # Mac Mini hostname
 uptime      # Should show running time
 ```
@@ -378,7 +385,7 @@ nano ~/.cloudflared/config.yml
 
 ```yaml
 tunnel: <tunnel-id>
-credentials-file: /Users/<username>/.cloudflared/<tunnel-id>.json
+credentials-file: /Users/jfunk/.cloudflared/<tunnel-id>.json
 
 ingress:
   - hostname: mini.houseoffunk.net
