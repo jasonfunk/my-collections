@@ -180,6 +180,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const tokenResponse = await fetch(`${API_BASE}/auth/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           grantType: 'authorization_code',
           clientId: CLIENT_ID,
