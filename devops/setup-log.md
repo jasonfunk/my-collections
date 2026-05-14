@@ -5,6 +5,40 @@ Follow the same format as `docs/setup-log.md`. Append a new session entry after 
 
 ---
 
+## Session 3 (continued) — 2026-05-14
+
+### 5. Version tracking for API and web SPA (COL-126)
+
+**Changes:**
+- Bumped `packages/api/package.json` and `packages/web/package.json` to `1.0.0` (MVP production release)
+- `GET /health` now returns `{ status, timestamp, version }` — version imported from `package.json` at runtime via `resolveJsonModule`. `process.env.npm_package_version` was intentionally avoided: pm2 runs the compiled JS directly (not through npm) so that env var is `undefined` in production.
+- `packages/web/vite.config.ts` injects `__APP_VERSION__: JSON.stringify(version)` as a Vite `define` constant — baked into the SPA at build time, no runtime fetch needed for the web version.
+- `packages/web/src/vite-env.d.ts` declares `const __APP_VERSION__: string` so TypeScript recognises the constant.
+- Dashboard footer added to `DashboardPage.tsx`: `SPA v{__APP_VERSION__} · API v{healthQuery.data?.version ?? '…'}`. API version is fetched once per session from `GET /health` with `staleTime: Infinity`.
+- Versioning convention documented in `CLAUDE.md`: patch/minor/major for future bumps.
+
+**Verified:** `GET https://stage-api.houseoffunk.net/health` → `{ "status": "ok", "version": "1.0.0" }`. Dashboard footer confirmed via Playwright.
+
+---
+
+### 6. Harden API deploy workflows
+
+**Problem discovered:** `pm2 restart <name>` fails with "Process not found" if the process isn't registered in pm2's list (e.g. after a pm2 reset or on first deploy to a fresh server). The staging deploy was failing because `my-collections-api-stage` wasn't in pm2's process list.
+
+**Fix:**
+- Replaced `pm2 restart my-collections-api-stage` with `pm2 startOrReload ecosystem.config.js --only my-collections-api-stage && pm2 save` in `deploy-api-stage.yml` — starts if absent, gracefully reloads if running, and persists the list for reboots.
+- Same change applied to `deploy-api.yml` for production.
+- Added a `Health check` step after restart in both workflows: `sleep 5 && curl --fail --silent --max-time 10 https://<domain>/health`. Fails the deploy if the app crashes on boot, which `pm2 startOrReload` alone would silently swallow.
+
+**Manual fix required on Mac Mini:** The stale pm2 entry had to be cleared first:
+```bash
+pm2 delete my-collections-api-stage || true
+pm2 start ecosystem.config.js --only my-collections-api-stage
+pm2 save
+```
+
+---
+
 ## Session 3 — 2026-05-14
 
 ### 1. Add `.htaccess` SPA routing rule to both Dreamhost frontends (COL-124)

@@ -85,12 +85,14 @@ Update the **Current State** section below instead so future sessions have a fas
 - Production account: `jfunk@jasonfunk.com`, approved, registration locked
 - `.htaccess` SPA rewrite rule live on both Dreamhost frontends (in `packages/web/public/` — baked into every build)
 - Cross-origin session fix: all three `/auth/token` fetches in `AuthContext.tsx` use `credentials: 'include'` so the httpOnly cookie is stored on login and sent on page reload
+- Both packages at `1.0.0` (MVP release); `GET /health` returns `version`; dashboard footer shows SPA + API versions
+- API deploy workflows hardened: `pm2 startOrReload` + `pm2 save` + `curl --fail` health check after every deploy
 
 ### Open devops tickets
-- **COL-126** — Introduce version tracking for API and web SPA (low priority)
+None — all current tickets resolved.
 
 ### Next session starting point
-COL-126 (version tracking).
+No open devops tickets. Check Jira for new work.
 
 ---
 
