@@ -33,4 +33,4 @@ jobs:
         run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections/packages/api && npm run migration:run
 
       - name: Restart API
-        run: . $HOME/.nvm/nvm.sh && pm2 restart my-collections-api
+        run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections && pm2 startOrReload ecosystem.config.js --only my-collections-api && pm2 save
