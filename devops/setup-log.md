@@ -3,6 +3,67 @@
 Chronological record of all actions taken to configure the my-collections Mac Mini server.
 Follow the same format as `docs/setup-log.md`. Append a new session entry after every work session.
 
+---
+
+## Session 3 — 2026-05-14
+
+### 1. Add `.htaccess` SPA routing rule to both Dreamhost frontends (COL-124)
+
+**Command:** Created `packages/web/public/.htaccess`:
+```apache
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]
+```
+Committed to `packages/web/public/` and merged via PR #50 (`feature/col-124-125-htaccess-spa` → `develop`).
+
+**What it does:** Tells Apache to serve `index.html` for any path that doesn't map to a real file. This lets React Router handle client-side routes on page refresh or direct navigation.
+
+**Why `public/` and not Dreamhost directly:** Both deploy workflows use `rsync --delete`, which wipes Dreamhost to exactly what's in `dist/`. A file placed manually on Dreamhost would be deleted on the next deploy. Placing it in `public/` means Vite copies it to `dist/` on every build, so it ships automatically with every future deploy.
+
+---
+
+### 2. Redeploy staging frontend and run Playwright E2E validation (COL-125)
+
+**Command:** Merging PR #50 into `develop` triggered `deploy-web-stage.yml` automatically. Playwright MCP used to validate `https://stage.houseoffunk.net`:
+- Navigate to root → redirected to `/login` ✓
+- Log in (`collector@example.com` / staging password) → `/dashboard` ✓
+- Click Star Wars card → `/collections/star-wars` loads (199 items) ✓
+- Direct navigation to `/collections/star-wars` → React app served (not 404) ✓
+
+**What it does:** Confirms the `.htaccess` rewrite is active — direct navigation to a deep route returns the React app rather than an Apache 404.
+
+---
+
+### 3. Fix cross-origin session restoration — `credentials: 'include'` on all auth fetches (COL-125)
+
+**Problem discovered during validation:** Page refresh always redirected to login even after a valid session. Root cause: three `fetch` calls in `AuthContext.tsx` were missing `credentials: 'include'`, so the browser never stored or sent the httpOnly refresh-token cookie across subdomains (`stage.houseoffunk.net` → `stage-api.houseoffunk.net`).
+
+In local dev this didn't surface because the Vite proxy makes the API same-origin — `credentials: 'same-origin'` (the browser default) is sufficient. In production the two subdomains are cross-origin, so cookies require explicit opt-in.
+
+**Fix:** Added `credentials: 'include'` to all three `/auth/token` interactions:
+
+| Call | Role |
+|---|---|
+| `authorization_code` exchange (login) | Browser must **store** the `Set-Cookie` response |
+| `refresh_token` grant (page load) | Browser must **send** the stored cookie |
+| `revoke` (logout) | Browser must **send** the cookie to invalidate it |
+
+PRs: #51 (refresh + revoke), #52 (authorization_code exchange). Both merged into `develop`.
+
+**Why it's safe:** `credentials: 'include'` is a client-side instruction — the server's CORS config (`ALLOWED_ORIGINS`) is the enforcer. Only the two configured Dreamhost origins can complete credentialed requests. `SameSite=Strict` on the cookie also blocks any cross-site (different eTLD+1) requests.
+
+---
+
+### 4. Deploy to production (COL-124 + COL-125)
+
+**Command:** PR #53 (`develop` → `main`) merged. GitHub Actions ran two workflows:
+- **Build #41** — compiled all packages, confirmed green ✓
+- **Deploy Web #4** — rsync'd `dist/` (including `.htaccess` and updated `AuthContext.tsx`) to `collections.houseoffunk.net` ✓
+
+Both COL-124 and COL-125 transitioned to Done in Jira.
+
 See `devops/CLAUDE.md` for server architecture, inventory checklist, and common commands.
 See `devops/runbook.md` for the human-facing provisioning steps (initial macOS setup, Cloudflare Tunnel, GitHub Actions runner).
 
