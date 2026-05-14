@@ -92,36 +92,36 @@ This is the canonical record of what is installed and configured on this machine
 - [x] SSH config reloaded (`sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist && sudo launchctl load /System/Library/LaunchDaemons/ssh.plist`)
 
 ### Node.js
-- [ ] nvm installed (`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`)
-- [ ] nvm added to `~/.zprofile` (nvm installer does this, verify it's present)
-- [ ] Node.js v20 LTS installed (`nvm install 20 && nvm alias default 20`)
-- [ ] Version confirmed (`node -v` → v20.x.x)
+- [x] nvm installed (`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`)
+- [x] nvm added to `~/.zprofile` (nvm installer does this, verify it's present)
+- [x] Node.js v20 LTS installed (`nvm install 20 && nvm alias default 20`)
+- [x] Version confirmed (`node -v` → v20.x.x)
 
 ### PostgreSQL
-- [ ] PostgreSQL 16 installed (`brew install postgresql@16`)
-- [ ] PostgreSQL added to PATH (`echo 'export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"' >> ~/.zprofile`)
-- [ ] PostgreSQL started as a Homebrew service (`brew services start postgresql@16`)
-- [ ] PostgreSQL set to start on login (Homebrew services handles this automatically)
-- [ ] Database `my_collections` created
-- [ ] User `my_collections` created (with strong generated password)
-- [ ] User granted all privileges on the database
-- [ ] Local connection verified (`psql` test as app user)
+- [x] PostgreSQL 16 installed (`brew install postgresql@16`)
+- [x] PostgreSQL added to PATH (`echo 'export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"' >> ~/.zprofile`)
+- [x] PostgreSQL started as a Homebrew service (`brew services start postgresql@16`)
+- [x] PostgreSQL set to start on login (Homebrew services handles this automatically)
+- [x] Database `my_collections` created
+- [x] User `my_collections` created (with strong generated password)
+- [x] User granted all privileges on the database
+- [x] Local connection verified (`psql` test as app user)
 
 ### Application
-- [ ] Repo cloned to `~/Sites/my-collections`
-- [ ] `npm ci` run (production dependencies installed)
-- [ ] `~/Sites/my-collections/packages/api/.env` created with production secrets
-- [ ] Build succeeded (`npm run build` from repo root)
-- [ ] TypeORM migrations run and confirmed
-- [ ] OAuth clients seeded with production redirect URIs
+- [x] Repo cloned to `~/Sites/my-collections`
+- [x] `npm ci` run (production dependencies installed)
+- [x] `~/Sites/my-collections/packages/api/.env` created with production secrets
+- [x] Build succeeded (`npm run build` from repo root)
+- [x] TypeORM migrations run and confirmed
+- [x] OAuth clients seeded with production redirect URIs
 
 ### pm2
-- [ ] pm2 installed globally (`npm install -g pm2`)
-- [ ] `ecosystem.config.js` created at `~/Sites/my-collections/`
-- [ ] Application started via pm2 (`pm2 start ecosystem.config.js`)
-- [ ] pm2 launchd startup configured (`pm2 startup` → copies and runs the output command)
-- [ ] `pm2 save` run (saves process list so it restores after reboot)
-- [ ] Reboot tested: confirmed API comes back up without manual intervention
+- [x] pm2 installed globally (`npm install -g pm2`)
+- [x] `ecosystem.config.js` created at `~/Sites/my-collections/` (committed to repo)
+- [x] Application started via pm2 (`pm2 start ecosystem.config.js`)
+- [x] pm2 launchd startup configured (plist written to `~/Library/LaunchAgents/pm2.jfunk.plist`, loaded with `launchctl load -w`)
+- [x] `pm2 save` run (saves process list so it restores after reboot)
+- [x] Reboot tested: confirmed API comes back up without manual intervention
 
 ### Cloudflare Tunnel
 - [x] Cloudflare account created (free tier)
@@ -129,12 +129,12 @@ This is the canonical record of what is installed and configured on this machine
 - [x] cloudflared installed (`brew install cloudflare/cloudflare/cloudflared`)
 - [x] cloudflared authenticated to Cloudflare account (`cloudflared tunnel login`)
 - [x] Tunnel created (`cloudflared tunnel create my-collections`)
-- [x] Tunnel config file created at `~/.cloudflared/config.yml`
+- [x] Tunnel config file created at `~/.cloudflared/config.yml`)
 - [x] DNS route configured (`cloudflared tunnel route dns my-collections api.yourdomain.com`)
 - [x] Tunnel tested manually (`cloudflared tunnel run my-collections`)
 - [x] cloudflared installed as a launchd service (`sudo cloudflared service install`)
 - [x] Service confirmed running (`sudo launchctl list | grep cloudflared`)
-- [ ] API reachable at `https://api.houseoffunk.net` — pending application install (Step 5)
+- [x] API reachable at `https://api.houseoffunk.net`
 
 ### Cloudflare Tunnel — SSH Access (optional but recommended for remote access)
 - [x] Second tunnel route configured for SSH (`cloudflared tunnel route dns my-collections mini.houseoffunk.net`)
@@ -406,6 +406,38 @@ approve it manually: `psql $DATABASE_URL -c "UPDATE users SET \"isApproved\" = t
 made direct `fetch('/api/...')` calls that resolved relative to the frontend origin in
 production. Fixed in PR #39 (2026-05-13) — all auth fetches now use `${API_ORIGIN}/api/...`.
 If you see login failing against a deployed API, check for hardcoded `/api/` paths.
+
+## Known Gotchas (lessons from Session 2 — 2026-05-14)
+
+### `pm2 startup launchd` fails if PATH isn't set correctly
+`pm2 startup` must be run via `source ~/.zprofile &&` to get nvm in PATH. But the printed
+command (`sudo env PATH=$PATH:...`) will fail if `$PATH` is escaped as `\$PATH` — it gets
+passed literally and the spawned subprocess can't find `mkdir`. If pm2 writes the plist but
+fails before running `launchctl load`, create the plist manually (template is printed to
+stdout) with a hardcoded PATH instead of literal `$PATH`, then load it:
+```bash
+launchctl load -w ~/Library/LaunchAgents/pm2.jfunk.plist
+```
+LaunchAgents live in `~/Library/LaunchAgents/` and don't require sudo to load.
+
+### pm2 plist owned by root if `pm2 startup` ran via sudo
+If `pm2 startup` partially succeeded (wrote the plist then failed), the plist is owned by
+root. You can't overwrite it as the user. The plist is still loadable with `launchctl load`
+since it's a LaunchAgent in your home directory. If you need to edit it, use sudo.
+
+### React SPA deep links return 404 on Dreamhost
+Dreamhost serves static files — navigating directly to `/dashboard`, `/collections/star-wars`,
+etc. returns 404 because there's no matching file. The fix is a `.htaccess` rewrite rule that
+serves `index.html` for all non-file paths. Without it, refreshing any page other than `/`
+returns 404. This doesn't affect the OAuth redirect callback because the callback URL
+(`/auth/callback`) is loaded by React after the redirect, not directly. Add to Dreamhost
+web root:
+```apache
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]
+```
 
 ---
 
