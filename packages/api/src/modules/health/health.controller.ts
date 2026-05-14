@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { version } from '../../../package.json';
 
 @ApiTags('health')
 @SkipThrottle()
@@ -14,7 +15,7 @@ export class HealthController {
   @ApiOperation({ summary: 'Liveness check — API is running' })
   @ApiResponse({ status: 200, description: 'API is running' })
   check() {
-    return { status: 'ok', timestamp: new Date().toISOString() };
+    return { status: 'ok', timestamp: new Date().toISOString(), version };
   }
 
   @Get('ready')
