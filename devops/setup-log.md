@@ -535,3 +535,106 @@ The merge itself succeeded (fast-forward), but the push was denied because `GITH
 **Why `GITHUB_TOKEN` and not a PAT:** The built-in token is scoped to one repo and expires after the run — it can't be extracted for long-term misuse. PATs are long-lived and user-scoped, which is a larger blast radius. `contents: write` is the minimum permission needed.
 
 **Verified:** After merging PR #61 to develop and develop to main, the sync workflow ran and successfully pushed a back-merge commit to develop automatically.
+
+## Session 5 — 2026-05-14
+
+### 1. Created backup infrastructure directories on Mini
+
+**Command:**
+```bash
+mkdir -p ~/scripts ~/backups/db ~/logs
+```
+
+**What it does:** Creates the three directories the backup system needs — `~/scripts/` for the deployed script symlink, `~/backups/db/` for local dump files, and `~/logs/` for script output.
+
+**Why:** Keeps backup artifacts out of the application directory and gives launchd predictable absolute paths to write logs to.
+
+---
+
+### 2. Generated Dreamhost SSH key on Mini
+
+**Command:**
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_dreamhost -N "" -C "mini-db-backup"
+```
+
+**What it does:** Creates a dedicated ed25519 keypair for the Mini → Dreamhost rsync connection. No passphrase so launchd can use it unattended.
+
+**Why a dedicated key:** Keeps the Dreamhost credential independent from the Mini's primary SSH key. If it ever needs to be revoked (key compromise, Dreamhost account change), it can be removed from `authorized_keys` without affecting any other access.
+
+**Public key added to:** `jfunkshell@ssh.houseoffunk.net:~/.ssh/authorized_keys` (via Dreamhost panel).
+
+---
+
+### 3. Pre-populated Dreamhost host key in known_hosts
+
+**Command:**
+```bash
+ssh-keyscan -H ssh.houseoffunk.net >> ~/.ssh/known_hosts
+```
+
+**What it does:** Adds Dreamhost's server fingerprint to the Mini's `~/.ssh/known_hosts` non-interactively.
+
+**Why:** Without this, the first `rsync` would block on "Are you sure you want to continue connecting (yes/no)?" — which launchd can't answer. `StrictHostKeyChecking=accept-new` in the script also covers future host-key changes, but pre-seeding is cleaner.
+
+---
+
+### 4. Created remote directory on Dreamhost
+
+**Command (run from Mini):**
+```bash
+ssh -i ~/.ssh/id_ed25519_dreamhost jfunkshell@ssh.houseoffunk.net 'mkdir -p ~/backups/my-collections'
+```
+
+**What it does:** Creates the target directory for rsync on Dreamhost. rsync does not create the remote destination directory automatically.
+
+**Why `ssh.houseoffunk.net`:** A Cloudflare-proxied CNAME pointing at Dreamhost's SSH server. Using a custom hostname means the script doesn't need updating if Dreamhost migrates the account to a different server.
+
+---
+
+### 5. Wrote and committed backup script and launchd plist
+
+**Files committed:**
+- `devops/scripts/backup-db.sh` — reads `DATABASE_URL` from each `.env` at runtime; pg_dump → gzip; prunes files older than 7 days; rsync to Dreamhost
+- `devops/launchd/com.jfunk.db-backup.plist` — `StartCalendarInterval` at 02:00 daily; stdout/stderr captured to `~/logs/`
+
+**Deployed on Mini:**
+```bash
+ln -sf ~/Sites/my-collections/devops/scripts/backup-db.sh ~/scripts/backup-db.sh
+chmod +x ~/Sites/my-collections/devops/scripts/backup-db.sh
+cp devops/launchd/com.jfunk.db-backup.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/com.jfunk.db-backup.plist
+```
+
+**Why symlink (not copy):** `git pull` on the Mini automatically picks up script changes without a separate deploy step.
+
+**Why `StartCalendarInterval` (not `StartInterval`):** `StartInterval` fires N seconds after the job loads, not at a wall-clock time. `StartCalendarInterval` fires at a fixed time regardless of when launchd last started — correct for a daily backup.
+
+---
+
+### 6. Manual test run — full backup script
+
+**Command:**
+```bash
+bash ~/scripts/backup-db.sh
+```
+
+**Result:** Both databases dumped successfully (64K each). rsync completed to `jfunkshell@ssh.houseoffunk.net:~/backups/my-collections/`. Log shows "Backup complete" at 15:51:29.
+
+---
+
+### 7. Restore test against scratch DB
+
+**Commands:**
+```bash
+LATEST=$(ls -t ~/backups/db/my_collections_2*.sql.gz | head -1)
+createdb my_collections_restore_test
+gunzip -c "$LATEST" | psql my_collections_restore_test
+psql my_collections_restore_test -c '\dt'
+psql my_collections_restore_test -c 'SELECT schemaname, relname, n_live_tup FROM pg_stat_user_tables ORDER BY relname;'
+dropdb my_collections_restore_test
+```
+
+**Result:** All 11 tables restored. Row counts matched production: 443 TF / 127 HM / 199 SW catalog rows, 1 user, 2 OAuth clients. Scratch DB dropped cleanly.
+
+**Why test the restore:** A backup that can't restore is worse than no backup — you have false confidence. This confirms the dump is a valid, loadable PostgreSQL archive.
