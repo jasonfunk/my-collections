@@ -502,3 +502,36 @@ ssh mini.houseoffunk.net "source ~/.zprofile && pm2 status"
 **Why:** Confirms the launchd agent is correctly configured and pm2 resurrects both processes
 on login after a power cycle.
 
+
+## Session 4 — 2026-05-14
+
+### 1. Created auto-sync workflow (main → develop)
+
+**Problem:** Every develop → main PR showed "This branch is out-of-date with the base branch" because GitHub merge commits on main aren't automatically reflected on develop. Required a manual merge or update before merging.
+
+**Command:**
+```bash
+git checkout -b feature/sync-main-to-develop
+# created .github/workflows/sync-main-to-develop.yml
+git push -u origin feature/sync-main-to-develop
+gh pr create --base develop ...  # PR #60
+```
+
+**What it does:** Workflow triggers on every push to `main`, checks out `develop`, fetches `origin/main`, merges it in (fast-forward), and pushes back. Commit message includes `[skip ci]` to avoid triggering the CI pipeline on the back-merge.
+
+**Why:** Eliminates the recurring "out of date" banner on develop → main PRs without any manual intervention.
+
+### 2. Fixed GITHUB_TOKEN permissions (403 on push)
+
+**Problem:** First run of the sync workflow failed with:
+```
+remote: Permission to jasonfunk/my-collections.git denied to github-actions[bot].
+fatal: unable to access '...': The requested URL returned error: 403
+```
+The merge itself succeeded (fast-forward), but the push was denied because `GITHUB_TOKEN` defaults to read-only for repository contents.
+
+**Fix:** Added `permissions: contents: write` to the sync job in the workflow file (PR #61).
+
+**Why `GITHUB_TOKEN` and not a PAT:** The built-in token is scoped to one repo and expires after the run — it can't be extracted for long-term misuse. PATs are long-lived and user-scoped, which is a larger blast radius. `contents: write` is the minimum permission needed.
+
+**Verified:** After merging PR #61 to develop and develop to main, the sync workflow ran and successfully pushed a back-merge commit to develop automatically.
