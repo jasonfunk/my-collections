@@ -3,6 +3,11 @@
 This file provides guidance to Claude Code when working on the my-collections Mac Mini server.
 Load this at the start of every session to orient yourself before taking any action.
 
+> **NEVER read `devops/setup-log.md` in full.** It is an append-only audit trail that grows
+> without bound — reading it wastes context. Use the Current State and Server Inventory sections
+> below instead. If you believe you genuinely need setup-log content, ask the user first and
+> explain exactly why. This is non-negotiable.
+
 ## Server Purpose
 
 This Mac Mini hosts the **my-collections API** — a NestJS/Node.js REST API backed by PostgreSQL.
@@ -60,8 +65,32 @@ Follow the same format as `docs/setup-log.md`:
   - **Why:** the reasoning behind the choice
 - Use fenced code blocks with language tags for all commands and config
 
-This log is the permanent record of how this machine was configured. Future sessions — and future
-Claude instances — will read it to understand the current state without re-examining the machine.
+`devops/setup-log.md` is a write-only audit trail — append to it, never read it in full.
+Update the **Current State** section below instead so future sessions have a fast summary.
+
+---
+
+## Current State
+
+**Update this section at the end of every session. Keep it short — bullets only.**
+
+*Last updated: 2026-05-14 (Session 2)*
+
+### What's done
+- Full server stack installed: nvm, Node.js 20, PostgreSQL 16, pm2, Cloudflare Tunnel, GitHub Actions runner
+- **Staging** (`https://stage-api.houseoffunk.net`, port 3001): live, Playwright-validated API; web frontend at `https://stage.houseoffunk.net` needs redeploy (see COL-125)
+- **Production** (`https://api.houseoffunk.net`, port 3000): live, Playwright E2E validated, reboot confirmed; web frontend at `https://collections.houseoffunk.net` working
+- pm2 auto-start configured via launchd (`~/Library/LaunchAgents/pm2.jfunk.plist`)
+- Both DBs migrated and seeded (199 SW / 443 TF / 127 HM catalog records each)
+- Production account: `jfunk@jasonfunk.com`, approved, registration locked
+
+### Open devops tickets
+- **COL-124** — Add `.htaccess` SPA routing rule to Dreamhost (fixes 404 on page refresh)
+- **COL-125** — Redeploy staging frontend + Playwright E2E validation (blocked on COL-124)
+- **COL-126** — Introduce version tracking for API and web SPA (low priority)
+
+### Next session starting point
+Do COL-124 + COL-125 together (`.htaccess` + staging frontend redeploy + Playwright), then COL-126.
 
 ---
 
