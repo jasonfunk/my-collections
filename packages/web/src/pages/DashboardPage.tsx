@@ -140,6 +140,12 @@ export function DashboardPage() {
     queryFn: () => apiClient.get<CollectionStats>('/collections/stats'),
   });
 
+  const healthQuery = useQuery({
+    queryKey: ['health'],
+    queryFn: () => apiClient.get<{ status: string; version: string }>('/health'),
+    staleTime: Infinity,
+  });
+
   const recentQuery = useQuery({
     queryKey: ['collection-recent'],
     queryFn: () => apiClient.get<RecentCollectionItem[]>('/collections/recent?limit=10'),
@@ -294,6 +300,10 @@ export function DashboardPage() {
           </CardContent>
         </Card>
       </main>
+
+      <footer className="pb-6 text-center text-xs text-muted-foreground/50">
+        SPA v{__APP_VERSION__} · API v{healthQuery.data?.version ?? '…'}
+      </footer>
     </div>
   );
 }
