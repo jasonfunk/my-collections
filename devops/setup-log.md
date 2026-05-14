@@ -200,5 +200,210 @@ with the dev environment so Playwright tests don't need credential changes.
 Dreamhost frontend origin in production. Fixed in PR #39 — all six auth `fetch` calls now use
 `${API_ORIGIN}/api/...`. Staging Playwright validation pending the staging frontend redeploy.
 
-<!-- TODO: append production setup, pm2 startup, reboot test results when complete -->
+---
+
+## Session 2 — 2026-05-14
+
+Set up the production environment (`~/Sites/my-collections`, `my_collections` DB, port 3000).
+All infrastructure (nvm, Node.js 20, PostgreSQL 16, pm2) was already in place from Session 1.
+Validated with Playwright E2E test and confirmed auto-start after reboot.
+
+### 1. Pull latest `main` into production clone
+
+**Command:**
+```bash
+# First removed untracked ecosystem.config.js (manually created in Session 1, now committed)
+rm ~/Sites/my-collections/ecosystem.config.js
+git -C ~/Sites/my-collections pull origin main
+```
+
+**What it does:** Syncs the production clone with `main`, bringing in the committed
+`ecosystem.config.js`, the `AuthContext.tsx` fix (PR #39), and deploy workflow updates.
+
+**Why:** The production clone was on an older commit. The untracked `ecosystem.config.js`
+blocked the pull — it was created manually in Session 1 before being committed to the repo.
+The committed version uses `${__dirname}` for the production path (more portable); the
+manually-created one had a hardcoded absolute path. Both point to the same location.
+
+### 2. Install dependencies and build
+
+**Command:**
+```bash
+source ~/.zprofile && cd ~/Sites/my-collections && npm ci
+npm run build -- --filter=@my-collections/api
+```
+
+**What it does:** Installs all workspace dependencies from `package-lock.json` (1,597 packages),
+then builds `@my-collections/shared` and `@my-collections/api` via Turborepo.
+
+**Why:** `npm ci` uses the lockfile exactly — no version drift. `--filter` is required; without
+it the mobile build fails on the server (no `react-native-web`).
+
+### 3. Create production `.env`
+
+**Command:**
+```bash
+# Get DB password (shared PostgreSQL user — same password for both DBs):
+grep DATABASE_URL ~/Sites/my-collections-stage/packages/api/.env
+
+# Generate fresh secrets:
+openssl rand -hex 64   # JWT_ACCESS_SECRET
+openssl rand -hex 64   # JWT_REFRESH_SECRET (different value)
+openssl rand -hex 32   # COOKIE_SECRET
+
+# Write ~/Sites/my-collections/packages/api/.env:
+# PORT=3000, NODE_ENV=production, DATABASE_URL (my_collections DB, not stage)
+# Fresh JWT and cookie secrets (different from staging — tokens can't cross environments)
+# REGISTRATION_ENABLED=true, ALLOWED_ORIGINS=https://collections.houseoffunk.net
+```
+
+**What it does:** Creates the environment file for the production API process.
+
+**Why:** `my_collections` PostgreSQL user is instance-wide — one password covers both databases.
+JWT/cookie secrets are generated fresh so a staging-issued token is worthless in production.
+`PORT=3000` (staging is 3001). `NODE_ENV=production` disables Swagger docs and switches to
+JSON log format.
+
+### 4. Run TypeORM migrations
+
+**Command:**
+```bash
+source ~/.zprofile && cd ~/Sites/my-collections/packages/api && npm run migration:run
+```
+
+**What it does:** Ran all 10 pending migrations against the fresh `my_collections` database.
+
+**Why:** Fresh database — no migrations had been applied. CWD must be `packages/api/` because
+migration scripts are defined in that package's `package.json`.
+
+### 5. Seed OAuth clients
+
+**Command:**
+```bash
+source ~/.zprofile && cd ~/Sites/my-collections/packages/api
+npx ts-node --project tsconfig.json src/database/seeds/oauth-clients.seed.ts
+```
+
+**What it does:** Created `web-app` and `mobile-app` OAuth clients in the production database.
+
+**Why:** CWD-sensitive — `dotenv.config()` reads `.env` from CWD. Redirect URIs for production
+(`https://collections.houseoffunk.net/auth/callback`) were already in the seed file from
+Session 1's pre-production code changes.
+
+### 6. Seed catalog data
+
+**Command:**
+```bash
+source ~/.zprofile && cd ~/Sites/my-collections
+npm run seed:star-wars    # 199 records
+npm run seed:transformers # 443 records
+npm run seed:he-man       # 127 records
+```
+
+**What it does:** Populated all three catalog tables with the full known figure sets.
+
+**Why:** Catalog seeds use `__dirname`-relative `.env` paths so CWD doesn't matter, but repo
+root is conventional. All seeds are insert-only (skip existing rows) — safe to re-run.
+
+### 7. Start production API via pm2
+
+**Command:**
+```bash
+source ~/.zprofile && cd ~/Sites/my-collections
+pm2 start ecosystem.config.js --only my-collections-api
+```
+
+**What it does:** Started the `my-collections-api` process (port 3000) using the committed
+`ecosystem.config.js` with `cwd: packages/api/` and `script: dist/main.js`.
+
+**Why:** The `--only` flag starts just production; staging was already running. Both processes
+show as `online` in `pm2 status` after this step.
+
+### 8. Configure pm2 auto-start (launchd)
+
+**Command:**
+```bash
+# pm2 startup generated the plist template and partially wrote the file (owned by root):
+source ~/.zprofile && pm2 startup  # prints command; ran with sudo interactively
+# pm2 ran as root and wrote the plist, but failed at the mkdir step (PATH issue)
+# Loaded the written plist manually (no sudo needed for LaunchAgents):
+launchctl load -w ~/Library/LaunchAgents/pm2.jfunk.plist
+source ~/.zprofile && pm2 save
+```
+
+**What it does:** Registers pm2 as a launchd LaunchAgent that resurrects all saved processes
+on login. `pm2 save` serializes the process list to `~/.pm2/dump.pm2`.
+
+**Why:** Without the launchd agent, pm2 doesn't start after a reboot. The `pm2 startup`
+command partially succeeded — it wrote the plist (as root, since sudo was required) but
+failed at the `mkdir` step because `\$PATH` was escaped and `mkdir` wasn't on PATH. The
+plist was already written to `~/Library/LaunchAgents/pm2.jfunk.plist` and correct. LaunchAgents
+are user-space services and don't need sudo to load. The PATH in the plist has a literal
+`$PATH` prefix (launchd doesn't expand shell variables), but the explicit nvm bin path
+(`/Users/jfunk/.nvm/versions/node/v20.20.2/bin`) is appended and that's sufficient since
+both the pm2 binary and node are invoked with absolute paths.
+
+### 9. Create and approve production account
+
+**Command:**
+```bash
+# User registered via curl on the Mac Mini (credentials not exposed in this log)
+# Approved the account:
+psql 'postgresql://my_collections:...@localhost:5432/my_collections' \
+  -c "UPDATE users SET \"isApproved\" = true WHERE email = 'jfunk@jasonfunk.com';"
+
+# Disabled registration:
+sed -i '' 's/REGISTRATION_ENABLED=true/REGISTRATION_ENABLED=false/' \
+  ~/Sites/my-collections/packages/api/.env
+pm2 restart my-collections-api
+pm2 save
+```
+
+**What it does:** Created and approved the production user account, then locked registration
+so no other accounts can be created.
+
+**Why:** New users are created with `isApproved: false` (migration `UserIsApprovedDefaultFalse`).
+Manual DB approval is required after registration. `REGISTRATION_ENABLED=false` prevents
+anyone else from registering — this is a single-user personal app.
+
+### 10. Smoke test and Playwright E2E validation
+
+**Command:**
+```bash
+curl -s https://api.houseoffunk.net/health/ready | jq .
+# → { "status": "ready", "db": "ok" }
+```
+
+**Playwright E2E results** (via Playwright MCP against `https://collections.houseoffunk.net`):
+- Login → dashboard: ✅
+- Star Wars list (199 items, catalog images): ✅
+- Star Wars item detail (2-1B / Two-Onebee): ✅
+- Transformers list (443 items): ✅
+- He-Man list (127 items): ✅
+- Sign out → `/login`: ✅
+- Console errors: only expected `/auth/token` 400 on init (OAuth code exchange with no code)
+
+**Known issue discovered:** Direct URL navigation to any route other than `/` returns 404
+on Dreamhost (static file server, no `.htaccess` SPA rewrite configured). Add `.htaccess`
+with `RewriteRule ^ index.html [QSA,L]` to the Dreamhost web root. See Known Gotchas in
+`devops/CLAUDE.md`.
+
+### 11. Reboot test
+
+**Command:**
+```bash
+# User ran: ssh -t mini.houseoffunk.net "sudo reboot"
+# After ~75s, polled until healthy:
+until curl -s https://api.houseoffunk.net/health/ready | jq -e '.status == "ready"'; do sleep 5; done
+curl -s https://api.houseoffunk.net/health/ready | jq .
+curl -s https://stage-api.houseoffunk.net/health/ready | jq .
+ssh mini.houseoffunk.net "source ~/.zprofile && pm2 status"
+```
+
+**Result:**
+- Both APIs returned `{ "status": "ready", "db": "ok" }` without manual intervention.
+- `pm2 status` showed both processes `online` with 0 restarts, ~48s uptime.
+
+**Why:** Confirms the launchd agent is correctly configured and pm2 resurrects both processes
+on login after a power cycle.
 
