@@ -74,7 +74,7 @@ Update the **Current State** section below instead so future sessions have a fas
 
 **Update this section at the end of every session. Keep it short — bullets only.**
 
-*Last updated: 2026-05-14 (Session 3)*
+*Last updated: 2026-05-14 (Session 5)*
 
 ### What's done
 - Full server stack installed: nvm, Node.js 20, PostgreSQL 16, pm2, Cloudflare Tunnel, GitHub Actions runner
@@ -85,14 +85,15 @@ Update the **Current State** section below instead so future sessions have a fas
 - Production account: `jfunk@jasonfunk.com`, approved, registration locked
 - `.htaccess` SPA rewrite rule live on both Dreamhost frontends (in `packages/web/public/` — baked into every build)
 - Cross-origin session fix: all three `/auth/token` fetches in `AuthContext.tsx` use `credentials: 'include'` so the httpOnly cookie is stored on login and sent on page reload
-- Both packages at `1.0.0` (MVP release); `GET /health` returns `version`; dashboard footer shows SPA + API versions
-- API deploy workflows hardened: `pm2 startOrReload` + `pm2 save` + `curl --fail` health check after every deploy
+- **COL-126 done:** both packages bumped to `1.0.0`; `GET /health` returns `version`; dashboard footer shows `SPA vX · API vX`; API deploy workflows hardened with `pm2 startOrReload` + `pm2 save` + curl health check
+- **Auto-sync workflow:** `.github/workflows/sync-main-to-develop.yml` merges main → develop automatically after every push to main; requires `permissions: contents: write` (GITHUB_TOKEN default is read-only)
+- **COL-114 done:** automated daily PostgreSQL backups via `devops/scripts/backup-db.sh`; scheduled at 02:00 by `~/Library/LaunchAgents/com.jfunk.db-backup.plist`; rsync to `jfunkshell@ssh.houseoffunk.net:~/backups/my-collections/`; restore tested against scratch DB
 
 ### Open devops tickets
-None — all current tickets resolved.
+None.
 
 ### Next session starting point
-No open devops tickets. Check Jira for new work.
+No open devops tickets. Next work is application features (see main CLAUDE.md).
 
 ---
 
@@ -172,6 +173,17 @@ This is the canonical record of what is installed and configured on this machine
 - [x] SSH ingress rule added to `~/.cloudflared/config.yml`
 - [x] cloudflared installed on **client machine** too (needed to use `cloudflared access ssh`)
 - [x] Remote SSH confirmed: `ssh mini.houseoffunk.net` (via Cloudflare Access OTP)
+
+### Backups
+- [x] `~/scripts/` created; `~/backups/db/` and `~/logs/` created
+- [x] `devops/scripts/backup-db.sh` committed; symlinked to `~/scripts/backup-db.sh`
+- [x] Dreamhost SSH key generated at `~/.ssh/id_ed25519_dreamhost` (label: `mini-db-backup`)
+- [x] Dreamhost public key added to `jfunkshell@ssh.houseoffunk.net:~/.ssh/authorized_keys`
+- [x] Dreamhost host key pre-populated in `~/.ssh/known_hosts` via `ssh-keyscan`
+- [x] Remote directory `~/backups/my-collections/` created on Dreamhost
+- [x] `devops/launchd/com.jfunk.db-backup.plist` committed; installed to `~/Library/LaunchAgents/`; loaded with `launchctl load -w`
+- [x] Full backup script tested manually — both DBs dumped, rsync to Dreamhost confirmed
+- [x] Restore test passed against scratch DB (`my_collections_restore_test`), dropped clean
 
 ### GitHub Actions Self-Hosted Runner
 - [x] Runner downloaded from GitHub (repo → Settings → Actions → Runners → New self-hosted runner → macOS)
