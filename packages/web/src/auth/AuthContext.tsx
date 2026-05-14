@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     // Fire-and-forget: tell the server to revoke the token and clear the httpOnly cookie.
     // The browser sends the cookie automatically — no body needed.
-    fetch(`${API_BASE}/auth/revoke`, { method: 'POST' }).catch(() => undefined);
+    fetch(`${API_BASE}/auth/revoke`, { method: 'POST', credentials: 'include' }).catch(() => undefined);
   }, []);
 
   const refreshTokens = useCallback(async () => {
@@ -60,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const response = await fetch(`${API_BASE}/auth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         grantType: 'refresh_token',
         clientId: CLIENT_ID,
