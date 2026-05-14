@@ -74,23 +74,23 @@ Update the **Current State** section below instead so future sessions have a fas
 
 **Update this section at the end of every session. Keep it short — bullets only.**
 
-*Last updated: 2026-05-14 (Session 2)*
+*Last updated: 2026-05-14 (Session 3)*
 
 ### What's done
 - Full server stack installed: nvm, Node.js 20, PostgreSQL 16, pm2, Cloudflare Tunnel, GitHub Actions runner
-- **Staging** (`https://stage-api.houseoffunk.net`, port 3001): live, Playwright-validated API; web frontend at `https://stage.houseoffunk.net` needs redeploy (see COL-125)
-- **Production** (`https://api.houseoffunk.net`, port 3000): live, Playwright E2E validated, reboot confirmed; web frontend at `https://collections.houseoffunk.net` working
+- **Staging** (`https://stage-api.houseoffunk.net`, port 3001): live, Playwright-validated; web frontend at `https://stage.houseoffunk.net` deployed and validated
+- **Production** (`https://api.houseoffunk.net`, port 3000): live, Playwright E2E validated, reboot confirmed; web frontend at `https://collections.houseoffunk.net` deployed and validated
 - pm2 auto-start configured via launchd (`~/Library/LaunchAgents/pm2.jfunk.plist`)
 - Both DBs migrated and seeded (199 SW / 443 TF / 127 HM catalog records each)
 - Production account: `jfunk@jasonfunk.com`, approved, registration locked
+- `.htaccess` SPA rewrite rule live on both Dreamhost frontends (in `packages/web/public/` — baked into every build)
+- Cross-origin session fix: all three `/auth/token` fetches in `AuthContext.tsx` use `credentials: 'include'` so the httpOnly cookie is stored on login and sent on page reload
 
 ### Open devops tickets
-- **COL-124** — Add `.htaccess` SPA routing rule to Dreamhost (fixes 404 on page refresh)
-- **COL-125** — Redeploy staging frontend + Playwright E2E validation (blocked on COL-124)
 - **COL-126** — Introduce version tracking for API and web SPA (low priority)
 
 ### Next session starting point
-Do COL-124 + COL-125 together (`.htaccess` + staging frontend redeploy + Playwright), then COL-126.
+COL-126 (version tracking).
 
 ---
 
