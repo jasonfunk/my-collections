@@ -34,3 +34,6 @@ jobs:
 
       - name: Restart API
         run: . $HOME/.nvm/nvm.sh && cd ~/Sites/my-collections && pm2 startOrReload ecosystem.config.js --only my-collections-api-stage && pm2 save
+
+      - name: Health check
+        run: sleep 5 && curl --fail --silent --max-time 10 https://stage-api.houseoffunk.net/health
