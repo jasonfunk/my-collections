@@ -137,7 +137,7 @@ export class TokenService {
       this.logger.warn(
         `auth.token.reuse userId=${existing.user.id} clientId=${client.clientId}`,
       );
-      await this.revokeAllForUserAndClient(existing.user.id, client.id);
+      await this.revokeAllForUserAndClient(existing.user.id, existing.client.id);
       throw new UnauthorizedException('Refresh token already used — possible token theft');
     }
     if (existing.expiresAt < new Date()) {

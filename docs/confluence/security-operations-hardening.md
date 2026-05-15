@@ -2,10 +2,10 @@
 confluence_page_id: "15499266"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15499266"
 title: "My Collections — Security & Operations Hardening"
-last_updated: "2026-05-14"
+last_updated: "2026-05-15"
 ---
 
-Seven improvements identified during infrastructure planning. Items 1, 2, 3, 5, and 6 are complete. Items 4 and 7 remain open.
+Seven improvements identified during infrastructure planning. Items 1, 2, 3, 5, 6, and 7 are complete. Item 4 remains open.
 
 ## 1. Database Backups ✅ Done (COL-114 + COL-129, 2026-05-14)
 
@@ -106,14 +106,20 @@ See `devops/scripts/backup-db.sh` and [Infrastructure Overview](infrastructure-o
 
 ---
 
-## 7. Refresh Token Rotation
+## 7. Refresh Token Rotation ✅ Done (COL-119, 2026-05-15)
 
 **Risk without it:** A stolen refresh token can be used indefinitely without detection. With rotation, reuse of a stolen token causes an immediate collision — the real user's next request fails, signaling a possible breach.
 
-**Approach:**
+**Implemented:** `rotateRefreshToken()` in `TokenService` handles the full rotation lifecycle:
 
-- On `POST /auth/token` (refresh grant): issue a new refresh token and immediately invalidate the one that was just used (update the `refresh_tokens` table row)
-- On detected reuse (token already marked revoked): invalidate all refresh tokens for that user — assume compromise
-- Review current implementation in `packages/api/src/modules/auth/` to determine if rotation is already in place or needs to be added
+- **Happy path:** revokes the presented token (sets `revokedAt`), issues a new token pair, returns new access + refresh tokens
+- **Reuse detected** (presented token already has `revokedAt` set): logs a security warning, revokes ALL active tokens for that user + original client, returns 401 "possible token theft"
+- **Expired token:** 401
+- **Client mismatch:** 401 (token was not issued to this client)
+- **Token not found:** 401
 
-**Files:** `packages/api/src/modules/auth/auth.service.ts`, `packages/api/src/modules/auth/token.service.ts` (or equivalent)
+A logic bug was found and fixed during verification: the reuse-revocation call was using the *requesting* client's ID rather than the *original* token's client ID (`existing.client.id`). This could have caused the wrong client's tokens to be revoked if an attacker replayed a stolen token with a different `client_id`.
+
+Unit tests added to `token.service.spec.ts` covering all five scenarios.
+
+**Files:** `packages/api/src/modules/auth/services/token.service.ts`, `packages/api/src/modules/auth/services/token.service.spec.ts`

@@ -1,6 +1,9 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { IsNull } from 'typeorm';
 import { TokenService } from './token.service';
+import { OAuthClient } from '../entities/oauth-client.entity';
+import { RefreshToken } from '../entities/refresh-token.entity';
 import { User } from '../entities/user.entity';
 
 // Minimal mock of ConfigService
@@ -33,12 +36,48 @@ function makeUser(overrides: Partial<User> = {}): User {
   });
 }
 
+function makeClient(overrides: Partial<OAuthClient> = {}): OAuthClient {
+  return Object.assign(new OAuthClient(), {
+    id: 'client-uuid-1234',
+    clientId: 'web-app',
+    clientSecretHash: null,
+    name: 'Web App',
+    redirectUris: ['http://localhost:5173/callback'],
+    allowedScopes: ['collections:read'],
+    ...overrides,
+  });
+}
+
+function makeRefreshToken(overrides: Partial<RefreshToken> = {}): RefreshToken {
+  return Object.assign(new RefreshToken(), {
+    id: 'rt-uuid-1234',
+    tokenHash: 'placeholder-hash',
+    user: makeUser(),
+    client: makeClient(),
+    scopes: ['collections:read'],
+    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    revokedAt: null,
+    createdAt: new Date(),
+    ...overrides,
+  });
+}
+
 // TokenService without DB — only testing the pure JWT methods
 function makeService(configOverrides: Record<string, string> = {}): TokenService {
   const config = makeConfig(configOverrides);
   // Pass null for the repo — these tests only use the JWT methods
   return new TokenService(config, null as never);
 }
+
+// TokenService with a mocked repo — for rotation tests
+function makeServiceWithRepo(
+  repo: Record<string, jest.Mock>,
+  configOverrides: Record<string, string> = {},
+): TokenService {
+  return new TokenService(makeConfig(configOverrides), repo as never);
+}
+
+// ── Access token tests ──────────────────────────────────────────────────────
 
 describe('TokenService — access tokens', () => {
   it('signs and verifies a valid access token', () => {
@@ -74,5 +113,94 @@ describe('TokenService — access tokens', () => {
   it('returns correct expiresIn for 1h', () => {
     const service = makeService({ JWT_ACCESS_EXPIRES_IN: '1h' });
     expect(service.accessTokenExpiresInSeconds()).toBe(3600);
+  });
+});
+
+// ── Refresh token rotation tests ────────────────────────────────────────────
+
+describe('TokenService — refresh token rotation', () => {
+  let mockRepo: { findOne: jest.Mock; save: jest.Mock; find: jest.Mock; update: jest.Mock; create: jest.Mock };
+  let service: TokenService;
+  const client = makeClient();
+  const user = makeUser();
+
+  beforeEach(() => {
+    mockRepo = {
+      findOne: jest.fn(),
+      save: jest.fn(),
+      find: jest.fn(),
+      update: jest.fn(),
+      create: jest.fn((data: Partial<RefreshToken>) => Object.assign(new RefreshToken(), data)),
+    };
+    service = makeServiceWithRepo(mockRepo);
+  });
+
+  it('rotates successfully: revokes old token and returns a new pair', async () => {
+    const existing = makeRefreshToken({ user, client });
+    mockRepo.findOne.mockResolvedValue(existing);
+    mockRepo.save.mockImplementation((entity: RefreshToken) => Promise.resolve(entity));
+
+    const result = await service.rotateRefreshToken('raw-token-value', client);
+
+    // Old token must be revoked
+    const [savedOld] = mockRepo.save.mock.calls[0] as [RefreshToken];
+    expect(savedOld.revokedAt).not.toBeNull();
+
+    // New pair returned
+    expect(result.accessToken).toBeDefined();
+    expect(result.refreshToken).toBeDefined();
+    expect(result.expiresIn).toBe(900);
+  });
+
+  it('detects reuse: revokes all tokens for the original client and throws 401', async () => {
+    const alreadyRevoked = makeRefreshToken({ user, client, revokedAt: new Date() });
+    const activeToken = makeRefreshToken({ user, client });
+    mockRepo.findOne.mockResolvedValue(alreadyRevoked);
+    // find() is called by revokeAllForUserAndClient
+    mockRepo.find.mockResolvedValue([activeToken]);
+    mockRepo.save.mockResolvedValue({});
+
+    await expect(service.rotateRefreshToken('stolen-token', client)).rejects.toThrow(
+      UnauthorizedException,
+    );
+
+    // Revocation must use the ORIGINAL client (existing.client.id), not the requesting client
+    expect(mockRepo.find).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          client: { id: alreadyRevoked.client.id },
+          revokedAt: IsNull(),
+        }),
+      }),
+    );
+  });
+
+  it('throws 401 for an expired refresh token', async () => {
+    const expired = makeRefreshToken({ user, client, expiresAt: new Date(Date.now() - 1000) });
+    mockRepo.findOne.mockResolvedValue(expired);
+
+    await expect(service.rotateRefreshToken('raw-token', client)).rejects.toThrow(
+      UnauthorizedException,
+    );
+    expect(mockRepo.save).not.toHaveBeenCalled();
+  });
+
+  it('throws 401 when the refresh token is not found', async () => {
+    mockRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.rotateRefreshToken('unknown-token', client)).rejects.toThrow(
+      UnauthorizedException,
+    );
+  });
+
+  it('throws 401 when the client does not match the token issuer', async () => {
+    const otherClient = makeClient({ id: 'other-client-uuid', clientId: 'mobile-app' });
+    const existing = makeRefreshToken({ user, client: otherClient });
+    mockRepo.findOne.mockResolvedValue(existing);
+
+    await expect(service.rotateRefreshToken('raw-token', client)).rejects.toThrow(
+      UnauthorizedException,
+    );
+    expect(mockRepo.save).not.toHaveBeenCalled();
   });
 });
