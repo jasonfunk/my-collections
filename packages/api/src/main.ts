@@ -32,6 +32,10 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
+  // Trust the first downstream proxy (nginx). Without this, req.ip is always the
+  // loopback address in production, which collapses all users into one rate-limit bucket.
+  app.set('trust proxy', 1);
+
   // Security headers — sets X-Frame-Options, X-Content-Type-Options,
   // Strict-Transport-Security, Content-Security-Policy, and others.
   // Must be applied before any route handlers.

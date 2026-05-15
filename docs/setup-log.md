@@ -4362,3 +4362,104 @@ Host mini.houseoffunk.net
 | 0g — JWT secrets + SSH key + cloudflared | DONE |
 
 Mac Mini arrival → begin at Step 1 (monitor attached). First task: run macOS Setup Assistant and note the username — update `~/.ssh/config` immediately after.
+
+---
+
+## Session 2026-05-15 — COL-115: Rate Limiting on Auth Endpoints
+
+### Context
+COL-115: Add rate limiting to authentication endpoints to prevent brute-force attacks.
+On inspection, most of the work was already done in a prior session — `@nestjs/throttler` was installed, `ThrottlerModule` was configured globally, and `@Throttle()` decorators were on register/login/token. Two gaps remained.
+
+---
+
+### Changes
+
+#### 1. Proxy trust (`packages/api/src/main.ts`)
+
+Added `app.set('trust proxy', 1)` immediately after `NestFactory.create`.
+
+Without this, `req.ip` in Express always resolves to the loopback address (`127.0.0.1`) when the app sits behind nginx, because nginx rewrites the source IP. `ThrottlerGuard` uses `req.ip` for its per-IP buckets, so in production all users shared one bucket — rate limiting was effectively non-functional. Setting `trust proxy: 1` tells Express to read `req.ip` from the first `X-Forwarded-For` hop instead.
+
+This is a standard production hardening step for any Node.js API behind a reverse proxy.
+
+#### 2. `@Throttle()` on `POST /auth/revoke` (`packages/api/src/modules/auth/auth.controller.ts`)
+
+Added `@Throttle({ default: { ttl: 60000, limit: 5 } })` — same limit as login. The revoke endpoint was falling through to the global 100 req/min default, which is too generous for a security-sensitive logout endpoint.
+
+### Final rate limits
+
+| Endpoint | Limit |
+|----------|-------|
+| `POST /auth/register` | 3 req/min/IP |
+| `POST /auth/login` | 5 req/min/IP |
+| `POST /auth/token` | 10 req/min/IP |
+| `POST /auth/revoke` | 5 req/min/IP |
+| `GET /auth/authorize` | global default (100 req/min/IP) |
+| All other routes | global default (100 req/min/IP) |
+
+### Verification
+
+```bash
+npm run lint --workspace=packages/api  # clean
+npm run test --workspace=packages/api  # 42/42 passed
+```
+
+Tests pass without ThrottlerModule in the test module — correct: `@Throttle()` is metadata; the guard that reads it is not loaded in unit/integration tests, so throttle behaviour doesn't interfere with test assertions.
+
+---
+
+## Session 2026-05-15 — COL-119: Refresh Token Rotation (verify + fix + tests)
+
+### Context
+COL-119: Verify and implement refresh token rotation. On inspection, `TokenService.rotateRefreshToken()` was already fully implemented. The verify step found one logic bug and missing test coverage.
+
+---
+
+### Verify result
+
+`packages/api/src/modules/auth/services/token.service.ts` — `rotateRefreshToken()` already implements:
+- Happy path: revokes old token, issues new pair
+- Reuse detection: revokes all tokens for user + original client → 401
+- Expiry/not-found/client-mismatch checks → 401
+
+`auth.service.ts` already delegates `refresh()` to `tokenService.rotateRefreshToken()`.
+
+---
+
+### Changes
+
+#### 1. Bug fix — wrong client ID in reuse revocation
+
+**File:** `packages/api/src/modules/auth/services/token.service.ts` line 140
+
+```typescript
+// Before (wrong):
+await this.revokeAllForUserAndClient(existing.user.id, client.id);
+
+// After (correct):
+await this.revokeAllForUserAndClient(existing.user.id, existing.client.id);
+```
+
+`client` is from the incoming request (the attacker's claimed client_id). `existing.client` is loaded from the DB (the client the stolen token was actually issued to). Using `client.id` would revoke the wrong client's tokens if an attacker replayed a stolen token with a different `client_id`. Fixed to use `existing.client.id`.
+
+#### 2. Unit tests for refresh token rotation
+
+**File:** `packages/api/src/modules/auth/services/token.service.spec.ts`
+
+Added `describe('TokenService — refresh token rotation')` block with a mocked `refreshTokenRepo`. Covers:
+
+| Test | Outcome |
+|------|---------|
+| Valid token, correct client | New pair returned; old token revoked |
+| Already-revoked token (reuse) | All tokens for user+original client revoked; 401 |
+| Expired token | 401 |
+| Token not found | 401 |
+| Client mismatch | 401 |
+
+### Verification
+
+```bash
+npm run lint --workspace=packages/api  # clean
+npm run test --workspace=packages/api  # 47/47 passed (5 new rotation tests)
+```
