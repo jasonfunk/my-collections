@@ -244,6 +244,23 @@ Branch protection on `main`: all CI checks must pass before merge. See [`docs/co
 
 ---
 
+## Production Infrastructure
+
+The API runs on a Mac Mini M4 (home server) exposed via Cloudflare Tunnel — no open inbound ports.
+
+| Component | Details |
+|---|---|
+| **API host** | Mac Mini M4, pm2, port 3000 (prod) / 3001 (staging) |
+| **DB** | PostgreSQL 16 (Homebrew), local to Mac Mini |
+| **Tunnel** | Cloudflare Tunnel (`cloudflared`) — home IP never exposed in DNS |
+| **Backups** | Daily `pg_dump` → gzip → rsync to Dreamhost; Healthchecks.io dead-man's-switch on success |
+| **Log rotation** | pm2-logrotate (50 MB max, 14-file retention, gzip) |
+| **Uptime monitoring** | UptimeRobot — pings `/health` on prod + staging every 5 min, email alerts |
+
+See [`docs/confluence/infrastructure-overview.md`](docs/confluence/infrastructure-overview.md) and [`docs/confluence/ci-cd-runbook.md`](docs/confluence/ci-cd-runbook.md) for full details.
+
+---
+
 ## Known Issues
 
 > **Vulnerability debt:** No high-severity vulnerabilities as of NestJS 11 + Expo 55 upgrade (2026-04-12). Residual moderate-severity issues exist in test infrastructure dependencies only. CI is configured to `--audit-level=critical` — these do not block builds.

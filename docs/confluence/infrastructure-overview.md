@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-12"
+last_updated: "2026-05-14"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -118,6 +118,30 @@ The Cloudflare Tunnel CNAME can be wired up in two ways. Option A is recommended
 | `mini` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | Mac Mini SSH via Cloudflare Access — created in Step 3d |
 
 > **Why gray cloud for the Dreamhost records?** Dreamhost shared hosting is not compatible with Cloudflare's reverse proxy mode — enabling the orange cloud causes 522 timeouts. Traffic for `collections` and `stage` goes directly from the client to their respective Dreamhost web servers. Cloudflare still acts as authoritative DNS (nameservers point to Cloudflare) but does not proxy or cache this traffic. Let's Encrypt certificates for these subdomains are auto-provisioned by Dreamhost when the A record resolves correctly.
+
+## External Services
+
+Third-party services that are part of the infrastructure. Check these before making changes.
+
+| Service | Purpose | Account | Free Tier Limits |
+| --- | --- | --- | --- |
+| **UptimeRobot** | External HTTP monitoring — pings prod and staging `/health` every 5 minutes; email alert on failure | jfunk@houseoffunk.net (Google SSO) | 50 monitors, 5-min interval |
+| **Healthchecks.io** | Dead-man's-switch for nightly DB backup — alerts if no ping arrives within 25 hours | jfunk@houseoffunk.net (magic-link auth) | 20 checks, email alerts |
+
+### UptimeRobot Monitors
+
+| Monitor | URL | Interval | Alert Destination |
+| --- | --- | --- | --- |
+| my-collections API (prod) | `https://api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
+| my-collections API (staging) | `https://stage-api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
+
+### Healthchecks.io Check
+
+| Check | Period | Grace | Ping UUID |
+| --- | --- | --- | --- |
+| my-collections DB backup | 24h | 1h | `994b111e-9430-465b-aceb-fd8dcd719768` |
+
+The ping URL is stored at `~/.config/healthchecks-backup-url` on the Mac Mini (not committed to git). The backup script reads it at runtime. See `devops/scripts/backup-db.sh`.
 
 ## Environment Variables
 
