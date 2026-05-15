@@ -89,6 +89,11 @@ Update the **Current State** section below instead so future sessions have a fas
 - **Auto-sync workflow:** `.github/workflows/sync-main-to-develop.yml` merges main → develop automatically after every push to main; requires `permissions: contents: write` (GITHUB_TOKEN default is read-only)
 - **COL-114 done:** automated daily PostgreSQL backups via `devops/scripts/backup-db.sh`; scheduled at 02:00 by `~/Library/LaunchAgents/com.jfunk.db-backup.plist`; rsync to `jfunkshell@ssh.houseoffunk.net:~/backups/my-collections/`; restore tested against scratch DB
 
+### What's done (continued)
+- **COL-118 done:** pm2-logrotate installed globally on Mini; configured 50MB max, 14-file retention, gzip compression, daily rotation at midnight
+- **COL-116 done:** UptimeRobot free tier monitoring both prod (`https://api.houseoffunk.net/health`) and staging (`https://stage-api.houseoffunk.net/health`) every 5 minutes; email alerts to jfunk@houseoffunk.net; account via Google SSO (jfunk@houseoffunk.net)
+- **COL-129 done:** Healthchecks.io dead-man's-switch added to backup script; ping URL stored at `~/.config/healthchecks-backup-url` on Mini (not committed); `devops/scripts/backup-db.sh` updated with curl ping on success
+
 ### Open devops tickets
 None.
 
@@ -184,6 +189,18 @@ This is the canonical record of what is installed and configured on this machine
 - [x] `devops/launchd/com.jfunk.db-backup.plist` committed; installed to `~/Library/LaunchAgents/`; loaded with `launchctl load -w`
 - [x] Full backup script tested manually — both DBs dumped, rsync to Dreamhost confirmed
 - [x] Restore test passed against scratch DB (`my_collections_restore_test`), dropped clean
+
+### External Services
+
+Dependencies on third-party services. Check these before making infrastructure changes.
+
+| Service | Purpose | Account | Free tier limits |
+|---|---|---|---|
+| UptimeRobot | HTTP uptime monitoring — pings prod + staging `/health` every 5 min; emails on failure | jfunk@houseoffunk.net (Google SSO) | 50 monitors, 5-min interval |
+| Healthchecks.io | Dead-man's-switch for nightly DB backup job — alerts if no ping within 25h | jfunk@houseoffunk.net (magic link) | 20 checks, email alerts |
+
+- [x] UptimeRobot monitors created: `api.houseoffunk.net/health` and `stage-api.houseoffunk.net/health`
+- [x] Healthchecks.io check created: "my-collections DB backup" (UUID: `994b111e-9430-465b-aceb-fd8dcd719768`); ping URL stored at `~/.config/healthchecks-backup-url` on Mini
 
 ### GitHub Actions Self-Hosted Runner
 - [x] Runner downloaded from GitHub (repo → Settings → Actions → Runners → New self-hosted runner → macOS)

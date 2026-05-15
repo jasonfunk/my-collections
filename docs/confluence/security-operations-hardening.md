@@ -2,33 +2,20 @@
 confluence_page_id: "15499266"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15499266"
 title: "My Collections — Security & Operations Hardening"
-last_updated: "2026-05-05"
+last_updated: "2026-05-14"
 ---
 
-Six improvements identified during infrastructure planning. Not yet implemented. Ordered roughly by risk priority.
+Seven improvements identified during infrastructure planning. Items 1, 3, 5, and 6 are complete. Items 2, 4, and 7 remain open.
 
-## 1. Database Backups
+## 1. Database Backups ✅ Done (COL-114 + COL-129, 2026-05-14)
 
 **Risk without it:** Permanent data loss from accidental deletion, a failed migration, or disk failure.
 
-**Approach:**
+**Implemented:** Daily `pg_dump` via launchd on the Mac Mini at 02:00. Both `my_collections` (prod) and `my_collections_stage` (staging) are dumped, gzipped, pruned to 7-day local retention, and rsynced to Dreamhost shared hosting (`~/backups/my-collections/`). A Healthchecks.io dead-man's-switch pings on full success — see section 6.
 
-- Daily `pg_dump` cron job on the Mac Mini — dumps to the external SSD for fast local restore
-- Secondary copy offsite: Backblaze B2 ($6/TB/month) or Cloudflare R2 (free up to 10 GB) for disaster recovery
-- Cover both `my_collections` (production) and `my_collections_stage` (staging) databases
-- Document and test the restore procedure before considering it done
-
-**Suggested retention policy:** 7 daily, 4 weekly, 12 monthly.
-
-**Example cron entry (`crontab -e`):**
-
-```shell
-# Daily at 2am — dump production DB to external SSD
-0 2 * * * pg_dump -U my_collections my_collections | gzip > /Volumes/ExternalSSD/backups/my_collections_$(date +\%Y-\%m-\%d).sql.gz
-
-# Sync to offsite (requires rclone configured with B2 remote)
-30 2 * * * rclone sync /Volumes/ExternalSSD/backups/ b2:my-collections-backups/
-```
+**Script:** `devops/scripts/backup-db.sh` (symlinked to `~/scripts/backup-db.sh` on the Mini)  
+**Scheduler:** `devops/launchd/com.jfunk.db-backup.plist` (installed to `~/Library/LaunchAgents/`)  
+**Restore tested:** All 11 tables verified against a scratch DB; scratch dropped clean.
 
 ---
 
@@ -47,18 +34,18 @@ Six improvements identified during infrastructure planning. Not yet implemented.
 
 ---
 
-## 3. Uptime Monitoring
+## 3. Uptime Monitoring ✅ Done (COL-116, 2026-05-14)
 
 **Risk without it:** Server outages (power loss, cloudflared crash, pm2 failure) go undetected until you try to use the app.
 
-**Approach:**
+**Implemented:** UptimeRobot free tier. Two HTTP monitors ping `/health` every 5 minutes from external servers. Email alert to jfunk@houseoffunk.net on any failure. Account uses Google SSO (jfunk@houseoffunk.net) — no separate password.
 
-- Configure [UptimeRobot](https://uptimerobot.com) free tier — 5-minute polling interval, email alerts on failure
-- Primary monitor: `GET https://api.houseoffunk.net/health/ready` → expected `{ "status": "ready", "db": "ok" }`
-- Optional: `GET https://collections.houseoffunk.net` for the SPA
-- Optional: `GET https://stage-api.houseoffunk.net/health/ready` for staging
+| Monitor | URL | Interval |
+| --- | --- | --- |
+| my-collections API (prod) | `https://api.houseoffunk.net/health` | 5 min |
+| my-collections API (staging) | `https://stage-api.houseoffunk.net/health` | 5 min |
 
-No code changes required. Free plan supports up to 50 monitors.
+No code changes were required. See [Infrastructure Overview](infrastructure-overview.md) for account details.
 
 ---
 
@@ -76,27 +63,43 @@ No code changes required. Free plan supports up to 50 monitors.
 
 ---
 
-## 5. pm2 Log Rotation
+## 5. pm2 Log Rotation ✅ Done (COL-118, 2026-05-14)
 
 **Risk without it:** `~/.pm2/logs/*.log` grows unboundedly. Will eventually fill the 512 GB SSD.
 
-**Approach:**
+**Implemented:** `pm2-logrotate` module installed globally on the Mac Mini. Configuration:
 
-Run on the Mac Mini via SSH — no code changes to the application:
+| Setting | Value | Reason |
+| --- | --- | --- |
+| `max_size` | 50M | Rotate when any log file hits 50 MB |
+| `retain` | 14 | Keep ~2 weeks of rotated files per process |
+| `compress` | true | Gzip rotated files to save disk |
+| `rotateInterval` | `0 0 * * *` | Also force daily rotation at midnight regardless of size |
 
-```shell
-pm2 install pm2-logrotate
-pm2 set pm2-logrotate:max_size 50M
-pm2 set pm2-logrotate:retain 30
-pm2 set pm2-logrotate:compress true
-pm2 set pm2-logrotate:dateFormat YYYY-MM-DD
-```
-
-Applies automatically to all pm2 processes (`my-collections-api` and `my-collections-api-stage`).
+Applies automatically to all pm2 processes. No code changes to the application required.
 
 ---
 
-## 6. Refresh Token Rotation
+## 6. Backup Job Monitoring ✅ Done (COL-129, 2026-05-14)
+
+**Risk without it:** The daily backup script fails silently — disk full, rsync auth error, pg_dump failure — and nobody knows until it's time to restore and there's nothing there.
+
+**Implemented:** [Healthchecks.io](https://healthchecks.io) dead-man's-switch. The backup script curls a unique ping URL at the very end — only reachable if every previous step succeeded (`set -euo pipefail` causes early exit on any failure). If Healthchecks.io receives no ping within 25 hours (24h period + 1h grace), it sends an email alert.
+
+The ping UUID is stored in `~/.config/healthchecks-backup-url` on the Mac Mini only — it is never committed to git. The script reads it at runtime:
+
+```bash
+HEALTHCHECK_URL_FILE="$HOME/.config/healthchecks-backup-url"
+if [ -f "$HEALTHCHECK_URL_FILE" ]; then
+  curl --silent --max-time 10 "$(cat "$HEALTHCHECK_URL_FILE")" || true
+fi
+```
+
+See `devops/scripts/backup-db.sh` and [Infrastructure Overview](infrastructure-overview.md) for account details and the check UUID.
+
+---
+
+## 7. Refresh Token Rotation
 
 **Risk without it:** A stolen refresh token can be used indefinitely without detection. With rotation, reuse of a stolen token causes an immediate collision — the real user's next request fails, signaling a possible breach.
 

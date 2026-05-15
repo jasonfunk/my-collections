@@ -44,4 +44,11 @@ rsync -az --delete \
   -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=accept-new" \
   "$BACKUP_DIR/" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
 
+# Dead-man's-switch: ping Healthchecks.io only on full success.
+# URL stored in ~/.config/healthchecks-backup-url on the server — UUID not committed to git.
+HEALTHCHECK_URL_FILE="$HOME/.config/healthchecks-backup-url"
+if [ -f "$HEALTHCHECK_URL_FILE" ]; then
+  curl --silent --max-time 10 "$(cat "$HEALTHCHECK_URL_FILE")" || true
+fi
+
 log "=== Backup complete ==="
