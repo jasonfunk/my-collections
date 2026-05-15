@@ -49,8 +49,10 @@ Phases 1–3 complete and merged to `main`. Active development branch: `develop`
 - Postman collections in `postman/` (committed to git) — one file per API module
 - Collections API complete (COL-10): full CRUD for Star Wars, Transformers, He-Man; catalog seeded (199 SW / 443 TF / 127 HM)
 - Production deployed on Mac Mini: API at `https://api.houseoffunk.net`, web at `https://collections.houseoffunk.net`; staging at `stage-api` / `stage.houseoffunk.net`
-- Daily automated PostgreSQL backups: pg_dump → gzip → rsync to Dreamhost; scheduled via launchd at 02:00 (COL-114)
-- **Active work:** Security & Operations Hardening (COL-113) — open: COL-115 (rate limiting), COL-116 (uptime monitoring), COL-118 (pm2 log rotation), COL-119 (refresh token rotation), COL-129 (backup monitoring); also Web App features (COL-109, COL-110) and Mobile (COL-50, COL-51, COL-53)
+- Daily automated PostgreSQL backups: pg_dump → gzip → rsync to Dreamhost; scheduled via launchd at 02:00 (COL-114); Healthchecks.io dead-man's-switch pings on success (COL-129)
+- pm2-logrotate installed on Mini: 50 MB max, 14-file retention, gzip compression (COL-118)
+- UptimeRobot monitoring prod + staging `/health` every 5 min, email alerts (COL-116)
+- **Active work:** Security & Operations Hardening (COL-113) — open: COL-115 (rate limiting), COL-119 (refresh token rotation); also Web App features (COL-109, COL-110) and Mobile (COL-50, COL-51, COL-53)
 - Check Jira (project: COL) for current ticket status — this file lags; Jira is authoritative
 
 **Known vulnerability debt:** 0 high-severity issues as of 2026-04-12 (resolved by NestJS 11 + Expo 55 upgrades). Residual moderate-severity issues in test infrastructure only; no action needed before production.

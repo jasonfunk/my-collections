@@ -638,3 +638,72 @@ dropdb my_collections_restore_test
 **Result:** All 11 tables restored. Row counts matched production: 443 TF / 127 HM / 199 SW catalog rows, 1 user, 2 OAuth clients. Scratch DB dropped cleanly.
 
 **Why test the restore:** A backup that can't restore is worse than no backup — you have false confidence. This confirms the dump is a valid, loadable PostgreSQL archive.
+
+---
+
+## Session 6 — 2026-05-14
+
+Operations hardening: COL-118 (pm2 log rotation), COL-116 (uptime monitoring), COL-129 (backup dead-man's-switch).
+
+### 1. Install and configure pm2-logrotate (COL-118)
+
+**Commands:**
+```bash
+ssh mini.houseoffunk.net "source ~/.zprofile && pm2 install pm2-logrotate"
+ssh mini.houseoffunk.net "source ~/.zprofile && \
+  pm2 set pm2-logrotate:max_size 50M && \
+  pm2 set pm2-logrotate:retain 14 && \
+  pm2 set pm2-logrotate:compress true && \
+  pm2 save"
+```
+
+**What it does:** `pm2-logrotate` is a pm2 module that monitors `~/.pm2/logs/` and rotates log files when they exceed the configured size. It renames the current log file (appending a timestamp), compresses it with gzip, and starts a new empty file. `pm2 save` persists the module across reboots.
+
+**Why:** pm2 writes application stdout/stderr to `~/.pm2/logs/` indefinitely. Without rotation these files grow without bound and will eventually fill the 512 GB SSD.
+
+**Configuration:**
+- `max_size 50M` — rotate when a single log file reaches 50 MB
+- `retain 14` — keep 14 rotated files (~2 weeks of history per process)
+- `compress true` — gzip old log files to save disk space
+- `rotateInterval '0 0 * * *'` (default) — also force daily rotation at midnight regardless of size
+
+---
+
+### 2. Set up UptimeRobot uptime monitoring (COL-116)
+
+**What was done:** Created UptimeRobot account (jfunk@houseoffunk.net, Google SSO — no separate password) and configured two HTTP monitors via the web UI:
+
+| Monitor | URL | Interval | Alert |
+|---|---|---|---|
+| my-collections API (prod) | `https://api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
+| my-collections API (staging) | `https://stage-api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
+
+**What it does:** UptimeRobot polls each URL from external servers every 5 minutes. If a monitor receives a non-2xx response or times out, it sends an email alert. Catches outages that internal process monitoring cannot: network-level failures, cloudflared tunnel failures, power loss.
+
+**Why external monitoring:** pm2 restart-on-exit and launchd restart policies can't detect cloudflared crashes or network failures. An external monitor sees what users see.
+
+**Why UptimeRobot free tier:** 50 monitors, 5-minute intervals, email alerts — more than sufficient. Zero infrastructure to maintain.
+
+---
+
+### 3. Add Healthchecks.io dead-man's-switch to backup script (COL-129)
+
+**What was done:**
+- Created Healthchecks.io account (jfunk@houseoffunk.net, magic-link auth — no password)
+- Created check "my-collections DB backup" (period: 24h, grace: 1h)
+- Stored ping URL on the Mini: `echo "https://hc-ping.com/994b111e-9430-465b-aceb-fd8dcd719768" > ~/.config/healthchecks-backup-url && chmod 600`
+- Added curl ping to end of `devops/scripts/backup-db.sh` — reads URL from local file, never committed
+
+**Script change:**
+```bash
+HEALTHCHECK_URL_FILE="$HOME/.config/healthchecks-backup-url"
+if [ -f "$HEALTHCHECK_URL_FILE" ]; then
+  curl --silent --max-time 10 "$(cat "$HEALTHCHECK_URL_FILE")" || true
+fi
+```
+
+**What it does:** A dead-man's-switch — the backup script must check in every 24 hours or an alert fires. The ping is only reached if every prior step succeeded (`set -euo pipefail` causes early exit on any failure). This is the inverse of uptime monitoring: it alerts when a scheduled success stops happening, not when something goes wrong in real time.
+
+**Verified:** Ran backup script manually via SSH after deploying the updated script. Healthchecks.io dashboard confirmed "Last Ping: 7 seconds ago" immediately.
+
+**Note on SSH hostname:** Correct SSH hostname for the Mini via Cloudflare Tunnel is `mini.houseoffunk.net` (not `mini` shortcut). The `mini` alias requires additional `~/.ssh/config` setup not currently in place.
