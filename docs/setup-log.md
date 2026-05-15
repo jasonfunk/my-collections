@@ -4362,3 +4362,47 @@ Host mini.houseoffunk.net
 | 0g — JWT secrets + SSH key + cloudflared | DONE |
 
 Mac Mini arrival → begin at Step 1 (monitor attached). First task: run macOS Setup Assistant and note the username — update `~/.ssh/config` immediately after.
+
+---
+
+## Session 2026-05-15 — COL-115: Rate Limiting on Auth Endpoints
+
+### Context
+COL-115: Add rate limiting to authentication endpoints to prevent brute-force attacks.
+On inspection, most of the work was already done in a prior session — `@nestjs/throttler` was installed, `ThrottlerModule` was configured globally, and `@Throttle()` decorators were on register/login/token. Two gaps remained.
+
+---
+
+### Changes
+
+#### 1. Proxy trust (`packages/api/src/main.ts`)
+
+Added `app.set('trust proxy', 1)` immediately after `NestFactory.create`.
+
+Without this, `req.ip` in Express always resolves to the loopback address (`127.0.0.1`) when the app sits behind nginx, because nginx rewrites the source IP. `ThrottlerGuard` uses `req.ip` for its per-IP buckets, so in production all users shared one bucket — rate limiting was effectively non-functional. Setting `trust proxy: 1` tells Express to read `req.ip` from the first `X-Forwarded-For` hop instead.
+
+This is a standard production hardening step for any Node.js API behind a reverse proxy.
+
+#### 2. `@Throttle()` on `POST /auth/revoke` (`packages/api/src/modules/auth/auth.controller.ts`)
+
+Added `@Throttle({ default: { ttl: 60000, limit: 5 } })` — same limit as login. The revoke endpoint was falling through to the global 100 req/min default, which is too generous for a security-sensitive logout endpoint.
+
+### Final rate limits
+
+| Endpoint | Limit |
+|----------|-------|
+| `POST /auth/register` | 3 req/min/IP |
+| `POST /auth/login` | 5 req/min/IP |
+| `POST /auth/token` | 10 req/min/IP |
+| `POST /auth/revoke` | 5 req/min/IP |
+| `GET /auth/authorize` | global default (100 req/min/IP) |
+| All other routes | global default (100 req/min/IP) |
+
+### Verification
+
+```bash
+npm run lint --workspace=packages/api  # clean
+npm run test --workspace=packages/api  # 42/42 passed
+```
+
+Tests pass without ThrottlerModule in the test module — correct: `@Throttle()` is metadata; the guard that reads it is not loaded in unit/integration tests, so throttle behaviour doesn't interfere with test assertions.
