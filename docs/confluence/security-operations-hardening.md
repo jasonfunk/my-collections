@@ -5,7 +5,7 @@ title: "My Collections — Security & Operations Hardening"
 last_updated: "2026-05-14"
 ---
 
-Seven improvements identified during infrastructure planning. Items 1, 3, 5, and 6 are complete. Items 2, 4, and 7 remain open.
+Seven improvements identified during infrastructure planning. Items 1, 2, 3, 5, and 6 are complete. Items 4 and 7 remain open.
 
 ## 1. Database Backups ✅ Done (COL-114 + COL-129, 2026-05-14)
 
@@ -19,18 +19,25 @@ Seven improvements identified during infrastructure planning. Items 1, 3, 5, and
 
 ---
 
-## 2. Rate Limiting on Auth Endpoints
+## 2. Rate Limiting on Auth Endpoints ✅ Done (COL-115, 2026-05-15)
 
 **Risk without it:** `/auth/login` and `/auth/token` accept unlimited requests — brute-force attacks are unrestricted.
 
-**Approach:**
+**Implemented:** `@nestjs/throttler` (v6.5.0) installed. `ThrottlerModule` registered in `AppModule` with a global default of 100 req/min/IP. `ThrottlerGuard` applied globally as `APP_GUARD`. Per-endpoint overrides on all auth routes:
 
-- Install `@nestjs/throttler` in `packages/api`
-- Register `ThrottlerModule` in `AppModule` with a global default
-- Apply a tighter guard on auth routes specifically — 5 requests/minute/IP on `/auth/login`, 10 requests/minute/IP on `/auth/token`
-- Returns `429 Too Many Requests` on breach
+| Endpoint | Limit |
+| --- | --- |
+| `POST /auth/register` | 3 req/min/IP |
+| `POST /auth/login` | 5 req/min/IP |
+| `POST /auth/token` | 10 req/min/IP |
+| `POST /auth/revoke` | 5 req/min/IP |
+| `GET /auth/authorize` | global default (100 req/min/IP) |
 
-**Files:** `packages/api/src/app.module.ts`, auth controller
+Returns `429 Too Many Requests` on breach.
+
+**Proxy trust:** `app.set('trust proxy', 1)` added to `main.ts`. Without this, `req.ip` resolves to nginx's loopback address in production, collapsing all users into one rate-limit bucket. Setting it to `1` tells Express to trust the `X-Forwarded-For` header from the first downstream proxy.
+
+**Files:** `packages/api/src/main.ts`, `packages/api/src/app.module.ts`, `packages/api/src/modules/auth/auth.controller.ts`
 
 ---
 

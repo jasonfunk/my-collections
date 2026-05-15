@@ -169,6 +169,7 @@ export class AuthController {
 
   @Post('revoke')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Throttle({ default: { ttl: 60000, limit: 5 } })
   @ApiOperation({ summary: 'Revoke the refresh token (logout)' })
   async revoke(
     @Body() dto: RevokeDto,
