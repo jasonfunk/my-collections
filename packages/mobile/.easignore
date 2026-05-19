@@ -1,13 +1,18 @@
 # EAS installs dependencies itself — never upload node_modules
 node_modules/
 
+# Android Gradle build artifacts (rebuild in the cloud)
+android/app/build/
+android/.gradle/
+android/build/
+
 # Other workspace packages not needed for the mobile build
 packages/api/
 packages/web/
 
-# Build outputs
-packages/mobile/dist/
-packages/mobile/android/app/build/
+# Mobile build output and Expo cache
+dist/
+.expo/
 
 # Dev tooling and docs
 .git/
