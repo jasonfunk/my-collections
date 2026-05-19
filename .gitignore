@@ -85,3 +85,6 @@ web-build/
 .playwright-mcp/
 .postman/
 smoke-*.png
+
+# Collection import accumulator — built up via Claude Desktop sessions
+identified.json
