@@ -2,7 +2,7 @@
 confluence_page_id: "9535489"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489"
 title: "My Collections — Mobile Application Architecture"
-last_updated: "2026-05-08"
+last_updated: "2026-05-19"
 ---
 
 ## Overview
@@ -215,6 +215,62 @@ Shared form component used by both Add and Edit screens. Exports:
 - **`defaultFormState()`** — initial state for Add: `isOwned: true`, `condition: 'C8'`, `packagingCondition: 'NONE'`, `isComplete: true`, everything else empty/false.
 - **`buildPayload(form, collectionType)`** — converts `FormState` → API DTO. Critically: only includes collection-specific fields for the given `collectionType` (e.g. `isCarded`/`isBoxed` for Star Wars, `hasInstructions`/`hasTechSpec` for Transformers). **Must receive `collectionType`** — the API uses `whitelist: true` validation and returns 400 if unexpected fields are present.
 - **`ItemForm`** — renders sections: Status (Owned/Wishlist pills), Condition (two `SelectPicker`s), Accessories (checkbox checklist populated from `accessoryOptions`), Details (collection-specific `Switch` toggles), Acquisition (owned items only), Value, Notes (`testID="item-notes-input"`), Photos (horizontal scroll + upload button).
+
+## EAS Build & Distribution
+
+The mobile app is distributed via [Expo Application Services (EAS)](https://expo.dev/eas). Local `expo run:android` builds are for development only; EAS produces signed APKs and App Bundles for sideloading and Play Store distribution.
+
+### Build profiles (`packages/mobile/eas.json`)
+
+| Profile | Output | Distribution | Use |
+| --- | --- | --- | --- |
+| `development` | Dev client | Internal | Feature development with Expo Go replacement |
+| `preview` | APK | Internal | Sideload onto a physical Android device for testing |
+| `production` | AAB | Store | Google Play Store submission |
+
+### Running a build
+
+```bash
+cd packages/mobile
+eas build --platform android --profile preview
+```
+
+EAS archives the project from the filesystem (not git), applies `.easignore` exclusions, uploads the archive to Expo's cloud builders, and runs `expo prebuild` in the cloud (managed workflow). The build log URL is printed on completion; download the APK/AAB from expo.dev.
+
+### `.easignore` mechanics
+
+The `.easignore` at the **monorepo root** controls what gets uploaded. Key behaviors:
+
+- **Root file supersedes any package-level `.easignore`** — all exclusions must live in the single root file.
+- **Both anchored and depth-independent patterns are required** for reliable exclusion:
+  ```
+  # Depth-independent (matches at any level)
+  node_modules/
+  android/
+  # Anchored explicit paths
+  /packages/mobile/android
+  /packages/api
+  ```
+- Excluding `packages/mobile/android/` is correct for the managed workflow — EAS runs `expo prebuild` in the cloud automatically when no `android/` dir is found in the archive.
+- Target compressed archive size: < 5 MB (current: ~466 KB).
+
+### Environment variables
+
+`EXPO_PUBLIC_*` variables are baked into the JS bundle at Metro build time. EAS cloud builders do not read the local `.env` file — variables must be set via the EAS CLI before the first build:
+
+```bash
+eas env:create --name EXPO_PUBLIC_API_BASE_URL \
+  --value https://api.houseoffunk.net \
+  --environment production
+```
+
+The local `packages/mobile/.env` (gitignored) is still used for `expo start` local development (e.g. `http://10.0.2.2:3000` for emulator). EAS overrides it in cloud builds via stored env vars.
+
+### Installing on a physical device
+
+1. Download the APK from expo.dev after a successful `preview` build.
+2. Transfer to device and install via "Install unknown apps" (Android settings).
+3. **Signature conflict:** if a debug build (`expo run:android`) is already installed under the same package name (`com.mycollections.app`), Android will reject the EAS APK — the keystores differ. Uninstall the existing build first: `adb uninstall com.mycollections.app` or long-press the icon → Uninstall.
 
 ## Testing
 

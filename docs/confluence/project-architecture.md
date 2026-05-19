@@ -26,7 +26,7 @@ The repository is organized as an npm workspace monorepo managed by Turborepo. I
 - `@my-collections/shared` — TypeScript types only. Compiles to CommonJS for NestJS compatibility. Single source of truth for all shared types across API, web, and mobile.
 - `@my-collections/api` — NestJS REST API. Connects to PostgreSQL via TypeORM. Runs on port 3000. Swagger UI at `/api/docs`.
 - `@my-collections/web` — React 18 SPA (Vite 5). Deployed as static files to Dreamhost shared hosting. Runs on port 5173 in development.
-- `@my-collections/mobile` — Expo 55 / React Native 0.83.4. Android is the primary target; iOS is secondary. Single codebase for both platforms. Uses Expo Router (file-based routing), OAuth2 PKCE auth with `expo-secure-store` token storage, and Maestro UI tests.
+- `@my-collections/mobile` — Expo 55 / React Native 0.83.4. Android is the primary target; iOS is secondary. Single codebase for both platforms. Uses Expo Router (file-based routing), OAuth2 PKCE auth with `expo-secure-store` token storage, Maestro UI tests, and EAS Build for cloud-compiled APK/AAB distribution.
 
 Build order is enforced by Turborepo: `shared` builds first, then `api`, `web`, and `mobile` in parallel.
 
