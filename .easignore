@@ -1,0 +1,16 @@
+# EAS installs dependencies itself — never upload node_modules
+node_modules/
+
+# Other workspace packages not needed for the mobile build
+packages/api/
+packages/web/
+
+# Build outputs
+packages/mobile/dist/
+packages/mobile/android/app/build/
+
+# Dev tooling and docs
+.git/
+devops/
+docs/
+postman/
