@@ -2,27 +2,34 @@
 node_modules/
 
 # Native directories — EAS runs expo prebuild in the cloud
-packages/mobile/android/
-packages/mobile/ios/
+# Use depth-independent pattern (same style as .gitignore) so it matches
+# packages/mobile/android/ regardless of where in the tree it lives
+android/
+ios/
 
 # Workspace packages not needed for mobile build
 packages/api/
 packages/web/
 
 # Build/cache artifacts
-packages/mobile/dist/
-packages/mobile/.expo/
-packages/mobile/.expo-shared/
+dist/
+build/
 .turbo/
 *.tsbuildinfo
 
 # Version control
 .git/
 
-# Dev tooling and docs
+# Dev tooling and local cache
 devops/
 docs/
 postman/
+.playwright-mcp/
+.serena/
+
+# Expo cache
+.expo/
+.expo-shared/
 
 # Environment files
 .env
