@@ -1,0 +1,32 @@
+# Dependencies — EAS runs npm install in the cloud
+node_modules/
+
+# Native directories — EAS runs expo prebuild in the cloud
+packages/mobile/android/
+packages/mobile/ios/
+
+# Workspace packages not needed for mobile build
+packages/api/
+packages/web/
+
+# Build/cache artifacts
+packages/mobile/dist/
+packages/mobile/.expo/
+packages/mobile/.expo-shared/
+.turbo/
+*.tsbuildinfo
+
+# Version control
+.git/
+
+# Dev tooling and docs
+devops/
+docs/
+postman/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.test
