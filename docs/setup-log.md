@@ -4463,3 +4463,39 @@ Added `describe('TokenService — refresh token rotation')` block with a mocked 
 npm run lint --workspace=packages/api  # clean
 npm run test --workspace=packages/api  # 47/47 passed (5 new rotation tests)
 ```
+
+---
+
+## Session — 2026-05-18 (COL-127: Initial Collection Import via Claude Desktop)
+
+### Overview
+
+Built the complete photo identification pipeline for importing physical collection items into the database (COL-127). Chose Claude Desktop project approach rather than a Claude Code skill.
+
+### Files created
+
+| File | Purpose |
+|------|---------|
+| `scripts/export-identification-catalogs.ts` | One-time script: strips irrelevant fields from seed JSON, writes lean identification catalogs to `docs/identification/` |
+| `docs/identification/he-man-catalog.json` | 127-item He-Man catalog for Claude Desktop project knowledge |
+| `docs/identification/star-wars-catalog.json` | 199-item Star Wars catalog for Claude Desktop project knowledge |
+| `docs/identification/transformers-catalog.json` | 443-item Transformers catalog for Claude Desktop project knowledge |
+| `docs/identification/claude-desktop-project-instructions.md` | System prompt for the Claude Desktop project — paste into project instructions field |
+| `scripts/import-identified.ts` | Reads `identified.json` accumulator → resolves `externalId` → upserts user item records via TypeORM |
+
+`identified.json` is gitignored — built up incrementally through Claude Desktop sessions.
+
+### Workflow
+
+1. **Load catalog into Claude Desktop** — add relevant `docs/identification/*.json` file(s) as project knowledge; paste `claude-desktop-project-instructions.md` into project instructions
+2. **Photo sessions** — upload tray/display case photos; Claude Desktop returns IDENTIFIED / UNCERTAIN report + JSON block per session
+3. **Accumulate** — merge JSON block output into `identified.json` at repo root
+4. **Import** — `npx ts-node --project packages/api/tsconfig.json scripts/import-identified.ts --user <email> [--dry-run]`
+
+### Key decisions
+
+- Claude Desktop project (not a Code skill) — simpler, no API calls needed; Claude Desktop's own vision handles identification
+- Per-collection catalog files (separate, not combined) — user can load just one collection at a time, keeping context focused
+- `condition: "C5"` default — "Good" (well-played-with) is the right starting assumption for vintage loose figures
+- Import script uses TypeORM directly (not the REST API) — avoids auth complexity for a one-off seed operation; same pattern as other seed scripts
+- Entity imports explicitly listed in `import-identified.ts` — safer than glob for a one-time script since it uses `packages/api/tsconfig.json` not `tsconfig.scripts.json`

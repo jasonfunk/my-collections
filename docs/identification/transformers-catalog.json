@@ -1,0 +1,5840 @@
+[
+  {
+    "externalId": "1096",
+    "name": "Air Raid",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "F-15 Eagle",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Torque Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1114",
+    "name": "Fireflight",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "F-4 Phantom II",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Photon Displacer Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1120",
+    "name": "Silverbolt",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Concorde SST jet liner",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Ramp",
+      "Superion Blast Shield",
+      "Superion Blast Deflector",
+      "Superion Right Foot",
+      "Superion Left Foot",
+      "Superion Right Fist",
+      "Superion Left Fist",
+      "Superion Head",
+      "Electrostatic Discharger Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1102",
+    "name": "Skydive",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "F-16 Fighting Falcon fighter jet",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Nega-Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1108",
+    "name": "Slingshot",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Sea Harrier jumpjet",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Neutron Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1131",
+    "name": "Superion",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "subgroup": "Aerialbot",
+    "releaseYear": 1986,
+    "isCombiner": true,
+    "combinerTeam": "Aerialbots (Superion, G1)"
+  },
+  {
+    "externalId": "1370",
+    "name": "Blast Off",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Space Shuttle",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Left Dual Sonic Cannon",
+      "Right Dual Sonic Cannon",
+      "Ionic Blaster"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "1379",
+    "name": "Brawl",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Tank",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Twin Sonic Cannon",
+      "Electron Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "1416",
+    "name": "Bruticus",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "1404",
+    "name": "Onslaught",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "SWAT-deco'd BTR-90 armored personnel carrier",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Ramp",
+      "Chest Shield",
+      "Large Body Shield",
+      "Bruticus Right Foot",
+      "Bruticus Left Foot",
+      "Bruticus Left Fist",
+      "Bruticus Right Fist",
+      "Bruticus Head",
+      "Double Barrel Missile Launcher",
+      "Sonic Stun Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "1387",
+    "name": "Swindle",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Jeep",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Scatter Blaster",
+      "Gyro-Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "1395",
+    "name": "Vortex",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Helicopter",
+    "subgroup": "Combaticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Helicopter Blades (Part of Figure)",
+      "Left Side-Mounted Cannon",
+      "Right Side-Mounted Cannon",
+      "Semi-Automatic Glue Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Combaticons (Bruticus, G1)"
+  },
+  {
+    "externalId": "795",
+    "name": "Bonecrusher",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "bulldozer resembling a Caterpillar D9G",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Target Shooter/Left Forearm",
+      "Devastator Left Fist",
+      "Laser Pistol",
+      "Rotor Blade"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "832",
+    "name": "Devastator",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "JUMBO",
+    "altMode": "Combiner robot",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "801",
+    "name": "Hook",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Nissan Diesel Unic K-160B truck",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Devastator Head",
+      "Laser",
+      "Laser Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "813",
+    "name": "Long Haul",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Hitachi DH321 mining dump truck",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Wing",
+      "Missile Mount",
+      "Laser Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "807",
+    "name": "Mixmaster",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Cement mixer",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Laser Pistol",
+      "Magna Laser",
+      "Twin Blaster",
+      "Blaster"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "819",
+    "name": "Scavenger",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Komatsu PC200-1 excavator",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Target Shooter/Right Forearm",
+      "Devastator Right Fist",
+      "Laser Pistol",
+      "Rotor Blade"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "825",
+    "name": "Scrapper",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "wheeled payloader",
+    "subgroup": "Constructicon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Super Wing",
+      "Canopy (Part of Figure)",
+      "Laser Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Constructicons (Devastator, G1)"
+  },
+  {
+    "externalId": "1427",
+    "name": "Divebomb",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "eagle",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Laser-Guided Sword",
+      "Wings",
+      "Predaking Left Fist",
+      "Particle-Beam Rifle (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "1441",
+    "name": "Headstrong",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "rhinoceros",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Diffraction Sword",
+      "Predaking Left Foot",
+      "Plasma Sphere Shooter (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "1488",
+    "name": "Predaking",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "1453",
+    "name": "Rampage",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Robotic tiger",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Thermo Sword",
+      "Predaking Right Fist",
+      "Lightning Rifle (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "1477",
+    "name": "Razorclaw",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Sonic Sword",
+      "Predaking Head",
+      "Twin Concussion Blaster"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "1465",
+    "name": "Tantrum",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "buffalo",
+    "subgroup": "Predacon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Electro Sword",
+      "Predaking Right Foot",
+      "Catalytic Carbine (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Predacons (Predaking)"
+  },
+  {
+    "externalId": "3169",
+    "name": "Birdbrain",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Connector",
+      "Laser Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3178",
+    "name": "Bristleback",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Right Fist",
+      "Pulse Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3187",
+    "name": "Icepick",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "altMode": "clawed bipedal monster-thing",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Foot",
+      "Handgun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3223",
+    "name": "Monstructor",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "JUMBO",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3196",
+    "name": "Scowl",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "altMode": "bipedal kinda-werewolf-ish monster-thing",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Foot",
+      "Dual Disrupter Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3205",
+    "name": "Slog",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "altMode": "bipedal horned monster-thing",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Head",
+      "Dual Rifle",
+      "Solar Cannon"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "3214",
+    "name": "Wildfly",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "SMALL",
+    "subgroup": "Pretender Monster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Panel",
+      "Monstructor Left Fist",
+      "Photon Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Pretender Monsters (Monstructor)"
+  },
+  {
+    "externalId": "1187",
+    "name": "Blades",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Rescue helicopter",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Left Twin Launcher",
+      "Right Twin Launcher",
+      "Photon Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "1232",
+    "name": "Defensor",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "1196",
+    "name": "First Aid",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Datsun Vanette C120 ambulance",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Connector",
+      "Dual Barrelled Decrystallizer",
+      "Photon Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "1204",
+    "name": "Groove",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Honda Goldwing GL1200 police motorcycle",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Left Twin Vaporator",
+      "Right Twin Vaporator",
+      "Photon Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "1221",
+    "name": "Hot Spot",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Mitsubishi Fuso Great fire engine",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Defensor Right Blast Shield",
+      "Defensor Left Blast Shield",
+      "Defensor Hip Shield",
+      "Defensor Right Foot",
+      "Defensor Left Foot",
+      "Defensor Left Fist",
+      "Defensor Right Fist",
+      "Fireball Cannon (x2)",
+      "Repair Bay Arm (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "1213",
+    "name": "Streetwise",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Nissan 300ZX Turbo police car",
+    "subgroup": "Protectobot",
+    "releaseYear": 1986,
+    "accessories": [
+      "Connector",
+      "Double Mounted Air-Compressor Cannon",
+      "Photon Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Protectobots (Defensor, G1)"
+  },
+  {
+    "externalId": "2709",
+    "name": "Nautilator",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Weapon Stand Base",
+      "Connector",
+      "Left Monster Claw (Part of Figure)",
+      "Right Monster Claw (Part of Figure)",
+      "Tripod Rifle",
+      "Triple Crusher Cannon"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2716",
+    "name": "Overbite",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "shark",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Weapon Stand Base",
+      "Connector",
+      "Left Monster Arm (Part of Figure)",
+      "Right Monster Arm (Part of Figure)",
+      "Tripod Rifle",
+      "Jawbreaker Cannon"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2757",
+    "name": "Piranacon",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "JUMBO",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2723",
+    "name": "Seawing",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "manta ray",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Connector",
+      "Weapon Stand Base",
+      "Tripod Rifle",
+      "Venom Lasers (combined mode) (Part of Figure)",
+      "Left Venom Laser",
+      "Right Venom Laser"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2731",
+    "name": "Skalor",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "coelacanth",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Weapon Stand Base",
+      "Connector",
+      "Dual Crustation Rifles (combined mode) (Part of Figure)",
+      "Left Dual Crustation Rifle",
+      "Right Dual Crustation Rifle",
+      "Tripod Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2747",
+    "name": "Snaptrap",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "land tortoise",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Sword",
+      "Piranacon Chest Shield",
+      "Piranacon Left Foot",
+      "Piranacon Right Foot",
+      "Piranacon Right Fist",
+      "Piranacon Left Fist",
+      "Piranacon Head",
+      "Laser"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "2739",
+    "name": "Tentakil",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "squid",
+    "subgroup": "Seacon",
+    "releaseYear": 1988,
+    "accessories": [
+      "Connector",
+      "Weapon Stand Base",
+      "Tripod Rifle",
+      "Dual Slime Lasers (combined mode) (Part of Figure)",
+      "Left Dual Slime Laser",
+      "Right Dual Slime Laser"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Seacons (Piranacon)"
+  },
+  {
+    "externalId": "1509",
+    "name": "Breakdown",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Sports car",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Connector",
+      "Plasma-Energy Blaster",
+      "Concussion Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1517",
+    "name": "Dead End",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Sports car",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Connector",
+      "Plasma-Energy Blaster",
+      "Compressor-Air Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1533",
+    "name": "Drag Strip",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Tyrrell P34 Six-Wheeler race car",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Connector",
+      "Plasma-Energy Blaster",
+      "Gravito Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1551",
+    "name": "Menasor",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1541",
+    "name": "Motormaster",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Kenworth K100 Aerodyne sleeper truck",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Ionizer Sword",
+      "Menasor Blast Deflector",
+      "Roller Car",
+      "Menasor Left Foot",
+      "Menasor Right Foot",
+      "Menasor Left Fist",
+      "Menasor Right Fist",
+      "Menasor Head - Silver Eyes",
+      "Menasor Head - Red Eyes",
+      "Cyclone Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1525",
+    "name": "Wildrider",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Sports car",
+    "subgroup": "Stunticon",
+    "releaseYear": 1986,
+    "accessories": [
+      "Plasma-Energy Blaster",
+      "Scattershot Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Stunticons (Menasor)"
+  },
+  {
+    "externalId": "1792",
+    "name": "Afterburner",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Cybertronic motorcycle",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Missiles",
+      "Pulse Cannon",
+      "Sonic Blaster Pistol"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "1836",
+    "name": "Computron",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "JUMBO",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "1809",
+    "name": "Lightspeed",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "sleek Cybertronic car",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Infra-Red Missile Launcher (x2)",
+      "Light-Burst Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "1801",
+    "name": "Nosecone",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Cybertronic drill-tank",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Rocket-Propelled Missile (x2)",
+      "X-Ray Laser Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "1825",
+    "name": "Scattershot",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Computron Chest Shield",
+      "Computron Foot Stand (x2)",
+      "Computron Left Fist",
+      "Computron Right Fist",
+      "Computron Head",
+      "Acid-Pellet Gun",
+      "Artillery Gun (x2)"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "1817",
+    "name": "Strafe",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Cybertronic rocket plane",
+    "subgroup": "Technobot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Light-Pulse Blaster (x2)",
+      "Heat-Ray Rifle"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Technobots (Computron)"
+  },
+  {
+    "externalId": "2133",
+    "name": "Abominus",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "JUMBO",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "2092",
+    "name": "Blot",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "long-armed",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Laser Mount",
+      "Slime Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "2100",
+    "name": "Cutthroat",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "hawk monster thing",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Double-Barreled Magnetizer"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "2123",
+    "name": "Hun-Gurrr",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Quadrupedal two-headed dragon",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Abominus Chest Shield",
+      "Abominus Left Foot",
+      "Abominus Right Foot",
+      "Abominus Left Fist",
+      "Abominus Right Fist",
+      "Abominus Head",
+      "Sonic Stun Gun"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "2107",
+    "name": "Rippersnapper",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "weird upright bipedal shark creature",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Cyclone Gun",
+      "Twin Missile Launcher"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "2115",
+    "name": "Sinnertwin",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Two-headed dragon",
+    "subgroup": "Terrorcon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Flame Cannon",
+      "Rocket Grenade Launcher"
+    ],
+    "isCombiner": true,
+    "combinerTeam": "Terrorcons (Abominus)"
+  },
+  {
+    "externalId": "3314",
+    "name": "Armored Convoy with Optimus Prime",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Energy Exhaust Stack (x2)",
+      "Laser Gun (x2)",
+      "Photon Bazooka",
+      "Blaster Cannon (x4)"
+    ]
+  },
+  {
+    "externalId": "3391",
+    "name": "Attack Cruiser with Sprocket",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Rotor Blades",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3532",
+    "name": "Banzai-Tron with Razor-Sharp",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Razor-Sharp Legs (Part of Figure)",
+      "Razor-Sharp Right Claw (Part of Figure)",
+      "Razor-Sharp Left Claw (Part of Figure)",
+      "Photon Neutralizer"
+    ]
+  },
+  {
+    "externalId": "3258",
+    "name": "Blaster with Flight-Pack",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Tractor Beam Electron Gun"
+    ]
+  },
+  {
+    "externalId": "3265",
+    "name": "Bumblebee with Heli-Pack",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Handgun"
+    ]
+  },
+  {
+    "externalId": "3539",
+    "name": "Devastator with Scorpulator",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Magnifier Blaster"
+    ]
+  },
+  {
+    "externalId": "3272",
+    "name": "Grimlock with Anti-Tank Cannon",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Particle Beam Cannon"
+    ]
+  },
+  {
+    "externalId": "3330",
+    "name": "Helicopter with Over-Run",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Engine Cover",
+      "Tail",
+      "Foot Platform",
+      "Landing Skid",
+      "Helicopter Blades",
+      "Laser Cannon",
+      "Side Cannon (x2)",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3279",
+    "name": "Inferno with Hydro-Pack",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Magna-Blast Gun"
+    ]
+  },
+  {
+    "externalId": "3286",
+    "name": "Jackpot with Sights",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Heat Induced Photon Rifle"
+    ]
+  },
+  {
+    "externalId": "3293",
+    "name": "Jazz with Turbo Board",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Electromagnetizer Gun"
+    ]
+  },
+  {
+    "externalId": "3300",
+    "name": "Kick-Off with Turbo-Pack",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Sonic Blaster"
+    ]
+  },
+  {
+    "externalId": "3562",
+    "name": "Krok with Gatoraider",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Electro Pulsator"
+    ]
+  },
+  {
+    "externalId": "3307",
+    "name": "Mainframe with Push-Button",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Vibro Pulverizer"
+    ]
+  },
+  {
+    "externalId": "3569",
+    "name": "Neutro-Fusion Tank with Megatron",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Twin Laser Cannon",
+      "Turret Barrel",
+      "Missile (x4)"
+    ]
+  },
+  {
+    "externalId": "3517",
+    "name": "Off-Road Cycle with Axer",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Side Car",
+      "Seat Rest",
+      "Cannon",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3363",
+    "name": "Rad with Lionizer",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Thermal Mortar Gun"
+    ]
+  },
+  {
+    "externalId": "3370",
+    "name": "Rollout with Glitch",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Glitch Long Arm (Part of Figure)",
+      "Photon Gun",
+      "Glitch Short Arm (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "3584",
+    "name": "Shockwave with Fistfight",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Fistfight Arms (Part of Figure)",
+      "Turbo Rifle"
+    ]
+  },
+  {
+    "externalId": "3377",
+    "name": "Skyfall with Top-Heavy",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Cloudbuster Cannon"
+    ]
+  },
+  {
+    "externalId": "3384",
+    "name": "Snarl with Tyrannitron",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Handgun"
+    ]
+  },
+  {
+    "externalId": "3591",
+    "name": "Soundwave with Wingthing",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Right wing (Wingthing) (Part of Figure)",
+      "Left wing (Wingthing) (Part of Figure)",
+      "Photon Negator"
+    ]
+  },
+  {
+    "externalId": "3546",
+    "name": "Stratotronic Jet with Gutcruncher",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Left Rear Stabilizer Fin",
+      "Right Rear Stabilizer Fin",
+      "Seat (Part of Figure)",
+      "Jet Nose",
+      "Twin laser gun",
+      "Laser Cannon (x2)",
+      "Missile (x4)",
+      "Scout Tank (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "3613",
+    "name": "Treadshot with Catgut",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Pulse Demagnetizer"
+    ]
+  },
+  {
+    "externalId": "3348",
+    "name": "Turbo Cycle with Prowl",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Wheel Assembly",
+      "Left Engine Intake",
+      "Right Engine Intake",
+      "Side Covers",
+      "Shield/Gas Tank Cover",
+      "Small cannon",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3598",
+    "name": "Turbo Jet with Starscream",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Steering Bar",
+      "Engine Cover (Part of Figure)",
+      "Foot Platform",
+      "Laser Cannon",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3404",
+    "name": "Turbo Racer with Wheeljack",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "subgroup": "Action Master",
+    "releaseYear": 1990,
+    "accessories": [
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "1",
+    "name": "Bluestreak",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Nissan 280ZX",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Left Missile Launcher",
+      "Right Missile Launcher",
+      "Laser Gun",
+      "Missle (x3)"
+    ]
+  },
+  {
+    "externalId": "975",
+    "name": "Blurr",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MEDIUM",
+    "altMode": "Cybertronic hovercar",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1986,
+    "accessories": [
+      "Hood / Shield (Part of Figure)",
+      "Electro-Laser"
+    ]
+  },
+  {
+    "externalId": "430",
+    "name": "Grapple",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Orange crane",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Fist",
+      "Right Fist",
+      "Arc-Welder Rifle",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "444",
+    "name": "Hoist",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Toyota Hi-Lux pickup",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Radar Panel",
+      "Right Radar Panel",
+      "Full Spectrum Multi-Sensor",
+      "Towing Platform (Part of Figure)",
+      "Left Fist",
+      "Right Fist",
+      "Missile (x2)",
+      "Twin Blaster (x2)"
+    ]
+  },
+  {
+    "externalId": "987",
+    "name": "Hot Rod",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MEDIUM",
+    "altMode": "futuristic race car",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1986,
+    "accessories": [
+      "Long Photon Laser",
+      "Short Photon Laser"
+    ]
+  },
+  {
+    "externalId": "51",
+    "name": "Hound",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Jeep",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Missile Launcher",
+      "Gas Can",
+      "Spare tire",
+      "Hologram Gun",
+      "Poseable Machine Gun",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "462",
+    "name": "Inferno",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Fire ladder truck",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Hose Nozzle (x2)",
+      "Left Fist",
+      "Right Fist",
+      "Extinguisher Rifle",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "71",
+    "name": "Ironhide",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Nissan Sunny-Vanette Coach SGL",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Gun Post",
+      "Static Laser Gun",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "84",
+    "name": "Jazz",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Martini Racing Porsche 935",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Missile Launcher",
+      "Photon Rifle",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "999",
+    "name": "Kup",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MEDIUM",
+    "altMode": "Cybertronian pickup truck",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1986,
+    "accessories": [
+      "Musket Laser"
+    ]
+  },
+  {
+    "externalId": "137",
+    "name": "Mirage",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Ligier JS11",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Missile Launcher",
+      "Hunting Rifle",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "177",
+    "name": "Prowl",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Nissan 280ZX",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Missile Launcher",
+      "Left Missile Launcher",
+      "Laser Gun",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "191",
+    "name": "Ratchet",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Nissan Cherry Vanette SGL Coach",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Gun Post",
+      "Static Laser Gun",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "492",
+    "name": "Red Alert",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Lamborghini",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Shoulder-Mounted Rocket Launcher",
+      "High-Energy Particle Beam Rifle",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "204",
+    "name": "Sideswipe",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "New Countach LP500S",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Rocket Launcher",
+      "Laser Gun",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "519",
+    "name": "Skids",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Honda City Turbo",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Rocket Pod",
+      "Twin Electron Blaster",
+      "Liquid Nitrogen Rifle",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "505",
+    "name": "Smokescreen",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Datsun 280ZX Turbo",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Missile Launcher",
+      "Right Missile Launcher",
+      "Electro-Disruptor Rifle",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "219",
+    "name": "Sunstreaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Lamborghini Countach LP500S",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Left Fist",
+      "Right Fist",
+      "Rocket Booster (x2)",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "533",
+    "name": "Tracks",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Chevrolet Corvette \"C3\" model year 1980-1982",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Missile Launcher",
+      "Right Missile Launcher",
+      "Missile Launcher Mount",
+      "Black Beam Gun",
+      "Missile (x4)"
+    ]
+  },
+  {
+    "externalId": "233",
+    "name": "Trailbreaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Toyota 4WD Hi-Lux camper truck",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Radar Scanner",
+      "Left Fist",
+      "Right Fist",
+      "Missile (x2)",
+      "Twin Blaster Weapon (x2)"
+    ]
+  },
+  {
+    "externalId": "248",
+    "name": "Wheeljack",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Lancia Stratos Turbo",
+    "subgroup": "Autobot Car",
+    "releaseYear": 1984,
+    "accessories": [
+      "Shoulder Cannon (x2)",
+      "Left Spoiler (Part of Figure)",
+      "Right Spoiler (Part of Figure)",
+      "Left Clear Wing",
+      "Right Clear Wing",
+      "Rocket (x4)"
+    ]
+  },
+  {
+    "externalId": "1660",
+    "name": "Fortress Maximus",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "JUMBO",
+    "subgroup": "Base",
+    "releaseYear": 1987,
+    "accessories": [
+      "Radar Scope",
+      "Repair Bay Side Ramp (Part of Figure)",
+      "Left Side Ramp (Part of Figure)",
+      "Main Chest Ramp (Part of Figure)",
+      "Right Side Ramp (Part of Figure)",
+      "Ramp (Part of Figure)",
+      "Control Center Canopy",
+      "Forearm gun cover (Part of Figure)",
+      "Left Laser Arm",
+      "Compartment Door",
+      "Right Laser Arm",
+      "Communications Door (Part of Figure)",
+      "Gasket",
+      "Grommet",
+      "Arm Double Lasers (Part of Figure)",
+      "Dual Laser Blaster",
+      "Laser",
+      "Photon Rifle",
+      "Leg Double Lasers (Part of Figure)",
+      "Mini-Laser Rifle",
+      "Hip Cannons (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "1010",
+    "name": "Metroplex",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "altMode": "City",
+    "subgroup": "Base",
+    "releaseYear": 1986,
+    "accessories": [
+      "Chest",
+      "Knee Cap (x2)",
+      "Tank",
+      "Shoulder Antenna",
+      "Robot Body",
+      "Scamper Left Arm",
+      "Scamper Right Arm",
+      "Rear Tower",
+      "Tank Turret",
+      "Left Fist",
+      "Right Fist",
+      "Laser Pistol",
+      "Double Barrel Cannon",
+      "Right Red Accessory Cannon",
+      "Small Laser Pistol",
+      "Left Black Accessory Cannon",
+      "Right Black Accessory Cannon",
+      "Left Red Accessory Cannon",
+      "Missile (x3)",
+      "Scamper"
+    ]
+  },
+  {
+    "externalId": "548",
+    "name": "Omega Supreme",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "JUMBO",
+    "altMode": "Rocket base, rocket, and Cybertronian tank",
+    "subgroup": "Base",
+    "releaseYear": 1985,
+    "accessories": [
+      "Rocket With Claw",
+      "Track Piece K",
+      "Medium Shield (x2)",
+      "Ankle E",
+      "Track Piece J",
+      "Large Shield (x2)",
+      "Armor Half D",
+      "Track Piece I (x2)",
+      "Small Shield (x2)",
+      "Armor Half C",
+      "Ankle H",
+      "Backpack",
+      "Track Piece M",
+      "Armor Half B",
+      "Ankle G",
+      "Rocket",
+      "Track Piece L",
+      "Armor Half A",
+      "Ankle F",
+      "Foot (x2)"
+    ]
+  },
+  {
+    "externalId": "1968",
+    "name": "Scorponok",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "JUMBO",
+    "altMode": "Robotic scorpion",
+    "subgroup": "Base",
+    "releaseYear": 1987,
+    "accessories": [
+      "Radar Dish 2",
+      "Radar Dish 1",
+      "Radar Dish 4",
+      "Radar Dish 3",
+      "2 Ramps (Part of Figure)",
+      "2 Leg Guards (Part of Figure)",
+      "Tower",
+      "Helmet (Part of Figure)",
+      "Fasttrack",
+      "Elevator Connector",
+      "Mechanical Repair Claw",
+      "Gun Guard",
+      "Fasttrack Left Arm",
+      "Mechanical Repair Arm",
+      "Fasttrack Right Arm",
+      "Elevator Platform",
+      "4 Dual Photon Cannons (Part of Figure)",
+      "Fasttrack Gun (x2)",
+      "Anti-Gravity Gun"
+    ]
+  },
+  {
+    "externalId": "1329",
+    "name": "Trypticon",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "altMode": "Dinosaur",
+    "subgroup": "Base",
+    "releaseYear": 1986,
+    "accessories": [
+      "Double-Disk Scanner",
+      "Single-Disk Scanner",
+      "Left Loading Ramp",
+      "Right Loading Ramp",
+      "Right Tank Tread",
+      "Large Blaster Stand",
+      "Full-Tilt",
+      "Small Tower",
+      "Small Blaster Stand",
+      "Large Tower",
+      "Battery Cover (Part of Figure)",
+      "Left Connector",
+      "Right Connector",
+      "Left Tank Tread",
+      "Double Barreled Blaster",
+      "Single-Barreled Blaster",
+      "Laser Cannon",
+      "Electro-Disruptor"
+    ]
+  },
+  {
+    "externalId": "1356",
+    "name": "Runabout",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Lotus Turbo Esprit sports car",
+    "subgroup": "Battlecharger",
+    "releaseYear": 1986,
+    "accessories": [
+      "Friction Rifle"
+    ]
+  },
+  {
+    "externalId": "1363",
+    "name": "Runamuck",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Pontiac Firebird",
+    "subgroup": "Battlecharger",
+    "releaseYear": 1986,
+    "accessories": [
+      "High-Energy Particle Beam Rifle"
+    ]
+  },
+  {
+    "externalId": "1597",
+    "name": "Fastlane and Cloudraker",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "subgroup": "Clone",
+    "releaseYear": 1987,
+    "accessories": [
+      "Fastlane - Spoiler (Part of Figure)",
+      "Sonic Boom Rifle (x2)",
+      "Right Gravity-Rod Rifle",
+      "Left Gravity-Rod Rifle"
+    ]
+  },
+  {
+    "externalId": "1891",
+    "name": "Pounce and Wingspan",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "subgroup": "Clone",
+    "releaseYear": 1987,
+    "accessories": [
+      "Electro-Burst Rifle (x2)",
+      "Anti-Personnel Missile Launching Bayonet (x2)"
+    ]
+  },
+  {
+    "externalId": "420",
+    "name": "Blaster",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Ghetto blaster boombox",
+    "subgroup": "Communicator",
+    "releaseYear": 1985,
+    "accessories": [
+      "Electro-Scrambler Gun"
+    ]
+  },
+  {
+    "externalId": "361",
+    "name": "Soundwave",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "Microcassette recorder",
+    "subgroup": "Communicator",
+    "releaseYear": 1984,
+    "accessories": [
+      "Concussion Blaster Gun",
+      "Rocket Launcher",
+      "Battery Cover (Part of Figure)",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "1300",
+    "name": "Cyclonus",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Cybertronian fighter craft",
+    "subgroup": "Seeker",
+    "releaseYear": 1986,
+    "accessories": [
+      "Oxidating Laser"
+    ]
+  },
+  {
+    "externalId": "727",
+    "name": "Dirge",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "modified F-15 fighter jet",
+    "subgroup": "Seeker",
+    "releaseYear": 1985,
+    "accessories": [
+      "Right Wing (Part of Figure)",
+      "Left Wing (Part of Figure)",
+      "Landing Gear",
+      "Slotted Left Fist",
+      "Slotted Right Fist",
+      "Concussion Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "743",
+    "name": "Ramjet",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle",
+    "subgroup": "Seeker",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Tail Fin",
+      "Right Tail Fin",
+      "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
+      "Landing Gear",
+      "Slotted Left Fist",
+      "Slotted Right Fist",
+      "Cluster Bomb (x2)"
+    ]
+  },
+  {
+    "externalId": "1311",
+    "name": "Scourge",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "soap a Cybertronian hovercraft",
+    "subgroup": "Seeker",
+    "releaseYear": 1986,
+    "accessories": [
+      "Disintegrator Ray",
+      "Laser Blaster"
+    ]
+  },
+  {
+    "externalId": "339",
+    "name": "Skywarp",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle",
+    "subgroup": "Seeker",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Tail Fin",
+      "Left Rudder",
+      "Right Rudder",
+      "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
+      "Left Tail Fin",
+      "Missile Launcher (x2)",
+      "Landing Gear",
+      "Left Fist",
+      "Right Fist",
+      "Machine Gun (x2)",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "375",
+    "name": "Starscream",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle fighter jet",
+    "subgroup": "Seeker",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Rudder",
+      "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
+      "Left Tail Fin",
+      "Right Tail Fin",
+      "Left Rudder",
+      "Missile Launcher (x2)",
+      "Landing Gear",
+      "Left Fist",
+      "Right Fist",
+      "Machine Gun (x2)",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "761",
+    "name": "Thrust",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle with VTOL fans",
+    "subgroup": "Seeker",
+    "releaseYear": 1985,
+    "accessories": [
+      "Right Tail Fin",
+      "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
+      "Left Tail Fin",
+      "Missile Launcher (x2)",
+      "Landing gear",
+      "Slotted Left Fist",
+      "Slotted Right Fist",
+      "Long Air-To-Air Missile (x2)",
+      "Short Air-To-Air Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "397",
+    "name": "Thundercracker",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle fighter jet",
+    "subgroup": "Seeker",
+    "releaseYear": 1984,
+    "accessories": [
+      "Left Rudder",
+      "Right Rudder",
+      "Left Wing (Part of Figure)",
+      "Right Wing (Part of Figure)",
+      "Left Tail Fin",
+      "Right Tail Fin",
+      "Rocket Launcher (x2)",
+      "Landing Gear",
+      "Slotted Left Fist",
+      "Slotted Right Fist",
+      "Incendiary Gun (x2)",
+      "Rocket (x2)"
+    ]
+  },
+  {
+    "externalId": "13050",
+    "name": "Astrotrain (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15381",
+    "name": "Astrotrain (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13041",
+    "name": "Blaster",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13049",
+    "name": "Blitzwing (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15380",
+    "name": "Blitzwing (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13035",
+    "name": "Bluestreak",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13053",
+    "name": "Bombshell (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15384",
+    "name": "Bombshell (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13056",
+    "name": "Bonecrusher (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15387",
+    "name": "Bonecrusher (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13036",
+    "name": "Brawn",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13038",
+    "name": "Bumblebee",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13040",
+    "name": "Cliffjumper",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13060",
+    "name": "Devastator (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15391",
+    "name": "Devastator (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13062",
+    "name": "Frenzy (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15393",
+    "name": "Frenzy (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13021",
+    "name": "Grapple",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13013",
+    "name": "Grimlock",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13033",
+    "name": "Hoist",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13054",
+    "name": "Hook (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15385",
+    "name": "Hook (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13029",
+    "name": "Hound",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13039",
+    "name": "Huffer",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13026",
+    "name": "Inferno",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13019",
+    "name": "Ironhide",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13025",
+    "name": "Jazz",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13051",
+    "name": "Kickback (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15382",
+    "name": "Kickback (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13057",
+    "name": "Long Haul (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15388",
+    "name": "Long Haul (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13044",
+    "name": "Megatron (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15375",
+    "name": "Megatron (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13032",
+    "name": "Mirage",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13058",
+    "name": "Mixmaster (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15389",
+    "name": "Mixmaster (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13043",
+    "name": "Optimus Prime",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13042",
+    "name": "Perceptor",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13031",
+    "name": "Prowl",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13018",
+    "name": "Ratchet",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13061",
+    "name": "Ravage (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15392",
+    "name": "Ravage (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13028",
+    "name": "Red Alert",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13064",
+    "name": "Reflector (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15395",
+    "name": "Reflector (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13055",
+    "name": "Scavenger (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15386",
+    "name": "Scavenger (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13059",
+    "name": "Scrapper (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15390",
+    "name": "Scrapper (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13063",
+    "name": "Shockwave (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15394",
+    "name": "Shockwave (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13052",
+    "name": "Shrapnel (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15383",
+    "name": "Shrapnel (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13030",
+    "name": "Sideswipe",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13024",
+    "name": "Skids",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13045",
+    "name": "Skywarp (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15376",
+    "name": "Skywarp (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13017",
+    "name": "Slag",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13016",
+    "name": "Sludge",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13020",
+    "name": "Smokescreen",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13014",
+    "name": "Snarl",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13048",
+    "name": "Soundwave (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15379",
+    "name": "Soundwave (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13047",
+    "name": "Starscream (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15378",
+    "name": "Starscream (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13023",
+    "name": "Sunstreaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13015",
+    "name": "Swoop",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13046",
+    "name": "Thundercracker (purple)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "15377",
+    "name": "Thundercracker (red)",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13027",
+    "name": "Tracks",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13022",
+    "name": "Trailbreaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13034",
+    "name": "Wheeljack",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "13037",
+    "name": "Windcharger",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MINI",
+    "subgroup": "Decoy",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "578",
+    "name": "Roadbuster",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Cybertronic jeep",
+    "subgroup": "Deluxe Vehicle",
+    "releaseYear": 1985,
+    "accessories": [
+      "Infrared Range Finder",
+      "Antenna",
+      "Shrapnel Missile Launcher",
+      "Power Pack",
+      "Left Small Wheel Cover",
+      "Right Small Wheel Cover",
+      "Left Large Wheel Cover",
+      "Right Large Wheel Cover",
+      "Control Pack",
+      "Left Handle",
+      "Right Handle",
+      "Linear Blaster Gun",
+      "Laser Rifle",
+      "Missile (x5)"
+    ]
+  },
+  {
+    "externalId": "602",
+    "name": "Whirl",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "subgroup": "Deluxe Vehicle",
+    "releaseYear": 1985,
+    "accessories": [
+      "Shell Cannon",
+      "Photon Beam Rifle",
+      "Null Ray Module",
+      "Paralyzo Box"
+    ]
+  },
+  {
+    "externalId": "671",
+    "name": "Grimlock",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Tyrannosaurus rex",
+    "subgroup": "Dinobot",
+    "releaseYear": 1985,
+    "accessories": [
+      "Energo Sword",
+      "Rocket Launcher",
+      "Stunner Lasers",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "616",
+    "name": "Slag",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Triceratops",
+    "subgroup": "Dinobot",
+    "releaseYear": 1985,
+    "accessories": [
+      "Energo Sword",
+      "Rocket Pod",
+      "Electron Blaster",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "630",
+    "name": "Sludge",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Brontosaurus",
+    "subgroup": "Dinobot",
+    "releaseYear": 1985,
+    "accessories": [
+      "Energo Sword",
+      "Rocket Pod",
+      "Electron Cannon",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "644",
+    "name": "Snarl",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Stegosaurus",
+    "subgroup": "Dinobot",
+    "releaseYear": 1985,
+    "accessories": [
+      "Energo Sword",
+      "Rocket Pod",
+      "Electron Cannon",
+      "Rocket (x3)"
+    ]
+  },
+  {
+    "externalId": "658",
+    "name": "Swoop",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Pteranodon",
+    "subgroup": "Dinobot",
+    "releaseYear": 1985,
+    "accessories": [
+      "Thermal Sword",
+      "Missile Launcher (x2)",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "1904",
+    "name": "Battletrap",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Helicopter and Truck",
+    "subgroup": "Duocon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Double-Barreled Assault Missile Launcher"
+    ]
+  },
+  {
+    "externalId": "1917",
+    "name": "Flywheels",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "subgroup": "Duocon",
+    "releaseYear": 1987,
+    "accessories": [
+      "Laser Cannon"
+    ]
+  },
+  {
+    "externalId": "1996",
+    "name": "Apeface",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Electro-Shield",
+      "Sonic Boomer Gun"
+    ]
+  },
+  {
+    "externalId": "1610",
+    "name": "Brainstorm",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic fighter craft",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Right High Energy Photon Pulse Cannon",
+      "Left High Energy Photon Pulse Cannon"
+    ]
+  },
+  {
+    "externalId": "1623",
+    "name": "Chromedome",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Mazda MX-81 Aria 2-door Hatchback",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Dual Laser (x2)"
+    ]
+  },
+  {
+    "externalId": "2487",
+    "name": "Fangry",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Wings/Shield",
+      "Ion Pulse Gun"
+    ]
+  },
+  {
+    "externalId": "1635",
+    "name": "Hardhead",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronian self-propelled artillery gun",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Shoulder Cannon (Part of Figure)",
+      "Shatterblaster (x2)"
+    ]
+  },
+  {
+    "externalId": "1648",
+    "name": "Highbrow",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Helicopter",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Corrosive Acid Rainmaker Rifle (x2)"
+    ]
+  },
+  {
+    "externalId": "2500",
+    "name": "Horri-Bull",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Flamethrower",
+      "Concussion Blaster"
+    ]
+  },
+  {
+    "externalId": "2159",
+    "name": "Hosehead",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Fire truck",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Seat",
+      "Right Laser Pistol",
+      "Left Laser Pistol",
+      "Accelerator Rifle"
+    ]
+  },
+  {
+    "externalId": "1930",
+    "name": "Mindwipe",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "bat",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Viper Pistol"
+    ]
+  },
+  {
+    "externalId": "2174",
+    "name": "Nightbeat",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Porsche 959",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Seat",
+      "Right Photon Pistol",
+      "Plasma Blaster",
+      "Left Photon Pistol"
+    ]
+  },
+  {
+    "externalId": "2189",
+    "name": "Siren",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "A70 Toyota Supra",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Seat/Helmet",
+      "Left Sonic-Screamer Pistol",
+      "Right Sonic-Screamer Pistol",
+      "CO2 Shotgun"
+    ]
+  },
+  {
+    "externalId": "1942",
+    "name": "Skullcruncher",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Robotic alligator",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Tail / Laser  (Part of Figure)",
+      "Ray Gun"
+    ]
+  },
+  {
+    "externalId": "2009",
+    "name": "Snapdragon",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic jet and reptile",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Booster Fin - Left",
+      "Booster Fin - Right",
+      "Gyro-Gun (x2)"
+    ]
+  },
+  {
+    "externalId": "2513",
+    "name": "Squeezeplay",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Bipedal crab monster",
+    "subgroup": "Headmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Tail",
+      "Overrider Rifle"
+    ]
+  },
+  {
+    "externalId": "1955",
+    "name": "Weirdwolf",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Robotic wolf",
+    "subgroup": "Headmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Tail / Thermal Sword",
+      "Photon Pistol"
+    ]
+  },
+  {
+    "externalId": "889",
+    "name": "Barrage",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Electro-Sword",
+      "Sonic Rifle"
+    ]
+  },
+  {
+    "externalId": "856",
+    "name": "Bombshell",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "rhinoceros beetle",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Twin Ion Impulse Blaster"
+    ]
+  },
+  {
+    "externalId": "901",
+    "name": "Chop Shop",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Stag beetle",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Vibro Spear",
+      "Photon Cannon"
+    ]
+  },
+  {
+    "externalId": "867",
+    "name": "Kickback",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "grasshopper",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Electrothermic Blast Tube"
+    ]
+  },
+  {
+    "externalId": "913",
+    "name": "Ransack",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Robotic locust",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Reflector Shield",
+      "Concussion Blaster Gun"
+    ]
+  },
+  {
+    "externalId": "878",
+    "name": "Shrapnel",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "stag beetle",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Gamma Ray Detonator"
+    ]
+  },
+  {
+    "externalId": "925",
+    "name": "Venom",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "Purple insect",
+    "subgroup": "Insecticon",
+    "releaseYear": 1985,
+    "accessories": [
+      "Battle Axe",
+      "Electric Blaster Gun"
+    ]
+  },
+  {
+    "externalId": "685",
+    "name": "Topspin",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "some kind of Cybertronic pontoon-fronted",
+    "subgroup": "Jumpstarter",
+    "releaseYear": 1985,
+    "accessories": [
+      "Particle Beam Rifle"
+    ]
+  },
+  {
+    "externalId": "696",
+    "name": "Twin Twist",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "Cybertronic twin-drill tank",
+    "subgroup": "Jumpstarter",
+    "releaseYear": 1985,
+    "accessories": [
+      "Semi-Automatic Cannon-Rifle"
+    ]
+  },
+  {
+    "externalId": "1287",
+    "name": "Galvatron",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "subgroup": "Leader",
+    "releaseYear": 1986,
+    "accessories": [
+      "Laser Barrel (Part of Figure)",
+      "Laser Connector",
+      "Rifle"
+    ]
+  },
+  {
+    "externalId": "289",
+    "name": "Megatron",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "Walther P-38 pistol",
+    "subgroup": "Leader",
+    "releaseYear": 1984,
+    "accessories": [
+      "Telescopic Sight - Eyepiece (Part of Figure)",
+      "Stock - Base (Part of Figure)",
+      "Silencer - Connector (Part of Figure)",
+      "Stock - Mid Section (Part of Figure)",
+      "Silencer - Long Section (Part of Figure)",
+      "Stock - Top Section (Part of Figure)",
+      "3-Piece Stock",
+      "Telescopic Sight - Crosshairs (Part of Figure)",
+      "3-Piece Telescopic Sight",
+      "Telescopic Sight - Mid Section (Part of Figure)",
+      "High Density Infrared Laser Cannon",
+      "2-Piece Silencer"
+    ]
+  },
+  {
+    "externalId": "158",
+    "name": "Optimus Prime",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "LARGE",
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
+    "subgroup": "Leader",
+    "releaseYear": 1984,
+    "accessories": [
+      "Roller (type 2)",
+      "Roller (type 1)",
+      "Hose",
+      "Trailer Door (Part of Figure)",
+      "Roller (type 3 onward)",
+      "Left Fist (type 1)",
+      "Right Fist (type 1)",
+      "Regular Left Fist",
+      "Right Fist (type 2 onward)",
+      "Laser Blaster (type 2 onward)",
+      "Bloated Gas Pump",
+      "Gas Pump (type 2 onward)",
+      "Bloated Nozzle",
+      "Nozzle (type 2 onward)",
+      "Laser Blaster (type 1)",
+      "Rocket (type 1) (x4)",
+      "Rocket (type 2 onward) (x4)"
+    ]
+  },
+  {
+    "externalId": "189112",
+    "name": "Optimus Prime (Pepsi)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "subgroup": "Leader",
+    "releaseYear": 1985,
+    "isMailaway": true
+  },
+  {
+    "externalId": "961",
+    "name": "Rodimus Prime",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "subgroup": "Leader",
+    "releaseYear": 1986,
+    "accessories": [
+      "Blast Shield (x2)",
+      "Spoiler (Part of Figure)",
+      "Photon Eliminator"
+    ]
+  },
+  {
+    "externalId": "65927",
+    "name": "Bumblebee",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Volkswagen Type 1",
+    "subgroup": "Legends",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "65934",
+    "name": "Grimlock",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Tyrannosaurus rex",
+    "subgroup": "Legends",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "65941",
+    "name": "Jazz",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Martini Racing Porsche 935/76",
+    "subgroup": "Legends",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "65948",
+    "name": "Starscream",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "F-15 Eagle fighter jet",
+    "subgroup": "Legends",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3416",
+    "name": "Air Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Rotor blades (Blaze Master) (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "2526",
+    "name": "Air Strike Patrol",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3071",
+    "name": "Airwave",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Grumman F-14D Tomcat fighter jet",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Ramp",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3672",
+    "name": "Anti-Aircraft Base with Blackout and Spaceshot",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Radar Drum",
+      "Communications Dish",
+      "Ramp",
+      "Turret (Part of Figure)",
+      "Bazooka",
+      "Left Turret Cannon",
+      "Missile Launcher",
+      "Right Turret Cannon"
+    ]
+  },
+  {
+    "externalId": "3448",
+    "name": "Astro Squad",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Missile (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "2810",
+    "name": "Battle Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3636",
+    "name": "Battle Squad",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "3500",
+    "name": "Battlefield Headquarters with Full-Barrel and Overflow",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Laser Machine Gun (x2)",
+      "Right Scrambler Gun",
+      "Left Scrambler Gun",
+      "Cruise Missile (x2)",
+      "Air-To-Air Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3656",
+    "name": "Cannon Transport with Cement-Head and Terror-Tread",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Ramp (x2)",
+      "Cannon (x2)"
+    ]
+  },
+  {
+    "externalId": "3424",
+    "name": "Construction Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "3646",
+    "name": "Constructor Squad",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "2826",
+    "name": "Countdown",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "fanciful moon rover",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Short Ramp (x3)",
+      "Large Ramp",
+      "Mechanical Arm",
+      "Helipad",
+      "Large Laser",
+      "Scout Vehicle",
+      "Platform",
+      "Small Double Laser (x2)",
+      "Large Double Laser",
+      "Gunner Pod"
+    ]
+  },
+  {
+    "externalId": "2893",
+    "name": "Erector",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Semi truck with crane trailer",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Crane Arm"
+    ]
+  },
+  {
+    "externalId": "3101",
+    "name": "Flattop",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "F4 Phantom fighter jet",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Laser Cannon (x2)"
+    ]
+  },
+  {
+    "externalId": "3084",
+    "name": "Greasepit",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Chevrolet K10 pick-up truck",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Ramp",
+      "Missile Launcher Stand (Part of Figure)",
+      "Gas pumps (Part of Figure)",
+      "Sign",
+      "Short Sign (Part of Figure)",
+      "4-Phase Laser (Part of Figure)",
+      "Missile"
+    ]
+  },
+  {
+    "externalId": "2848",
+    "name": "Groundshaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Fighter jet",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Long ramp",
+      "Short ramp",
+      "Figure Stand",
+      "Missile launcher (x2)",
+      "Gun",
+      "Large Cannon"
+    ]
+  },
+  {
+    "externalId": "2865",
+    "name": "Hot House",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Ramp",
+      "Tower"
+    ]
+  },
+  {
+    "externalId": "3432",
+    "name": "Hot Rod Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "2878",
+    "name": "Ironworks",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Ramp",
+      "Crane Staging",
+      "Crane",
+      "Rocket"
+    ]
+  },
+  {
+    "externalId": "3459",
+    "name": "Metro Squad",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "3620",
+    "name": "Military Patrol",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Rotor blades (Tracer) (Part of Figure)",
+      "Gun (Growl) (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "3469",
+    "name": "Missile Launcher with Retro and Surge",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Ramp (x2)",
+      "Left Side Gun",
+      "Right Side Gun",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3440",
+    "name": "Monster Truck Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "2204",
+    "name": "Off-Road Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "2899",
+    "name": "Overload",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Freightliner COE with car carrier trailer",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "2212",
+    "name": "Race Car Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3628",
+    "name": "Race Track Patrol",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990
+  },
+  {
+    "externalId": "2818",
+    "name": "Rescue Patrol",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Rescue vehicles",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3108",
+    "name": "Roughstuff",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Double Missile Turret",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "3036",
+    "name": "Skyhopper",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Radar Dish",
+      "Long Ramp",
+      "Short Ramp (x2)",
+      "Rotor blade",
+      "Figure stand",
+      "Left Gun",
+      "Right Gun",
+      "Front Gun"
+    ]
+  },
+  {
+    "externalId": "3055",
+    "name": "Skystalker",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "altMode": "Porsche 959 sports car",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989,
+    "accessories": [
+      "Ramp (x2)",
+      "Dual Laser Connector (Part of Figure)",
+      "Small Laser (x2)",
+      "Large Laser (x2)",
+      "Dual Laser"
+    ]
+  },
+  {
+    "externalId": "3028",
+    "name": "Sports Car Patrol",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1989
+  },
+  {
+    "externalId": "3485",
+    "name": "Tanker Truck with Pipeline and Gusher",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "MINI",
+    "subgroup": "Micromaster",
+    "releaseYear": 1990,
+    "accessories": [
+      "Ramp (x2)",
+      "Cannon Mount (x2)",
+      "Cannon (x2)"
+    ]
+  },
+  {
+    "externalId": "707",
+    "name": "Beachcomber",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "1982 M1040 Chenowth \"Hellfire\" Fast",
+    "subgroup": "Minicar",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "15",
+    "name": "Brawn",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "Jeep",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "19",
+    "name": "Bumblebee",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "Volkswagen Type 1",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "35728",
+    "name": "Bumblebee (Red)",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "23",
+    "name": "Bumblejumper",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "32",
+    "name": "Cliffjumper",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "Porsche 924 Carrera GT",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "35740",
+    "name": "Cliffjumper (Yellow)",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "711",
+    "name": "Cosmos",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "Flying saucer",
+    "subgroup": "Minicar",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "47",
+    "name": "Gears",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "pickup truck of indeterminable model",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "1162",
+    "name": "Hubcap",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Porsche 924",
+    "subgroup": "Minicar",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "67",
+    "name": "Huffer",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "Minivan",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "1166",
+    "name": "Outback",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "off-road SUV",
+    "subgroup": "Minicar",
+    "releaseYear": 1986,
+    "accessories": [
+      "Mortar Cannon"
+    ]
+  },
+  {
+    "externalId": "1171",
+    "name": "Pipes",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Semi truck",
+    "subgroup": "Minicar",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "715",
+    "name": "Powerglide",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "A-10 Thunderbolt II",
+    "subgroup": "Minicar",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "719",
+    "name": "Seaspray",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "Hovercraft",
+    "subgroup": "Minicar",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "1175",
+    "name": "Swerve",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "pickup truck of indeterminable model",
+    "subgroup": "Minicar",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "1179",
+    "name": "Tailgate",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Pontiac Firebird Trans Am",
+    "subgroup": "Minicar",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "723",
+    "name": "Warpath",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "SMALL",
+    "altMode": "General Motors M551A1 Sheridan ARAAV",
+    "subgroup": "Minicar",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "1183",
+    "name": "Wheelie",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Minicar",
+    "subgroup": "Minicar",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "264",
+    "name": "Windcharger",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "altMode": "Race car",
+    "subgroup": "Minicar",
+    "releaseYear": 1984
+  },
+  {
+    "externalId": "2461",
+    "name": "Beastbox",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "MINI",
+    "altMode": "Robotic gorilla",
+    "subgroup": "Cassette",
+    "releaseYear": 1988,
+    "accessories": [
+      "Weapon (x2)"
+    ]
+  },
+  {
+    "externalId": "268",
+    "name": "Buzzsaw",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "MINI",
+    "altMode": "Robotic condor",
+    "subgroup": "Cassette",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Laser Cannon",
+      "Left Laser Cannon"
+    ]
+  },
+  {
+    "externalId": "1060",
+    "name": "Eject",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1986,
+    "accessories": [
+      "Silver Thruster Gun (x2)",
+      "Gold Thruster Gun (type 1 only) (x2)"
+    ]
+  },
+  {
+    "externalId": "275",
+    "name": "Frenzy",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Silver Thruster Gun",
+      "Left Gold Thruster Gun (type 5 only)",
+      "Right Gold Thruster Gun (type 5 only)",
+      "Left Silver Thruster Gun"
+    ]
+  },
+  {
+    "externalId": "2143",
+    "name": "Grandslam",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1988,
+    "accessories": [
+      "Left weapon",
+      "Right weapon",
+      "Large Turret weapon"
+    ]
+  },
+  {
+    "externalId": "282",
+    "name": "Laserbeak",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "MINI",
+    "altMode": "Condor",
+    "subgroup": "Cassette",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Laser Cannon",
+      "Left Laser Cannon"
+    ]
+  },
+  {
+    "externalId": "1877",
+    "name": "Overkill",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "altMode": "ceratosaur",
+    "subgroup": "Cassette",
+    "releaseYear": 1987,
+    "accessories": [
+      "Left Motion Missile",
+      "Right Motion Missile"
+    ]
+  },
+  {
+    "externalId": "2151",
+    "name": "Raindance",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1988,
+    "accessories": [
+      "Weapon (x2)"
+    ]
+  },
+  {
+    "externalId": "1066",
+    "name": "Ramhorn",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MINI",
+    "altMode": "Rhinoceros",
+    "subgroup": "Cassette",
+    "releaseYear": 1986,
+    "accessories": [
+      "Right Gold Missile (type 1 only)",
+      "Left Gold Missile",
+      "Left Silver Missile",
+      "Right Silver Missile"
+    ]
+  },
+  {
+    "externalId": "1323",
+    "name": "Ratbat",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "MINI",
+    "altMode": "robot bat",
+    "subgroup": "Cassette",
+    "releaseYear": 1986,
+    "accessories": [
+      "Right Gold Missile (type 1 only)",
+      "Left Gold Missile (type 1 only)",
+      "Right Silver Missile (type 2-3)",
+      "Left Silver Missile (type 2-3)"
+    ]
+  },
+  {
+    "externalId": "308",
+    "name": "Ravage",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "MINI",
+    "altMode": "Jaguar",
+    "subgroup": "Cassette",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Heat-Seeking Missile",
+      "Left Heat-Seeking Missile"
+    ]
+  },
+  {
+    "externalId": "1073",
+    "name": "Rewind",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1986,
+    "accessories": [
+      "Silver Thruster Gun (x2)",
+      "Gold Thruster Gun (type 1 only) (x2)"
+    ]
+  },
+  {
+    "externalId": "332",
+    "name": "Rumble",
+    "faction": "DECEPTICON",
+    "line": "G1_S1",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1984,
+    "accessories": [
+      "Right Silver Thruster Gun",
+      "Left Gold Thruster Gun",
+      "Left Silver Thruster Gun",
+      "Right Gold Thruster Gun"
+    ]
+  },
+  {
+    "externalId": "2158",
+    "name": "Slamdance",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "MINI",
+    "altMode": "Humanoid robot",
+    "subgroup": "Cassette",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "1884",
+    "name": "Slugfest",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "MINI",
+    "altMode": "Robotic Stegosaurus",
+    "subgroup": "Cassette",
+    "releaseYear": 1987,
+    "accessories": [
+      "Right Vibro Cannon",
+      "Left Vibro Cannon"
+    ]
+  },
+  {
+    "externalId": "2474",
+    "name": "Squawkbox",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "MINI",
+    "subgroup": "Cassette",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2467",
+    "name": "Squawktalk",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "MINI",
+    "altMode": "Eagle",
+    "subgroup": "Cassette",
+    "releaseYear": 1988,
+    "accessories": [
+      "Right Weapon",
+      "Left Weapon"
+    ]
+  },
+  {
+    "externalId": "1079",
+    "name": "Steeljaw",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "MINI",
+    "altMode": "robotic lion",
+    "subgroup": "Cassette",
+    "releaseYear": 1986,
+    "accessories": [
+      "Right Silver Missile",
+      "Left Silver Missile",
+      "Right Gold Missile",
+      "Left Gold Missile (type 1 only)"
+    ]
+  },
+  {
+    "externalId": "119",
+    "name": "Dune Buggy (Blue Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "120",
+    "name": "Dune Buggy (Blue Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "121",
+    "name": "Dune Buggy (White Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "122",
+    "name": "Dune Buggy (White Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "123",
+    "name": "Dune Buggy (Yellow Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "124",
+    "name": "Dune Buggy (Yellow Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Dune buggy",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34954",
+    "name": "FX-1 (Blue Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34955",
+    "name": "FX-1 (Blue Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34956",
+    "name": "FX-1 (White Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34957",
+    "name": "FX-1 (White Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34958",
+    "name": "FX-1 (Yellow Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "34959",
+    "name": "FX-1 (Yellow Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "FX-1",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "125",
+    "name": "Jeep (Blue Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "126",
+    "name": "Jeep (Blue Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "127",
+    "name": "Jeep (White Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "128",
+    "name": "Jeep (White Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "129",
+    "name": "Jeep (Yellow Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "130",
+    "name": "Jeep (Yellow Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Jeep",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "131",
+    "name": "Porsche (Blue Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "132",
+    "name": "Porsche (Blue Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "133",
+    "name": "Porsche (White Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "134",
+    "name": "Porsche (White Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "135",
+    "name": "Porsche (Yellow Autobot)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "136",
+    "name": "Porsche (Yellow Decepticon)",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MINI",
+    "altMode": "Porsche",
+    "subgroup": "Mini-Spy",
+    "releaseYear": 1985
+  },
+  {
+    "externalId": "1689",
+    "name": "Doublecross",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "subgroup": "Monsterbot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Rust-Ray Rifle"
+    ]
+  },
+  {
+    "externalId": "1700",
+    "name": "Grotusque",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "subgroup": "Monsterbot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Left Wing",
+      "Right Wing",
+      "Vaporator"
+    ]
+  },
+  {
+    "externalId": "1713",
+    "name": "Repugnus",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Insect",
+    "subgroup": "Monsterbot",
+    "releaseYear": 1987,
+    "accessories": [
+      "Venom Laser"
+    ]
+  },
+  {
+    "externalId": "25",
+    "name": "Camshaft",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Mazda RX-7 Series 2",
+    "subgroup": "Omnibot",
+    "releaseYear": 1984,
+    "accessories": [
+      "Neutron Blaster",
+      "Rocket (x2)"
+    ],
+    "isMailaway": true
+  },
+  {
+    "externalId": "36",
+    "name": "Downshift",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "altMode": "Race car",
+    "subgroup": "Omnibot",
+    "releaseYear": 1984,
+    "accessories": [
+      "Rust Rifle",
+      "Magnetic-Guided Rocket Launcher (x2)"
+    ],
+    "isMailaway": true
+  },
+  {
+    "externalId": "150",
+    "name": "Overdrive",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "MEDIUM",
+    "subgroup": "Omnibot",
+    "releaseYear": 1984,
+    "accessories": [
+      "Neutron Blaster",
+      "Plasma Beam Rifle",
+      "Twin Electron Cannon"
+    ],
+    "isMailaway": true
+  },
+  {
+    "externalId": "1497",
+    "name": "Gnaw",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Shark",
+    "releaseYear": 1986,
+    "accessories": [
+      "Tail",
+      "Maceration Laser"
+    ]
+  },
+  {
+    "externalId": "97",
+    "name": "Jetfire",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Jet",
+    "releaseYear": 1985,
+    "accessories": [
+      "Left Turbo Thruster",
+      "Left Fender",
+      "Right Turbo Thruster",
+      "Armguard (x2)",
+      "Right Fender",
+      "Left Fender Clip",
+      "Right Fender Clip",
+      "Left Leg Guard",
+      "Back Guard",
+      "Right Leg Guard",
+      "Mounting Pod",
+      "Photon Missile Launcher"
+    ]
+  },
+  {
+    "externalId": "477",
+    "name": "Perceptor",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "size": "MEDIUM",
+    "altMode": "functional microscope",
+    "releaseYear": 1985,
+    "accessories": [
+      "Missile Launcher",
+      "Two Focus Knobs (Part of Figure)",
+      "Scope (Part of Figure)",
+      "Concussion Rifle",
+      "Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "1585",
+    "name": "Punch / Counterpunch",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "MEDIUM",
+    "releaseYear": 1987,
+    "accessories": [
+      "Twin Mortar Launcher",
+      "Photon Cannon"
+    ]
+  },
+  {
+    "externalId": "315",
+    "name": "Reflector",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "SMALL",
+    "altMode": "Camera",
+    "releaseYear": 1986,
+    "accessories": [
+      "Telephoto Lens",
+      "Flashcube",
+      "Opto Blaster",
+      "Lens Laser",
+      "Shutter Gun",
+      "Missile (x3)"
+    ],
+    "isMailaway": true
+  },
+  {
+    "externalId": "781",
+    "name": "Shockwave",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Mazda RX-8",
+    "releaseYear": 1985,
+    "accessories": [
+      "Battery Cover (Part of Figure)",
+      "Barrel"
+    ]
+  },
+  {
+    "externalId": "1086",
+    "name": "Sky Lynx",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "altMode": "space shuttle",
+    "releaseYear": 1986
+  },
+  {
+    "externalId": "24992",
+    "name": "Time Warrior Watch",
+    "faction": "AUTOBOT",
+    "line": "G1_S2",
+    "releaseYear": 1985,
+    "isMailaway": true
+  },
+  {
+    "externalId": "1039",
+    "name": "Ultra Magnus",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "JUMBO",
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
+    "releaseYear": 1986,
+    "accessories": [
+      "Missile Holder (x2)",
+      "Chest Shield",
+      "Cab Connector (x2)",
+      "Right Large Fist",
+      "Left Small Fist",
+      "Right Small Fist",
+      "Left Large Fist",
+      "Painted large robot head",
+      "Unpainted large robot head",
+      "Laser Gun",
+      "Missile (x4)"
+    ]
+  },
+  {
+    "externalId": "1150",
+    "name": "Wreck-Gar",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Cybertronic junk motorcycle",
+    "releaseYear": 1986,
+    "accessories": [
+      "Armor Axe",
+      "Front Wheel (Part of Figure)",
+      "Decelerator Laser"
+    ]
+  },
+  {
+    "externalId": "43",
+    "name": "Drill Dasher",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Powerdashers",
+    "releaseYear": 1984,
+    "isMailaway": true
+  },
+  {
+    "externalId": "45",
+    "name": "F1 Dasher",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Powerdashers",
+    "releaseYear": 1984,
+    "isMailaway": true
+  },
+  {
+    "externalId": "217",
+    "name": "Sky Dasher",
+    "faction": "AUTOBOT",
+    "line": "G1_S1",
+    "size": "SMALL",
+    "subgroup": "Powerdashers",
+    "releaseYear": 1984,
+    "isMailaway": true
+  },
+  {
+    "externalId": "2534",
+    "name": "Darkwing",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Panavia Tornado GR1 fighter jet",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Right Laser",
+      "Left Laser"
+    ]
+  },
+  {
+    "externalId": "2561",
+    "name": "Doubledealer",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Engine Holder",
+      "Missile Top",
+      "Missile Bottom"
+    ]
+  },
+  {
+    "externalId": "2547",
+    "name": "Dreadwind",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "General Dynamics F-16 Fighting Falcon jet",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Left Laser",
+      "Right Laser"
+    ]
+  },
+  {
+    "externalId": "2560",
+    "name": "Dreadwing",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2220",
+    "name": "Getaway",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Laser"
+    ]
+  },
+  {
+    "externalId": "2232",
+    "name": "Joyride",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Baja buggy",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Laser"
+    ]
+  },
+  {
+    "externalId": "2256",
+    "name": "Optimus Prime",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Freightliner WFT-8664T cabover semi-trailer truck",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Super Robot Head",
+      "Laser Rifle (x2)",
+      "Particle Beam Cannon (x2)"
+    ]
+  },
+  {
+    "externalId": "2244",
+    "name": "Slapdash",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Formula-1-style race car",
+    "subgroup": "Powermaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Engine",
+      "Rear Spoiler",
+      "Laser"
+    ]
+  },
+  {
+    "externalId": "3115",
+    "name": "Bludgeon",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Quad-tread tank",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Laser Rifle",
+      "Electric Cannon",
+      "Turret"
+    ]
+  },
+  {
+    "externalId": "2576",
+    "name": "Bomb-Burst",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Cybertronic jet",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Battle Axe",
+      "Left Shoulder Wing",
+      "Right Shoulder Wing",
+      "Belt",
+      "Wing / Laser (x2)"
+    ]
+  },
+  {
+    "externalId": "2593",
+    "name": "Bugly",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Cybertronian hoverjet",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Belt",
+      "Electro-Stinger (x2)",
+      "Photon Rifle (x2)"
+    ]
+  },
+  {
+    "externalId": "2905",
+    "name": "Bumblebee",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Volkswagen Type 1",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Laser",
+      "Rifle"
+    ]
+  },
+  {
+    "externalId": "2607",
+    "name": "Carnivac",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "wolf",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Left Shoulder Armor",
+      "Right Shoulder Armor",
+      "Tail",
+      "Handgun"
+    ]
+  },
+  {
+    "externalId": "2271",
+    "name": "Catilla",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Saber-toothed cat",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Helmet",
+      "Tail",
+      "Concussion Cannon"
+    ]
+  },
+  {
+    "externalId": "2285",
+    "name": "Chainclaw",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "bear",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Helmet",
+      "Energy Blaster"
+    ]
+  },
+  {
+    "externalId": "2298",
+    "name": "Cloudburst",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Lightning Whip",
+      "Helmet",
+      "Belt",
+      "Thunderbolt Laser Pistol"
+    ]
+  },
+  {
+    "externalId": "2982",
+    "name": "Crossblades",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Cybertronic dragster",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Engine (x2)",
+      "Wing",
+      "Chopper Blade 1",
+      "Chopper Blade 2",
+      "Left Ski",
+      "Right Ski",
+      "Small laser (x2)",
+      "Tail Section"
+    ]
+  },
+  {
+    "externalId": "2919",
+    "name": "Doubleheader",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Wings",
+      "Helmet",
+      "Acid Pellet Pistol",
+      "Rust-Ray Gun"
+    ]
+  },
+  {
+    "externalId": "2637",
+    "name": "Finback",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Belt",
+      "Harpoon Gun",
+      "Stun Rifle"
+    ]
+  },
+  {
+    "externalId": "2931",
+    "name": "Grimlock",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Tyrannosaurus rex",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Laser/Tail",
+      "Rifle"
+    ]
+  },
+  {
+    "externalId": "2313",
+    "name": "Groundbreaker",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Blaster Base",
+      "Left Shoulder Armor",
+      "Right Shoulder Armor",
+      "Helmet",
+      "Belt",
+      "Electron Rifle",
+      "Blaster"
+    ]
+  },
+  {
+    "externalId": "2331",
+    "name": "Gunrunner",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "hypersonic jet",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Energy Plasma Missile (x2)",
+      "Dual Electro-Static Cannon",
+      "Rifle"
+    ]
+  },
+  {
+    "externalId": "2651",
+    "name": "Iguanus",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Cybertronic motorcycle",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Wheel",
+      "Belt",
+      "Hurricane Blaster"
+    ]
+  },
+  {
+    "externalId": "2945",
+    "name": "Jazz",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Martini Racing Porsche 935",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Laser",
+      "Rifle"
+    ]
+  },
+  {
+    "externalId": "2345",
+    "name": "Landmine",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "Cybertronic all terrain vehicle",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Laser Saber",
+      "Helmet",
+      "Belt",
+      "Astro Blaster"
+    ]
+  },
+  {
+    "externalId": "2959",
+    "name": "Longtooth",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Carrier Wheels",
+      "Ionic Field Generator",
+      "Plasma Cannon"
+    ]
+  },
+  {
+    "externalId": "3127",
+    "name": "Octopunch",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Right Claw",
+      "Left Claw",
+      "Harpoon Gun",
+      "Acetylene Torch Gun"
+    ]
+  },
+  {
+    "externalId": "2970",
+    "name": "Pincher",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "Claws",
+      "Stun Rifle",
+      "Laser Torch"
+    ]
+  },
+  {
+    "externalId": "3244",
+    "name": "Roadblock",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Armored Personnel Carrier",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Visor (Part of Figure)",
+      "Plow (Part of Figure)",
+      "Laser (x2)",
+      "Dual Blaster"
+    ]
+  },
+  {
+    "externalId": "2665",
+    "name": "Roadgrabber",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Rifle",
+      "Left Freeze Laser",
+      "Right Freeze Laser"
+    ]
+  },
+  {
+    "externalId": "2694",
+    "name": "Skullgrin",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Vibro-Sword",
+      "Belt",
+      "Male Laser",
+      "Female Laser"
+    ]
+  },
+  {
+    "externalId": "2360",
+    "name": "Sky High",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Helmet",
+      "Rotor",
+      "Belt",
+      "Stun Gun"
+    ]
+  },
+  {
+    "externalId": "3014",
+    "name": "Skyhammer",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Cybertronic car",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Skyhammer (Part of Figure)",
+      "Wing Laser",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "2622",
+    "name": "Snarler",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Right Shoulder Armor",
+      "Left Shoulder Armor",
+      "Tail",
+      "Rotary Cannon"
+    ]
+  },
+  {
+    "externalId": "2375",
+    "name": "Splashdown",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Electron-Sword",
+      "Helmet",
+      "Shield",
+      "Belt",
+      "Harpoon Gun",
+      "Blaster"
+    ]
+  },
+  {
+    "externalId": "3140",
+    "name": "Starscream",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "F-15 Eagle fighter jet",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Left Tail Wing",
+      "Right Tail Wing",
+      "Left Front Wing",
+      "Right Front Wing",
+      "Helmet",
+      "Laser"
+    ]
+  },
+  {
+    "externalId": "3157",
+    "name": "Stranglehold",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Helmet",
+      "RhinoTop",
+      "Brawn Blaster",
+      "Concussion Blaster"
+    ]
+  },
+  {
+    "externalId": "2679",
+    "name": "Submarauder",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "cybertronic submarine thing that's vague",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Sword",
+      "Shield",
+      "Belt",
+      "Torpedo Rifle"
+    ]
+  },
+  {
+    "externalId": "3231",
+    "name": "Thunderwing",
+    "faction": "DECEPTICON",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "rather simple Cybertronic shuttlecraft",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Small Laser",
+      "Large Laser (x2)"
+    ]
+  },
+  {
+    "externalId": "2999",
+    "name": "Vroom",
+    "faction": "AUTOBOT",
+    "line": "G1_S6",
+    "size": "LARGE",
+    "altMode": "Cybertronic motorcycle",
+    "subgroup": "Pretender",
+    "releaseYear": 1989,
+    "accessories": [
+      "Rear Wheel",
+      "Sidecar",
+      "Small Wheel",
+      "Large Laser",
+      "Small Laser"
+    ]
+  },
+  {
+    "externalId": "2392",
+    "name": "Waverider",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Pretender",
+    "releaseYear": 1988,
+    "accessories": [
+      "Axe",
+      "Helmet",
+      "Belt",
+      "Energy Spear Gun"
+    ]
+  },
+  {
+    "externalId": "2407",
+    "name": "Quickswitch",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Six Changer",
+    "releaseYear": 1988,
+    "accessories": [
+      "Left Blaster",
+      "Right Blaster"
+    ]
+  },
+  {
+    "externalId": "2023",
+    "name": "Sixshot",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "robot, ramming-tank, starfighter, jet-propelled laser pistol, armored carrier, wolf-",
+    "subgroup": "Six Changer",
+    "releaseYear": 1987,
+    "accessories": [
+      "Hypersonic Blaster (x2)"
+    ]
+  },
+  {
+    "externalId": "2475",
+    "name": "Cindersaur",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Bipedal horn-nosed lizard",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2419",
+    "name": "Fizzle",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2479",
+    "name": "Flamefeather",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Bipedal bird-monster",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2423",
+    "name": "Guzzle",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Challenger 1 tank",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2427",
+    "name": "Sizzle",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "mostly monochromatic robot",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2483",
+    "name": "Sparkstalker",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "subgroup": "Sparkabot / Firecon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "1724",
+    "name": "Blurr",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic hovercar",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Shield"
+    ]
+  },
+  {
+    "externalId": "1736",
+    "name": "Crosshairs",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic off-road-van-buggy-sorta-kinda-thing",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "2034",
+    "name": "Cyclonus",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronian fighter craft",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1747",
+    "name": "Hot Rod",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Futuristic race car",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1758",
+    "name": "Kup",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronian pickup truck",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "2431",
+    "name": "Landfill",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2045",
+    "name": "Misfire",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronian jet fighter",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "2779",
+    "name": "Needlenose",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "General Dynamics F-16XL",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "1769",
+    "name": "Pointblank",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Spoiler / Shield"
+    ]
+  },
+  {
+    "externalId": "2785",
+    "name": "Quake",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988,
+    "accessories": [
+      "Tank Turret (Part of Figure)"
+    ]
+  },
+  {
+    "externalId": "2437",
+    "name": "Quickmix",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2443",
+    "name": "Scoop",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2056",
+    "name": "Scourge",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "soap a Cybertronian hovercraft",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Rocket Booster"
+    ]
+  },
+  {
+    "externalId": "2068",
+    "name": "Slugslinger",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronian twin-cockpit space fighter",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Caliburst's Blaster"
+    ]
+  },
+  {
+    "externalId": "2792",
+    "name": "Spinister",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "LARGE",
+    "altMode": "AH-64 Apache attack helicopter",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "1781",
+    "name": "Sureshot",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic buggy",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "2080",
+    "name": "Triggerhappy",
+    "faction": "DECEPTICON",
+    "line": "G1_S4",
+    "size": "LARGE",
+    "altMode": "Cybertronic fighter craft",
+    "subgroup": "Targetmaster",
+    "releaseYear": 1987,
+    "accessories": [
+      "Blowpipe's Blaster"
+    ]
+  },
+  {
+    "externalId": "1853",
+    "name": "Chase",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Ferrari Testarossa sports car",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1857",
+    "name": "Freeway",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Chevrolet Corvette",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1861",
+    "name": "Goldbug",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1865",
+    "name": "Rollbar",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Jeep CJ-7",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1869",
+    "name": "Searchlight",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Ford RS200 rally car",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "1873",
+    "name": "Wideload",
+    "faction": "AUTOBOT",
+    "line": "G1_S4",
+    "size": "SMALL",
+    "altMode": "Dump truck",
+    "subgroup": "Throttlebot",
+    "releaseYear": 1987
+  },
+  {
+    "externalId": "2449",
+    "name": "Backstreet",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Porsche 962-based Le Mans racing car",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2798",
+    "name": "Crankcase",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "four-wheel-drive off-road vehicle",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2453",
+    "name": "Dogfight",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Grumman X-29 fighter jet",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2457",
+    "name": "Override",
+    "faction": "AUTOBOT",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "somewhat abstracted blue",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2802",
+    "name": "Ruckus",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "altMode": "Baja buggy",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "2806",
+    "name": "Windsweeper",
+    "faction": "DECEPTICON",
+    "line": "G1_S5",
+    "size": "SMALL",
+    "subgroup": "Triggerbot / Triggercon",
+    "releaseYear": 1988
+  },
+  {
+    "externalId": "937",
+    "name": "Astrotrain",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "JNR Class D51",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1985,
+    "accessories": [
+      "Ionic Displacer Rifle"
+    ]
+  },
+  {
+    "externalId": "948",
+    "name": "Blitzwing",
+    "faction": "DECEPTICON",
+    "line": "G1_S2",
+    "size": "LARGE",
+    "altMode": "Jet and Tank",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1985,
+    "accessories": [
+      "Electron Scimitar",
+      "Turret (Part of Figure)",
+      "Gyro-Blaster Rifle",
+      "Concussion Missile (x3)"
+    ]
+  },
+  {
+    "externalId": "1251",
+    "name": "Broadside",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Aircraft carrier and fighter jet",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1986,
+    "accessories": [
+      "Vibro-Axe",
+      "Plasma-Pulse Gun",
+      "Missile (x2)"
+    ]
+  },
+  {
+    "externalId": "1571",
+    "name": "Octane",
+    "faction": "DECEPTICON",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Truck and jet",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1986,
+    "accessories": [
+      "Tail Rudder",
+      "Tanker Top (Part of Figure)",
+      "Flamethrower"
+    ]
+  },
+  {
+    "externalId": "1264",
+    "name": "Sandstorm",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Sand rail dune buggy or helicopter",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1986,
+    "accessories": [
+      "Sandblaster Gun"
+    ]
+  },
+  {
+    "externalId": "1275",
+    "name": "Springer",
+    "faction": "AUTOBOT",
+    "line": "G1_S3",
+    "size": "LARGE",
+    "altMode": "Armored car and helicopter",
+    "subgroup": "Triple Changer",
+    "releaseYear": 1986,
+    "accessories": [
+      "Light Saber",
+      "Laser"
+    ]
+  }
+]
