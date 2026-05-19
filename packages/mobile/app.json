@@ -15,10 +15,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0d1b2a"
       },
       "package": "com.mycollections.app",
-      "usesCleartextTraffic": true
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "ios": {
       "supportsTablet": true,
@@ -42,7 +44,15 @@
           "color": "#ffffff"
         }
       ],
-      "expo-secure-store"
-    ]
+      "expo-secure-store",
+      "expo-font"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "40237412-a652-49f9-bf42-591a7e7282a7"
+      }
+    },
+    "owner": "jfunkexpo"
   }
 }

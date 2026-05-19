@@ -1,0 +1,51 @@
+# ── Dependencies ──────────────────────────────────────────────────────────────
+# Depth-independent (matches at any level)
+node_modules/
+# Explicit paths (in case EAS only applies anchored exclusions)
+/node_modules
+/packages/mobile/node_modules
+/packages/shared/node_modules
+/packages/api/node_modules
+/packages/web/node_modules
+
+# ── Native directories (EAS runs expo prebuild in the cloud) ──────────────────
+android/
+ios/
+/packages/mobile/android
+/packages/mobile/ios
+
+# ── Workspace packages not needed for mobile build ────────────────────────────
+/packages/api
+/packages/web
+
+# ── Build/cache artifacts ─────────────────────────────────────────────────────
+dist/
+build/
+/dist
+/build
+/.turbo
+.turbo/
+*.tsbuildinfo
+
+# ── Version control ───────────────────────────────────────────────────────────
+.git/
+/.git
+
+# ── Dev tooling and local cache ───────────────────────────────────────────────
+/devops
+/docs
+/postman
+/scripts
+/.playwright-mcp
+/.serena
+
+# ── Expo cache ────────────────────────────────────────────────────────────────
+.expo/
+.expo-shared/
+
+# ── Environment files ─────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.production
+.env.test

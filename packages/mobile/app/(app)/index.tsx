@@ -10,12 +10,15 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import Constants from 'expo-constants';
 import { CollectionType } from '@my-collections/shared';
 import type { CollectionStats, RecentCollectionItem } from '@my-collections/shared';
 import { apiClient } from '../../src/api/client';
 import { useAuth } from '../../src/hooks/useAuth';
 import { CollectionProgressIcon } from '../../src/components/CollectionProgressIcon';
 import { COLLECTION_CONFIG } from '../../src/config/collections';
+
+const APP_VERSION = Constants.expoConfig?.version ?? '?';
 
 function formatValue(value: number | null): string {
   if (value === null) return '—';
@@ -34,16 +37,19 @@ export default function DashboardScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [apiVersion, setApiVersion] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     setError(null);
     try {
-      const [statsData, recentData] = await Promise.all([
+      const [statsData, recentData, healthData] = await Promise.all([
         apiClient.get<CollectionStats>('/collections/stats'),
         apiClient.get<RecentCollectionItem[]>('/collections/recent?limit=5'),
+        apiClient.get<{ version: string }>('/health'),
       ]);
       setStats(statsData);
       setRecent(recentData);
+      setApiVersion(healthData.version);
     } catch {
       setError('Failed to load dashboard. Pull down to retry.');
     }
@@ -127,6 +133,9 @@ export default function DashboardScreen() {
             ))}
           </>
         )}
+        <Text style={styles.versionFooter}>
+          App v{APP_VERSION}{apiVersion !== null ? ` · API v${apiVersion}` : ''}
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -246,4 +255,6 @@ const styles = StyleSheet.create({
   ownedTag: { fontSize: 12, color: '#4ade80', marginBottom: 2 },
   wishlistTag: { fontSize: 12, color: '#6366f1', marginBottom: 2 },
   recentDate: { fontSize: 11, color: '#888' },
+
+  versionFooter: { fontSize: 11, color: '#444', textAlign: 'center', marginTop: 32 },
 });
