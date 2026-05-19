@@ -131,7 +131,7 @@ async function run() {
       if (entry.collection === 'HE_MAN') {
         const catalog = await mastersCatalogRepo.findOne({ where: { externalId: entry.externalId } });
         if (!catalog) { console.warn(`  WARN: catalog not found for He-Man externalId=${entry.externalId} (${entry.name})`); failed++; continue; }
-        const existing = await mastersItemRepo.findOne({ where: { catalogId: catalog.id, userId: user.id } });
+        const existing = await mastersItemRepo.findOne({ where: { catalog: { id: catalog.id }, user: { id: user.id } } });
         if (existing) { console.log(`  SKIP: ${entry.name} (He-Man) already in collection`); skipped++; continue; }
         if (!dryRun) {
           await mastersItemRepo.save({
@@ -156,7 +156,7 @@ async function run() {
           ? await swCatalogRepo.findOne({ where: { externalId: entry.externalId } })
           : await swCatalogRepo.findOne({ where: { name: entry.name, figureSize: '12' as any } });
         if (!catalog) { console.warn(`  WARN: catalog not found for Star Wars externalId=${entry.externalId} name="${entry.name}"`); failed++; continue; }
-        const existing = await swItemRepo.findOne({ where: { catalogId: catalog.id, userId: user.id } });
+        const existing = await swItemRepo.findOne({ where: { catalog: { id: catalog.id }, user: { id: user.id } } });
         if (existing) { console.log(`  SKIP: ${entry.name} (Star Wars) already in collection`); skipped++; continue; }
         if (!dryRun) {
           await swItemRepo.save({
@@ -177,7 +177,7 @@ async function run() {
       } else if (entry.collection === 'TRANSFORMERS') {
         const catalog = await tfCatalogRepo.findOne({ where: { externalId: entry.externalId } });
         if (!catalog) { console.warn(`  WARN: catalog not found for Transformers externalId=${entry.externalId} (${entry.name})`); failed++; continue; }
-        const existing = await tfItemRepo.findOne({ where: { catalogId: catalog.id, userId: user.id } });
+        const existing = await tfItemRepo.findOne({ where: { catalog: { id: catalog.id }, user: { id: user.id } } });
         if (existing) { console.log(`  SKIP: ${entry.name} (Transformers) already in collection`); skipped++; continue; }
         if (!dryRun) {
           await tfItemRepo.save({
