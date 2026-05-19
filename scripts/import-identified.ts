@@ -150,8 +150,12 @@ async function run() {
         imported++;
 
       } else if (entry.collection === 'STAR_WARS') {
-        const catalog = await swCatalogRepo.findOne({ where: { externalId: entry.externalId } });
-        if (!catalog) { console.warn(`  WARN: catalog not found for Star Wars externalId=${entry.externalId} (${entry.name})`); failed++; continue; }
+        // Null externalId means the scraper had no data for this item (common for 12" figures).
+        // Fall back to name + figureSize='12' lookup, which is unique in the catalog.
+        const catalog = entry.externalId !== null
+          ? await swCatalogRepo.findOne({ where: { externalId: entry.externalId } })
+          : await swCatalogRepo.findOne({ where: { name: entry.name, figureSize: '12' as any } });
+        if (!catalog) { console.warn(`  WARN: catalog not found for Star Wars externalId=${entry.externalId} name="${entry.name}"`); failed++; continue; }
         const existing = await swItemRepo.findOne({ where: { catalogId: catalog.id, userId: user.id } });
         if (existing) { console.log(`  SKIP: ${entry.name} (Star Wars) already in collection`); skipped++; continue; }
         if (!dryRun) {
