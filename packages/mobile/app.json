@@ -18,7 +18,6 @@
         "backgroundColor": "#0d1b2a"
       },
       "package": "com.mycollections.app",
-      "usesCleartextTraffic": true,
       "permissions": [
         "android.permission.CAMERA"
       ]
@@ -45,7 +44,8 @@
           "color": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-font"
     ],
     "extra": {
       "router": {},
