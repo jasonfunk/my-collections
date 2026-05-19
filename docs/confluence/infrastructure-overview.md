@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-14"
+last_updated: "2026-05-19"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -127,6 +127,7 @@ Third-party services that are part of the infrastructure. Check these before mak
 | --- | --- | --- | --- |
 | **UptimeRobot** | External HTTP monitoring — pings prod and staging `/health` every 5 minutes; email alert on failure | jfunk@houseoffunk.net (Google SSO) | 50 monitors, 5-min interval |
 | **Healthchecks.io** | Dead-man's-switch for nightly DB backup — alerts if no ping arrives within 25 hours | jfunk@houseoffunk.net (magic-link auth) | 20 checks, email alerts |
+| **expo.dev (EAS)** | Cloud build service for Android APK/AAB — compiles signed mobile builds via EAS Build; stores env vars (`EXPO_PUBLIC_*`) and managed keystore | jfunkexpo (Expo account) | Free tier: limited concurrent builds; no monthly build limit on free plan |
 
 ### UptimeRobot Monitors
 
