@@ -4499,3 +4499,85 @@ Built the complete photo identification pipeline for importing physical collecti
 - `condition: "C5"` default — "Good" (well-played-with) is the right starting assumption for vintage loose figures
 - Import script uses TypeORM directly (not the REST API) — avoids auth complexity for a one-off seed operation; same pattern as other seed scripts
 - Entity imports explicitly listed in `import-identified.ts` — safer than glob for a one-time script since it uses `packages/api/tsconfig.json` not `tsconfig.scripts.json`
+
+---
+
+## Session — 2026-05-19 (COL-127 production import + data corrections)
+
+### What was done
+- Corrected three misidentifications in `identified.json` before production import:
+  - He-Man: Rokkon → Stonedar (`hm-44349` → `hm-44363`; same "Light Blazer Gun" accessory)
+  - Star Wars: Klaatu (In Skiff Guard Outfit) → Klaatu (`sw-47573` → `sw-47510`; accessory "Battle Staff" → "BD-1 Vibro-Ax")
+  - Star Wars: Imperial Commander → Death Squad / Star Destroyer Commander (`sw-47213` → `sw-46798`; accessory "E-11 Blaster Rifle" → "E-11 Blaster Rifle (bluish black)")
+- Opened PR #73 (develop → main) and user merged
+- `git pull origin main` on Mac Mini (`~/Sites/my-collections`) — deploy workflow didn't fire because all COL-127 changes are in `scripts/` and `docs/`, outside the path filters for deploy-api and deploy-web
+- SCP'd corrected `identified.json` to `~/Sites/my-collections/identified.json` on Mini
+- Dry-run confirmed 149/149 clean with correct names
+- Real run: 149 imported, 0 skipped, 0 failed for user `jfunk@jasonfunk.com`
+- COL-127 transitioned to Done in Jira
+
+### Decisions
+- Staging left with stale data (wrong Klaatu/Imperial Commander/Rokkon rows) — user decision; staging data is disposable during testing
+- Production-only deploy path for scripts: `git pull` directly on server is sufficient when changes don't touch `packages/api/` or `packages/web/` (path filter miss is expected, not a bug)
+
+---
+
+## Session — 2026-05-19 (EAS Build setup + mobile distribution — no Jira ticket)
+
+### What was done
+
+Set up EAS Build for the Expo mobile app and achieved a working APK on a physical Android device.
+
+**EAS initialization**
+- Ran `eas init` from `packages/mobile/` — created EAS project, added `projectId` and `owner: "jfunkexpo"` to `app.json`
+- Created `packages/mobile/eas.json` with `development`, `preview` (APK), and `production` (AAB) profiles
+
+**Version footer**
+- Added `expo-constants` import to `packages/mobile/app/(app)/index.tsx`
+- App version read from `Constants.expoConfig?.version`; API version fetched from `GET /health`
+- Displayed as `App v{APP_VERSION} · API v{apiVersion}` footer on dashboard screen
+
+**Brand icon**
+- Generated 1024×1024 icon.png (navy circle + amber figure) and adaptive-icon.png (amber figure on transparent background) via Playwright Canvas API + macOS `base64 -D`
+- Updated `app.json` `adaptiveIcon.backgroundColor` from `#ffffff` to `#0d1b2a`
+
+**EAS archive optimization (7 build iterations: 424 MB → 466 KB)**
+- EAS archives the full filesystem (not git). Root `.easignore` supersedes any package-level `.easignore`
+- Intermediate misstep: adding root `.easignore` jumped archive to 1.1 GB (root file stopped package-level exclusions from applying AND switched EAS from archiving `packages/mobile/` to full monorepo root)
+- Fix: comprehensive root `.easignore` using belt-and-suspenders patterns (both `/explicit/path` AND `dirname/` depth-independent) for each exclusion
+- Excluding `packages/mobile/android/` is safe — EAS runs `expo prebuild` in cloud (managed workflow) when no `android/` dir is in the archive
+- Final archive: 466 KB compressed
+
+**Environment variable**
+- Local `.env` is not read by EAS cloud builds
+- Set `EXPO_PUBLIC_API_BASE_URL=https://api.houseoffunk.net` via `eas env:create --environment production`
+
+**expo doctor fixes**
+- Removed deprecated `usesCleartextTraffic` from `app.json` (schema error in managed workflow)
+- Ran `npx expo install` to add missing peer deps: `expo-font`, `expo-constants`, `expo-linking`, `react-native-safe-area-context`, `react-native-screens`
+- Removed `jest-expo` from `dependencies` (expo install had added it there in addition to `devDependencies`)
+- Ran `npm install --legacy-peer-deps` to resolve peer dep conflict
+
+**Physical device install**
+- First install failed: "Something went wrong, app not installed" — EAS keystore conflicts with local debug keystore (same `com.mycollections.app` package name)
+- Fix: uninstalled debug build first, then sideloaded EAS APK successfully
+- App running on Android device: login, dashboard with version footer, all three collection tabs functional
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `packages/mobile/eas.json` | NEW — EAS build profiles |
+| `.easignore` (repo root) | NEW — comprehensive archive exclusions |
+| `packages/mobile/.easignore` | DELETED — superseded by root file |
+| `packages/mobile/app.json` | Added EAS projectId/owner, fixed adaptiveIcon bg, removed usesCleartextTraffic, added expo-font plugin |
+| `packages/mobile/package.json` | Added peer deps, fixed jest-expo devDep placement |
+| `packages/mobile/assets/icon.png` | Replaced with brand icon (navy + amber figure) |
+| `packages/mobile/assets/adaptive-icon.png` | Replaced with adaptive foreground layer |
+| `packages/mobile/app/(app)/index.tsx` | Added version footer |
+| `packages/mobile/.env` | Changed API_BASE_URL from emulator localhost to production URL |
+
+### Decisions
+- EAS `preview` profile produces APK (easier sideloading); `production` profile produces AAB (Play Store)
+- Local `.env` retains the emulator URL for local dev — EAS env var overrides it for cloud builds
+- No Jira ticket for this work (operational/infrastructure, not a feature story)
