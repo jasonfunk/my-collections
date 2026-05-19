@@ -1,37 +1,49 @@
-# Dependencies — EAS runs npm install in the cloud
+# ── Dependencies ──────────────────────────────────────────────────────────────
+# Depth-independent (matches at any level)
 node_modules/
+# Explicit paths (in case EAS only applies anchored exclusions)
+/node_modules
+/packages/mobile/node_modules
+/packages/shared/node_modules
+/packages/api/node_modules
+/packages/web/node_modules
 
-# Native directories — EAS runs expo prebuild in the cloud
-# Use depth-independent pattern (same style as .gitignore) so it matches
-# packages/mobile/android/ regardless of where in the tree it lives
+# ── Native directories (EAS runs expo prebuild in the cloud) ──────────────────
 android/
 ios/
+/packages/mobile/android
+/packages/mobile/ios
 
-# Workspace packages not needed for mobile build
-packages/api/
-packages/web/
+# ── Workspace packages not needed for mobile build ────────────────────────────
+/packages/api
+/packages/web
 
-# Build/cache artifacts
+# ── Build/cache artifacts ─────────────────────────────────────────────────────
 dist/
 build/
+/dist
+/build
+/.turbo
 .turbo/
 *.tsbuildinfo
 
-# Version control
+# ── Version control ───────────────────────────────────────────────────────────
 .git/
+/.git
 
-# Dev tooling and local cache
-devops/
-docs/
-postman/
-.playwright-mcp/
-.serena/
+# ── Dev tooling and local cache ───────────────────────────────────────────────
+/devops
+/docs
+/postman
+/scripts
+/.playwright-mcp
+/.serena
 
-# Expo cache
+# ── Expo cache ────────────────────────────────────────────────────────────────
 .expo/
 .expo-shared/
 
-# Environment files
+# ── Environment files ─────────────────────────────────────────────────────────
 .env
 .env.local
 .env.*.local
