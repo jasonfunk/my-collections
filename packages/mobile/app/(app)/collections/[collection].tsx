@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,6 +17,8 @@ import { resolveCatalogImageUrl } from '../../../src/api/client';
 import { type BrowseItem, fetchItems } from '../../../src/services/collectionsService';
 import { COLLECTION_CONFIG, SLUG_TO_COLLECTION } from '../../../src/config/collections';
 
+const PAGE_SIZE = 50;
+
 function formatValue(value: number): string {
   return `$${value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -31,32 +33,51 @@ export default function CollectionBrowseScreen() {
   const [items, setItems] = useState<BrowseItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [filters, setFilters] = useState<BrowseFilters>({ status: 'all' });
+  const currentPage = useRef(1);
+  const hasMore = useRef(false);
 
-  const loadItems = useCallback(async () => {
+  const loadPage = useCallback(async (page: number, replace: boolean) => {
     if (collectionType === undefined) return;
     setError(null);
     try {
-      const result = await fetchItems(collectionType);
-      setItems(result.data);
+      const result = await fetchItems(collectionType, page, PAGE_SIZE);
+      if (replace) {
+        setItems(result.data);
+      } else {
+        setItems(prev => [...prev, ...result.data]);
+      }
       setTotal(result.meta.total);
+      currentPage.current = result.meta.page;
+      hasMore.current = result.meta.page < result.meta.totalPages;
     } catch {
       setError('Failed to load items. Pull down to retry.');
     }
   }, [collectionType]);
 
   useEffect(() => {
-    void loadItems().finally(() => setLoading(false));
-  }, [loadItems]);
+    void loadPage(1, true).finally(() => setLoading(false));
+  }, [loadPage]);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await loadItems();
+    await loadPage(1, true);
     setRefreshing(false);
-  }, [loadItems]);
+  }, [loadPage]);
+
+  const onLoadMore = useCallback(async () => {
+    if (!hasMore.current || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      await loadPage(currentPage.current + 1, false);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, loadPage]);
 
   const handleApplyFilters = useCallback((f: BrowseFilters) => {
     setFilters(f);
@@ -124,9 +145,11 @@ export default function CollectionBrowseScreen() {
           <Text style={styles.errorText}>{error}</Text>
         ) : (
           <Text style={styles.countText}>
-            {filteredItems.length === total
-              ? `${total} items`
-              : `${filteredItems.length} of ${total} items`}
+            {filters.status === 'all'
+              ? items.length < total
+                ? `${items.length} of ${total} items`
+                : `${total} items`
+              : `${filteredItems.length} items`}
           </Text>
         )}
       </View>
@@ -140,6 +163,15 @@ export default function CollectionBrowseScreen() {
             onRefresh={() => void onRefresh()}
             tintColor="#6366f1"
           />
+        }
+        onEndReached={() => void onLoadMore()}
+        onEndReachedThreshold={0.3}
+        ListFooterComponent={
+          loadingMore ? (
+            <View style={styles.footerLoader}>
+              <ActivityIndicator size="small" color="#6366f1" />
+            </View>
+          ) : null
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
@@ -222,6 +254,7 @@ const styles = StyleSheet.create({
   countText: { fontSize: 13, color: '#888' },
   errorText: { fontSize: 14, color: '#ef4444' },
 
+  footerLoader: { paddingVertical: 16, alignItems: 'center' },
   emptyContainer: { alignItems: 'center', paddingVertical: 48 },
   emptyTitle: { fontSize: 16, fontWeight: '600', color: '#888', marginBottom: 6 },
   emptySubtitle: { fontSize: 13, color: '#555' },
