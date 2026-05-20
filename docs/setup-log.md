@@ -4581,3 +4581,46 @@ Set up EAS Build for the Expo mobile app and achieved a working APK on a physica
 - EAS `preview` profile produces APK (easier sideloading); `production` profile produces AAB (Play Store)
 - Local `.env` retains the emulator URL for local dev — EAS env var overrides it for cloud builds
 - No Jira ticket for this work (operational/infrastructure, not a feature story)
+
+---
+
+## 2026-05-20 — Mobile infinite scroll, EAS build fix, navigation stack fix
+
+### Work done
+
+**Infinite scroll on collection list (`packages/mobile/app/(app)/collections/[collection].tsx`)**
+- Replaced single-page `fetchItems()` call with `loadPage(page, replace)` using `FlatList` `onEndReached` / `onEndReachedThreshold={0.3}`
+- `currentPage` and `hasMore` tracked as `useRef` (stable across renders, no re-render cost)
+- Footer `ActivityIndicator` shown while next page loads
+- Count header shows "X of Y items" while pages are loading, then "Y items" once complete
+- Version bumped: `1.1.0`
+
+**EAS build failure — expo not hoisted (`package.json`, `package-lock.json`)**
+- `eas build` failed with `Cannot find module 'expo/config-plugins'` in the Install dependencies phase
+- Root cause: `expo-router`'s config plugin at root `node_modules` requires `expo/config-plugins`, but `expo` was only installed at `packages/mobile/node_modules` (not hoisted to root)
+- Fix: added `expo: ~55.0.25` to root `devDependencies`, ran `npm install`, committed updated `package-lock.json`
+- Secondary failure: EAS uses `npm ci` — lock file must be in perfect sync with `package.json`. Ran `npm install --dry-run` to confirm sync before retrying build
+
+**Navigation stack accumulation fix (`packages/mobile/app/(app)/_layout.tsx`)**
+- Bug: navigating from Dashboard to Star Wars, then Home, then Transformers showed a back button to Star Wars
+- Root cause: `unmountOnBlur` was **removed** in React Navigation v7 (expo-router 55 ships with RN v7). The option was silently ignored, so the collections Stack accumulated history across cross-tab navigations
+- Fix: one-line change — `unmountOnBlur: route.name === 'collections'` → `popToTopOnBlur: route.name === 'collections'`
+- `popToTopOnBlur` pops the nested Stack to its root when the tab blurs; preserves component state (no remount)
+- Confirmed via Context7 React Navigation v7 migration docs
+- Version bumped: `1.1.1`
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `packages/mobile/app/(app)/collections/[collection].tsx` | Infinite scroll with `onEndReached`, page accumulation, footer spinner |
+| `packages/mobile/app/(app)/_layout.tsx` | `unmountOnBlur` → `popToTopOnBlur` for collections tab |
+| `packages/mobile/package.json` | Version `0.0.1` → `1.1.0` → `1.1.1` |
+| `packages/mobile/app.json` | Version `1.0.0` → `1.1.0` → `1.1.1` |
+| `package.json` | Added `expo: ~55.0.25` to root `devDependencies` |
+| `package-lock.json` | Regenerated after expo hoist |
+
+### Decisions
+- Mobile version aligned to API/web (`1.1.x`) rather than continuing from `0.0.1`
+- `popToTopOnBlur` on Collections tab only (not Wishlist/Search) — those tabs don't have deep stacks that accumulate cross-tab history
+- `PAGE_SIZE = 50` retained; `onEndReachedThreshold = 0.3` (triggers at 30% of visible height from bottom — less eager than the default of 2)

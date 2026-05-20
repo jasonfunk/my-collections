@@ -27,7 +27,7 @@ export default function AppLayout() {
         tabBarStyle: { backgroundColor: '#0f0f0f', borderTopColor: '#222' },
         tabBarActiveTintColor: '#6366f1',
         tabBarInactiveTintColor: '#666',
-        unmountOnBlur: route.name === 'collections',
+        popToTopOnBlur: route.name === 'collections',
       })}
     >
       <Tabs.Screen
