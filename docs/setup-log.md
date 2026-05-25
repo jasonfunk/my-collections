@@ -4624,3 +4624,77 @@ Set up EAS Build for the Expo mobile app and achieved a working APK on a physica
 - Mobile version aligned to API/web (`1.1.x`) rather than continuing from `0.0.1`
 - `popToTopOnBlur` on Collections tab only (not Wishlist/Search) — those tabs don't have deep stacks that accumulate cross-tab history
 - `PAGE_SIZE = 50` retained; `onEndReachedThreshold = 0.3` (triggers at 30% of visible height from bottom — less eager than the default of 2)
+
+## 2026-05-25 — Wishlist PDF export (COL-109)
+
+### Work done
+
+**Wishlist PDF export (`packages/web/`)**
+- Added "Download PDF" button to the wishlist page header (disabled when wishlist is empty)
+- On click: fires three lazy TanStack Query calls (`limit=500` each) to fetch all wishlist items across all collections, generates PDF via `@react-pdf/renderer` `pdf().toBlob()`, triggers browser download as `jason-wishlist-YYYYMMDD.pdf`
+- `@react-pdf/renderer@4.5.1` installed in `packages/web` only
+
+**PDF layout (Letter size, 2-column item grid):**
+- Fixed header on every page: "My Collections — Wishlist" + generation date
+- Guidance block (page 1): formatted collector's note from `src/assets/wishlist-guidance.md`
+- Collection sections (Star Wars / Transformers / He-Man) — only sections with items rendered
+- Each item card: 56×56px thumbnail (`catalog.catalogImageUrl`), priority label, name, year/line/metadata, accessories list, user notes (if any)
+- Fixed footer: "Page N of M" + date
+
+**Guidance markdown (`src/assets/wishlist-guidance.md`):**
+- Versioned in git; editable via GitHub PR with no code changes required
+- Imported at build time via Vite's `?raw` suffix; `*.md?raw` type declared in `vite-env.d.ts`
+- Lightweight line-by-line renderer in `WishlistPdfDocument.tsx` handles `# H1`, `## H2`, `- bullets`, `**bold**`, `*italic*`
+- Written for family (parents, wife) as a gift guide — casual tone, no jargon
+
+**Image handling:**
+- `catalog.catalogImageUrl` values are root-relative (`/catalog-images/...`), served from `public/catalog-images/` (locally downloaded)
+- React-PDF requires absolute URLs; normalized with `url.startsWith('http') ? url : window.location.origin + url`
+- Items without images get a gray placeholder box
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `packages/web/src/assets/wishlist-guidance.md` | New — collector's gift guidance note |
+| `packages/web/src/components/collections/WishlistPdfDocument.tsx` | New — React-PDF document + markdown renderer |
+| `packages/web/src/pages/WishlistPage.tsx` | Download PDF button, lazy all-items queries, blob download |
+| `packages/web/src/vite-env.d.ts` | Added `*.md?raw` module declaration |
+| `packages/web/package.json` | Added `@react-pdf/renderer@^4.5.1` |
+| `package-lock.json` | Updated |
+
+### Decisions
+- No dialog — guidance is file-managed, not user-editable at runtime; button generates and downloads immediately
+- `pdf()` API preferred over `PDFDownloadLink` for spinner control on our own button
+- Blob URL revocation delayed 1000ms and anchor appended to DOM before click — required for reliable browser download trigger
+- Guidance text aimed at non-collector family members, not vendors; warm/casual tone, no grading jargon
+- Variants section dropped from guidance (user is focused on completing main collection, not hunting variants)
+
+---
+
+## Session — 2026-05-24 (COL-109 PDF fixes — PR #77)
+
+### Context
+Follow-up to the COL-109 wishlist PDF export. Two bugs found after reviewing the generated PDF.
+
+### Issues fixed
+
+**1. Version not bumped**
+`packages/web/package.json` was still at `1.1.0` after the COL-109 feature (a minor release). Bumped to `1.2.0`.
+
+**2. Guidance text not filling full page width**
+Investigated with Context7 docs. Two root causes stacked on each other:
+
+- **Hard newlines in markdown:** `wishlist-guidance.md` uses hard line breaks at ~65 chars. The renderer split on `\n` and emitted each physical line as a separate `Text` block, making the text appear to cut off at that column width. Standard markdown treats a single newline as a paragraph continuation — only blank lines start new paragraphs. Fixed `renderMarkdown()` to accumulate consecutive body lines and join them with a space before rendering.
+
+- **`Text` elements don't stretch in React-PDF column layout:** React-PDF's flex engine stretches `View` children but not `Text` children. `width: '100%'` on `Text` is unreliable. Wrapped each block-level element (H1, H2, body paragraphs) in a `View style={{ width: '100%' }}` so the container fills the column, and the `Text` wraps within it.
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `packages/web/package.json` | Version `1.1.0` → `1.2.0` |
+| `packages/web/src/components/collections/WishlistPdfDocument.tsx` | Wrap block elements in `View`; join hard-wrapped paragraph lines before rendering |
+
+### Branch / PR
+`feature/col-109-pdf-fixes` → PR #77 → merged to `develop`

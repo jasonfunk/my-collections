@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { pdf } from '@react-pdf/renderer';
 import type {
   PaginatedResponse,
   UserStarWarsItem,
@@ -12,13 +13,16 @@ import { apiClient } from '../api/client.js';
 import { Button } from '../components/ui/button.js';
 import { Skeleton } from '../components/ui/skeleton.js';
 import { MarkAcquiredDialog } from '../components/collections/MarkAcquiredDialog.js';
+import { WishlistPdfDocument } from '../components/collections/WishlistPdfDocument.js';
+import guidanceText from '../assets/wishlist-guidance.md?raw';
 import {
   COLLECTION_CONFIG,
+  MAX_USER_ITEMS_FETCH,
   WISHLIST_PAGE_SIZE,
   WISHLIST_PRIORITY_LABELS,
   STAR_WARS_CATEGORY_LABELS,
 } from '../lib/collectionConfig.js';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, DownloadIcon } from 'lucide-react';
 
 // ── Priority badge ────────────────────────────────────────────────────────────
 
@@ -94,6 +98,92 @@ function PaginationControls({ page, totalPages, isPlaceholderData, onPrev, onNex
 export function WishlistPage() {
   const navigate = useNavigate();
   const [acquiring, setAcquiring] = useState<AcquiringState | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [exportError, setExportError] = useState(false);
+  const [fetchAll, setFetchAll] = useState(false);
+
+  // Full-list queries — only fire when the user triggers a PDF export
+  const swAllQuery = useQuery({
+    queryKey: ['sw-wishlist-all'],
+    queryFn: () =>
+      apiClient.get<PaginatedResponse<UserStarWarsItem>>(
+        `/collections/star-wars/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+      ),
+    enabled: fetchAll,
+  });
+  const tfAllQuery = useQuery({
+    queryKey: ['tf-wishlist-all'],
+    queryFn: () =>
+      apiClient.get<PaginatedResponse<UserG1TransformersItem>>(
+        `/collections/transformers/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+      ),
+    enabled: fetchAll,
+  });
+  const hemanAllQuery = useQuery({
+    queryKey: ['heman-wishlist-all'],
+    queryFn: () =>
+      apiClient.get<PaginatedResponse<UserMastersItem>>(
+        `/collections/he-man/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+      ),
+    enabled: fetchAll,
+  });
+
+  async function handleDownloadPdf() {
+    setIsGenerating(true);
+    setExportError(false);
+    setFetchAll(true);
+    try {
+      // Wait for all three all-items queries to finish
+      const [swData, tfData, hemanData] = await Promise.all([
+        swAllQuery.data
+          ? Promise.resolve(swAllQuery.data)
+          : apiClient.get<PaginatedResponse<UserStarWarsItem>>(
+              `/collections/star-wars/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+            ),
+        tfAllQuery.data
+          ? Promise.resolve(tfAllQuery.data)
+          : apiClient.get<PaginatedResponse<UserG1TransformersItem>>(
+              `/collections/transformers/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+            ),
+        hemanAllQuery.data
+          ? Promise.resolve(hemanAllQuery.data)
+          : apiClient.get<PaginatedResponse<UserMastersItem>>(
+              `/collections/he-man/wishlist?limit=${MAX_USER_ITEMS_FETCH}&page=1`,
+            ),
+      ]);
+
+      const generatedDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      const filename = `jason-wishlist-${dateStamp}.pdf`;
+
+      const blob = await pdf(
+        <WishlistPdfDocument
+          swItems={swData.data}
+          tfItems={tfData.data}
+          hemanItems={hemanData.data}
+          guidanceMarkdown={guidanceText}
+          generatedDate={generatedDate}
+        />,
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch {
+      setExportError(true);
+    } finally {
+      setIsGenerating(false);
+    }
+  }
 
   const [swPage, setSwPage] = useState(1);
   const [tfPage, setTfPage] = useState(1);
@@ -150,6 +240,20 @@ export function WishlistPage() {
                 {totalWishlist}
               </span>
             )}
+          </div>
+          <div className="flex items-center gap-2">
+            {exportError && (
+              <span className="text-xs text-destructive">PDF generation failed</span>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadPdf}
+              disabled={isGenerating || totalWishlist === 0}
+            >
+              <DownloadIcon className="mr-1.5 h-4 w-4" />
+              {isGenerating ? 'Generating…' : 'Download PDF'}
+            </Button>
           </div>
         </div>
       </header>

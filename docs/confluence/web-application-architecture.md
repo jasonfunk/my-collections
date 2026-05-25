@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-04-25"
+last_updated: "2026-05-25"
 ---
 
 ## Overview
@@ -120,10 +120,37 @@ The main entry point for each collection is the catalog browse page (e.g., `/col
 - `StarWarsCatalogCard`, `TransformersCatalogCard`, `MastersCatalogCard` — catalog item grid cards
 - `StarWarsClaimDialog`, `TransformersClaimDialog`, `MastersClaimDialog` — claim/wishlist modal forms
 - `MarkAcquiredDialog` — convert wishlist item to owned
+- `WishlistPdfDocument` — React-PDF document for wishlist export; includes lightweight markdown renderer
 - `ItemCard`, `ItemTable` — personal item list views (grid and table)
 - `ConditionBadge` — color-coded condition grade indicator
 - `FilterBar` — filter/search controls for list pages
 - `AccessoriesList` — owned vs. missing accessories display
+
+## Wishlist PDF Export (COL-109)
+
+A "Download PDF" button on the wishlist page generates a printable hunting list — intended as a gift guide for family members.
+
+**Flow:** Button click → lazy-fetch all wishlist items (up to 500 per collection via `MAX_USER_ITEMS_FETCH`) → `pdf().toBlob()` → programmatic `<a download>` → browser saves file.
+
+**Library:** `@react-pdf/renderer` v4 (browser-side, no server round-trip). Uses the `pdf()` programmatic API rather than `PDFDownloadLink` to control the loading spinner and exact download timing.
+
+**Filename format:** `jason-wishlist-YYYYMMDD.pdf`
+
+**Document layout (Letter size):**
+- Fixed page header: title + generation date, repeated on every page
+- Guidance block (page 1): formatted collector's note rendered from `src/assets/wishlist-guidance.md` (versioned in git, editable via GitHub PR without code changes)
+- Collection sections (Star Wars / Transformers / He-Man) — only sections with items are included
+- 2-column item grid: thumbnail (56×56px from `catalog.catalogImageUrl`) + priority label + name + year/line/metadata + accessories list + user notes
+- Fixed footer: "Page N of M" + date, repeated on every page
+
+**Guidance markdown:** `src/assets/wishlist-guidance.md` is imported at build time via Vite's `?raw` suffix. A lightweight line-by-line renderer converts it to React-PDF elements supporting `# H1`, `## H2`, `- bullets`, `**bold**`, and `*italic*`. To update the guidance text, edit the file and commit — no code change needed. The `*.md?raw` module type is declared in `src/vite-env.d.ts`.
+
+**Image handling:** `catalog.catalogImageUrl` is a root-relative path (e.g. `/catalog-images/star-wars/filename.jpg`) served from `public/catalog-images/`. React-PDF requires absolute URLs, so paths are normalized: `url.startsWith('http') ? url : window.location.origin + url`. Items with no image get a gray placeholder box.
+
+**Key files:**
+- `src/components/collections/WishlistPdfDocument.tsx` — React-PDF document component + markdown renderer
+- `src/assets/wishlist-guidance.md` — collector's guidance note (editable content)
+- `src/pages/WishlistPage.tsx` — Download PDF button, lazy all-items queries, blob download trigger
 
 ## Known Quirks
 
