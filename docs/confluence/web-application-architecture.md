@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-05-25"
+last_updated: "2026-05-25 (COL-110)"
 ---
 
 ## Overview
@@ -44,6 +44,7 @@ All routes are defined in `src/App.tsx`. The three collection types (star-wars, 
 | `/collections/transformers/:id` | TransformersCatalogDetailPage | Yes | Catalog item detail — claim as owned or add to wishlist |
 | `/collections/:collection/new` | CollectionFormPage | Yes | Add new item to any collection |
 | `/collections/:collection/:id/edit` | CollectionFormPage | Yes | Edit an existing item |
+| `/missing-accessories` | MissingAccessoriesPage | Yes | All owned items with at least one missing accessory, grouped by collection; PDF export |
 | `/collections/:collection/:id` | CollectionDetailPage | Yes | Full personal item detail view |
 
 ## OAuth2 Integration
@@ -121,6 +122,7 @@ The main entry point for each collection is the catalog browse page (e.g., `/col
 - `StarWarsClaimDialog`, `TransformersClaimDialog`, `MastersClaimDialog` — claim/wishlist modal forms
 - `MarkAcquiredDialog` — convert wishlist item to owned
 - `WishlistPdfDocument` — React-PDF document for wishlist export; includes lightweight markdown renderer
+- `MissingAccessoriesPdfDocument` — React-PDF document for missing accessories export; list layout (full-width rows with MISSING/HAVE labels)
 - `ItemCard`, `ItemTable` — personal item list views (grid and table)
 - `ConditionBadge` — color-coded condition grade indicator
 - `FilterBar` — filter/search controls for list pages
@@ -151,6 +153,31 @@ A "Download PDF" button on the wishlist page generates a printable hunting list 
 - `src/components/collections/WishlistPdfDocument.tsx` — React-PDF document component + markdown renderer
 - `src/assets/wishlist-guidance.md` — collector's guidance note (editable content)
 - `src/pages/WishlistPage.tsx` — Download PDF button, lazy all-items queries, blob download trigger
+
+## Missing Accessories PDF Export (COL-110)
+
+A "Download PDF" button on the `/missing-accessories` page generates a printable parts-hunting list showing every owned item that is missing at least one catalog accessory.
+
+**How items are selected:** No dedicated API endpoint. Fetches all items per collection via `GET /collections/{type}/items?limit=500`, then filters client-side: `isOwned === true && catalog.accessories.length > 0 && at least one accessory not in ownedAccessories`.
+
+**Flow:** Same as wishlist PDF — button click → fetch all items (using cached data if available) → `pdf().toBlob()` → programmatic `<a download>`.
+
+**Filename format:** `missing-accessories-YYYYMMDD.pdf`
+
+**Document layout (Letter size):**
+- Fixed page header and footer (same structure as wishlist PDF)
+- Guidance block: rendered from `src/assets/missing-accessories-guidance.md`
+- Collection sections (Star Wars / Transformers / He-Man) — only sections with missing-accessory items are included
+- Full-width item rows (list layout, not 2-column grid): item name + meta line + `MISSING: X, Y` in amber + `HAVE: Z` in green + user notes in italic
+
+**Layout rationale:** Accessory names can be long (e.g., "Dragon Backpack (front)"). A list row reads more clearly than a thumbnail card for this use case.
+
+**Key files:**
+- `src/components/collections/MissingAccessoriesPdfDocument.tsx` — React-PDF document component
+- `src/assets/missing-accessories-guidance.md` — guidance note (editable content)
+- `src/pages/MissingAccessoriesPage.tsx` — page component with three per-collection queries, client-side filter, and blob download trigger
+
+**Bug fix (same PR):** All three claim dialogs (`StarWarsClaimDialog`, `TransformersClaimDialog`, `MastersClaimDialog`) were unconditionally sending `catalogId` in `buildDto()`. On a PATCH (edit), the update DTOs reject `catalogId` via NestJS `whitelist: true`. Fixed to spread `catalogId` only when `!existing` (create mode).
 
 ## Known Quirks
 
