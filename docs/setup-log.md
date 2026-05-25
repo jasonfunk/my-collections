@@ -4698,3 +4698,43 @@ Investigated with Context7 docs. Two root causes stacked on each other:
 
 ### Branch / PR
 `feature/col-109-pdf-fixes` → PR #77 → merged to `develop`
+
+---
+
+## Session — 2026-05-25 (COL-110 Missing Accessories page)
+
+### Context
+COL-110: owned items can have a gap between `catalog.accessories` (what should come with it) and `ownedAccessories` (what the user has). No view surfaced this — you had to open each item individually. Built a "Missing Accessories" page that computes the diff across all three collections and exports it as a printable PDF.
+
+### Approach
+No new API endpoints needed. `GET /collections/{type}/items?limit=500` already returns owned and wishlist items with embedded catalog data including `accessories` and `ownedAccessories`. Filter client-side:
+- `isOwned === true`
+- `catalog.accessories.length > 0` (exclude items with no catalog accessories defined)
+- at least one catalog accessory not in `ownedAccessories`
+
+### Files added
+
+| File | Purpose |
+|------|---------|
+| `packages/web/src/assets/missing-accessories-guidance.md` | PDF intro text (parts-hunting tips) |
+| `packages/web/src/components/collections/MissingAccessoriesPdfDocument.tsx` | React-PDF document; list layout (not grid cards) so long accessory names wrap properly |
+| `packages/web/src/pages/MissingAccessoriesPage.tsx` | Main page with 3 per-collection queries, client-side filtering, accessory chip display, PDF export |
+
+### Files modified
+
+| File | Change |
+|------|--------|
+| `packages/web/src/App.tsx` | Added `/missing-accessories` route |
+| `packages/web/src/pages/DashboardPage.tsx` | Added "Missing Parts" nav button in header |
+| `packages/web/package.json` | Version `1.2.0` → `1.2.1` |
+
+### Design decisions
+- **List layout in PDF** (vs. 2-column grid used by Wishlist PDF): accessory names can be long (e.g., "Dragon Backpack (front)"), so a full-width row with a `MISSING:` / `HAVE:` label prefix reads more clearly than a thumbnail card.
+- **Amber chips for missing, green for have** in the web UI — amber signals "needs attention" without the alarm of red; green confirms what you already have.
+- Section only renders if that collection has items with missing accessories (no empty sections).
+
+### Verification
+Playwright smoke test: 13 items shown (1 Transformers, 12 He-Man), item nav links work, PDF downloaded as `missing-accessories-20260525.pdf`, 0 console errors.
+
+### Branch / PR
+`feature/col-110-missing-accessories` → PR into `develop`
