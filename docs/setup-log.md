@@ -4669,3 +4669,32 @@ Set up EAS Build for the Expo mobile app and achieved a working APK on a physica
 - Blob URL revocation delayed 1000ms and anchor appended to DOM before click — required for reliable browser download trigger
 - Guidance text aimed at non-collector family members, not vendors; warm/casual tone, no grading jargon
 - Variants section dropped from guidance (user is focused on completing main collection, not hunting variants)
+
+---
+
+## Session — 2026-05-24 (COL-109 PDF fixes — PR #77)
+
+### Context
+Follow-up to the COL-109 wishlist PDF export. Two bugs found after reviewing the generated PDF.
+
+### Issues fixed
+
+**1. Version not bumped**
+`packages/web/package.json` was still at `1.1.0` after the COL-109 feature (a minor release). Bumped to `1.2.0`.
+
+**2. Guidance text not filling full page width**
+Investigated with Context7 docs. Two root causes stacked on each other:
+
+- **Hard newlines in markdown:** `wishlist-guidance.md` uses hard line breaks at ~65 chars. The renderer split on `\n` and emitted each physical line as a separate `Text` block, making the text appear to cut off at that column width. Standard markdown treats a single newline as a paragraph continuation — only blank lines start new paragraphs. Fixed `renderMarkdown()` to accumulate consecutive body lines and join them with a space before rendering.
+
+- **`Text` elements don't stretch in React-PDF column layout:** React-PDF's flex engine stretches `View` children but not `Text` children. `width: '100%'` on `Text` is unreliable. Wrapped each block-level element (H1, H2, body paragraphs) in a `View style={{ width: '100%' }}` so the container fills the column, and the `Text` wraps within it.
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `packages/web/package.json` | Version `1.1.0` → `1.2.0` |
+| `packages/web/src/components/collections/WishlistPdfDocument.tsx` | Wrap block elements in `View`; join hard-wrapped paragraph lines before rendering |
+
+### Branch / PR
+`feature/col-109-pdf-fixes` → PR #77 → merged to `develop`
