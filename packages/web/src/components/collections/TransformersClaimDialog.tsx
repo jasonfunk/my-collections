@@ -128,7 +128,7 @@ export function TransformersClaimDialog({
 
   function buildDto() {
     return {
-      catalogId: catalogItem.id,
+      ...(!existing && { catalogId: catalogItem.id }),
       isOwned: form.isOwned,
       ...(form.wishlistPriority ? { wishlistPriority: form.wishlistPriority } : {}),
       ...(form.condition ? { condition: form.condition } : {}),

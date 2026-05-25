@@ -15,6 +15,7 @@ import { TransformersCatalogPage } from './pages/collections/TransformersCatalog
 import { TransformersCatalogDetailPage } from './pages/collections/TransformersCatalogDetailPage.js';
 import { SearchPage } from './pages/collections/SearchPage.js';
 import { WishlistPage } from './pages/WishlistPage.js';
+import { MissingAccessoriesPage } from './pages/MissingAccessoriesPage.js';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/collections/:collection/:id/edit" element={<CollectionFormPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/missing-accessories" element={<MissingAccessoriesPage />} />
         <Route path="/collections/:collection" element={<CollectionListPage />} />
         <Route path="/collections/:collection/:id" element={<CollectionDetailPage />} />
       </Route>
