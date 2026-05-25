@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -22,6 +23,8 @@ import { UsersModule } from './modules/users/users.module';
  */
 @Module({
   imports: [
+    SentryModule.forRoot(),
+
     // Makes .env variables available via ConfigService throughout the app
     ConfigModule.forRoot({ isGlobal: true }),
 
@@ -60,8 +63,7 @@ import { UsersModule } from './modules/users/users.module';
     HealthModule,
   ],
   providers: [
-    // Apply ThrottlerGuard globally so every route is rate-limited by default.
-    // Individual routes can override with @Throttle() or opt out with @SkipThrottle().
+    { provide: APP_FILTER, useClass: SentryGlobalFilter },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })

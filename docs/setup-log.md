@@ -4738,3 +4738,53 @@ Playwright smoke test: 13 items shown (1 Transformers, 12 He-Man), item nav link
 
 ### Branch / PR
 `feature/col-110-missing-accessories` → PR into `develop`
+
+---
+
+## Session — 2026-05-25 (COL-95 Sentry error monitoring)
+
+### Context
+COL-95 (SEC-24): last open child of COL-71 Production Security Hardening epic. Added Sentry error monitoring to both the API and the web app. Goal: surface production errors that would otherwise be logged locally or silently swallowed.
+
+### External setup
+- Created Sentry free-tier account (5k errors/month) via Google SSO
+- Two projects: `my-collections-api` (Node.js platform) and `my-collections-web` (React platform)
+- Created organization token `my-collections-ci` with `org:ci` scope — used by `@sentry/vite-plugin` to upload source maps during CI builds
+- Added GitHub repository secrets/variables: `SENTRY_AUTH_TOKEN` (Secret), `VITE_SENTRY_DSN` (Variable), `SENTRY_ORG` (Variable), `SENTRY_PROJECT` (Variable)
+
+### API changes (`@sentry/nestjs` v9 + `@sentry/profiling-node`)
+- `packages/api/src/instrument.ts` (new) — calls `Sentry.init()` before any other modules load
+- `packages/api/src/main.ts` — added `import './instrument.js'` as the very first line (before `reflect-metadata`)
+- `packages/api/src/app.module.ts` — added `SentryModule.forRoot()` to imports and `SentryGlobalFilter` as global `APP_FILTER`
+- `packages/api/.env.example` — added `SENTRY_DSN=` placeholder
+- Added real DSN to production `.env` on Mac Mini (`~/Sites/my-collections/packages/api/.env`) and staging `.env` (`~/Sites/my-collections-stage/packages/api/.env`) via SSH
+
+**Key gotcha:** The Sentry docs show `@sentry/nestjs/nestjs` as the subpath, but the actual package only exports `'.'` and `'./setup'`. Inspected `node_modules/@sentry/nestjs/package.json` exports map and used `@sentry/nestjs/setup`. Old path caused `TS2307: Cannot find module` build failure.
+
+### Web changes (`@sentry/react` v9 + `@sentry/vite-plugin`)
+- `packages/web/src/main.tsx` — `Sentry.init()` called after imports, before React render
+- `packages/web/src/components/ErrorBoundary.tsx` — `componentDidCatch` now calls `Sentry.captureException` to forward React render errors
+- `packages/web/vite.config.ts` — added `sentryVitePlugin`; `build.sourcemap: 'hidden'` generates `.map` files without public `//# sourceMappingURL` references; plugin uploads and deletes maps after CI build
+- `packages/web/.env.example` — added `VITE_SENTRY_DSN=` placeholder
+- `packages/web/.env.local` (gitignored) — contains web DSN for local dev with Sentry enabled
+
+### CI/CD changes
+- `.github/workflows/deploy-web.yml` and `deploy-web-stage.yml` — added `VITE_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` env vars to the Build step
+
+### Design decisions
+- **`enabled: !!DSN` pattern:** Sentry is completely silent when the DSN env var is absent — no errors sent, no network calls. Safe for local dev without `.env.local`, CI without the var, etc.
+- **`sourcemap: 'hidden'`:** Generates source maps for Sentry but doesn't expose them publicly via `//# sourceMappingURL` comments in the JS bundles.
+- **`tracesSampleRate: 0.1` in production:** Captures 10% of transactions to stay within free-tier limits while still getting performance data.
+- **Organization token, not Personal token:** `org:ci` scope is the minimum needed for source map upload. Personal tokens carry full user permissions — not appropriate for CI.
+
+### Confluence updated
+- Web Application Architecture — added "Error Monitoring (COL-95)" section
+- Security & Operations Hardening — marked item 8 (Sentry) ✅ Done; all 8 items now complete
+- CI/CD Runbook — added all four Sentry secrets/variables to the repository-level table
+
+### Jira
+- COL-95 → Done
+- COL-71 (Production Security Hardening epic) → Done (all 8 children complete)
+
+### Branch / PR
+`feature/col-95-sentry` → PR #81 → merge to `develop` pending user action

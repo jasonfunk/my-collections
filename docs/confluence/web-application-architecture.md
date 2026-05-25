@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-05-25 (COL-110)"
+last_updated: "2026-05-25 (COL-110, COL-95)"
 ---
 
 ## Overview
@@ -178,6 +178,24 @@ A "Download PDF" button on the `/missing-accessories` page generates a printable
 - `src/pages/MissingAccessoriesPage.tsx` — page component with three per-collection queries, client-side filter, and blob download trigger
 
 **Bug fix (same PR):** All three claim dialogs (`StarWarsClaimDialog`, `TransformersClaimDialog`, `MastersClaimDialog`) were unconditionally sending `catalogId` in `buildDto()`. On a PATCH (edit), the update DTOs reject `catalogId` via NestJS `whitelist: true`. Fixed to spread `catalogId` only when `!existing` (create mode).
+
+## Error Monitoring (COL-95)
+
+**Library:** `@sentry/react` v9.
+
+**Initialization:** `Sentry.init()` is called in `src/main.tsx` before the React render. Configuration:
+
+- `dsn`: read from `import.meta.env.VITE_SENTRY_DSN` (baked in at build time by Vite)
+- `environment`: set to `import.meta.env.MODE` (`"development"` in dev server, `"production"` in builds)
+- `integrations`: `browserTracingIntegration()` for automatic performance spans
+- `tracesSampleRate`: `0.1` in production, `1.0` in development
+- `enabled`: `false` when `VITE_SENTRY_DSN` is unset — Sentry is completely silent locally unless the env var is present
+
+**ErrorBoundary integration:** `src/components/ErrorBoundary.tsx` calls `Sentry.captureException(error, { contexts: { react: { componentStack } } })` in `componentDidCatch` so React render errors reach Sentry before showing the fallback UI.
+
+**Source maps:** `@sentry/vite-plugin` is registered in `vite.config.ts` after all other plugins. `build.sourcemap: 'hidden'` generates `.map` files without `//# sourceMappingURL` comments in the JS output (so they aren't publicly accessible). The plugin uploads them to Sentry during CI builds and deletes them from `dist/` afterward. Requires `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` env vars — no-op when `SENTRY_AUTH_TOKEN` is absent (e.g. local builds).
+
+**Local dev:** Add `VITE_SENTRY_DSN=<dsn>` to `packages/web/.env.local` to enable Sentry in the dev server. This file is gitignored.
 
 ## Known Quirks
 

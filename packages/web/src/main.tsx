@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -6,6 +7,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './auth/AuthContext.js';
 import { ErrorBoundary } from './components/ErrorBoundary.js';
 import App from './App.js';
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN as string | undefined,
+  environment: import.meta.env.MODE,
+  integrations: [Sentry.browserTracingIntegration()],
+  tracesSampleRate: import.meta.env.PROD ? 0.1 : 1.0,
+  enabled: !!import.meta.env.VITE_SENTRY_DSN,
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {

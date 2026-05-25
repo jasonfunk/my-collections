@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-19"
+last_updated: "2026-05-25 (COL-95)"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -127,6 +127,7 @@ Third-party services that are part of the infrastructure. Check these before mak
 | --- | --- | --- | --- |
 | **UptimeRobot** | External HTTP monitoring — pings prod and staging `/health` every 5 minutes; email alert on failure | jfunk@houseoffunk.net (Google SSO) | 50 monitors, 5-min interval |
 | **Healthchecks.io** | Dead-man's-switch for nightly DB backup — alerts if no ping arrives within 25 hours | jfunk@houseoffunk.net (magic-link auth) | 20 checks, email alerts |
+| **Sentry** | Error monitoring for API and web app — captures unhandled exceptions and React render errors; source maps uploaded during CI for readable stack traces | jfunk@houseoffunk.net (Google SSO) | Free tier: 5k errors/month; two projects: `my-collections-api` (Node.js) and `my-collections-web` (React); org token: `my-collections-ci` (`org:ci` scope) |
 | **expo.dev (EAS)** | Cloud build service for Android APK/AAB — compiles signed mobile builds via EAS Build; stores env vars (`EXPO_PUBLIC_*`) and managed keystore | jfunkexpo (Expo account) | Free tier: limited concurrent builds; no monthly build limit on free plan |
 
 ### UptimeRobot Monitors
@@ -160,6 +161,7 @@ Each environment has its own `.env` file on the Mac Mini. Neither file is ever c
 | `JWT_REFRESH_EXPIRES_IN` | 30d |
 | `REGISTRATION_ENABLED` | false — lock registration after creating your account |
 | `ALLOWED_ORIGIN` | https://collections.houseoffunk.net |
+| `SENTRY_DSN` | Sentry DSN for the `my-collections-api` project — copy from Sentry → Settings → Projects → my-collections-api → Client Keys |
 
 **Staging** — `~/Sites/my-collections-stage/packages/api/.env`
 
@@ -173,3 +175,4 @@ Each environment has its own `.env` file on the Mac Mini. Neither file is ever c
 | `JWT_REFRESH_EXPIRES_IN` | 30d |
 | `REGISTRATION_ENABLED` | true — staging can allow test accounts |
 | `ALLOWED_ORIGIN` | https://stage.houseoffunk.net |
+| `SENTRY_DSN` | Sentry DSN for the `my-collections-api` project (same DSN as production — Sentry separates environments via the `environment` tag, not separate DSNs) |
