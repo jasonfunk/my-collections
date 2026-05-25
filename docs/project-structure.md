@@ -442,6 +442,8 @@ packages/web/
 │   ├── App.tsx
 │   ├── api/
 │   │   └── client.ts               ← typed fetch wrapper (auth injection, 401 refresh, multipart upload)
+│   ├── assets/
+│   │   └── wishlist-guidance.md    ← collector's guidance note for PDF export (edit via GitHub)
 │   ├── auth/
 │   │   ├── AuthContext.tsx          ← OAuth2 PKCE login/logout/session restore
 │   │   ├── pkce.ts                  ← code verifier + challenge generation
@@ -457,7 +459,8 @@ packages/web/
 │   │   │   ├── ConditionBadge.tsx
 │   │   │   ├── FilterBar.tsx        ← grid/list toggle + owned/condition/line filters
 │   │   │   ├── ItemCard.tsx         ← grid card component
-│   │   │   └── ItemTable.tsx        ← table view component
+│   │   │   ├── ItemTable.tsx        ← table view component
+│   │   │   └── WishlistPdfDocument.tsx  ← React-PDF document for wishlist export + markdown renderer
 │   │   └── ui/                      ← shadcn/ui primitives + custom: collection-icons, collection-progress-icon
 │   ├── hooks/
 │   │   └── useAuth.ts
