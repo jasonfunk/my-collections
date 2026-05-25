@@ -171,39 +171,53 @@ function renderInline(line: string) {
 function renderMarkdown(md: string) {
   const lines = md.split('\n');
   const elements: React.ReactElement[] = [];
+  let paraLines: string[] = [];
+  let key = 0;
 
-  lines.forEach((line, i) => {
+  function flushPara() {
+    if (paraLines.length === 0) return;
+    const text = paraLines.join(' ');
+    elements.push(
+      <View key={key++} style={S.mdBlock}>
+        <Text style={S.mdBody}>{renderInline(text)}</Text>
+      </View>,
+    );
+    paraLines = [];
+  }
+
+  lines.forEach((line) => {
     if (line.startsWith('# ')) {
+      flushPara();
       elements.push(
-        <View key={i} style={S.mdBlock}>
+        <View key={key++} style={S.mdBlock}>
           <Text style={S.mdH1}>{line.slice(2)}</Text>
         </View>,
       );
     } else if (line.startsWith('## ')) {
+      flushPara();
       elements.push(
-        <View key={i} style={S.mdBlock}>
+        <View key={key++} style={S.mdBlock}>
           <Text style={S.mdH2}>{line.slice(3)}</Text>
         </View>,
       );
     } else if (line.match(/^[-•]\s/)) {
+      flushPara();
       const content = line.replace(/^[-•]\s/, '');
       elements.push(
-        <View key={i} style={S.mdBulletRow}>
+        <View key={key++} style={S.mdBulletRow}>
           <Text style={S.mdBulletDot}>•</Text>
           <Text style={S.mdBulletText}>{renderInline(content)}</Text>
         </View>,
       );
     } else if (line.trim() === '') {
-      elements.push(<View key={i} style={S.mdSpacer} />);
+      flushPara();
+      elements.push(<View key={key++} style={S.mdSpacer} />);
     } else {
-      elements.push(
-        <View key={i} style={S.mdBlock}>
-          <Text style={S.mdBody}>{renderInline(line)}</Text>
-        </View>,
-      );
+      paraLines.push(line.trim());
     }
   });
 
+  flushPara();
   return elements;
 }
 
