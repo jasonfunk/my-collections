@@ -68,9 +68,10 @@ const S = StyleSheet.create({
     padding: 12,
     marginBottom: 16,
   },
-  mdH1: { fontSize: 13, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#111827', width: '100%' },
-  mdH2: { fontSize: 10, fontFamily: 'Helvetica-Bold', marginTop: 8, marginBottom: 3, color: '#374151', width: '100%' },
-  mdBody: { fontSize: 9, lineHeight: 1.5, color: '#374151', width: '100%' },
+  mdH1: { fontSize: 13, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#111827' },
+  mdH2: { fontSize: 10, fontFamily: 'Helvetica-Bold', marginTop: 8, marginBottom: 3, color: '#374151' },
+  mdBody: { fontSize: 9, lineHeight: 1.5, color: '#374151' },
+  mdBlock: { width: '100%' },
   mdBulletRow: { flexDirection: 'row', marginBottom: 2 },
   mdBulletDot: { width: 12, fontSize: 9, color: '#6b7280' },
   mdBulletText: { flex: 1, fontSize: 9, lineHeight: 1.5, color: '#374151' },
@@ -173,9 +174,17 @@ function renderMarkdown(md: string) {
 
   lines.forEach((line, i) => {
     if (line.startsWith('# ')) {
-      elements.push(<Text key={i} style={S.mdH1}>{line.slice(2)}</Text>);
+      elements.push(
+        <View key={i} style={S.mdBlock}>
+          <Text style={S.mdH1}>{line.slice(2)}</Text>
+        </View>,
+      );
     } else if (line.startsWith('## ')) {
-      elements.push(<Text key={i} style={S.mdH2}>{line.slice(3)}</Text>);
+      elements.push(
+        <View key={i} style={S.mdBlock}>
+          <Text style={S.mdH2}>{line.slice(3)}</Text>
+        </View>,
+      );
     } else if (line.match(/^[-•]\s/)) {
       const content = line.replace(/^[-•]\s/, '');
       elements.push(
@@ -188,7 +197,9 @@ function renderMarkdown(md: string) {
       elements.push(<View key={i} style={S.mdSpacer} />);
     } else {
       elements.push(
-        <Text key={i} style={S.mdBody}>{renderInline(line)}</Text>,
+        <View key={i} style={S.mdBlock}>
+          <Text style={S.mdBody}>{renderInline(line)}</Text>
+        </View>,
       );
     }
   });
