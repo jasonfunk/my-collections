@@ -85,6 +85,7 @@ The API package requires a `.env` file at `packages/api/.env`:
 | `JWT_ACCESS_EXPIRES_IN` | no | `15m` | Access token TTL (e.g. `15m`, `1h`) |
 | `JWT_REFRESH_EXPIRES_IN` | no | `30d` | Refresh token TTL (e.g. `7d`, `30d`) |
 | `REGISTRATION_ENABLED` | no | `true` | Set to `false` to disable new registrations |
+| `SENTRY_DSN` | no | — | Sentry DSN for error monitoring — Sentry is completely disabled when unset |
 
 Example `DATABASE_URL` for the local Docker Compose setup:
 
@@ -256,6 +257,7 @@ The API runs on a Mac Mini M4 (home server) exposed via Cloudflare Tunnel — no
 | **Backups** | Daily `pg_dump` → gzip → rsync to Dreamhost; Healthchecks.io dead-man's-switch on success |
 | **Log rotation** | pm2-logrotate (50 MB max, 14-file retention, gzip) |
 | **Uptime monitoring** | UptimeRobot — pings `/health` on prod + staging every 5 min, email alerts |
+| **Error monitoring** | Sentry (free tier) — captures API exceptions and React render errors; source maps uploaded during CI builds |
 
 See [`docs/confluence/infrastructure-overview.md`](docs/confluence/infrastructure-overview.md) and [`docs/confluence/ci-cd-runbook.md`](docs/confluence/ci-cd-runbook.md) for full details.
 
