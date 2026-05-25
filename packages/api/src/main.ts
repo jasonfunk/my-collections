@@ -1,3 +1,4 @@
+import './instrument.js';
 import 'reflect-metadata';
 import { join } from 'node:path';
 import { NestFactory, Reflector } from '@nestjs/core';

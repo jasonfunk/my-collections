@@ -2,7 +2,7 @@
 confluence_page_id: "15237122"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15237122"
 title: "My Collections — CI/CD Runbook"
-last_updated: "2026-05-11"
+last_updated: "2026-05-25 (COL-95)"
 ---
 
 Four GitHub Actions pipelines deploy this project to two environments. They trigger independently based on which branch was pushed and which packages changed.
@@ -30,8 +30,12 @@ Rather than duplicating secrets with a `-STAGE` suffix, workflows use [GitHub En
 | Name | Type | Value |
 |---|---|---|
 | `DREAMHOST_SSH_KEY` | Secret | Ed25519 private key for Dreamhost deploy (see setup below) |
+| `SENTRY_AUTH_TOKEN` | Secret | Sentry organization token (`my-collections-ci`) with `org:ci` scope — used by `@sentry/vite-plugin` to upload source maps during web builds |
 | `DREAMHOST_HOST` | Variable | Dreamhost server hostname — found in Dreamhost panel → Users → Manage Users → click the shell user (e.g. `nova.dreamhost.com`). This is the actual server hostname, **not** `ssh.houseoffunk.net` — that DNS record is a separate convenience alias unrelated to CI/CD. |
 | `DREAMHOST_USER` | Variable | Dreamhost shell username — `jfunkshell` |
+| `VITE_SENTRY_DSN` | Variable | Sentry DSN for the `my-collections-web` project — baked into the JS bundle at build time |
+| `SENTRY_ORG` | Variable | Sentry organization slug (from Sentry → Settings → General) |
+| `SENTRY_PROJECT` | Variable | `my-collections-web` |
 
 ### `production` environment variables
 

@@ -2,10 +2,10 @@
 confluence_page_id: "15499266"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15499266"
 title: "My Collections — Security & Operations Hardening"
-last_updated: "2026-05-15"
+last_updated: "2026-05-25 (COL-95)"
 ---
 
-Seven improvements identified during infrastructure planning. Items 1, 2, 3, 5, 6, and 7 are complete. Item 4 remains open.
+Eight improvements identified during infrastructure planning. All eight are complete.
 
 ## 1. Database Backups ✅ Done (COL-114 + COL-129, 2026-05-14)
 
@@ -56,17 +56,11 @@ No code changes were required. See [Infrastructure Overview](infrastructure-over
 
 ---
 
-## 4. Security Headers (Helmet)
+## 4. Security Headers (Helmet) ✅ Done
 
 **Risk without it:** Missing standard HTTP security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security`, `Content-Security-Policy`). Flagged by any automated security scanner.
 
-**Approach:**
-
-- `npm install @nestjs/helmet` in `packages/api`
-- Add `app.use(helmet())` to `packages/api/src/main.ts` before `app.listen()`
-- One line change
-
-**File:** `packages/api/src/main.ts`
+**Implemented:** `helmet` middleware applied in `packages/api/src/main.ts` via `app.use(helmet())` before any route handlers. Sets `X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security`, `Content-Security-Policy`, and several other headers automatically.
 
 ---
 
@@ -123,3 +117,29 @@ A logic bug was found and fixed during verification: the reuse-revocation call w
 Unit tests added to `token.service.spec.ts` covering all five scenarios.
 
 **Files:** `packages/api/src/modules/auth/services/token.service.ts`, `packages/api/src/modules/auth/services/token.service.spec.ts`
+
+---
+
+## 8. Error Monitoring (Sentry) ✅ Done (COL-95, 2026-05-25)
+
+**Risk without it:** Errors in the API and web app are logged locally or silently swallowed. Production issues are invisible until a user reports them.
+
+**Implemented:**
+
+**API (`@sentry/nestjs` v9 + `@sentry/profiling-node`):**
+- `packages/api/src/instrument.ts` — calls `Sentry.init()` before any other modules load; imported as the very first line of `main.ts`
+- `SentryModule.forRoot()` registered in `AppModule` imports
+- `SentryGlobalFilter` registered as a global `APP_FILTER` to capture all unhandled exceptions
+- `SENTRY_DSN` added to `.env.example`; production and staging `.env` files on the Mac Mini updated with the real DSN
+
+**Web (`@sentry/react` v9):**
+- `Sentry.init()` called in `src/main.tsx` before the React render; `browserTracingIntegration()` enabled
+- `ErrorBoundary.componentDidCatch` forwards to `Sentry.captureException` so render errors are captured
+- `@sentry/vite-plugin` in `vite.config.ts` uploads source maps during CI builds (no-op when `SENTRY_AUTH_TOKEN` is absent)
+- `VITE_SENTRY_DSN` baked into the JS bundle at build time; absent locally unless added to `.env.local`
+
+**Both:** `enabled: !!SENTRY_DSN` — Sentry is completely silent when the DSN env var is unset (safe in test/CI without the var). `environment` tag derived from `NODE_ENV` / Vite `MODE` to separate dev and prod events.
+
+**Sentry account:** Free tier (5k errors/month). Two projects: `my-collections-api` (Node.js) and `my-collections-web` (React). Auth token: `my-collections-ci` organization token with `org:ci` scope.
+
+**Files:** `packages/api/src/instrument.ts`, `packages/api/src/main.ts`, `packages/api/src/app.module.ts`, `packages/web/src/main.tsx`, `packages/web/src/components/ErrorBoundary.tsx`, `packages/web/vite.config.ts`
