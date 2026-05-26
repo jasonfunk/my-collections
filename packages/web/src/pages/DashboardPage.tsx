@@ -19,7 +19,9 @@ function formatCurrency(value: number | null): string {
 
 function formatRelativeDate(iso: string): string {
   const diffMs = Date.now() - new Date(iso).getTime();
-  const diffDays = Math.floor(diffMs / 86_400_000);
+  // Math.floor on any negative value (even -1ms of clock skew) gives -1 → "tomorrow".
+  // Clamp to 0 so sub-second differences and minor clock drift show "today".
+  const diffDays = Math.max(0, Math.floor(diffMs / 86_400_000));
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
   if (diffDays === 0) return 'today';
   if (diffDays < 7) return rtf.format(-diffDays, 'day');

@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button.js';
 import { Badge } from '@/components/ui/badge.js';
 import { Separator } from '@/components/ui/separator.js';
 import { Skeleton } from '@/components/ui/skeleton.js';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog.js';
 import { ArrowLeftIcon } from 'lucide-react';
 
 function formatCurrency(value: number | undefined | null): string {
@@ -51,6 +52,7 @@ export function TransformersCatalogDetailPage() {
   const queryClient = useQueryClient();
   const [claimDialogOpen, setClaimDialogOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { data: catalogItem, isPending: catalogPending, isError: catalogError } = useQuery({
     queryKey: ['tf-catalog-item', id],
@@ -128,16 +130,33 @@ export function TransformersCatalogDetailPage() {
           {/* LEFT — image + your record */}
           <div className="space-y-4">
             {catalogItem.catalogImageUrl && (
-              <div className="overflow-hidden rounded-lg border bg-muted/20">
-                <img
-                  src={catalogItem.catalogImageUrl}
-                  alt={catalogItem.name}
-                  className="w-full object-cover object-top"
-                  style={{ maxHeight: 320 }}
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+              <>
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  className="w-full overflow-hidden rounded-lg border bg-muted/20 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <img
+                    src={catalogItem.catalogImageUrl}
+                    alt={catalogItem.name}
+                    className="w-full object-cover object-top"
+                    style={{ maxHeight: 320 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                </button>
+                <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+                  <DialogContent className="sm:max-w-4xl p-2 gap-0">
+                    <DialogTitle className="sr-only">{catalogItem.name}</DialogTitle>
+                    <img
+                      src={catalogItem.catalogImageUrl}
+                      alt={catalogItem.name}
+                      className="max-h-[80vh] w-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </DialogContent>
+                </Dialog>
+              </>
             )}
 
             <div className="rounded-lg border p-4 space-y-3">
