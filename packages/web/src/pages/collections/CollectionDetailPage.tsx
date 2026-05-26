@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -26,7 +27,8 @@ import { Button } from '@/components/ui/button.js';
 import { Badge } from '@/components/ui/badge.js';
 import { Separator } from '@/components/ui/separator.js';
 import { Skeleton } from '@/components/ui/skeleton.js';
-import { ArrowLeftIcon } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog.js';
+import { ArrowLeftIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 function formatCurrency(value: number | undefined | null): string {
   if (value == null) return '—';
@@ -163,6 +165,13 @@ export function CollectionDetailPage() {
 function DetailContent({ item, collection }: { item: CollectionItem; collection: string }) {
   const i = item as CollectionItem & Record<string, unknown>;
   const hasPhoto = item.photoUrls.length > 0;
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  function openLightbox(index: number) {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  }
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
@@ -170,15 +179,58 @@ function DetailContent({ item, collection }: { item: CollectionItem; collection:
       {/* LEFT — photo + ownership / acquisition summary */}
       <div className="space-y-4">
         {hasPhoto ? (
-          <div className="overflow-hidden rounded-lg border bg-muted/20 max-h-80">
+          <button
+            type="button"
+            onClick={() => openLightbox(0)}
+            className="w-full overflow-hidden rounded-lg border bg-muted/20 max-h-80 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <AuthenticatedImage
               src={item.photoUrls[0]}
               alt={item.name}
               className="w-full object-cover object-top"
               fallback={<div className="flex h-48 items-center justify-center text-muted-foreground text-sm">Photo unavailable</div>}
             />
-          </div>
+          </button>
         ) : null}
+
+        <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+          <DialogContent className="sm:max-w-4xl p-2 gap-0">
+            <DialogTitle className="sr-only">{item.name}</DialogTitle>
+            <div className="relative flex items-center justify-center">
+              {item.photoUrls.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setLightboxIndex((i) => i - 1)}
+                  disabled={lightboxIndex === 0}
+                  className="absolute left-2 z-10 rounded-full bg-black/50 p-1 text-white hover:bg-black/70 disabled:opacity-30"
+                >
+                  <ChevronLeftIcon className="h-6 w-6" />
+                </button>
+              )}
+              <AuthenticatedImage
+                src={item.photoUrls[lightboxIndex]}
+                alt={`${item.name} — photo ${lightboxIndex + 1}`}
+                className="max-h-[80vh] w-full object-contain"
+                fallback={<div className="flex h-48 items-center justify-center text-muted-foreground text-sm">Photo unavailable</div>}
+              />
+              {item.photoUrls.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setLightboxIndex((i) => i + 1)}
+                  disabled={lightboxIndex === item.photoUrls.length - 1}
+                  className="absolute right-2 z-10 rounded-full bg-black/50 p-1 text-white hover:bg-black/70 disabled:opacity-30"
+                >
+                  <ChevronRightIcon className="h-6 w-6" />
+                </button>
+              )}
+            </div>
+            {item.photoUrls.length > 1 && (
+              <p className="mt-1 text-center text-xs text-muted-foreground">
+                {lightboxIndex + 1} / {item.photoUrls.length}
+              </p>
+            )}
+          </DialogContent>
+        </Dialog>
 
         <div className="rounded-lg border p-4 space-y-3">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your Record</h2>

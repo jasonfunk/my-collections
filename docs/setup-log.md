@@ -4788,3 +4788,42 @@ COL-95 (SEC-24): last open child of COL-71 Production Security Hardening epic. A
 
 ### Branch / PR
 `feature/col-95-sentry` → PR #81 → merge to `develop` pending user action
+
+---
+
+## Session — 2026-05-25
+
+### Context
+Two standalone web-only fixes, committed directly to `develop` (no ticket).
+
+---
+
+### 1. Bug fix — "tomorrow" on recently added items
+
+**File:** `packages/web/src/pages/DashboardPage.tsx`
+
+`formatRelativeDate` computed `diffDays = Math.floor(diffMs / 86_400_000)`. `Math.floor` on any negative number — including -1ms of clock skew between server and browser — returns -1, causing `Intl.RelativeTimeFormat` to produce "tomorrow". Fixed with `Math.max(0, Math.floor(...))` so any slightly-future timestamp (clock drift, rounding) is treated as "today".
+
+---
+
+### 2. Feature — click image to open full-size lightbox
+
+All four item detail pages now make their catalog/photo image clickable (`cursor-zoom-in`). Clicking opens a Radix `Dialog` overlay showing the full image with `object-contain` and `max-h-[80vh]`.
+
+**Files changed:**
+- `StarWarsCatalogDetailPage.tsx`, `TransformersCatalogDetailPage.tsx`, `MastersCatalogDetailPage.tsx` — catalog images are public URLs; used a plain `<img>` inside the dialog
+- `CollectionDetailPage.tsx` — user-uploaded photos go through `AuthenticatedImage` (Bearer-token fetch → blob URL); dialog includes prev/next chevron buttons and a "N / M" counter for multi-photo items
+
+**Design note:** `DialogTitle` is rendered with `sr-only` to satisfy Radix accessibility requirements without showing a redundant caption below the image.
+
+---
+
+### 3. Version bump
+
+`packages/web` bumped from `1.2.2` → `1.2.3` (patch).
+
+---
+
+### Commit
+
+`38ddae0` on `develop` — pushed directly (no feature branch for this session).
