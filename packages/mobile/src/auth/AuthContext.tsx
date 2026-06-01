@@ -19,6 +19,14 @@ import {
 } from './tokenStorage';
 import { registerAuthCallbacks } from '../api/client';
 
+const AUTH_TIMEOUT_MS = 15_000;
+
+function timeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), ms);
+  return controller.signal;
+}
+
 const CLIENT_ID = 'mobile-app';
 const REDIRECT_URI = 'mycollections://auth/callback';
 const SCOPES = ['collections:read', 'collections:write'];
@@ -64,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const response = await fetch(`${apiBase}/auth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: timeoutSignal(AUTH_TIMEOUT_MS),
       body: JSON.stringify({
         grantType: 'refresh_token',
         clientId: CLIENT_ID,
@@ -89,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const token = getAccessToken();
     const response = await fetch(`${apiBase}/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
+      signal: timeoutSignal(AUTH_TIMEOUT_MS),
     });
     if (!response.ok) throw new Error('Failed to fetch user profile');
     return response.json() as Promise<UserProfile>;
@@ -137,7 +147,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         scope: SCOPES.join(' '),
         state,
       });
-      const authorizeResponse = await fetch(`${apiBase}/auth/authorize?${authorizeParams}`);
+      const authorizeResponse = await fetch(`${apiBase}/auth/authorize?${authorizeParams}`, {
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
+      });
       if (!authorizeResponse.ok) throw new Error('Authorization server error');
       const session = await authorizeResponse.json();
 
@@ -145,6 +157,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const loginResponse = await fetch(`${apiBase}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
         body: JSON.stringify({
           email,
           password,
@@ -176,6 +189,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const tokenResponse = await fetch(`${apiBase}/auth/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
         body: JSON.stringify({
           grantType: 'authorization_code',
           clientId: CLIENT_ID,

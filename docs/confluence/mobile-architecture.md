@@ -2,7 +2,7 @@
 confluence_page_id: "9535489"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/9535489"
 title: "My Collections — Mobile Application Architecture"
-last_updated: "2026-05-19"
+last_updated: "2026-06-01 (fetch timeouts)"
 ---
 
 ## Overview
@@ -79,6 +79,7 @@ Typed `fetch` wrapper. Key behaviours:
 - Exports `resolveCatalogImageUrl(url)` — prepends `API_BASE` to relative paths (`/catalog-images/...`); passes absolute URLs through unchanged. Used by the browse list and item detail screen to resolve catalog image URLs returned by the API.
 - Injects `Authorization: Bearer <token>` on every request using the in-memory access token.
 - On 401: attempts one silent token refresh, deduplicating concurrent refresh calls via a shared promise, then retries the original request. If refresh fails, calls `logout()`.
+- All requests carry a **30-second `AbortController` timeout** via a local `timeoutSignal(ms)` helper — prevents indefinite hangs on flaky connections. `multipartPost` (photo uploads) is exempt.
 - Exports `apiClient.get<T>()`, `.post<T>()`, `.patch<T>()`, `.delete()`, `.multipartPost<T>()`.
 - **`multipartPost`** sends `FormData` without a `Content-Type` header — React Native sets it automatically with the correct multipart boundary. Used for photo uploads to `POST /collections/photos/upload`.
 
@@ -309,6 +310,7 @@ Individual test flows:
 - **Maestro: always `waitForAnimationToEnd` after navigation:** After any `tapOn` that triggers a stack push or tab switch, add `waitForAnimationToEnd` before asserting on screen content. Without it, Maestro evaluates the accessibility hierarchy mid-transition and misses newly visible elements, causing spurious timeouts even when the target element is present.
 - **`FlatList` `ListHeaderComponent` unreliable in Maestro:** Text rendered inside `ListHeaderComponent` is not consistently visible in Android's accessibility tree during Maestro assertions. Place count or summary views in a sibling `View` above the `FlatList` instead.
 - **Nullable DB columns in `BrowseItem`:** TypeORM returns `null` (not `undefined`) for nullable columns. Type optional fields as `T | null` and guard with `!= null` rather than `!== undefined`.
+- **`AbortSignal.timeout()` not available in Hermes (Expo SDK 55 / RN 0.83):** The static method is `undefined` at runtime on this stack. Use `AbortController` + `setTimeout` instead: `const c = new AbortController(); setTimeout(() => c.abort(), ms); fetch(url, { signal: c.signal })`. All auth and API client fetch calls use a local `timeoutSignal(ms)` helper that wraps this pattern.
 - **Maestro: `tapOn: id:` does not auto-scroll.** Unlike `tapOn: "text"`, tapping by `id` fails if the element is off-screen. Always precede with `scrollUntilVisible: { element: { id: "..." } }`. A plain `- scroll` often doesn't go far enough; `scrollUntilVisible` keeps scrolling until the element reaches full visibility.
 - **Maestro: dismiss keyboard before tapping list results.** After `inputText` in a search field, the software keyboard stays open and intercepts React Native's touch responder. Even though Maestro reports `tapOn` as COMPLETED, the `onPress` may not fire. Add `hideKeyboard` + `waitForAnimationToEnd` before tapping result rows.
 - **Maestro: tap list results by `testID`, not by inner text.** A `TouchableOpacity` wrapping a `Text` element creates a clickable ViewGroup around a non-clickable TextView. `tapOn: "Luke Skywalker"` targets the inner non-clickable TextView; `onPress` never fires. Use `tapOn: { id: "catalog-result-0" }` to hit the touchable wrapper. Add `testID` on the `TouchableOpacity`, not on the `Text`.

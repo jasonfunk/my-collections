@@ -2,7 +2,7 @@
 confluence_page_id: "3899393"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/3899393"
 title: "My Collections — Web Application Architecture"
-last_updated: "2026-05-25 (COL-110, COL-95)"
+last_updated: "2026-06-01 (fetch timeouts)"
 ---
 
 ## Overview
@@ -64,7 +64,8 @@ Typed native `fetch` wrapper — no Axios. Responsibilities:
 - Prepends `/api` base path (proxied to NestJS in dev)
 - Injects `Authorization: Bearer <token>` on every request using the in-memory access token
 - On 401: silently refreshes tokens via the stored refresh token and retries the request once; logs out if refresh fails
-- `uploadFile(path, file)` for multipart/form-data POSTs — no `Content-Type` header set (browser sets the multipart boundary automatically)
+- All requests carry a **30-second `AbortController` timeout** via a local `timeoutSignal(ms)` helper — prevents indefinite hangs on flaky connections
+- `uploadFile(path, file)` for multipart/form-data POSTs — no `Content-Type` header set (browser sets the multipart boundary automatically); no timeout applied (uploads legitimately take longer)
 
 ## Search and Filtering
 
@@ -202,5 +203,6 @@ A "Download PDF" button on the `/missing-accessories` page generates a printable
 - `@my-collections/shared` compiles to CommonJS for NestJS compatibility. Vite requires `optimizeDeps.include: ['@my-collections/shared']` to pre-bundle it as ESM — otherwise enum _values_ (not just types) fail to resolve at runtime.
 - All React hooks (`useQuery`, `useParams`, etc.) must be called before any early `return` in a component. Use `enabled: !!param` to disable queries when params are missing rather than returning early before the hook.
 - The in-memory access token is cleared on a hard page refresh. `AuthContext` restores it silently on mount via the `localStorage` refresh token, but `ProtectedRoute` redirects to `/login` during that async restore — this is expected behavior, not a bug.
+- All `fetch` calls in `AuthContext` (token refresh, login flow, profile fetch) carry a **15-second timeout**. If the API is unreachable, the error surfaces immediately rather than leaving the page in a permanent loading state.
 - **shadcn/ui Select (Radix combobox):** `browser_select_option` (Playwright) fails on Radix UI comboboxes. Use click-trigger → click-option pattern instead. Standard `<select>` elements work normally.
 - Static collection routes (`/collections/star-wars`, etc.) must be defined before the generic `/collections/:collection` route in `App.tsx` to prevent React Router from matching the collection slug as a `:collection` param.
