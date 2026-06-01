@@ -4827,3 +4827,64 @@ All four item detail pages now make their catalog/photo image clickable (`cursor
 ### Commit
 
 `38ddae0` on `develop` — pushed directly (no feature branch for this session).
+
+---
+
+## Session — 2026-06-01
+
+### Context
+
+Operational incident: mobile app was stuck on the "Loading…" screen, then stuck with a spinning login button after clearing app data. Root-caused to missing `fetch` timeouts across mobile and web — when the API is unreachable or a network path is flaky, `fetch` hangs indefinitely with no error surfaced to the user.
+
+Also diagnosed a secondary cause: the UptimeRobot monitor hits `GET /health` (no DB query), so TypeORM's connection pool goes idle between requests. The first auth request after idle has extra latency from pool reconnect.
+
+---
+
+### 1. Bug fix — add fetch timeouts to mobile + web auth and API clients
+
+**Problem:** All `fetch` calls in `AuthContext.tsx` and `api/client.ts` (both packages) had no timeout. A hung network request caused:
+- Mobile app stuck forever on "Loading…" (`restoreSession` never resolved)
+- Login button spinning indefinitely (login flow fetch never resolved)
+
+**Fix:** Added a local `timeoutSignal(ms)` helper using `AbortController` + `setTimeout` in each of the four files. `AbortSignal.timeout()` was attempted first but is not available in Hermes (Expo SDK 55 / RN 0.83) — confirmed via Maestro smoke test which showed `AbortSignal.timeout is not a function (it is undefined)`.
+
+Timeout values:
+- Auth fetches (`AuthContext.tsx` — token refresh, login flow, profile): **15 000 ms**
+- Standard API calls (`api/client.ts` — all `apiClient.get/post/patch/delete`): **30 000 ms**
+- File uploads (`multipartPost` on mobile, `uploadFile` on web): **no timeout** (legitimately slow)
+
+**Files changed:**
+- `packages/mobile/src/auth/AuthContext.tsx`
+- `packages/mobile/src/api/client.ts`
+- `packages/web/src/auth/AuthContext.tsx`
+- `packages/web/src/api/client.ts`
+- `CLAUDE.md` — added `AbortSignal.timeout` unavailability note
+
+**Version bumps:** `packages/web` `1.2.3` → `1.2.4`, `packages/mobile` `1.1.1` → `1.1.2`.
+
+---
+
+### Design decisions
+
+- **`AbortController` + `setTimeout` over `AbortSignal.timeout()`:** The static method is present in the web spec and modern Node.js but is `undefined` in the Hermes runtime shipped with Expo SDK 55. The `AbortController` pattern is universally supported and was verified working via Maestro (error changed from infinite spinner to "Aborted" message, confirming the timeout fires correctly).
+- **15 s for auth, 30 s for API:** Auth calls should be fast (<500 ms in normal conditions); 15 s gives ample headroom for cold DB reconnect (~1–2 s extra) plus slow mobile connections. Standard API calls get 30 s to accommodate larger collection payloads on slow connections.
+- **No timeout on uploads:** Photo uploads are legitimately long-running; a timeout would cause spurious failures on slow connections.
+
+---
+
+### Also diagnosed (not fixed this session)
+
+- **UptimeRobot pings `GET /health` (no DB query):** TypeORM pool uses `pg` defaults (10 s idle timeout). The `/health` endpoint doesn't touch the DB, so connections go idle between requests. The `/health/ready` endpoint (checks `dataSource.isInitialized`) is the correct target — updating the UptimeRobot monitor manually is the fix (no code change required).
+- **Staging web app hits production API:** `stage.houseoffunk.net` has `VITE_API_BASE_URL` pointing to `api.houseoffunk.net`, not `stage-api.houseoffunk.net`. Pre-existing; noted but not addressed.
+- **Sentry "useAuth must be used inside AuthProvider":** Development-only HMR artifact from Vite React Fast Refresh. Fires transiently when `AuthContext.tsx` is hot-reloaded. Not a production bug; provider hierarchy in `main.tsx` is correct.
+
+---
+
+### Confluence updated
+
+- Web Application Architecture — added fetch timeout note to API Client section and Known Quirks
+- Mobile Application Architecture — added fetch timeout note to API Client section and `AbortSignal.timeout` unavailability to Known Quirks
+
+### Branch / PR
+
+`fix/fetch-timeouts` → PR into `develop` pending user action

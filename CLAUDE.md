@@ -142,6 +142,7 @@ npm run seed:he-man -- --update
 
 See [docs/project-structure.md](docs/project-structure.md) for full details. Summary:
 
+- **`AbortSignal.timeout()` not available in Hermes (Expo SDK 55 / RN 0.83):** Despite being in the spec, `AbortSignal.timeout(ms)` is `undefined` at runtime on this stack. Always use `AbortController` + `setTimeout` for fetch timeouts: `const c = new AbortController(); setTimeout(() => c.abort(), ms); fetch(url, { signal: c.signal })`.
 - **Shared types** in `packages/shared` are the single source of truth — imported by API, web, and mobile. Always update types here first.
 - **NestJS** uses decorators for routing and DI (similar to Spring Boot / ASP.NET Core). Feature modules go under `packages/api/src/modules/`.
 - **Auth** uses OAuth2 Authorization Code Flow with PKCE. `JwtAuthGuard` protects routes; `@CurrentUser()` extracts the decoded JWT payload. See `src/modules/auth/` for all auth logic.
