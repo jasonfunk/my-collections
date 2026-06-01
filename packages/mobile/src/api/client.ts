@@ -2,6 +2,14 @@ import { getAccessToken } from '../auth/tokenStorage';
 
 export const API_BASE = process.env.EXPO_PUBLIC_API_BASE_URL ?? '';
 
+const API_TIMEOUT_MS = 30_000;
+
+function timeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), ms);
+  return controller.signal;
+}
+
 export function resolveCatalogImageUrl(url: string | null | undefined): string | undefined {
   if (!url) return undefined;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -44,6 +52,7 @@ async function request<T>(
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
+    signal: timeoutSignal(API_TIMEOUT_MS),
   });
 
   if (response.status === 401 && retry && _refresh) {

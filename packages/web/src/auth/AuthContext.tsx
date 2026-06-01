@@ -18,6 +18,14 @@ import {
 } from './tokenStorage.js';
 import { registerAuthCallbacks, API_BASE } from '../api/client.js';
 
+const AUTH_TIMEOUT_MS = 15_000;
+
+function timeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), ms);
+  return controller.signal;
+}
+
 const CLIENT_ID = 'web-app';
 const REDIRECT_URI = `${window.location.origin}/auth/callback`;
 const SCOPES = ['collections:read', 'collections:write'];
@@ -61,6 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
+      signal: timeoutSignal(AUTH_TIMEOUT_MS),
       body: JSON.stringify({
         grantType: 'refresh_token',
         clientId: CLIENT_ID,
@@ -82,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const token = getAccessToken();
     const response = await fetch(`${API_BASE}/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
+      signal: timeoutSignal(AUTH_TIMEOUT_MS),
     });
     if (!response.ok) throw new Error('Failed to fetch user profile');
     return response.json();
@@ -134,7 +144,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         scope: SCOPES.join(' '),
         state,
       });
-      const authorizeResponse = await fetch(`${API_BASE}/auth/authorize?${authorizeParams}`);
+      const authorizeResponse = await fetch(`${API_BASE}/auth/authorize?${authorizeParams}`, {
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
+      });
       if (!authorizeResponse.ok) {
         throw new Error('Authorization server error');
       }
@@ -144,6 +156,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const loginResponse = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
         body: JSON.stringify({
           email,
           password,
@@ -181,6 +194,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
+        signal: timeoutSignal(AUTH_TIMEOUT_MS),
         body: JSON.stringify({
           grantType: 'authorization_code',
           clientId: CLIENT_ID,

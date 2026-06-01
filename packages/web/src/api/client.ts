@@ -16,6 +16,14 @@
 // Prod: VITE_API_BASE_URL is the full API origin → paths are appended directly (no /api prefix on the server).
 export const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api';
 
+const API_TIMEOUT_MS = 30_000;
+
+function timeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), ms);
+  return controller.signal;
+}
+
 import { getAccessToken } from '../auth/tokenStorage.js';
 
 type RefreshFn = () => Promise<void>;
@@ -58,6 +66,7 @@ async function request<T>(
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
+    signal: timeoutSignal(API_TIMEOUT_MS),
   });
 
   if (response.status === 401 && retry && _refreshTokens) {
