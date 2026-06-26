@@ -29,10 +29,13 @@ The authentication system implements OAuth2 Authorization Code Flow with PKCE (P
 
 | **Client ID** | **Type** | **Redirect URIs** |
 | --- | --- | --- |
-| `web-app` | Public SPA | `http://localhost:5173/auth/callback`, `https://mycollections.example.com/auth/callback` |
-| `mobile-app` | Public mobile | `mycollections://auth/callback`, `exp://localhost:8081/` |
+| `web-app` | Public SPA | `http://localhost:5173/auth/callback`, `https://collections.houseoffunk.net/auth/callback`, `https://stage.houseoffunk.net/auth/callback` |
+| `mobile-app` | Public mobile | `mycollections://auth/callback`, `exp://localhost:8081/--/auth/callback` |
+| `mcp-server` | Personal server | `http://localhost:9999/callback` |
 
 Allowed scopes for all clients: `collections:read`, `collections:write`, `profile`
+
+The `mcp-server` client uses the same Authorization Code + PKCE flow as the other clients. A one-time bootstrap script handles the browser flow and stores the resulting refresh token in the MCP server's environment. At runtime, the MCP server refreshes its access token automatically. See the [MCP Server page](mcp-server.md) for the full auth flow.
 
 ## Endpoints
 
