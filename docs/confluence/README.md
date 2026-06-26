@@ -22,6 +22,7 @@ Local markdown copies of all My Collections Confluence pages. Edit here first, t
 | [server-setup-runbook.md](server-setup-runbook.md) | `6356993` | [/spaces/SD/pages/6356993](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6356993) | 2026-05-05 |
 | [ci-cd-runbook.md](ci-cd-runbook.md) | `15237122` | [/spaces/SD/pages/15237122](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15237122) | 2026-05-05 |
 | [security-operations-hardening.md](security-operations-hardening.md) | `15499266` | [/spaces/SD/pages/15499266](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/15499266) | 2026-05-05 |
+| [mcp-server.md](mcp-server.md) | `31752194` | [/spaces/SD/pages/31752194](https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/31752194) | 2026-06-26 |
 
 ## Workflow
 
@@ -56,3 +57,6 @@ Local markdown copies of all My Collections Confluence pages. Edit here first, t
 | CI/CD workflow changes (new workflow, trigger, secrets) | `ci-cd-runbook.md` |
 | Security or operations hardening implemented (rate limiting, backups, etc.) | `security-operations-hardening.md` |
 | Style guide changes | `documentation-style-guide.md` |
+| MCP tool added, removed, or renamed | `mcp-server.md` |
+| MCP server infrastructure changes (port, domain, env vars) | `mcp-server.md` + `infrastructure-overview.md` |
+| New OAuth client registered | `authentication-api.md` |
