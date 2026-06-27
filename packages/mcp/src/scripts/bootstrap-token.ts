@@ -31,8 +31,16 @@ function generatePkce(): { verifier: string; challenge: string } {
   return { verifier, challenge };
 }
 
-function prompt(rl: readline.Interface, question: string): Promise<string> {
-  return new Promise((resolve) => rl.question(question, resolve));
+function promptCredentials(): Promise<{ email: string; password: string }> {
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    rl.question('Email: ', (email) => {
+      rl.question('Password: ', (password) => {
+        rl.close();
+        resolve({ email, password });
+      });
+    });
+  });
 }
 
 function upsertEnvVar(filePath: string, key: string, value: string): void {
@@ -55,11 +63,7 @@ async function main() {
   console.log(`API: ${API_BASE_URL}`);
   console.log(`Client: ${CLIENT_ID}\n`);
 
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-
-  const email = await prompt(rl, 'Email: ');
-  const password = await prompt(rl, 'Password: ');
-  rl.close();
+  const { email, password } = await promptCredentials();
 
   const { verifier, challenge } = generatePkce();
   const state = base64url(crypto.randomBytes(16));
@@ -144,6 +148,7 @@ async function main() {
   upsertEnvVar(ENV_PATH, 'MCP_REFRESH_TOKEN', tokens.refreshToken);
   console.log(`\nSuccess! MCP_REFRESH_TOKEN written to ${ENV_PATH}`);
   console.log('Run "npm run dev" to start the MCP server.');
+  process.exit(0);
 }
 
 main().catch((err) => {

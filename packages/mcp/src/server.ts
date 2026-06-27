@@ -25,15 +25,14 @@ function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   next();
 }
 
+function createMcpServer(): McpServer {
+  const server = new McpServer({ name: 'my-collections', version });
+  registerAllTools(server);
+  return server;
+}
+
 export async function startServer(): Promise<void> {
   await initTokenManager();
-
-  const mcpServer = new McpServer({ name: 'my-collections', version });
-  registerAllTools(mcpServer);
-
-  // Stateless transport — no session tracking needed for Claude.ai tool calls
-  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
-  await mcpServer.connect(transport);
 
   const app = express();
   app.use(express.json());
@@ -43,8 +42,21 @@ export async function startServer(): Promise<void> {
     res.json({ status: 'ok', version });
   });
 
+  // Stateless mode: new transport + server per request (required by SDK v1.29)
   app.all('/mcp', async (req: Request, res: Response): Promise<void> => {
-    await transport.handleRequest(req, res, req.body);
+    const server = createMcpServer();
+    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+    try {
+      await server.connect(transport);
+      await transport.handleRequest(req, res, req.body);
+      res.on('close', () => {
+        transport.close();
+        server.close();
+      });
+    } catch (err) {
+      console.error('[mcp-server] Request error:', err);
+      if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
+    }
   });
 
   const port = parseInt(process.env.PORT ?? '3001', 10);
