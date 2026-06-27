@@ -25,7 +25,8 @@
     "patch:star-wars-12inch-images": "ts-node --project tsconfig.scripts.json scripts/patch-star-wars-12inch-images.ts"
   },
   "overrides": {
-    "@types/react": "~19.2.10"
+    "@types/react": "~19.2.10",
+    "shell-quote": ">=1.8.4"
   },
   "devDependencies": {
     "@nestjs/platform-express": "^11.1.18",

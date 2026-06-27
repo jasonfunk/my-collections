@@ -4888,3 +4888,65 @@ Timeout values:
 ### Branch / PR
 
 `fix/fetch-timeouts` → PR into `develop` pending user action
+
+---
+
+## Session — 2026-06-26
+
+### Context
+
+Planning session for the MCP (Model Context Protocol) server — a new `packages/mcp` package that wraps the Collections REST API and exposes it as tools callable from claude.ai, Claude Desktop, and Claude mobile. No code written this session; all output is Jira tickets, Confluence documentation, and local doc updates.
+
+---
+
+### 1. Architecture design
+
+Decided on the following design through discussion:
+
+- **Transport:** Streamable HTTP (MCP spec v2025-03-26) — enables remote access from any Claude interface, including mobile, unlike stdio (desktop-only)
+- **Package:** `@my-collections/mcp` — plain TypeScript Node.js + Express, not NestJS (no DI overhead needed for a thin wrapper)
+- **Auth layer 1 (Claude → MCP):** Static bearer token in the MCP URL, configured once in claude.ai settings / Claude Desktop config
+- **Auth layer 2 (MCP → API):** Stored refresh token obtained via a one-time PKCE bootstrap script. The API has no `client_credentials` grant, so this is the correct pattern for a personal server tool — same approach used by OAuth-enabled CLI tools (GitHub CLI, gcloud, etc.)
+- **Hosting:** Mac Mini — new `mcp.houseoffunk.net` nginx vhost + pm2 process, same pattern as `api.houseoffunk.net`
+- **13 tools total:** 8 read (stats, wishlist, owned items, item detail, catalog item, browse catalog, search, recent additions) + 5 write (add, update, mark acquired, remove, upload photo)
+
+### 2. Jira epic + tasks created
+
+Epic **COL-130** (MCP Server) with 10 tasks:
+
+| Ticket | Summary |
+|---|---|
+| COL-131 | Scaffold `packages/mcp` package |
+| COL-132 | One-time auth bootstrap script + `mcp-server` OAuth client |
+| COL-133 | MCP server core — Express + Streamable HTTP transport + token refresh |
+| COL-134 | Read tools — stats, recent, cross-collection search |
+| COL-135 | Read tools — catalog browsing and item detail |
+| COL-136 | Write tools — add, update, mark-acquired, delete |
+| COL-137 | Photo upload tool |
+| COL-138 | Infrastructure deployment — nginx, pm2, `mcp.houseoffunk.net` |
+| COL-139 | Register in claude.ai and Claude Desktop |
+| COL-140 | Confluence page, local docs mirror, and CLAUDE.md update |
+
+### 3. Confluence pages
+
+- **Created:** My Collections — MCP Server (page ID: 31752194) — architecture diagram, two-layer auth flow, full tool catalog, 6 compound use case examples, infrastructure table, registration steps for claude.ai / Claude Desktop / Claude Code
+- **Updated:** Authentication API (ID: 3571714) — added `mcp-server` OAuth client to the registered clients table
+- **Updated:** Project Architecture (ID: 3670018) — added `@my-collections/mcp` to monorepo structure; updated tech stack table and hosting section
+
+### 4. Local doc updates
+
+- `docs/confluence/mcp-server.md` — new local mirror (page ID: 31752194)
+- `docs/confluence/authentication-api.md` — mcp-server client added to clients table
+- `docs/confluence/project-architecture.md` — mcp package added
+- `docs/confluence/README.md` — new registry entry + MCP-specific staleness triggers
+- `CLAUDE.md` — MCP server architecture note added to Architecture Notes section
+
+### Design decisions
+
+- **Stored refresh token vs. client_credentials:** The API only supports Authorization Code + PKCE; there is no `client_credentials` grant. A one-time bootstrap script is the standard pattern for this scenario (personal server tool needs long-lived access to a PKCE-only OAuth server). Adding `client_credentials` was considered but ruled out as unnecessary scope — the bootstrap approach reuses all existing auth code.
+- **No NestJS for MCP package:** Plain Express + MCP SDK is sufficient. NestJS DI and decorator overhead would add complexity without benefit for a ~400-line server with no shared services.
+- **Port 3001:** Avoids conflict with the API (3000) and Vite dev server (5173).
+
+### Branch / PR
+
+`feature/mcp-server-scoping` → PR into `develop`

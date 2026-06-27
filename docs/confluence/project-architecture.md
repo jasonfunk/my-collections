@@ -13,22 +13,24 @@ last_updated: "2026-04-19"
 | Backend | NestJS | 11 |
 | Frontend | React SPA (Vite) | 18 / Vite 5 |
 | Mobile | Expo (React Native) | 55 / RN 0.83.4 |
+| MCP Server | Node.js + Express + MCP SDK | Streamable HTTP transport |
 | Auth | OAuth2 + PKCE | Custom implementation |
 | Language | TypeScript | 5.4 |
 | Monorepo | Turborepo + npm workspaces | 2.0 |
 | CI/CD | GitHub Actions | — |
-| Hosting | Dreamhost shared hosting (web); Mac Mini M4 self-hosted via Cloudflare Tunnel (API) | — |
+| Hosting | Dreamhost shared hosting (web); Mac Mini M4 self-hosted via Cloudflare Tunnel (API + MCP) | — |
 
 ## Monorepo Structure
 
-The repository is organized as an npm workspace monorepo managed by Turborepo. It contains four packages:
+The repository is organized as an npm workspace monorepo managed by Turborepo. It contains five packages:
 
 - `@my-collections/shared` — TypeScript types only. Compiles to CommonJS for NestJS compatibility. Single source of truth for all shared types across API, web, and mobile.
 - `@my-collections/api` — NestJS REST API. Connects to PostgreSQL via TypeORM. Runs on port 3000. Swagger UI at `/api/docs`.
 - `@my-collections/web` — React 18 SPA (Vite 5). Deployed as static files to Dreamhost shared hosting. Runs on port 5173 in development.
 - `@my-collections/mobile` — Expo 55 / React Native 0.83.4. Android is the primary target; iOS is secondary. Single codebase for both platforms. Uses Expo Router (file-based routing), OAuth2 PKCE auth with `expo-secure-store` token storage, Maestro UI tests, and EAS Build for cloud-compiled APK/AAB distribution.
+- `@my-collections/mcp` — MCP (Model Context Protocol) server. Plain TypeScript Node.js server using Express and the `@modelcontextprotocol/sdk`. Exposes 13 tools (8 read, 5 write) that wrap the Collections REST API, enabling natural-language interaction with the collection from claude.ai, Claude Desktop, and Claude mobile. Runs on port 3001. Hosted at `mcp.houseoffunk.net`. See the [MCP Server](mcp-server.md) page for full details.
 
-Build order is enforced by Turborepo: `shared` builds first, then `api`, `web`, and `mobile` in parallel.
+Build order is enforced by Turborepo: `shared` builds first, then `api`, `web`, `mobile`, and `mcp` in parallel.
 
 ## Database
 

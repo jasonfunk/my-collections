@@ -142,6 +142,7 @@ npm run seed:he-man -- --update
 
 See [docs/project-structure.md](docs/project-structure.md) for full details. Summary:
 
+- **MCP server** (`packages/mcp`, `@my-collections/mcp`): Plain TypeScript Node.js server (not NestJS) wrapping the Collections REST API. Uses Express + `@modelcontextprotocol/sdk` with `StreamableHTTPServerTransport`. Hosted at `mcp.houseoffunk.net:3001` (pm2 process: `mcp-server`). Auth is two-layer: static bearer token (Claude → MCP) + stored refresh token (MCP → API). First-time setup: run `npm run bootstrap` in `packages/mcp` — it does the PKCE browser flow and writes `MCP_REFRESH_TOKEN` to `packages/mcp/.env`. Register in claude.ai Settings → Integrations → MCP Servers. See `docs/confluence/mcp-server.md` for the full tool catalog and compound use case examples.
 - **`AbortSignal.timeout()` not available in Hermes (Expo SDK 55 / RN 0.83):** Despite being in the spec, `AbortSignal.timeout(ms)` is `undefined` at runtime on this stack. Always use `AbortController` + `setTimeout` for fetch timeouts: `const c = new AbortController(); setTimeout(() => c.abort(), ms); fetch(url, { signal: c.signal })`.
 - **Shared types** in `packages/shared` are the single source of truth — imported by API, web, and mobile. Always update types here first.
 - **NestJS** uses decorators for routing and DI (similar to Spring Boot / ASP.NET Core). Feature modules go under `packages/api/src/modules/`.
