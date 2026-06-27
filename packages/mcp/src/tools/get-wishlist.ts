@@ -4,19 +4,29 @@ import { apiGet } from '../api-client';
 
 const COLLECTION_TYPES = ['star-wars', 'transformers', 'he-man'] as const;
 
+interface CatalogRef {
+  name: string;
+}
+
 interface WishlistItem {
   id: string;
-  name: string;
+  catalog?: CatalogRef;
+  name?: string; // search endpoint flattens this
   wishlistPriority?: string;
   estimatedValue?: number;
   notes?: string;
 }
 
+interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 interface PaginatedResponse {
   data: WishlistItem[];
-  total: number;
-  page: number;
-  pageSize: number;
+  meta: Meta;
 }
 
 const PRIORITY_ORDER = ['CRITICAL', 'ULTRA_RARE', 'HIGH', 'MEDIUM', 'LOW'];
@@ -35,7 +45,7 @@ export function register(server: McpServer): void {
     async ({ collectionType, page, limit }) => {
       const result = await apiGet<PaginatedResponse>(`/collections/${collectionType}/wishlist`, {
         page: page ?? 1,
-        pageSize: limit ?? 50,
+        limit: limit ?? 50,
       });
 
       if (!result.data.length) {
@@ -49,12 +59,13 @@ export function register(server: McpServer): void {
       });
 
       const lines = [
-        `**${collectionType} wishlist** — ${result.total} item(s):`,
+        `**${collectionType} wishlist** — ${result.meta.total} item(s):`,
         '',
         ...sorted.map((item) => {
+          const name = item.catalog?.name ?? item.name ?? '(unknown)';
           const priority = item.wishlistPriority ?? 'NONE';
           const value = item.estimatedValue ? ` ~$${item.estimatedValue}` : '';
-          return `- **${item.name}** (${priority})${value} — id: ${item.id}`;
+          return `- **${name}** (${priority})${value} — id: ${item.id}`;
         }),
       ];
       return { content: [{ type: 'text' as const, text: lines.join('\n') }] };

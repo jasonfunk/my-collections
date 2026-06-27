@@ -13,11 +13,16 @@ interface CatalogItem {
   accessories?: string[];
 }
 
+interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 interface PaginatedResponse {
   data: CatalogItem[];
-  total: number;
-  page: number;
-  pageSize: number;
+  meta: Meta;
 }
 
 export function register(server: McpServer): void {
@@ -43,7 +48,7 @@ export function register(server: McpServer): void {
       const params: Record<string, string | number | boolean | undefined> = {
         search,
         page: page ?? 1,
-        pageSize: limit ?? 20,
+        limit: limit ?? 20,
         category,
         line,
         faction,
@@ -56,7 +61,7 @@ export function register(server: McpServer): void {
       }
 
       const lines = [
-        `**${collectionType} catalog** — ${result.total} total (page ${result.page}):`,
+        `**${collectionType} catalog** — ${result.meta.total} total (page ${result.meta.page}):`,
         '',
         ...result.data.map((item) => {
           const year = item.releaseYear ? ` (${item.releaseYear})` : '';
