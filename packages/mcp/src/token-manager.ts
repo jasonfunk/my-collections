@@ -46,6 +46,23 @@ async function fetchNewTokens(refreshToken: string): Promise<TokenState> {
   };
 }
 
+// Retries fetchNewTokens with exponential backoff on 429 so pm2 crash-restart
+// loops can't exhaust the rate limit window.
+async function fetchWithRetry(refreshToken: string, maxAttempts = 6): Promise<TokenState> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fetchNewTokens(refreshToken);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (!msg.includes('429') || attempt === maxAttempts) throw err;
+      const delay = Math.min(1000 * 2 ** attempt, 60_000);
+      console.warn(`[token-manager] Rate limited on startup (attempt ${attempt}/${maxAttempts}), retrying in ${delay / 1000}s`);
+      await new Promise(r => setTimeout(r, delay));
+    }
+  }
+  throw new Error('unreachable');
+}
+
 function persistRefreshToken(token: string): void {
   try {
     let contents = fs.existsSync(ENV_PATH) ? fs.readFileSync(ENV_PATH, 'utf8') : '';
@@ -79,7 +96,7 @@ export async function initTokenManager(): Promise<void> {
   if (!refreshToken) {
     throw new Error('MCP_REFRESH_TOKEN is not set — run "npm run bootstrap" first');
   }
-  state = await fetchNewTokens(refreshToken);
+  state = await fetchWithRetry(refreshToken);
   scheduleRefresh(state.expiresAt - Date.now());
   console.log('[token-manager] Access token acquired, expires in', Math.round((state.expiresAt - Date.now()) / 1000), 's');
 }
