@@ -2,7 +2,7 @@
 confluence_page_id: "31752194"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/31752194"
 title: "My Collections — MCP Server"
-last_updated: "2026-06-26"
+last_updated: "2026-06-27"
 ---
 
 ## Overview
@@ -44,13 +44,12 @@ The token is passed as a URL query parameter: `https://mcp.houseoffunk.net/mcp?t
 
 The MCP server authenticates as the collection owner via a stored refresh token. This token is obtained once via a one-time bootstrap script and saved to `packages/mcp/.env`.
 
-**Bootstrap flow (run once):**
+**Bootstrap flow (run once per environment):**
 
-1. Run `npm run bootstrap` in `packages/mcp`
-2. The script generates a PKCE code challenge and starts a local callback server on port 9999
-3. It prints an authorization URL — open it in a browser and log in
-4. The callback is captured automatically; the script exchanges the code for tokens
-5. `MCP_REFRESH_TOKEN` is written to `packages/mcp/.env`
+1. Run `npm run bootstrap` in `packages/mcp` (interactive — requires a TTY: `ssh -t mini.local "..."`)
+2. The script prompts for email and password via readline — no browser required; the API has no HTML login page
+3. It performs PKCE internally and exchanges credentials for tokens
+4. `MCP_REFRESH_TOKEN` is written to `packages/mcp/.env`
 
 **Runtime flow:**
 
@@ -148,23 +147,35 @@ These examples show how Claude chains multiple tool calls to answer a single nat
 
 ## Infrastructure
 
+### Production
+
 | Property | Value |
 |---|---|
 | URL | `https://mcp.houseoffunk.net/mcp` |
-| Internal port | 3001 |
+| Internal port | `3003` |
 | pm2 process name | `mcp-server` |
-| nginx config | `/etc/nginx/sites-available/mcp.houseoffunk.net` |
-| Deploy command | `pm2 restart mcp-server` |
+| Tunnel | Cloudflare Tunnel → `localhost:3003` (no nginx) |
+| Deploy command | `npm run build -- --filter=@my-collections/mcp && pm2 restart mcp-server` |
+
+### Staging
+
+| Property | Value |
+|---|---|
+| URL | `https://stage-mcp.houseoffunk.net/mcp` |
+| Internal port | `3002` |
+| pm2 process name | `mcp-server-stage` |
+| Clone | `~/Sites/my-collections-stage/packages/mcp` |
+| Deploy command | `npm run build -- --filter=@my-collections/mcp && pm2 restart mcp-server-stage` |
 
 **Environment variables (`packages/mcp/.env`):**
 
-| Variable | Description |
-|---|---|
-| `PORT` | Internal port (default: 3001) |
-| `MCP_BEARER_TOKEN` | Static token Claude presents on every request |
-| `MCP_REFRESH_TOKEN` | Long-lived refresh token from bootstrap (keep secret) |
-| `API_BASE_URL` | `https://api.houseoffunk.net` |
-| `MCP_OAUTH_CLIENT_ID` | `mcp-server` |
+| Variable | Production | Staging | Description |
+|---|---|---|---|
+| `PORT` | `3003` | `3002` | Internal listen port |
+| `API_BASE_URL` | `https://api.houseoffunk.net` | `https://stage-api.houseoffunk.net` | Which API to call |
+| `MCP_BEARER_TOKEN` | *(in LastPass)* | *(in LastPass)* | Static token Claude presents on every request |
+| `MCP_REFRESH_TOKEN` | *(written by bootstrap)* | *(written by bootstrap)* | Long-lived refresh token (keep secret) |
+| `MCP_OAUTH_CLIENT_ID` | `mcp-server` | `mcp-server` | OAuth client ID registered in the API |
 
 ## Registering with Claude
 
@@ -190,17 +201,19 @@ Add to `~/.claude/claude_desktop_config.json`:
 
 ### Claude Code (this project)
 
-Add to `.mcp.json` at the repo root for local development sessions:
+`.mcp.json` at the repo root is committed and points to production:
 
 ```json
 {
   "mcpServers": {
     "my-collections": {
-      "url": "http://localhost:3001/mcp?token=<MCP_BEARER_TOKEN>"
+      "url": "https://mcp.houseoffunk.net/mcp?token=<MCP_BEARER_TOKEN>"
     }
   }
 }
 ```
+
+For local development against a locally running MCP server (`npm run dev` on port 3001), override the URL temporarily — but don't commit the localhost URL.
 
 ## Development
 
