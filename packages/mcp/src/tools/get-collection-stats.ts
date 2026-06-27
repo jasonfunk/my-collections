@@ -4,7 +4,7 @@ import { apiGet } from '../api-client';
 interface CollectionStatEntry {
   owned: number;
   wishlist: number;
-  estimatedValue: number;
+  estimatedTotalValue: number | null;
 }
 
 interface StatsResponse {
@@ -12,6 +12,10 @@ interface StatsResponse {
   transformers: CollectionStatEntry;
   heman: CollectionStatEntry;
   totals: CollectionStatEntry;
+}
+
+function fmt(value: number | null): string {
+  return value != null ? `$${value.toFixed(2)}` : 'N/A';
 }
 
 export function register(server: McpServer): void {
@@ -26,11 +30,11 @@ export function register(server: McpServer): void {
       const lines = [
         '## Collection Stats',
         '',
-        `**Star Wars** — Owned: ${stats.starWars.owned} | Wishlist: ${stats.starWars.wishlist} | Est. Value: $${stats.starWars.estimatedValue.toFixed(2)}`,
-        `**Transformers** — Owned: ${stats.transformers.owned} | Wishlist: ${stats.transformers.wishlist} | Est. Value: $${stats.transformers.estimatedValue.toFixed(2)}`,
-        `**He-Man** — Owned: ${stats.heman.owned} | Wishlist: ${stats.heman.wishlist} | Est. Value: $${stats.heman.estimatedValue.toFixed(2)}`,
+        `**Star Wars** — Owned: ${stats.starWars.owned} | Wishlist: ${stats.starWars.wishlist} | Est. Value: ${fmt(stats.starWars.estimatedTotalValue)}`,
+        `**Transformers** — Owned: ${stats.transformers.owned} | Wishlist: ${stats.transformers.wishlist} | Est. Value: ${fmt(stats.transformers.estimatedTotalValue)}`,
+        `**He-Man** — Owned: ${stats.heman.owned} | Wishlist: ${stats.heman.wishlist} | Est. Value: ${fmt(stats.heman.estimatedTotalValue)}`,
         '',
-        `**Totals** — Owned: ${stats.totals.owned} | Wishlist: ${stats.totals.wishlist} | Est. Value: $${stats.totals.estimatedValue.toFixed(2)}`,
+        `**Totals** — Owned: ${stats.totals.owned} | Wishlist: ${stats.totals.wishlist} | Est. Value: ${fmt(stats.totals.estimatedTotalValue)}`,
       ];
       return { content: [{ type: 'text' as const, text: lines.join('\n') }] };
     },
