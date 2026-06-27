@@ -32,5 +32,23 @@ module.exports = {
       watch: false,
       max_memory_restart: '500M',
     },
+    {
+      name: 'mcp-server',
+      script: `${__dirname}/packages/mcp/dist/index.js`,
+      cwd: `${__dirname}/packages/mcp`,
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '200M',
+    },
+    {
+      name: 'mcp-server-stage',
+      script: '/Users/jfunk/Sites/my-collections-stage/packages/mcp/dist/index.js',
+      cwd: '/Users/jfunk/Sites/my-collections-stage/packages/mcp',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '200M',
+    },
   ],
 };
