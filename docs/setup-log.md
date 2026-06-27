@@ -4950,3 +4950,127 @@ Epic **COL-130** (MCP Server) with 10 tasks:
 ### Branch / PR
 
 `feature/mcp-server-scoping` → PR into `develop`
+
+---
+
+## Session — 2026-06-26 (Part 2)
+
+### Context
+
+Implementation session for the MCP server — COL-131 through COL-137. All code for `packages/mcp` written, built, linted, and committed. The `mcp-server` OAuth client was seeded into both the local dev DB and production DB on the Mac Mini.
+
+---
+
+### 1. Package scaffold (COL-131)
+
+Created `packages/mcp/` with the standard monorepo structure:
+- `package.json` — `@my-collections/mcp` v0.1.0; dependencies: `@modelcontextprotocol/sdk`, `dotenv`, `express`, `zod`; devDependencies: ts-node, typescript, eslint
+- `tsconfig.json` — extends `../../tsconfig.base.json`; module: CommonJS; outDir: `./dist`; rootDir: `./src`; `resolveJsonModule: true`
+- `tsconfig.eslint.json` — extends `tsconfig.json`; no `**/*.spec.ts` exclusion (ESLint pattern)
+- `eslint.config.mjs` — ESLint 9 flat config, same pattern as `packages/api/`
+- `.env.example`, `.gitignore`, `src/index.ts`
+
+Build and lint verified clean on first pass.
+
+---
+
+### 2. OAuth client seed + bootstrap script (COL-132)
+
+**API changes:**
+- `packages/api/src/database/seeds/oauth-clients.seed.ts` — added `mcp-server` client: no client secret, `redirectUris: ['http://localhost:9999/callback']`
+- `packages/api/src/modules/auth/auth.controller.ts` — extended `returnRefreshInBody` check to include `mcp-server` for BOTH `authorization_code` and `refresh_token` grants, so the bootstrap script and token-manager can capture/persist rotated tokens
+
+**Bootstrap script (`packages/mcp/src/scripts/bootstrap-token.ts`):**
+Used a programmatic readline approach instead of a browser callback server — the API has no HTML login page. Script prompts for email/password, calls `GET /auth/authorize` then `POST /auth/login` directly, extracts the `redirectUrl` from the response, parses the code, then exchanges for tokens via `POST /auth/token`. Writes `MCP_REFRESH_TOKEN` to `packages/mcp/.env` via `upsertEnvVar()`.
+
+**Seeded `mcp-server` client:**
+```bash
+# Local dev (run from packages/api/ where .env with DATABASE_URL lives)
+cd /Users/jfunk/Projects/my-collections/packages/api
+./node_modules/.bin/ts-node --project tsconfig.json src/database/seeds/oauth-clients.seed.ts
+
+# Production Mini (project path: ~/Sites/my-collections, not ~/Projects)
+ssh mini.local "source ~/.nvm/nvm.sh && cd ~/Sites/my-collections/packages/api && node_modules/.bin/ts-node --transpile-only --project tsconfig.json src/database/seeds/oauth-clients.seed.ts"
+```
+
+---
+
+### 3. Server core (COL-133)
+
+**`packages/mcp/src/token-manager.ts`:**
+- On init: calls `POST /auth/token` with stored `MCP_REFRESH_TOKEN` (refresh_token grant) to get an access token
+- Holds access token + expiry in memory; `getAccessToken()` returns it directly or refreshes if within 30 s of expiry
+- Background timer refreshes 2 min before expiry
+- `persistRefreshToken()` writes the new rotated token back to `packages/mcp/.env` so rotations survive server restarts
+
+**`packages/mcp/src/api-client.ts`:**
+Exports `apiGet`, `apiPost`, `apiPatch`, `apiDelete`, `apiPostForm`. All call `getAccessToken()` and attach `Authorization: Bearer`.
+
+**`packages/mcp/src/server.ts`:**
+- `McpServer` from `@modelcontextprotocol/sdk/server/mcp.js`
+- `StreamableHTTPServerTransport` from `@modelcontextprotocol/sdk/server/streamableHttp.js` with `sessionIdGenerator: undefined` (stateless)
+- `app.all('/mcp', ...)` handles both GET and POST — `handleRequest()` dispatches internally
+- Auth middleware checks `Authorization: Bearer <MCP_BEARER_TOKEN>` OR `?token=<MCP_BEARER_TOKEN>` query param; returns 401 if invalid; `GET /health` is exempt
+- Server version read via `import pkg from '../package.json'` (ESM-style import with `resolveJsonModule: true`; `require()` forbidden by ESLint `no-require-imports`)
+
+---
+
+### 4. Read tools — global (COL-134)
+
+Three tools registered:
+- `get_collection_stats` — `GET /collections/stats`; no params
+- `get_recent_additions` — `GET /collections/recent`; `limit` param (1–20)
+- `search_collection` — `GET /collections/search`; params: `q`, `collectionType`, `isOwned`, `isComplete`, `condition`, `page`, `limit`
+
+**Key SDK pattern discovered here:** Tool `inputSchema` must be a raw Zod shape `{ field: z.schema() }`, NOT `z.object({...})`. The MCP SDK v1.29.0 types `inputSchema` against `import type * as z3 from 'zod/v3'` internally. Using `import { z } from 'zod'` caused a TypeScript type mismatch at compile time. Fix: `import { z } from 'zod/v3'` in every tool file (the installed zod v3.25.x ships both `/v3` and `/v4` subpaths).
+
+---
+
+### 5. Read tools — catalog and item detail (COL-135)
+
+Five tools:
+- `browse_catalog` — `GET /collections/{type}/catalog`; collection-specific filter params
+- `get_catalog_item` — `GET /collections/{type}/catalog/:id`
+- `get_owned_items` — `GET /collections/{type}/items`
+- `get_item_details` — `GET /collections/{type}/items/:id`; computes missing accessories from catalog list
+- `get_wishlist` — `GET /collections/{type}/wishlist`; sorted by `PRIORITY_ORDER`
+
+---
+
+### 6. Write tools (COL-136)
+
+Four tools:
+- `add_to_collection` — `POST /collections/{type}/items`; full DTO including collection-specific flags
+- `update_item` — `PATCH /collections/{type}/items/:id`
+- `mark_wishlist_acquired` — `PATCH /collections/{type}/items/:id/acquired`
+- `remove_from_collection` — `DELETE /collections/{type}/items/:id`
+
+---
+
+### 7. Photo tools (COL-137)
+
+Two tools:
+- `upload_photo` — decodes base64 → `Buffer` → `Blob` → `FormData` → `POST /collections/photos/upload`; returns hosted URL. Uses Node 20+ built-in `Blob` and `FormData` — no `form-data` npm package needed.
+- `attach_photo_to_item` — compound: `upload_photo` + GET item + PATCH photoUrls in one tool call. No new API endpoint.
+
+---
+
+### Errors and fixes
+
+| Error | Root cause | Fix |
+|---|---|---|
+| `require()` forbidden (`no-require-imports`) | Used `require('../package.json')` for version | `import pkg from '../package.json'` (with `resolveJsonModule: true`) |
+| `z.object(...)` not assignable to `ZodRawShapeCompat` | MCP SDK v1.29.0 types against `zod/v3` subpath; root `zod` import doesn't match structurally | `import { z } from 'zod/v3'` in all tool files; raw shape `{ field: z.schema() }` not `z.object({...})` |
+| `ts-node: command not found` | Global ts-node not in Claude Code's shell PATH | `./node_modules/.bin/ts-node` |
+| DB connection error on local seed | Root `.env` lacks `DATABASE_URL`; only `packages/api/.env` has it | Run seed from `packages/api/` directory |
+| SSH fails on Mini | Node not on default SSH PATH; wrong project path | Prepend `source ~/.nvm/nvm.sh &&`; path is `~/Sites/my-collections` not `~/Projects` |
+
+### Design decisions
+
+- **Programmatic bootstrap vs. browser callback server:** The API has no HTML login page, so the standard browser-redirect pattern doesn't apply. Programmatic readline approach: prompt for credentials, call the API directly. Simpler, no port conflict risk.
+- **Stateless transport (`sessionIdGenerator: undefined`):** No session state needed since each Claude → MCP request is self-contained. Stateful sessions would require sticky routing in nginx, adding complexity for no benefit.
+- **`zod/v3` not `zod`:** The `zod` v3.25.x package ships both `/v3` and `/v4` subpaths. The MCP SDK imports its internal types from `zod/v3`. Always import from `zod/v3` in MCP tool files.
+
+### Branch / PR
+
+`feature/mcp-server-col130` → PR #91 into `develop` (pending user merge)

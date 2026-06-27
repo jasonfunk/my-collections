@@ -665,3 +665,73 @@ Metro bundler configuration. Uses `expo/metro-config` as the base. Adds a custom
 
 ### `tsconfig.json`
 Extends `../../tsconfig.base.json`. Sets `"moduleResolution": "bundler"` and `"jsx": "react-native"` for Expo/Metro compatibility.
+
+---
+
+## `packages/mcp/` — @my-collections/mcp
+
+```
+packages/mcp/
+├── src/
+│   ├── index.ts                      ← entry point — calls startServer()
+│   ├── server.ts                     ← Express app, MCP server, auth middleware, /health + /mcp routes
+│   ├── token-manager.ts              ← refresh token persistence, access token cache, background refresh
+│   ├── api-client.ts                 ← typed fetch wrapper (apiGet, apiPost, apiPatch, apiDelete, apiPostForm)
+│   ├── scripts/
+│   │   └── bootstrap-token.ts        ← one-time PKCE setup script (readline → writes MCP_REFRESH_TOKEN to .env)
+│   └── tools/
+│       ├── index.ts                  ← registerAllTools() — calls all 14 register() functions
+│       ├── get-collection-stats.ts   ← GET /collections/stats
+│       ├── get-recent-additions.ts   ← GET /collections/recent
+│       ├── search-collection.ts      ← GET /collections/search
+│       ├── browse-catalog.ts         ← GET /collections/{type}/catalog
+│       ├── get-catalog-item.ts       ← GET /collections/{type}/catalog/:id
+│       ├── get-owned-items.ts        ← GET /collections/{type}/items
+│       ├── get-item-details.ts       ← GET /collections/{type}/items/:id (with missing accessories)
+│       ├── get-wishlist.ts           ← GET /collections/{type}/wishlist (sorted by priority)
+│       ├── add-to-collection.ts      ← POST /collections/{type}/items
+│       ├── update-item.ts            ← PATCH /collections/{type}/items/:id
+│       ├── mark-wishlist-acquired.ts ← PATCH /collections/{type}/items/:id/acquired
+│       ├── remove-from-collection.ts ← DELETE /collections/{type}/items/:id
+│       ├── upload-photo.ts           ← POST /collections/photos/upload (base64 → Blob → FormData)
+│       └── attach-photo-to-item.ts   ← compound: upload + GET item + PATCH photoUrls
+├── dist/                             ← compiled output (gitignored)
+├── .env                              ← local secrets (gitignored)
+├── .env.example                      ← PORT, MCP_BEARER_TOKEN, MCP_REFRESH_TOKEN, API_BASE_URL, MCP_OAUTH_CLIENT_ID
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── tsconfig.eslint.json
+```
+
+**Purpose:** MCP (Model Context Protocol) server that exposes the Collections REST API as tools callable from claude.ai, Claude Desktop, and Claude Code. Claude talks to this server via Streamable HTTP; the server fetches data from the NestJS API using a stored OAuth2 refresh token.
+
+**Architecture:** Two-layer auth — Claude → MCP uses a static bearer token configured once in Claude settings; MCP → API uses a JWT access token obtained from a stored refresh token that is rotated and persisted back to `.env` automatically.
+
+**Runs on:** `http://localhost:3001` (dev). `/health` is public; `/mcp` requires `Authorization: Bearer <MCP_BEARER_TOKEN>` or `?token=<MCP_BEARER_TOKEN>`.
+
+**First-time setup:**
+```bash
+# 1. Copy .env.example to .env; fill in MCP_BEARER_TOKEN (any random string)
+# 2. Bootstrap — prompts for email/password, writes MCP_REFRESH_TOKEN to .env:
+cd packages/mcp && ./node_modules/.bin/ts-node src/scripts/bootstrap-token.ts
+# 3. Start the server:
+npm run dev --workspace=packages/mcp
+```
+
+### `src/server.ts`
+Creates the `McpServer` (from `@modelcontextprotocol/sdk/server/mcp.js`), connects a `StreamableHTTPServerTransport` (from `@modelcontextprotocol/sdk/server/streamableHttp.js`) with `sessionIdGenerator: undefined` (stateless), and wires `app.all('/mcp', ...)` to `transport.handleRequest()`. Both GET and POST use the same route — the SDK dispatches internally.
+
+### `src/token-manager.ts`
+Holds the access token + expiry in memory. On startup (`initTokenManager()`), exchanges the stored refresh token for an initial access token via `POST /auth/token`. `getAccessToken()` returns the cached token or refreshes if within 30 s of expiry. `persistRefreshToken()` updates `MCP_REFRESH_TOKEN` in `.env` after every rotation so the new token survives a server restart.
+
+### `src/scripts/bootstrap-token.ts`
+One-time setup script. Uses Node `readline` to prompt for email and password, then calls the API directly (no browser, no local callback server — the API has no HTML login page). Walks through the PKCE flow programmatically: `GET /auth/authorize` → `POST /auth/login` → extract code from `redirectUrl` → `POST /auth/token`. Writes `MCP_REFRESH_TOKEN` to `.env` via `upsertEnvVar()`. Run with `npm run bootstrap` from `packages/mcp/`.
+
+### `src/tools/`
+14 tool files. Each exports a `register(server: McpServer)` function. Key SDK patterns:
+- Import Zod as `import { z } from 'zod/v3'` — the SDK v1.29.0 types `inputSchema` against the `zod/v3` subpath; using the root `'zod'` import causes a TypeScript structural mismatch at compile time
+- `inputSchema` is a **raw Zod shape** `{ field: z.schema() }` — NOT `z.object({...})`
+
+### `tsconfig.json`
+Extends `../../tsconfig.base.json`. Overrides `module: CommonJS`, `outDir: ./dist`, `rootDir: ./src`. Enables `resolveJsonModule: true` so `import pkg from '../package.json'` works (used to read the server version string).
