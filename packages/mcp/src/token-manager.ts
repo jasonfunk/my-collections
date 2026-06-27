@@ -46,9 +46,11 @@ async function fetchNewTokens(refreshToken: string): Promise<TokenState> {
   };
 }
 
-// Retries fetchNewTokens with exponential backoff on 429 so pm2 crash-restart
-// loops can't exhaust the rate limit window.
-async function fetchWithRetry(refreshToken: string, maxAttempts = 6): Promise<TokenState> {
+// Retries fetchNewTokens with exponential backoff on 429. maxAttempts=20 keeps
+// the process alive (sleeping between attempts) so pm2 doesn't restart it and
+// hammer the rate-limited endpoint. Delay caps at 60s from attempt 6 onward —
+// 1 req/min, well under the 10/min limit, giving the window time to clear.
+async function fetchWithRetry(refreshToken: string, maxAttempts = 20): Promise<TokenState> {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await fetchNewTokens(refreshToken);

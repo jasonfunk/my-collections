@@ -40,6 +40,7 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '200M',
+      restart_delay: 30000,
     },
     {
       name: 'mcp-server-stage',
@@ -49,6 +50,7 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '200M',
+      restart_delay: 30000,
     },
   ],
 };
