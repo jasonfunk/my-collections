@@ -13,15 +13,26 @@ interface SearchResult {
   wishlistPriority?: string;
 }
 
+interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 interface PaginatedResponse {
   data: SearchResult[];
-  total: number;
-  page: number;
-  pageSize: number;
+  meta: Meta;
 }
 
 const COLLECTION_TYPES = ['star-wars', 'transformers', 'he-man'] as const;
 const CONDITIONS = ['MINT', 'NEAR_MINT', 'EXCELLENT', 'VERY_GOOD', 'GOOD', 'FAIR', 'POOR'] as const;
+
+const COLLECTION_TYPE_MAP: Record<typeof COLLECTION_TYPES[number], string> = {
+  'star-wars': 'STAR_WARS',
+  'transformers': 'TRANSFORMERS',
+  'he-man': 'HE_MAN',
+};
 
 export function register(server: McpServer): void {
   server.registerTool(
@@ -41,12 +52,12 @@ export function register(server: McpServer): void {
     async ({ q, collectionType, isOwned, isComplete, condition, page, limit }) => {
       const result = await apiGet<PaginatedResponse>('/collections/search', {
         q,
-        collectionType,
+        collectionType: collectionType ? COLLECTION_TYPE_MAP[collectionType] : undefined,
         isOwned,
         isComplete,
         condition,
         page: page ?? 1,
-        pageSize: limit ?? 20,
+        limit: limit ?? 20,
       });
 
       if (!result.data.length) {
@@ -54,7 +65,7 @@ export function register(server: McpServer): void {
       }
 
       const lines = [
-        `Found ${result.total} result(s) (page ${result.page}):`,
+        `Found ${result.meta.total} result(s) (page ${result.meta.page}):`,
         '',
         ...result.data.map((item) => {
           const status = item.isOwned ? '✅ owned' : '🔲 wishlist';
