@@ -11,6 +11,7 @@ interface TokenState {
 
 let state: TokenState | null = null;
 let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+let refreshInFlight: Promise<TokenState> | null = null;
 
 const API_BASE_URL = () => process.env.API_BASE_URL ?? 'http://localhost:3000';
 const CLIENT_ID = () => process.env.MCP_OAUTH_CLIENT_ID ?? 'mcp-server';
@@ -77,13 +78,25 @@ function persistRefreshToken(token: string): void {
   }
 }
 
+// Deduplicate concurrent refresh calls — if a refresh is already in flight,
+// return the same promise rather than firing a second /auth/token request with
+// the same (already-rotating) refresh token, which would trigger theft detection.
+function refreshOnce(refreshToken: string): Promise<TokenState> {
+  if (!refreshInFlight) {
+    refreshInFlight = fetchNewTokens(refreshToken).finally(() => {
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
+}
+
 function scheduleRefresh(msUntilExpiry: number): void {
   if (refreshTimer) clearTimeout(refreshTimer);
   // Refresh 2 minutes before expiry (or immediately if already close)
   const delay = Math.max(0, msUntilExpiry - 2 * 60 * 1000);
   refreshTimer = setTimeout(() => {
     if (state) {
-      fetchNewTokens(state.refreshToken)
+      refreshOnce(state.refreshToken)
         .then((next) => {
           state = next;
           scheduleRefresh(next.expiresAt - Date.now());
@@ -106,9 +119,9 @@ export async function initTokenManager(): Promise<void> {
 export async function getAccessToken(): Promise<string> {
   if (!state) throw new Error('Token manager not initialised');
 
-  // If within 30 seconds of expiry, refresh immediately
+  // If within 30 seconds of expiry, refresh immediately (deduped with background timer)
   if (Date.now() >= state.expiresAt - 30_000) {
-    state = await fetchNewTokens(state.refreshToken);
+    state = await refreshOnce(state.refreshToken);
     scheduleRefresh(state.expiresAt - Date.now());
   }
 
