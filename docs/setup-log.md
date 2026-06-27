@@ -5074,3 +5074,70 @@ Two tools:
 ### Branch / PR
 
 `feature/mcp-server-col130` → PR #91 into `develop` (pending user merge)
+
+---
+
+## Session N — 2026-06-27 (COL-138: MCP Server Staging Deploy)
+
+### 1. Merged PR #92 — MCP tool response shape fixes
+
+PR #92 (`fix/mcp-tool-response-shapes`) merged to `develop`. Fixed:
+- `pageSize` → `limit` param name in browse/search/wishlist/owned tools
+- `result.total` → `result.meta.total` (nested pagination shape)
+- `item.name` → `item.catalog?.name`
+- `collectionType` uppercase mapping in search tool
+
+### 2. Created COL-141 — MCP CI/CD backlog story
+
+Created Jira task COL-141 (Low priority, backlog): automated deploy step for MCP server. Deferred — low-churn service, manual deploy is fine for now.
+
+### 3. Updated ecosystem.config.js — MCP pm2 entries
+
+Added `mcp-server` (port 3003, `~/Sites/my-collections/packages/mcp`) and `mcp-server-stage` (port 3002, `~/Sites/my-collections-stage/packages/mcp`) to `ecosystem.config.js`. Merged via `feature/mcp-server-deploy-col138`.
+
+### 4. Deployed MCP server to staging
+
+- Pulled `develop` on `~/Sites/my-collections-stage`
+- Built `@my-collections/mcp` with Turborepo filter
+- Seeded `mcp-server` OAuth client into staging DB (wasn't there):
+  ```bash
+  cd ~/Sites/my-collections-stage/packages/api
+  npx ts-node --project tsconfig.json src/database/seeds/oauth-clients.seed.ts
+  ```
+- Created `packages/mcp/.env` (PORT=3002, API_BASE_URL=https://stage-api.houseoffunk.net, bearer token generated with `openssl rand -hex 32`)
+- Ran `npm run bootstrap --workspace=packages/mcp` against staging API (credentials: staging account)
+- Started pm2: `pm2 start ecosystem.config.js --only mcp-server-stage && pm2 save`
+
+### 5. Added Cloudflare Tunnel route for stage-mcp.houseoffunk.net
+
+Updated `~/.cloudflared/config.yml` with new ingress rule:
+```yaml
+- hostname: stage-mcp.houseoffunk.net
+  service: http://localhost:3002
+```
+Added DNS CNAME: `cloudflared tunnel route dns my-collections stage-mcp.houseoffunk.net`
+
+Reloaded cloudflared via `mini.local` (LAN) with `ssh -t mini.local "sudo launchctl ..."` — Cloudflare SSH tunnel can't be used to restart cloudflared (kills the connection).
+
+### 6. Fixed two bugs discovered during smoke testing
+
+**Bug 1 — Stats field name mismatch** (`packages/mcp/src/tools/get-collection-stats.ts`):
+- API returns `estimatedTotalValue` (nullable), tool had `estimatedValue` (non-nullable)
+- Added null-safe `fmt()` helper; fixed field name
+
+**Bug 2 — Token manager crashes on 429, causing pm2 death spiral** (`packages/mcp/src/token-manager.ts`):
+- On startup, `initTokenManager` calls `/auth/token` to get an access token
+- If the server crashes, pm2 restarts it immediately, hitting the rate limiter (10 req/min)
+- Each restart gets 429 → crash → restart — self-perpetuating loop
+- Fix: added `fetchWithRetry` with exponential backoff (2s → 4s → 8s → 16s → 32s → 60s) before throwing
+
+Both fixes committed directly to `develop` (small bugs caught in testing).
+
+### Lessons learned
+
+| Issue | Root cause | Fix |
+|---|---|---|
+| Cloudflare SSH restart kills connection | SSH goes through the tunnel being restarted | Use `mini.local` for any cloudflared admin ops |
+| pm2 crash loop exhausts token rate limit | Auto-restart hammers rate-limited endpoint | `pm2 stop` before rebuild; token manager has backoff |
+| Cloudflare Access SSH non-interactive | Browser auth can't complete in Bash tool | Use `mini.local` for automation; CF tunnel for manual only |
+| Stats tool 500 error | Field name `estimatedValue` vs `estimatedTotalValue` | Always verify field names against API response not interface |

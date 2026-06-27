@@ -74,7 +74,7 @@ Update the **Current State** section below instead so future sessions have a fas
 
 **Update this section at the end of every session. Keep it short — bullets only.**
 
-*Last updated: 2026-05-14 (Session 5)*
+*Last updated: 2026-06-27 (Session 6)*
 
 ### What's done
 - Full server stack installed: nvm, Node.js 20, PostgreSQL 16, pm2, Cloudflare Tunnel, GitHub Actions runner
@@ -93,12 +93,13 @@ Update the **Current State** section below instead so future sessions have a fas
 - **COL-118 done:** pm2-logrotate installed globally on Mini; configured 50MB max, 14-file retention, gzip compression, daily rotation at midnight
 - **COL-116 done:** UptimeRobot free tier monitoring both prod (`https://api.houseoffunk.net/health`) and staging (`https://stage-api.houseoffunk.net/health`) every 5 minutes; email alerts to jfunk@houseoffunk.net; account via Google SSO (jfunk@houseoffunk.net)
 - **COL-129 done:** Healthchecks.io dead-man's-switch added to backup script; ping URL stored at `~/.config/healthchecks-backup-url` on Mini (not committed); `devops/scripts/backup-db.sh` updated with curl ping on success
+- **COL-138 (partial):** MCP staging server deployed — `https://stage-mcp.houseoffunk.net`, port 3002, pm2 process `mcp-server-stage` in `~/Sites/my-collections-stage`; mcp-server OAuth client seeded in staging DB; Cloudflare tunnel ingress rule + DNS added; bearer token in `packages/mcp/.env` (not committed)
 
 ### Open devops tickets
 None.
 
 ### Next session starting point
-No open devops tickets. Next work is application features (see main CLAUDE.md).
+COL-138 production deploy still pending (develop → main merge + repeat MCP deploy steps for prod, port 3003, pm2 `mcp-server`, URL `mcp.houseoffunk.net`).
 
 ---
 
@@ -466,6 +467,59 @@ approve it manually: `psql $DATABASE_URL -c "UPDATE users SET \"isApproved\" = t
 made direct `fetch('/api/...')` calls that resolved relative to the frontend origin in
 production. Fixed in PR #39 (2026-05-13) — all auth fetches now use `${API_ORIGIN}/api/...`.
 If you see login failing against a deployed API, check for hardcoded `/api/` paths.
+
+## Known Gotchas (lessons from Session 6 — 2026-06-27)
+
+### Restarting cloudflared via Cloudflare SSH kills the connection
+SSH access to the Mini goes through the Cloudflare Tunnel. Unloading cloudflared
+(`sudo launchctl unload .../com.cloudflare.cloudflared.plist`) kills the tunnel,
+which kills the SSH session before the reload command runs.
+
+**Fix:** Use `mini.local` (LAN) for any operation that touches cloudflared:
+```bash
+ssh -t mini.local "sudo launchctl unload /Library/LaunchDaemons/com.cloudflare.cloudflared.plist"
+ssh -t mini.local "sudo launchctl load /Library/LaunchDaemons/com.cloudflare.cloudflared.plist"
+```
+The `-t` flag allocates a pseudo-TTY so sudo can prompt for password.
+
+### MCP token reuse detection — nuclear response
+The crash loop can trigger a secondary failure worse than the 429 cycle. If a restart slips through the rate limit and successfully rotates the refresh token (writes new token to `.env`), then crashes before the next clean startup, the following restart presents the already-used token. The API interprets this as **token theft** and revokes **all** refresh tokens for that user + client.
+
+Symptom: `401 "Refresh token already used — possible token theft"` in pm2 logs.
+
+The 429 backoff retry does NOT help — 401 causes an immediate crash, not a retry.
+
+**Recovery:**
+```bash
+pm2 stop mcp-server-stage        # or mcp-server for prod
+cd ~/Sites/my-collections-stage  # or my-collections for prod
+npm run bootstrap --workspace=packages/mcp
+# enter credentials interactively (needs -t flag or interactive terminal)
+pm2 start mcp-server-stage
+```
+
+### pm2 crash-restart loop + rate-limited token endpoint = death spiral
+If an MCP server (or any service that calls a rate-limited auth endpoint on startup)
+crashes, pm2 will restart it immediately. Each restart hammers the token endpoint.
+With a 10 req/min limit and a fast crash loop, the rate limit saturates quickly and
+every subsequent startup attempt gets 429 — a self-perpetuating cycle.
+
+**Fix:** Before rebuilding or restarting an MCP process, always `pm2 stop` first:
+```bash
+pm2 stop mcp-server-stage
+# rebuild dist/, fix what's needed
+pm2 start mcp-server-stage
+```
+The token manager also has `fetchWithRetry` (exponential backoff 2s→4s→8s→16s→32s→60s)
+to self-recover from brief 429 episodes without crashing.
+
+### Cloudflare Access SSH requires browser auth per process
+`cloudflared access ssh --hostname mini.houseoffunk.net` opens a browser auth flow.
+From non-interactive shells (Bash tool), the flow can't complete. Auth state is cached
+per-client per-session but does not persist reliably across separate shell spawns.
+
+**Fix:** Use `mini.local` for all automation. Use `mini.houseoffunk.net` only for
+interactive remote sessions (from your own terminal with `! ssh mini.houseoffunk.net ...`).
 
 ## Known Gotchas (lessons from Session 2 — 2026-05-14)
 
