@@ -144,12 +144,12 @@ export class AuthController {
       }
       const tokens = await this.authService.exchangeCode(dto.code, dto.codeVerifier, dto.clientId, dto.redirectUri);
       this.setRefreshCookie(res, tokens.refreshToken);
-      // Mobile clients (no cookie support) receive the refresh token in the body.
-      const isMobile = dto.clientId === 'mobile-app';
+      // Mobile and server-side clients (no cookie support) receive the refresh token in the body.
+      const returnRefreshInBody = dto.clientId === 'mobile-app' || dto.clientId === 'mcp-server';
       return {
         accessToken: tokens.accessToken,
         expiresIn: tokens.expiresIn,
-        ...(isMobile && { refreshToken: tokens.refreshToken }),
+        ...(returnRefreshInBody && { refreshToken: tokens.refreshToken }),
       };
     }
 
