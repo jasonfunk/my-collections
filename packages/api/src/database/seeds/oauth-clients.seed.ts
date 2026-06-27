@@ -44,6 +44,13 @@ const clients = [
     ],
     allowedScopes: ['collections:read', 'collections:write', 'profile'],
   },
+  {
+    clientId: 'mcp-server',
+    clientSecretHash: null,
+    name: 'My Collections MCP Server',
+    redirectUris: ['http://localhost:9999/callback'],
+    allowedScopes: ['collections:read', 'collections:write', 'profile'],
+  },
 ];
 
 async function seed() {
