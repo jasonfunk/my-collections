@@ -5224,3 +5224,48 @@ https://mcp.houseoffunk.net/mcp?token=<bearer-token>
 ```
 
 COL-138 transitioned to Done.
+
+---
+
+## Session — 2026-06-27 (continued) — COL-139 MCP Server Registration + Token Reuse Fix
+
+### 1. Registered MCP server in Claude Desktop
+
+Attempted to add `my-collections` entry to `~/Library/Application Support/Claude/claude_desktop_config.json` using `"type": "http"` — Claude Desktop rejected it (only stdio servers via JSON config). Remote HTTP servers must be added through Settings → Integrations UI in all Claude interfaces.
+
+Removed the invalid entry. User added via Claude Desktop Settings → Integrations → MCP Servers. Anthropic syncs integrations at the account level — it appeared automatically in claude.ai and the mobile app.
+
+### 2. Diagnosed and fixed MCP token reuse crash loop
+
+After registering the MCP server, the server hit repeated 401 "Refresh token already used — possible token theft" errors. Root cause identified:
+
+**Root cause:** pm2 cluster mode (the default when `instances: 1` is set without `exec_mode`) briefly runs two Node.js workers simultaneously during a restart. Both workers read the same refresh token from `.env` and concurrently call `POST /auth/token`. The second call arrives after the first has already rotated the token — the API's reuse-detection path revokes **all** refresh tokens for the user+client. Every subsequent startup then fails (401) until a manual bootstrap.
+
+**Fixes applied:**
+1. `ecosystem.config.js`: added `exec_mode: 'fork'` to both `mcp-server` and `mcp-server-stage` — single process, no concurrent worker window
+2. `packages/mcp/src/token-manager.ts`: added `refreshOnce()` deduplication — concurrent `getAccessToken()` calls share one in-flight Promise instead of firing separate `/auth/token` requests
+
+**Deploy sequence (prod):**
+- `pm2 stop mcp-server` → rebuild → bootstrap (interactive, `-t` SSH) → `pm2 delete mcp-server` → `pm2 start ecosystem.config.js --only mcp-server` (fork mode) → `pm2 save`
+
+**Deploy sequence (staging):**
+- Same pattern on `~/Sites/my-collections-stage`; both processes now running in fork mode at 0 restarts
+
+### 3. Fixed prod server branch tracking
+
+During crash recovery we had `git pull origin develop` directly onto the prod server (`~/Sites/my-collections`), leaving it on `develop` instead of `main`. Opened PR #95 (develop → main), merged, CI deploy ran and restored correct tracking.
+
+### 4. UptimeRobot monitor added
+
+Added `my-collections MCP (prod)` monitor for `https://mcp.houseoffunk.net/health` at 5-minute interval via UptimeRobot UI.
+
+### Lessons learned
+
+| Issue | Root cause | Fix |
+|---|---|---|
+| Claude Desktop rejects `"type": "http"` in JSON config | Desktop only supports stdio servers via config file | Add remote HTTP servers through Settings → Integrations UI |
+| Token reuse detection on every pm2 restart | Cluster mode forks two workers simultaneously, both use same refresh token | `exec_mode: 'fork'` in ecosystem.config.js |
+| Concurrent `getAccessToken()` calls race on refresh | No deduplication in token manager | `refreshOnce()` shared Promise |
+| Prod server drifted to develop branch | `git pull origin develop` during manual crash recovery | Always go through develop → main PR; let CI handle prod deploys |
+
+COL-139 transitioned to Done.
