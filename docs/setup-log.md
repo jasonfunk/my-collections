@@ -5141,3 +5141,86 @@ Both fixes committed directly to `develop` (small bugs caught in testing).
 | pm2 crash loop exhausts token rate limit | Auto-restart hammers rate-limited endpoint | `pm2 stop` before rebuild; token manager has backoff |
 | Cloudflare Access SSH non-interactive | Browser auth can't complete in Bash tool | Use `mini.local` for automation; CF tunnel for manual only |
 | Stats tool 500 error | Field name `estimatedValue` vs `estimatedTotalValue` | Always verify field names against API response not interface |
+
+---
+
+## Session — 2026-06-27 — COL-138 Production MCP Server Deploy
+
+### 1. Merged develop → main (PR #94)
+
+PR titled "feat: production MCP server deploy (COL-138)" — all MCP server work (packages/mcp, ecosystem.config.js, token retry/backoff) merged to main. GitHub Actions build passed.
+
+### 2. Pulled main and built MCP package on prod clone
+
+```bash
+ssh mini.local "source ~/.zprofile && cd ~/Sites/my-collections && git pull origin main && npm ci && npm run build -- --filter=@my-collections/mcp"
+```
+
+Build succeeded in ~1s (tsc only, no dependency rebuild needed).
+
+### 3. Seeded MCP OAuth client in prod DB
+
+```bash
+ssh mini.local "source ~/.zprofile && cd ~/Sites/my-collections/packages/api && npx ts-node --project tsconfig.json src/database/seeds/oauth-clients.seed.ts"
+```
+
+All three clients (web-app, mobile-app, mcp-server) already existed — seed is idempotent, no action needed.
+
+### 4. Created prod .env for MCP server
+
+`~/Sites/my-collections/packages/mcp/.env`:
+- `PORT=3003`
+- `API_BASE_URL=https://api.houseoffunk.net`
+- `MCP_BEARER_TOKEN=<stored in LastPass>`
+- `MCP_OAUTH_CLIENT_ID=mcp-server`
+- `MCP_REFRESH_TOKEN=<written by bootstrap>`
+
+### 5. Bootstrap against prod API (interactive)
+
+```bash
+ssh -t mini.local "source ~/.zprofile && cd ~/Sites/my-collections && npm run bootstrap --workspace=packages/mcp"
+```
+
+Credentials: `jfunk@jasonfunk.com` + prod password. `MCP_REFRESH_TOKEN` written to `.env`.
+
+### 6. Started pm2 process
+
+```bash
+ssh mini.local "source ~/.zprofile && cd ~/Sites/my-collections && pm2 start ecosystem.config.js --only mcp-server && pm2 save"
+```
+
+Process came up cleanly: `[token-manager] Access token acquired` → `[mcp-server] Listening on port 3003`. Zero restarts.
+
+### 7. Cloudflare tunnel — added mcp.houseoffunk.net
+
+Updated `~/.cloudflared/config.yml` with new ingress rule before the catch-all:
+```yaml
+- hostname: mcp.houseoffunk.net
+  service: http://localhost:3003
+```
+
+Added DNS CNAME:
+```bash
+cloudflared tunnel route dns my-collections mcp.houseoffunk.net
+```
+
+Restarted cloudflared via `mini.local` (LAN) with `ssh -t mini.local "sudo launchctl unload/load ..."`.
+
+### 8. Smoke tests passed
+
+```
+curl https://mcp.houseoffunk.net/health
+→ {"status":"ok","version":"0.1.0"}
+
+curl -X POST https://mcp.houseoffunk.net/mcp ... tools/call get_collection_stats
+→ Star Wars: 61 owned, Transformers: 73, He-Man: 15 (total 149)
+```
+
+### 9. Updated .mcp.json
+
+Switched `my-collections` MCP server URL from staging localhost to production:
+```
+https://mcp.houseoffunk.net/mcp?token=<bearer-token>
+```
+
+COL-138 transitioned to Done.
