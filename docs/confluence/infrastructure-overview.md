@@ -2,7 +2,7 @@
 confluence_page_id: "6324226"
 confluence_url: "https://houseoffunk-net.atlassian.net/wiki/spaces/SD/pages/6324226"
 title: "My Collections — Infrastructure Overview"
-last_updated: "2026-05-25 (COL-95)"
+last_updated: "2026-06-27 (COL-138)"
 ---
 
 The my-collections API is self-hosted on a Mac Mini M4 at home, exposed to the public internet via Cloudflare Tunnel (free tier). There are no open inbound ports on the home router — all public traffic flows through Cloudflare's edge network. CI/CD deploys via a GitHub Actions self-hosted runner installed on the Mac Mini, which polls GitHub over an outbound connection. After initial setup with a monitor attached, the Mac Mini runs permanently in headless mode.
@@ -39,11 +39,15 @@ cloudflared daemon     Mac Mini  (launchd system daemon, starts before login)
     │         │
     │         └──▶ my_collections db
     │
-    └──▶ localhost:3001    NestJS API  (pm2: my-collections-api-stage) ← stage-api.houseoffunk.net
-              │
-              └──▶ my_collections_stage db
+    ├──▶ localhost:3001    NestJS API  (pm2: my-collections-api-stage) ← stage-api.houseoffunk.net
+    │         │
+    │         └──▶ my_collections_stage db
+    │
+    ├──▶ localhost:3003    MCP server  (pm2: mcp-server)               ← mcp.houseoffunk.net
+    │
+    └──▶ localhost:3002    MCP server  (pm2: mcp-server-stage)         ← stage-mcp.houseoffunk.net
 
-Both pm2 processes share: localhost:5432  PostgreSQL 16  (Homebrew: postgresql@16)
+All pm2 processes share: localhost:5432  PostgreSQL 16  (Homebrew: postgresql@16)
 
 
 Dreamhost shared hosting
@@ -113,9 +117,11 @@ The Cloudflare Tunnel CNAME can be wired up in two ways. Option A is recommended
 | `collections` | A | `75.119.200.159` | Gray cloud (DNS only) | React SPA (production) → Dreamhost web server |
 | `stage` | A | `69.163.181.31` | Gray cloud (DNS only) | React SPA (staging) → Dreamhost web server |
 | `ssh` | A/CNAME | Dreamhost servers | — | Pre-existing Dreamhost SSH access (unrelated to Mac Mini) |
-| `api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (production) — created in Step 3d |
-| `stage-api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (staging) — created in Step 3d |
-| `mini` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | Mac Mini SSH via Cloudflare Access — created in Step 3d |
+| `api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (production) |
+| `stage-api` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | NestJS API (staging) |
+| `mcp` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | MCP server (production) — port 3003 |
+| `stage-mcp` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | MCP server (staging) — port 3002 |
+| `mini` | CNAME | `<tunnel-id>.cfargotunnel.com` | Orange cloud ON | Mac Mini SSH via Cloudflare Access |
 
 > **Why gray cloud for the Dreamhost records?** Dreamhost shared hosting is not compatible with Cloudflare's reverse proxy mode — enabling the orange cloud causes 522 timeouts. Traffic for `collections` and `stage` goes directly from the client to their respective Dreamhost web servers. Cloudflare still acts as authoritative DNS (nameservers point to Cloudflare) but does not proxy or cache this traffic. Let's Encrypt certificates for these subdomains are auto-provisioned by Dreamhost when the A record resolves correctly.
 
@@ -136,6 +142,7 @@ Third-party services that are part of the infrastructure. Check these before mak
 | --- | --- | --- | --- |
 | my-collections API (prod) | `https://api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
 | my-collections API (staging) | `https://stage-api.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
+| my-collections MCP (prod) | `https://mcp.houseoffunk.net/health` | 5 min | jfunk@houseoffunk.net |
 
 ### Healthchecks.io Check
 

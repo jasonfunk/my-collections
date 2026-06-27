@@ -2,7 +2,7 @@
   "mcpServers": {
     "my-collections": {
       "type": "http",
-      "url": "http://localhost:3001/mcp?token=71db456d6b075614e1c91325751e971c92db5495c66cce72fb6e7e290f735b79"
+      "url": "https://mcp.houseoffunk.net/mcp?token=c1d9f52e1d405972f096b575e30e1fe57e1b62ca6552762f61e827e0a6994c22"
     },
     "atlassian": {
       "type": "http",
