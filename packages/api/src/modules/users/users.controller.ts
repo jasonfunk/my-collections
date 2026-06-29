@@ -1,8 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AccessTokenPayload } from '../auth/services/token.service';
+import { RegisterPushTokenDto } from './dto/register-push-token.dto';
 import { UserProfileResponseDto } from './dto/user-profile.response.dto';
 import { UsersService } from './users.service';
 
@@ -25,5 +26,19 @@ export class UsersController {
   async getMe(@CurrentUser() tokenPayload: AccessTokenPayload): Promise<UserProfileResponseDto> {
     const user = await this.usersService.findById(tokenPayload.sub);
     return { id: user.id, email: user.email, isApproved: user.isApproved, createdAt: user.createdAt };
+  }
+
+  @Post('me/push-token')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Register or refresh a push notification token for this device' })
+  @ApiResponse({ status: 204, description: 'Token registered' })
+  @ApiResponse({ status: 401, description: 'Missing or invalid Bearer token' })
+  async registerPushToken(
+    @CurrentUser() tokenPayload: AccessTokenPayload,
+    @Body() dto: RegisterPushTokenDto,
+  ): Promise<void> {
+    await this.usersService.upsertDeviceToken(tokenPayload.sub, dto.token, dto.platform);
   }
 }

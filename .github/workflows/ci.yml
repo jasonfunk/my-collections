@@ -17,6 +17,20 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=packages/shared
+      - run: npx tsc --noEmit --project packages/api/tsconfig.json
+      - run: npx tsc --noEmit --project packages/web/tsconfig.json
+
   test:
     name: Test
     runs-on: ubuntu-latest

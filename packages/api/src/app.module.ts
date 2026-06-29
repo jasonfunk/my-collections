@@ -8,6 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from './modules/auth/auth.module';
 import { CollectionsModule } from './modules/collections/collections.module';
 import { HealthModule } from './modules/health/health.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { UsersModule } from './modules/users/users.module';
 
 /**
@@ -61,6 +62,7 @@ import { UsersModule } from './modules/users/users.module';
     UsersModule,
     CollectionsModule,
     HealthModule,
+    NotificationsModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: SentryGlobalFilter },
