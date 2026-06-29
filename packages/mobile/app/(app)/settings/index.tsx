@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { apiClient } from '../../../src/api/client';
 import { useAuth } from '../../../src/hooks/useAuth';
 import {
   disablePushNotifications,
@@ -20,6 +21,11 @@ import {
   type PermissionStatus,
 } from '../../../src/services/pushNotificationService';
 
+interface PushSendResult {
+  sent: number;
+  failed: number;
+}
+
 export default function SettingsScreen() {
   const { user, logout } = useAuth();
 
@@ -27,6 +33,7 @@ export default function SettingsScreen() {
   const [permissionStatus, setPermissionStatus] = useState<PermissionStatus>('undetermined');
   const [toggling, setToggling] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
+  const [sendingTest, setSendingTest] = useState(false);
 
   const loadState = useCallback(async () => {
     const [enabled, status] = await Promise.all([
@@ -71,6 +78,22 @@ export default function SettingsScreen() {
     }
   }, []);
 
+  const handleSendTest = useCallback(async () => {
+    setSendingTest(true);
+    try {
+      const result = await apiClient.post<PushSendResult>('/users/me/push-token/test');
+      if (result.sent > 0) {
+        Alert.alert('Sent!', `Test notification delivered to ${result.sent} device(s).`);
+      } else {
+        Alert.alert('Nothing sent', 'No registered devices found. Enable notifications first.');
+      }
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Failed to send test notification.');
+    } finally {
+      setSendingTest(false);
+    }
+  }, []);
+
   if (loadingState) {
     return (
       <View style={styles.centered}>
@@ -112,10 +135,23 @@ export default function SettingsScreen() {
           </View>
           {permissionStatus === 'denied' && (
             <TouchableOpacity
-              style={styles.openSettingsButton}
+              style={styles.rowButton}
               onPress={() => void Linking.openSettings()}
             >
-              <Text style={styles.openSettingsText}>Open Android Settings</Text>
+              <Text style={styles.rowButtonText}>Open Android Settings</Text>
+            </TouchableOpacity>
+          )}
+          {notificationsEnabled && (
+            <TouchableOpacity
+              style={[styles.rowButton, sendingTest && styles.rowButtonDisabled]}
+              onPress={() => void handleSendTest()}
+              disabled={sendingTest}
+            >
+              {sendingTest ? (
+                <ActivityIndicator size="small" color="#6366f1" />
+              ) : (
+                <Text style={styles.rowButtonText}>Send test notification</Text>
+              )}
             </TouchableOpacity>
           )}
         </View>
@@ -171,13 +207,14 @@ const styles = StyleSheet.create({
   rowSubtitle: { fontSize: 12, color: '#888' },
   rowValue: { fontSize: 13, color: '#888' },
 
-  openSettingsButton: {
+  rowButton: {
     borderTopWidth: 1,
     borderTopColor: '#2a2a2a',
     padding: 14,
     alignItems: 'center',
   },
-  openSettingsText: { fontSize: 14, color: '#6366f1' },
+  rowButtonDisabled: { opacity: 0.5 },
+  rowButtonText: { fontSize: 14, color: '#6366f1' },
 
   signOutButton: {
     backgroundColor: '#1a1a1a',

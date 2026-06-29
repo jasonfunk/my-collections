@@ -16,8 +16,8 @@ export class SendPushNotificationDto {
   @MinLength(1)
   body!: string;
 
-  @ApiPropertyOptional({ description: 'Arbitrary key/value data payload (string values only)' })
+  @ApiPropertyOptional({ description: 'Arbitrary key/value data payload' })
   @IsObject()
   @IsOptional()
-  data?: Record<string, string>;
+  data?: Record<string, unknown>;
 }
