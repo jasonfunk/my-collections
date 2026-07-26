@@ -6,5 +6,6 @@ module.exports = ({ config }) => ({
   android: {
     ...config.android,
     package: IS_BETA ? 'com.mycollections.app.beta' : config.android.package,
+    googleServicesFile: './google-services.json',
   },
 });

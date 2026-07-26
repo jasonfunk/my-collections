@@ -77,7 +77,7 @@ export default function AppLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ color, size }) => (
-            <TabIcon name="settings-outline" color={color} size={size} />
+            <TabIcon name="cog-outline" color={color} size={size} />
           ),
           tabBarButton: (props) => (
             <TouchableOpacity {...(props as TouchableOpacityProps)} testID="tab-settings" activeOpacity={1} />
