@@ -8,6 +8,13 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+    "beta": {
+      "android": {
+        "buildType": "apk",
+        "applicationId": "com.mycollections.app.beta"
+      },
+      "distribution": "internal"
+    },
     "preview": {
       "android": {
         "buildType": "apk"
