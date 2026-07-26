@@ -10,8 +10,10 @@
     },
     "beta": {
       "android": {
-        "buildType": "apk",
-        "applicationId": "com.mycollections.app.beta"
+        "buildType": "apk"
+      },
+      "env": {
+        "APP_VARIANT": "beta"
       },
       "distribution": "internal"
     },
